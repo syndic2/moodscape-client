@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Daftar</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="sign-in"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="ion-text-center">Daftarkan diri anda!</h1>
+  <form class="ion-margin-top" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Nama</ion-label>
+      <ion-input type="text" placeholder="Nama anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Alamat surel</ion-label>
+      <ion-input type="email" placeholder="Alamat surel anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Nama pengguna</ion-label>
+      <ion-input type="text" placeholder="Nama pengguna anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Kata sandi</ion-label>
+      <ion-input type="text" placeholder="Kata sandi anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Konfirmasi kata sandi</ion-label>
+      <ion-input type="text" placeholder="Konfirmasi kata sandi anda"></ion-input>
+    </ion-item>
+    <ion-button
+      type="submit"
+      class="ion-margin-top"
+      shape="round"
+      expand="full">
+      Daftar
+    </ion-button>
+  </form>
+</ion-content>
+
+<Footer></Footer>

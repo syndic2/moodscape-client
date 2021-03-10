@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Masuk</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="ion-text-center">Masuk yuk!</h1>
+  <form class="ion-margin-top" (ngSubmit)="onSubmit()" >
+    <ion-item>
+      <ion-label position="stacked">Nama pengguna / surel</ion-label>
+      <ion-input placeholder="Nama pengguna / surel anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Kata sandi</ion-label>
+      <ion-input type="text" placeholder="Kata sandi anda"></ion-input>
+    </ion-item>
+    <ion-button
+      type="submit"
+      class="ion-margin-top"
+      shape="round"
+      expand="full">
+      Masuk
+    </ion-button>
+  </form>
+  <ion-button
+    type="submit"
+    class="ion-margin-top"
+    shape="round"
+    color="danger"
+    expand="full"
+    (click)="onGoogleSignIn()">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    Masuk dengan Google
+  </ion-button>
+  <p class="ion-text-center">
+    Belum memiliki akun? Gabung <a [routerLink]="['/sign-up']">sekarang!</a>
+  </p>
+</ion-content>
+
+<Footer></Footer>
+

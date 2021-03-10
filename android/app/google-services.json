@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "253594452296",
+    "project_id": "moodscape-app",
+    "storage_bucket": "moodscape-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253594452296:android:fdcc9a39ec0e60ed18337d",
+        "android_client_info": {
+          "package_name": "com.nix.moodscape"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253594452296-40hlvcretg56b3ipv4qt00lphcsluhiq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nix.moodscape",
+            "certificate_hash": "4a7ce72cf9f98a3039d64b6b0c0d9497077e2131"
+          }
+        },
+        {
+          "client_id": "253594452296-gqh9id0dugdfajqd2iomqosjaq0ee12h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADi1sSz_5C_DMq93cvywfy0SpEcUgU2gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253594452296-gqh9id0dugdfajqd2iomqosjaq0ee12h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
