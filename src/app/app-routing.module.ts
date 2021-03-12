@@ -16,8 +16,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/sign-up/sign-up.module').then(m => m.SignUpPageModule)
   },
   {
-    path: 'main',
-    loadChildren: () => import('./pages/main/main.module').then(m => m.MainPageModule)
+    path: 'side-menu',
+    loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
 

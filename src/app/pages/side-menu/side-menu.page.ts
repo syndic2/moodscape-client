@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.page.html',
-  styleUrls: ['./main.page.scss'],
+  selector: 'app-side-menu',
+  templateUrl: './side-menu.page.html',
+  styleUrls: ['./side-menu.page.scss'],
 })
-export class MainPage implements OnInit {
+export class SideMenuPage implements OnInit {
   pages: Object= [
     {
       title: 'Beranda',
-      url: '/main/home',
+      url: '/side-menu/tabs',
       icon: 'home'
     },
     {
       title: 'Profil',
-      url: '/main/profile',
+      url: '/side-menu/profile',
       icon: 'person-circle-outline'
     },
     {
       title: 'Artikel saya',
-      url: '/main/my-articles',
+      url: '/side-menu/my-articles',
       icon: 'newspaper-outline'
     },
     {
       title: 'Pengaturan',
-      url: '/main/settings',
+      url: '/side-menu/settings',
       icon: 'cog-outline'
     },
     {

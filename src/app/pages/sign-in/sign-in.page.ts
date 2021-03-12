@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
 
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
@@ -11,17 +13,22 @@ import '@codetrix-studio/capacitor-google-auth';
 })
 export class SignInPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/side-menu']);
   }
 
   async onGoogleSignIn() {
-    //const user= await Plugins.GoogleAuth.signIn();
-    this.router.navigate(['/main']);
+    const user= await Plugins.GoogleAuth.signIn();
+
+    this.authService.setAuth(user);
+    this.router.navigate(['/side-menu']);
   }
 }

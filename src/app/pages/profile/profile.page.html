@@ -8,5 +8,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  Profil
+  <ion-avatar style="margin: auto;">
+    <img [src]="auth ? auth.img_url : 'https://via.placeholder.com/150'" />
+  </ion-avatar>
+  <form class="ion-margin-top" (ngSubmit)="onUpdate()">
+    <ion-item>
+      <ion-label position="stacked">Nama anda</ion-label>
+      <ion-input type="text" [value]="auth ? auth.name : 'John Doe'" placeholder="Nama anda"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Surel anda</ion-label>
+      <ion-input type="text" [value]="auth ? auth.email : 'johndoe@gmail.com'" placeholder="Surel anda"></ion-input>
+    </ion-item>
+    <ion-button
+      type="submit"
+      class="ion-margin-top"
+      shape="round"
+      expand="full">
+      Ubah
+    </ion-button>
+  </form>
 </ion-content>

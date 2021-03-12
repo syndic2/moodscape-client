@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainPage } from './main.page';
+import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
@@ -11,23 +11,23 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: MainPage,
+    component: TabsPage,
     children: [
       {
         path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'profile',
-        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+        path: 'moods',
+        loadChildren: () => import('../moods/moods.module').then(m => m.MoodsPageModule)
       },
       {
-        path: 'my-articles',
-        loadChildren: () => import('../my-articles/my-articles.module').then( m => m.MyArticlesPageModule)
+        path: 'habits',
+        loadChildren: () => import('../habits/habits.module').then(m => m.HabitsPageModule)
       },
       {
-        path: 'settings',
-        loadChildren: () => import('../settings/settings.module').then( m => m.SettingsPageModule)
+        path: 'statistics',
+        loadChildren: () => import('../statistics/statistics.module').then(m => m.StatisticsPageModule)
       }
     ]
   }
@@ -37,4 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MainPageRoutingModule {}
+export class TabsPageRoutingModule {}
