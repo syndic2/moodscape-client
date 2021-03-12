@@ -1,7 +1,7 @@
 {
   "name": "moodscape-client",
+  "type": "angular",
   "integrations": {
     "capacitor": {}
-  },
-  "type": "angular"
+  }
 }
