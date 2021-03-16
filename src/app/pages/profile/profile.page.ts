@@ -8,15 +8,18 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  public auth: Object;
+  public user= {};
 
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.auth= this.authService.getAuth();
   }
 
-  onUpdate() {
+  ionViewWillEnter() {
+    this.user= this.authService.getUser();
+  }
+
+  onUpdate(data) {
     alert('update');
   }
 }

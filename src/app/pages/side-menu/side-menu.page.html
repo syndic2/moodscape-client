@@ -13,6 +13,12 @@
             <ion-label>{{ page.title }}</ion-label>
           </ion-item>
         </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button (click)="onLogout()">
+            <ion-icon slot="start" name="exit-outline"></ion-icon>
+            <ion-label>Keluar</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
       </ion-list>
     </ion-content>
   </ion-menu>

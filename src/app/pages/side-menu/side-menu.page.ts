@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -26,16 +29,15 @@ export class SideMenuPage implements OnInit {
       title: 'Pengaturan',
       url: '/side-menu/settings',
       icon: 'cog-outline'
-    },
-    {
-      title: 'Keluar',
-      url: '/',
-      icon: 'exit-outline'
     }
   ];
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }
