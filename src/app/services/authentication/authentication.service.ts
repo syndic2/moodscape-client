@@ -29,6 +29,17 @@ export class AuthenticationService {
     this.loadStoredToken();
   }
 
+  back_endTest() {
+    let query= `query {
+      user {
+        firstName,
+        lastName
+      }
+    }`;
+
+    return this.http.get(`http://localhost:5000/api/graphql?query=${query}`);
+  }
+
   getUser() {
     return this.userData.getValue();
   }

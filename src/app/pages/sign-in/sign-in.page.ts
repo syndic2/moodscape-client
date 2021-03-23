@@ -41,7 +41,7 @@ export class SignInPage implements OnInit {
           buttons: ['OK']
         });
 
-        await alert.present();
+        alert.present();
       } else {
         await loading.dismiss();
         this.router.navigate(['/side-menu']);
@@ -56,7 +56,7 @@ export class SignInPage implements OnInit {
       translucent: true,
     });
 
-    await loading.present();
+    loading.present();
 
     this.authService.login({
       name: data.name,
@@ -65,7 +65,7 @@ export class SignInPage implements OnInit {
       img_url: data.imageUrl
     }, 'google').subscribe(async res => {
       if (!res) {
-        await loading.dismiss();
+        loading.dismiss();
 
         const alert= await this.alertController.create({
           header: 'Gagal masuk dengan Google!',
@@ -73,7 +73,7 @@ export class SignInPage implements OnInit {
           buttons: ['OK']
         });
 
-        await alert.present();
+        alert.present();
       } else {
         await loading.dismiss();
         this.router.navigate(['/side-menu']);

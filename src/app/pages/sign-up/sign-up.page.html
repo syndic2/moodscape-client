@@ -9,26 +9,41 @@
 
 <ion-content class="ion-padding">
   <h1 class="ion-text-center">Daftarkan diri anda!</h1>
-  <form class="ion-margin-top" (ngSubmit)="onSubmit()">
+  <form class="ion-margin-top" #formRegister="ngForm" (ngSubmit)="onSubmit(formRegister)">
     <ion-item>
-      <ion-label position="stacked">Nama</ion-label>
-      <ion-input type="text" placeholder="Nama anda"></ion-input>
+      <ion-label position="stacked">Nama Depan</ion-label>
+      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" name="firstName" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Nama Belakang</ion-label>
+      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" name="lastName" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Jenis Kelamin</ion-label>
+      <ion-select placeholder="Pilih jenis kelamin anda" okText="Pilih" cancelText="Kembali" name="gender" ngModel>
+        <ion-select-option value="Male">Lelaki</ion-select-option>
+        <ion-select-option value="Female">Perempuan</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Usia</ion-label>
+      <ion-input type="number" placeholder="Usia anda" inputmode="numeric" name="age" ngModel></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Alamat surel</ion-label>
-      <ion-input type="email" placeholder="Alamat surel anda"></ion-input>
+      <ion-input type="email" placeholder="Alamat surel anda" inputmode="email" name="email" ngModel></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Nama pengguna</ion-label>
-      <ion-input type="text" placeholder="Nama pengguna anda"></ion-input>
+      <ion-input type="text" placeholder="Nama pengguna anda" inputmode="text" name="username" ngModel></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Kata sandi</ion-label>
-      <ion-input type="password" placeholder="Kata sandi anda"></ion-input>
+      <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" name="password" ngModel></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Konfirmasi kata sandi</ion-label>
-      <ion-input type="password" placeholder="Konfirmasi kata sandi anda"></ion-input>
+      <ion-input type="password" placeholder="Konfirmasi kata sandi anda" inputmode="text" name="confirmPassword" ngModel></ion-input>
     </ion-item>
     <ion-button
       type="submit"
