@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SideMenuPageRoutingModule } from './side-menu-routing.module';
-
 import { SideMenuPage } from './side-menu.page';
 
 @NgModule({

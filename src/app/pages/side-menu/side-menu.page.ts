@@ -38,6 +38,6 @@ export class SideMenuPage implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.authService.logout().subscribe(() => this.router.navigate(['/']));
   }
 }

@@ -4,7 +4,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { AlertController } from '@ionic/angular';
 
 import { Observable } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
@@ -25,21 +25,18 @@ export class AuthenticationGuard implements CanActivate {
   ) { }
 
   canActivate(): Observable<boolean> {
-    return this.authService.user.pipe(
-      take(1),
-      map(user => {
-        if (!user) {
+    return this.authService.authenticated.pipe(
+      map(authenticated => {
+        if (!authenticated) {
           this.alertController.create({
             header: 'Hak akses tidak terotorisasi',
-            message: 'Anda tidak memliki hak untuk mengakses halaman ini.',
+            message: 'Anda belum login atau tidak memliki hak untuk mengakses halaman ini.',
             buttons: ['OK']
           }).then(alert => alert.present());
           this.router.navigate(['/']);
 
           return false;
         }
-
-        console.log('it can activate: ', user);
 
         return true;
       })

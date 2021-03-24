@@ -9,16 +9,31 @@
 
 <ion-content class="ion-padding">
   <ion-avatar style="margin: auto;">
-    <img [src]="user.img_url" />
+    <img src="https://via.placeholder.com/100"/>
   </ion-avatar>
-  <form class="ion-margin-top" #formUpdateProfile="ngForm" (ngSubmit)="onUpdate(formUpdateProfile.value)">
+  <form class="ion-margin-top" #formUpdateProfile="ngForm" (ngSubmit)="onUpdate(formUpdateProfile)">
     <ion-item>
-      <ion-label position="stacked">Nama anda</ion-label>
-      <ion-input type="text" [value]="user.name"></ion-input>
+      <ion-label position="stacked">Nama depan</ion-label>
+      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" name="firstName" [value]="user?.firstName" ngModel></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">Surel anda</ion-label>
-      <ion-input type="email" [value]="user.email" placeholder="Surel anda"></ion-input>
+      <ion-label position="stacked">Nama belakang</ion-label>
+      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" name="lastName" [value]="user?.lastName" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Jenis kelamin</ion-label>
+      <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" name="gender" [value]="user?.gender" ngModel>
+        <ion-select-option value="Male">Lelaki</ion-select-option>
+        <ion-select-option value="Female">Perempuan</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Umur</ion-label>
+      <ion-input type="number" placeholder="Umur anda" inputmode="numeric" name="age" [value]="user?.age" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Alamat surel</ion-label>
+      <ion-input type="email" placeholder="Surel anda" inputmode="text" name="email" [value]="user?.email" ngModel></ion-input>
     </ion-item>
     <ion-button
       type="submit"

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
@@ -23,27 +24,26 @@ export class SignInPage implements OnInit {
   ngOnInit() {
   }
 
-  async onSubmit(data) {
-    this.authService.login(data).subscribe(async res => {
-      let loading= await this.loadingController.create({
-        spinner: 'crescent',
-        translucent: true,
-      });
+  async onSubmit(form: NgForm) {
+    const loading= await this.loadingController.create({
+      spinner: 'crescent',
+      translucent: true,
+    });
+    const alert= await this.alertController.create({
+      header: 'Gagal masuk!',
+      buttons: ['OK']
+    });
 
-      await loading.present();
+    this.authService.login(form.value).subscribe(async res => {
+      loading.present();
 
-      if (!res) {
-        await loading.dismiss();
+      if (!res.status) {
+        loading.dismiss();
 
-        const alert= await this.alertController.create({
-          header: 'Gagal masuk!',
-          message: 'Nama pengguna/surel atau kata sandi anda salah.',
-          buttons: ['OK']
-        });
-
+        alert.message= res.text;
         alert.present();
       } else {
-        await loading.dismiss();
+        loading.dismiss();
         this.router.navigate(['/side-menu']);
       }
     });
@@ -51,9 +51,14 @@ export class SignInPage implements OnInit {
 
   async onGoogleSignIn() {
     const data= await Plugins.GoogleAuth.signIn();
-    let loading= await this.loadingController.create({
+    const loading= await this.loadingController.create({
       spinner: 'crescent',
       translucent: true,
+    });
+    const alert= await this.alertController.create({
+      header: 'Gagal masuk dengan Google!',
+      message: 'Terjadi kesalahan terhadap surel anda, silahkan coba kembali.',
+      buttons: ['OK']
     });
 
     loading.present();
@@ -63,19 +68,12 @@ export class SignInPage implements OnInit {
       email: data.email,
       password: 'google',
       img_url: data.imageUrl
-    }, 'google').subscribe(async res => {
+    }, true).subscribe(async res => {
       if (!res) {
         loading.dismiss();
-
-        const alert= await this.alertController.create({
-          header: 'Gagal masuk dengan Google!',
-          message: 'Terjadi kesalahan terhadap surel anda, silahkan coba kembali.',
-          buttons: ['OK']
-        });
-
         alert.present();
       } else {
-        await loading.dismiss();
+        loading.dismiss();
         this.router.navigate(['/side-menu']);
       }
     });
