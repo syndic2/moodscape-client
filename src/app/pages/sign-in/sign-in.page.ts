@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
@@ -14,6 +14,8 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
+  @ViewChild('formLogin', { static: true }) private form: NgForm;
+
   constructor(
     private router: Router,
     private loadingController: LoadingController,
@@ -24,7 +26,11 @@ export class SignInPage implements OnInit {
   ngOnInit() {
   }
 
-  async onSubmit(form: NgForm) {
+  ionViewDidLeave() {
+    this.form.resetForm();
+  }
+
+  async onSubmit() {
     const loading= await this.loadingController.create({
       spinner: 'crescent',
       translucent: true,
@@ -34,7 +40,7 @@ export class SignInPage implements OnInit {
       buttons: ['OK']
     });
 
-    this.authService.login(form.value).subscribe(async res => {
+    this.authService.login(this.form.value).subscribe(async res => {
       loading.present();
 
       if (!res.status) {
@@ -50,27 +56,30 @@ export class SignInPage implements OnInit {
   }
 
   async onGoogleSignIn() {
-    const data= await Plugins.GoogleAuth.signIn();
+    const accountInfo= await Plugins.GoogleAuth.signIn();
+    const data= {
+      firstName: accountInfo.givenName,
+      lastName: accountInfo.familyName,
+      email: accountInfo.email,
+      password: 'google-account',
+      imgUrl: accountInfo.imageUrl
+    };
     const loading= await this.loadingController.create({
       spinner: 'crescent',
       translucent: true,
     });
     const alert= await this.alertController.create({
-      header: 'Gagal masuk dengan Google!',
-      message: 'Terjadi kesalahan terhadap surel anda, silahkan coba kembali.',
+      header: 'Gagal masuk dengan akun Google!',
       buttons: ['OK']
     });
 
     loading.present();
 
-    this.authService.login({
-      name: data.name,
-      email: data.email,
-      password: 'google',
-      img_url: data.imageUrl
-    }, true).subscribe(async res => {
-      if (!res) {
+    this.authService.login(data, true).subscribe(async res => {
+      if (!res.status) {
         loading.dismiss();
+
+        alert.message= res.text;
         alert.present();
       } else {
         loading.dismiss();

@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding">
   <ion-avatar style="margin: auto;">
-    <img src="https://via.placeholder.com/100"/>
+    <img [src]="user?.imgUrl"/>
   </ion-avatar>
   <form class="ion-margin-top" #formUpdateProfile="ngForm" (ngSubmit)="onUpdate(formUpdateProfile)">
     <ion-item>
@@ -35,12 +35,6 @@
       <ion-label position="stacked">Alamat surel</ion-label>
       <ion-input type="email" placeholder="Surel anda" inputmode="text" name="email" [value]="user?.email" ngModel></ion-input>
     </ion-item>
-    <ion-button
-      type="submit"
-      class="ion-margin-top"
-      shape="round"
-      expand="full">
-      Ubah
-    </ion-button>
+    <ion-button type="submit" class="ion-margin-top" shape="round" expand="full">Ubah</ion-button>
   </form>
 </ion-content>

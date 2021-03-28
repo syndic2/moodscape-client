@@ -6,8 +6,8 @@ import { SideMenuPage } from './side-menu.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    redirectTo: 'tabs'
   },
   {
     path: '',

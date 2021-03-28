@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import StringifyObject from '../../../../node_modules/stringify-object';
+import StringifyObject from 'stringify-object';
 
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
@@ -40,7 +40,8 @@ export class UserService {
             lastName,
             gender,
             age,
-            email
+            email,
+            imgUrl
           }
         }
       }

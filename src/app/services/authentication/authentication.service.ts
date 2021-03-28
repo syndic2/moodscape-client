@@ -9,6 +9,8 @@ import { Storage } from '@ionic/storage';
 import { from, BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+import StringifyObject from 'stringify-object';
+
 import { environment } from 'src/environments/environment.dev';
 
 //const jwt_helper= new JwtHelperService();
@@ -41,15 +43,9 @@ export class AuthenticationService {
       map(token => {
         console.log('Token from storage', token);
 
-        //if (this.withGoogle) return true;
         if (!token) return false;
 
         this.userData.next(token);
-
-        //let decoded= jwt_helper.decodeToken(token);
-//
-        //console.log('decoded token', decoded);
-        //this.userData.next(decoded);
 
         return true;
       })
@@ -57,9 +53,20 @@ export class AuthenticationService {
   }
 
   login(data, withGoogle:boolean= false): Observable<any> {
-    let query= `
+    const args= StringifyObject(data, {
+      singleQuotes: false,
+      transform: (object, property, originalResult) => {
+        if (property === 'age') return object[property] === '' ? 0 : originalResult;
+        else return originalResult;
+      }
+    });
+    const query= `
       mutation {
-        login(emailOrUsername: "${data.emailOrUsername}", password: "${data.password}") {
+        login(
+          emailOrUsername: "${withGoogle ? data.email : data.emailOrUsername}",
+          password: "${data.password}",
+          withGoogle: ${withGoogle ? args : "{}"}
+        ) {
           accessToken,
           response {
             text,
@@ -68,7 +75,10 @@ export class AuthenticationService {
         }
       }
     `;
-    const fetchAuth= () => this.http.post(environment.api_url, { query: query }, {
+
+    console.log(query);
+
+    return this.http.post(environment.api_url, { query: query }, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -82,15 +92,6 @@ export class AuthenticationService {
         return res.response;
       })
     );
-
-    //if (withGoogle) {
-    //  this.withGoogle= true;
-    //  this.userData.next(data);
-//
-    //  return fetchAuth();
-    //}
-
-    return fetchAuth();
   }
 
   logout() {
