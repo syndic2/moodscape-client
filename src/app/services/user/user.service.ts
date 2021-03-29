@@ -10,7 +10,7 @@ import StringifyObject from 'stringify-object';
 
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { environment } from 'src/environments/environment.dev';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

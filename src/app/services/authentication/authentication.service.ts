@@ -11,7 +11,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
-import { environment } from 'src/environments/environment.dev';
+import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
 const TOKEN_KEY= 'auth-token';
