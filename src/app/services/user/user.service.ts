@@ -86,9 +86,6 @@ export class UserService {
   }
 
   updateUser(data): Observable<any> {
-    this.httpHeaders= this.defaultHeaders().set('Authorization', `bearer ${this.authService.getUser()}`);
-    this.httpOptions.headers= this.httpHeaders;
-
     const args= StringifyObject(data, {
       singleQuotes: false,
       transform: (object, property, originalResult) => {
@@ -112,6 +109,9 @@ export class UserService {
         }
       }
     `;
+
+    this.httpHeaders= this.defaultHeaders().set('Authorization', `bearer ${this.authService.getUser()}`);
+    this.httpOptions.headers= this.httpHeaders;
 
     return this.http.post(environment.api_url, { query: query }, this.httpOptions).pipe(
       map((res: any) => res.data.updateUser)
