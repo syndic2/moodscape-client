@@ -6,15 +6,27 @@
 
 <ion-content class="ion-padding">
   <h1 class="ion-text-center">Masuk yuk!</h1>
-  <form class="ion-margin-top" #formLogin="ngForm" (ngSubmit)="onSubmit()">
+  <form class="ion-margin-top" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="stacked">Alamat surel atau nama pengguna</ion-label>
-      <ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text" name="emailOrUsername" ngModel></ion-input>
+      <ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text" formControlName="emailOrUsername"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.emailOrUsername">
+      <ng-container *ngIf="emailOrUsername.hasError(error.type) && (emailOrUsername.touched || emailOrUsername.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Kata sandi</ion-label>
-      <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" name="password" ngModel></ion-input>
+      <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" formControlName="password"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.password">
+      <ng-container *ngIf="password.hasError(error.type) && (password.touched || password.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-button type="submit" class="ion-margin-top" shape="round" expand="full">Masuk</ion-button>
   </form>
   <ion-button type="submit" class="ion-margin-top" shape="round" color="danger" expand="full" (click)="onGoogleSignIn()">

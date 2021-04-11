@@ -8,8 +8,7 @@ import { map } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
-import { User } from 'src/app/models/user';
-import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { filterObjectProps } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -21,13 +20,13 @@ export class UserService {
     responseType: 'json'
   };
 
-  constructor(private http: HttpClient, storage: Storage, private authService: AuthenticationService) { }
+  constructor(private http: HttpClient, storage: Storage) { }
 
   defaultHeaders() {
     return new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
   }
 
-  getProfile(): Observable<User> {
+  getProfile(): Observable<any> {
     const query= `
       query {
         userProfile {
@@ -47,15 +46,21 @@ export class UserService {
       }
     `;
 
-    this.httpHeaders= new HttpHeaders().set('Authorization', `bearer ${this.authService.getUser()}`);
-    this.httpOptions.headers= this.httpHeaders;
-
-    return this.http.get(`${environment.api_url}?query=${query}`, this.httpOptions).pipe(
-      map((res: any) => <User>res.data.userProfile)
+    return this.http.get(`${environment.api_url}/graphql?query=${query}`, this.httpOptions).pipe(
+      map((res: any) => ({
+        firstName: res.data.userProfile.firstName,
+        lastName: res.data.userProfile.lastName,
+        gender: res.data.userProfile.gender,
+        age: res.data.userProfile.age,
+        email: res.data.userProfile.email,
+        imgUrl: res.data.userProfile.imgUrl
+      }))
     );
   }
 
   createUser(data): Observable<any> {
+    delete data['confirmPassword'];
+
     const args= StringifyObject(data, {
       singleQuotes: false,
       transform: (object, property, originalResult) => {
@@ -63,7 +68,7 @@ export class UserService {
         else return originalResult;
       }
     });
-    let query= `
+    const query= `
       mutation {
         createUser(fields: ${args}) {
           createdUser {
@@ -80,13 +85,13 @@ export class UserService {
     this.httpHeaders= this.defaultHeaders();
     this.httpOptions.headers= this.httpHeaders;
 
-    return this.http.post(environment.api_url, { query: query }, this.httpOptions).pipe(
+    return this.http.post(`${environment.api_url}/graphql`, { query: query }, this.httpOptions).pipe(
       map((res: any) => res.data.createUser)
     );
   }
 
   updateUser(data): Observable<any> {
-    const args= StringifyObject(data, {
+    const args= StringifyObject(filterObjectProps(data), {
       singleQuotes: false,
       transform: (object, property, originalResult) => {
         if (property === 'age') return object[property] === '' ? 0 : originalResult;
@@ -110,10 +115,7 @@ export class UserService {
       }
     `;
 
-    this.httpHeaders= this.defaultHeaders().set('Authorization', `bearer ${this.authService.getUser()}`);
-    this.httpOptions.headers= this.httpHeaders;
-
-    return this.http.post(environment.api_url, { query: query }, this.httpOptions).pipe(
+    return this.http.post(`${environment.api_url}/graphql`, { query: query }, this.httpOptions).pipe(
       map((res: any) => res.data.updateUser)
     );
   }

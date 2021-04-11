@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
 const TOKEN_KEY= 'auth-token';
+const REFRESH_TOKEN_KEY= 'auth-refresh-token';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,13 @@ const TOKEN_KEY= 'auth-token';
 export class AuthenticationService {
   public authenticated: Observable<any>;
   private userData= new BehaviorSubject(null);
-  private withGoogle: boolean= false;
+  private httpOptions: any= {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }),
+    responseType: 'json'
+  };
 
   constructor(
     private http: HttpClient,
@@ -41,7 +48,7 @@ export class AuthenticationService {
     this.authenticated= platformObs.pipe(
       switchMap(() => from(this.storage.get(TOKEN_KEY))),
       map(token => {
-        console.log('Token from storage', token);
+        console.log('token from storage', token);
 
         if (!token) return false;
 
@@ -68,6 +75,7 @@ export class AuthenticationService {
           withGoogle: ${withGoogle ? args : "{}"}
         ) {
           accessToken,
+          refreshToken,
           response {
             text,
             status
@@ -78,26 +86,44 @@ export class AuthenticationService {
 
     console.log(query);
 
-    return this.http.post(environment.api_url, { query: query }, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }),
-      responseType: 'json'
-    }).pipe(
+    return this.http.post(`${environment.api_url}/auth`, { query: query }, this.httpOptions).pipe(
       map((res: any) => res.data.login),
       switchMap(async res => {
         await this.storage.set(TOKEN_KEY, res.accessToken);
+        await this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken);
 
         return res.response;
       })
     );
   }
 
+  refreshToken(): Observable<any> {
+    return from(this.storage.get(REFRESH_TOKEN_KEY)).pipe(
+      switchMap(refreshToken => {
+        const query= `
+          mutation {
+            refreshAuth(refreshToken: "${refreshToken}") {
+              newToken
+            }
+          }
+        `;
+
+        return this.http.post(`${environment.api_url}/auth`, { query: query }, this.httpOptions).pipe(
+          map((res: any) => res.data.refreshAuth.newToken),
+          switchMap(async newToken => {
+            await this.storage.set(TOKEN_KEY, newToken);
+            this.userData.next(newToken);
+
+            return newToken;
+          })
+        );
+      })
+    );
+  }
+
   logout() {
     this.userData.next(null);
-    this.withGoogle= false;
 
-    return from(this.storage.remove(TOKEN_KEY));
+    return from(Promise.all([this.storage.remove(TOKEN_KEY), this.storage.remove(REFRESH_TOKEN_KEY)]));
   }
 }

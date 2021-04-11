@@ -9,42 +9,91 @@
 
 <ion-content class="ion-padding">
   <h1 class="ion-text-center">Daftarkan diri anda!</h1>
-  <form class="ion-margin-top" #formRegister="ngForm" (ngSubmit)="onSubmit(formRegister)">
+  <form class="ion-margin-top" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="stacked">Nama Depan</ion-label>
-      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" name="firstName" ngModel></ion-input>
+      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" formControlName="firstName"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.firstName">
+      <ng-container *ngIf="firstName.hasError(error.type) && (firstName.touched || firstName.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Nama Belakang</ion-label>
-      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" name="lastName" ngModel></ion-input>
+      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" formControlName="lastName"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.lastName">
+      <ng-container *ngIf="lastName.hasError(error.type) && (lastName.touched || lastName.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Jenis Kelamin</ion-label>
-      <ion-select placeholder="Pilih jenis kelamin anda" okText="Pilih" cancelText="Kembali" name="gender" ngModel>
+      <ion-select placeholder="Pilih jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender">
         <ion-select-option value="Male">Lelaki</ion-select-option>
         <ion-select-option value="Female">Perempuan</ion-select-option>
       </ion-select>
     </ion-item>
+    <div *ngFor="let error of errorMessages.gender">
+      <ng-container *ngIf="gender.hasError(error.type) && (gender.touched || gender.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Usia</ion-label>
-      <ion-input type="number" placeholder="Usia anda" inputmode="numeric" name="age" ngModel></ion-input>
+      <ion-input type="number" placeholder="Usia anda" inputmode="numeric" formControlName="age"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.age">
+      <ng-container *ngIf="age.hasError(error.type) && (age.touched || age.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Alamat surel</ion-label>
-      <ion-input type="email" placeholder="Alamat surel anda" inputmode="email" name="email" ngModel></ion-input>
+      <ion-input type="email" placeholder="Alamat surel anda" inputmode="email" formControlName="email"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.email">
+      <ng-container *ngIf="email.hasError(error.type) && (email.touched || email.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Nama pengguna</ion-label>
-      <ion-input type="text" placeholder="Nama pengguna anda" inputmode="text" name="username" ngModel></ion-input>
+      <ion-input type="text" placeholder="Nama pengguna anda" inputmode="text" formControlName="username"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.username">
+      <ng-container *ngIf="username.hasError(error.type) && (username.touched || username.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Kata sandi</ion-label>
-      <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" name="password" ngModel></ion-input>
+      <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" formControlName="password"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.password">
+      <ng-container *ngIf="password.hasError(error.type) && (password.touched || password.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Konfirmasi kata sandi</ion-label>
-      <ion-input type="password" placeholder="Konfirmasi kata sandi anda" inputmode="text" name="confirmPassword" ngModel></ion-input>
+      <ion-input type="password" placeholder="Konfirmasi kata sandi anda" inputmode="text" formControlName="confirmPassword"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.confirmPassword">
+      <ng-container *ngIf="confirmPassword.hasError(error.type) && (confirmPassword.touched || confirmPassword.dirty)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+    <small style="color: red;" *ngIf="confirmPassword?.errors?.matchValidator">Kata sandi dengan konfirmasi kata sandi tidak sama.</small>
+
     <ion-button type="submit" class="ion-margin-top" shape="round" expand="full">Daftar</ion-button>
   </form>
 </ion-content>

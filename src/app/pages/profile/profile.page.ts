@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
@@ -13,44 +13,116 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  private user: User;
   private profileSubscription: Subscription;
+  public updateProfileForm: FormGroup;
+  public errorMessages= {
+    firstName: [
+      { type: 'required', message: 'Nama depan tidak boleh kosong.' }
+    ],
+    lastName: [
+      { type: 'required', message: 'Nama belakang tidak boleh kosong.' }
+    ],
+    gender: [
+      { type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
+    ],
+    age: [
+      { type: 'required', message: 'Umur tidak boleh kosong.' }
+    ],
+    email: [
+      { type: 'required', message: 'Alamat surel tidak boleh kosong.' },
+      { type: 'pattern', message: 'Alamat surel tidak valid.' }
+    ]
+  };
+  public user: User;
 
   constructor(
-    private loadingController: LoadingController,
+    private formBuilder: FormBuilder,
     private alertController: AlertController,
-    private userService: UserService) { }
+    private userService: UserService) {
+      this.initializeForm();
+    }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.profileSubscription= this.userService.getProfile().subscribe(res => this.user= res);
+    this.profileSubscription= this.userService.getProfile().subscribe((res: User) => {
+      this.user= Object.assign({}, res);
+
+      delete res['imgUrl'];
+      this.updateProfileForm.setValue(res);
+    });
   }
 
   ionViewWillLeave() {
     this.profileSubscription.unsubscribe();
   }
 
-  async onUpdate(form: NgForm) {
-    const loading= await this.loadingController.create({
-      spinner: 'crescent',
-      translucent: true,
+  pullRefresh(event) {
+    this.profileSubscription= this.userService.getProfile().subscribe((res: User) => {
+      this.user= Object.assign({}, res);
+
+      delete res['imgUrl'];
+      this.updateProfileForm.setValue(res);
+      event.target.complete();
     });
+  }
+
+  get firstName() {
+    return this.updateProfileForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.updateProfileForm.get('lastName');
+  }
+
+  get gender() {
+    return this.updateProfileForm.get('gender');
+  }
+
+  get age() {
+    return this.updateProfileForm.get('age');
+  }
+
+  get email() {
+    return this.updateProfileForm.get('email');
+  }
+
+  private initializeForm() {
+    this.updateProfileForm= this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      gender: ['', Validators.required],
+      age: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        ]
+      ]
+    });
+  }
+
+  async onUpdate() {
     const alert= await this.alertController.create({
       buttons: ['OK']
     });
 
-    this.userService.updateUser(form.value).subscribe(async res => {
-      loading.present();
+    if (this.updateProfileForm.invalid) {
+      alert.header= 'Gagal menyimpan perubahan!';
+      alert.message= 'Terdapat kesalahan dalam pengisian data.';
 
-      alert.message= res.response.text;
-
-      if (!res.response.status) alert.header= 'Gagal merubah profil!';
-      else alert.header= 'Berhasil merubah profil!';
-
-      loading.dismiss();
       alert.present();
-    });
+    } else {
+      this.userService.updateUser(this.updateProfileForm.value).subscribe(res => {
+        alert.message= res.response.text;
+
+        if (!res.response.status) alert.header= 'Gagal merubah profil!';
+        else alert.header= 'Berhasil merubah profil!';
+
+        alert.present();
+      });
+    }
   }
 }

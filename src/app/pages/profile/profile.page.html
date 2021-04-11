@@ -8,33 +8,67 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-avatar style="margin: auto;">
-    <img [src]="user?.imgUrl"/>
+    <img [src]="user?.imgUrl" />
   </ion-avatar>
-  <form class="ion-margin-top" #formUpdateProfile="ngForm" (ngSubmit)="onUpdate(formUpdateProfile)">
+  <form class="ion-margin-top" [formGroup]="updateProfileForm" (ngSubmit)="onUpdate()">
     <ion-item>
       <ion-label position="stacked">Nama depan</ion-label>
-      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" name="firstName" [value]="user?.firstName" ngModel></ion-input>
+      <ion-input type="text" placeholder="Nama depan anda" inputmode="text" formControlName="firstName"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.firstName">
+      <ng-container *ngIf="firstName.hasError(error.type) && (firstName.dirty || firstName.touched)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Nama belakang</ion-label>
-      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" name="lastName" [value]="user?.lastName" ngModel></ion-input>
+      <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" formControlName="lastName"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.lastName">
+      <ng-container *ngIf="lastName.hasError(error.type) && (lastName.dirty || lastName.touched)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Jenis kelamin</ion-label>
-      <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" name="gender" [value]="user?.gender" ngModel>
+      <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender">
         <ion-select-option value="Male">Lelaki</ion-select-option>
         <ion-select-option value="Female">Perempuan</ion-select-option>
       </ion-select>
     </ion-item>
+    <div *ngFor="let error of errorMessages.gender">
+      <ng-container *ngIf="gender.hasError(error.type) && (gender.dirty || gender.touched)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Umur</ion-label>
-      <ion-input type="number" placeholder="Umur anda" inputmode="numeric" name="age" [value]="user?.age" ngModel></ion-input>
+      <ion-input type="number" placeholder="Umur anda" inputmode="numeric" formControlName="age"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errorMessages.age">
+      <ng-container *ngIf="age.hasError(error.type) && (age.dirty || age.touched)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
     <ion-item>
       <ion-label position="stacked">Alamat surel</ion-label>
-      <ion-input type="email" placeholder="Surel anda" inputmode="text" name="email" [value]="user?.email" ngModel></ion-input>
+      <ion-input type="email" placeholder="Surel anda" inputmode="text" formControlName="email"></ion-input>
     </ion-item>
-    <ion-button type="submit" class="ion-margin-top" shape="round" expand="full">Ubah</ion-button>
+    <div *ngFor="let error of errorMessages.email">
+      <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
+        <small style="color: red;">{{ error.message }}</small>
+      </ng-container>
+    </div>
+
+    <ion-button type="submit" class="ion-margin-top" shape="round" expand="block">Ubah</ion-button>
   </form>
 </ion-content>

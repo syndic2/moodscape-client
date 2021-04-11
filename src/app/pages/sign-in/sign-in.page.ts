@@ -1,7 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AlertController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
@@ -14,42 +15,58 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
-  @ViewChild('formLogin', { static: true }) private form: NgForm;
+  public signInForm: FormGroup;
+  public errorMessages= {
+    emailOrUsername: [
+      { type: 'required', message: 'Alamat surel atau nama pengguna tidak boleh kosong.' }
+    ],
+    password: [
+      { type: 'required', message: 'Kata sandi tidak boleh kosong.' }
+    ]
+  };
 
   constructor(
     private router: Router,
-    private loadingController: LoadingController,
+    private formBuilder: FormBuilder,
     private alertController: AlertController,
     private authService: AuthenticationService
-  ) { }
+  ) {
+    this.initializeForm();
+  }
 
   ngOnInit() {
   }
 
   ionViewDidLeave() {
-    this.form.resetForm();
+    this.signInForm.reset();
+  }
+
+  get emailOrUsername() {
+    return this.signInForm.get('emailOrUsername');
+  }
+
+  get password() {
+    return this.signInForm.get('password');
+  }
+
+  private initializeForm() {
+    this.signInForm= this.formBuilder.group({
+      emailOrUsername: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   async onSubmit() {
-    const loading= await this.loadingController.create({
-      spinner: 'crescent',
-      translucent: true,
-    });
     const alert= await this.alertController.create({
       header: 'Gagal masuk!',
       buttons: ['OK']
     });
 
-    this.authService.login(this.form.value).subscribe(async res => {
-      loading.present();
-
+    this.authService.login(this.signInForm.value).subscribe(res => {
       if (!res.status) {
-        loading.dismiss();
-
         alert.message= res.text;
         alert.present();
       } else {
-        loading.dismiss();
         this.router.navigate(['/side-menu']);
       }
     });
@@ -64,25 +81,16 @@ export class SignInPage implements OnInit {
       password: 'google-account',
       imgUrl: accountInfo.imageUrl
     };
-    const loading= await this.loadingController.create({
-      spinner: 'crescent',
-      translucent: true,
-    });
     const alert= await this.alertController.create({
       header: 'Gagal masuk dengan akun Google!',
       buttons: ['OK']
     });
 
-    loading.present();
-
     this.authService.login(data, true).subscribe(async res => {
       if (!res.status) {
-        loading.dismiss();
-
         alert.message= res.text;
         alert.present();
       } else {
-        loading.dismiss();
         this.router.navigate(['/side-menu']);
       }
     });
