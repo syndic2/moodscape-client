@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./side-menu.page.scss'],
 })
 export class SideMenuPage implements OnInit {
-  pages: Object= [
+  public pages: any[]= [
     {
       title: 'Beranda',
       url: '/side-menu/tabs',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { MatchValidator } from 'src/app/validators/match.validator';
 import { UserService } from 'src/app/services/user/user.service';
@@ -44,6 +44,7 @@ export class SignUpPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertController: AlertController,
+    private toastController: ToastController,
     private userService: UserService
   ) {
     this.initializeForm();
@@ -105,25 +106,24 @@ export class SignUpPage implements OnInit {
   }
 
   async onSubmit() {
-    const alert= await this.alertController.create({
-      buttons: ['OK']
-    });
-
     if (this.signUpForm.invalid) {
-      alert.header= 'Gagal registrasi!';
-      alert.message= 'Terdapat kesalahan dalam pengisian data.';
-
+      const alert= await this.alertController.create({
+        message: 'Informasi pengguna tidak boleh ada yang kosong!',
+        buttons: ['OK']
+      });
       alert.present();
     } else {
-      this.userService.createUser(this.signUpForm.value).subscribe(res => {
-        if (!res.response.status) alert.header= 'Gagal registrasi!';
-        else {
-          alert.header= 'Berhasil registrasi!';
+      this.userService.createUser(this.signUpForm.value).subscribe(async res => {
+        const toast= await this.toastController.create({
+          message: res.response.text,
+          position: 'top',
+          duration: 2000
+        });
+        toast.present();
+
+        if (res.response.status) {
           this.signUpForm.reset();
         }
-
-        alert.message= res.response.text;
-        alert.present();
       });
     }
   }

@@ -4,18 +4,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { SharedModule } from 'src/app/modules/shared.module';
 import { SignUpPageRoutingModule } from './sign-up-routing.module';
 import { SignUpPage } from './sign-up.page';
-
-import { FooterComponent } from '../../components/footer/footer.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
+    SharedModule,
     SignUpPageRoutingModule
   ],
-  declarations: [SignUpPage, FooterComponent]
+  declarations: [SignUpPage]
 })
 export class SignUpPageModule {}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
@@ -38,9 +39,11 @@ export class ProfilePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertController: AlertController,
-    private userService: UserService) {
-      this.initializeForm();
-    }
+    private toastController: ToastController,
+    private userService: UserService
+  ) {
+    this.initializeForm();
+  }
 
   ngOnInit() {
   }
@@ -105,23 +108,20 @@ export class ProfilePage implements OnInit {
   }
 
   async onUpdate() {
-    const alert= await this.alertController.create({
-      buttons: ['OK']
-    });
-
     if (this.updateProfileForm.invalid) {
-      alert.header= 'Gagal menyimpan perubahan!';
-      alert.message= 'Terdapat kesalahan dalam pengisian data.';
-
+      const alert= await this.alertController.create({
+        message: 'Informasi pengguna tidak boleh ada yang kosong!',
+        buttons: ['OK']
+      });
       alert.present();
     } else {
-      this.userService.updateUser(this.updateProfileForm.value).subscribe(res => {
-        alert.message= res.response.text;
-
-        if (!res.response.status) alert.header= 'Gagal merubah profil!';
-        else alert.header= 'Berhasil merubah profil!';
-
-        alert.present();
+      this.userService.updateUser(this.updateProfileForm.value).subscribe(async res => {
+        const toast= await this.toastController.create({
+          message: res.response.text,
+          position: 'top',
+          duration: 2000
+        });
+        toast.present();
       });
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
@@ -29,6 +29,7 @@ export class SignInPage implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private alertController: AlertController,
+    private toastController: ToastController,
     private authService: AuthenticationService
   ) {
     this.initializeForm();
@@ -57,19 +58,27 @@ export class SignInPage implements OnInit {
   }
 
   async onSubmit() {
-    const alert= await this.alertController.create({
-      header: 'Gagal masuk!',
-      buttons: ['OK']
-    });
+    if (this.signInForm.invalid) {
+      const alert= await this.alertController.create({
+        message: 'Alamat surel/nama pengguna atau kata sandi tidak boleh kosong!',
+        buttons: ['OK']
+      });
+      alert.present();
+    } else {
+      this.authService.login(this.signInForm.value).subscribe(async res => {
+        if (!res.status) {
+          const toast= await this.toastController.create({
+            message: res.text,
+            position: 'top',
+            duration: 2000
+          });
 
-    this.authService.login(this.signInForm.value).subscribe(res => {
-      if (!res.status) {
-        alert.message= res.text;
-        alert.present();
-      } else {
-        this.router.navigate(['/side-menu']);
-      }
-    });
+          toast.present();
+        } else {
+          this.router.navigate(['/side-menu']);
+        }
+      });
+    }
   }
 
   async onGoogleSignIn() {
@@ -81,15 +90,15 @@ export class SignInPage implements OnInit {
       password: 'google-account',
       imgUrl: accountInfo.imageUrl
     };
-    const alert= await this.alertController.create({
-      header: 'Gagal masuk dengan akun Google!',
-      buttons: ['OK']
-    });
 
     this.authService.login(data, true).subscribe(async res => {
       if (!res.status) {
-        alert.message= res.text;
-        alert.present();
+        const toast= await this.toastController.create({
+          message: res.text,
+          position: 'top',
+          duration: 2000
+        });
+        toast.present();
       } else {
         this.router.navigate(['/side-menu']);
       }

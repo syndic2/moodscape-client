@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { SharedModule } from 'src/app/modules/shared.module';
 import { SignInPageRoutingModule } from './sign-in-routing.module';
-
 import { SignInPage } from './sign-in.page';
-import { FooterComponent } from '../../components/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -15,8 +14,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    SharedModule,
     SignInPageRoutingModule
   ],
-  declarations: [SignInPage, FooterComponent]
+  declarations: [SignInPage]
 })
 export class SignInPageModule {}

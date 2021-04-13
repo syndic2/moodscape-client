@@ -21,11 +21,6 @@ const routes: Routes = [
     path: 'side-menu',
     canActivate: [AuthenticationGuard],
     loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
-  },
-  {
-    path: 'tabs',
-    canActivate: [AuthenticationGuard],
-    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
 
