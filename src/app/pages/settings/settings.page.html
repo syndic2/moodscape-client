@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Pengaturan</ion-title>
     <ion-buttons slot="start">
@@ -8,5 +8,8 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  Pengaturan
+  <ion-item class="border-0">
+    <ion-label>Mode Gelap</ion-label>
+    <ion-toggle (ionChange)="toogleDarkMode($event)" [checked]="themeService.isDarkMode"></ion-toggle>
+  </ion-item>
 </ion-content>

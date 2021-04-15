@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Profil</ion-title>
     <ion-buttons slot="start">
@@ -23,23 +23,27 @@
           <ion-label position="stacked">Nama depan</ion-label>
           <ion-input type="text" placeholder="Nama depan anda" inputmode="text" formControlName="firstName"></ion-input>
         </ion-item>
-        <div *ngFor="let error of errorMessages.firstName">
+        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.firstName">
           <ng-container *ngIf="firstName.hasError(error.type) && (firstName.dirty || firstName.touched)">
             <small class="text-red-600">{{ error.message }}</small>
+            <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
           </ng-container>
         </div>
       </ion-col>
+
       <ion-col size="12">
         <ion-item>
           <ion-label position="stacked">Nama belakang</ion-label>
           <ion-input type="text" placeholder="Nama belakang anda" inputmode="text" formControlName="lastName"></ion-input>
         </ion-item>
-        <div *ngFor="let error of errorMessages.lastName">
+        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.lastName">
           <ng-container *ngIf="lastName.hasError(error.type) && (lastName.dirty || lastName.touched)">
             <small class="text-red-600">{{ error.message }}</small>
+            <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
           </ng-container>
         </div>
       </ion-col>
+
       <ion-col size="12">
         <ion-item>
           <ion-label position="stacked">Jenis kelamin</ion-label>
@@ -47,35 +51,44 @@
             <ion-select-option value="Male">Lelaki</ion-select-option>
             <ion-select-option value="Female">Perempuan</ion-select-option>
           </ion-select>
+          <ion-icon class="icon text-base mt-auto" slot="end" name="male-female"></ion-icon>
         </ion-item>
-        <div *ngFor="let error of errorMessages.gender">
+        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.gender">
           <ng-container *ngIf="gender.hasError(error.type) && (gender.dirty || gender.touched)">
             <small class="text-red-600">{{ error.message }}</small>
+            <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
           </ng-container>
         </div>
       </ion-col>
+
       <ion-col size="12">
         <ion-item>
           <ion-label position="stacked">Umur</ion-label>
           <ion-input type="number" placeholder="Umur anda" inputmode="numeric" formControlName="age"></ion-input>
+          <ion-icon class="icon text-base mt-auto" slot="end" name="calendar"></ion-icon>
         </ion-item>
-        <div *ngFor="let error of errorMessages.age">
+        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.age">
           <ng-container *ngIf="age.hasError(error.type) && (age.dirty || age.touched)">
             <small class="text-red-600">{{ error.message }}</small>
+            <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
           </ng-container>
         </div>
       </ion-col>
+
       <ion-col size="12">
         <ion-item>
           <ion-label position="stacked">Alamat surel</ion-label>
           <ion-input type="email" placeholder="Surel anda" inputmode="text" formControlName="email"></ion-input>
+          <ion-icon class="icon text-base mt-auto" slot="end" name="mail"></ion-icon>
         </ion-item>
-        <div *ngFor="let error of errorMessages.email">
+        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.email">
           <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
             <small class="text-red-600">{{ error.message }}</small>
+            <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
           </ng-container>
         </div>
       </ion-col>
+
       <ion-col class="text-center" size="12">
         <ion-button type="submit" shape="round">Ubah</ion-button>
       </ion-col>

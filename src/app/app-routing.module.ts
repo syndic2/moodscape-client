@@ -21,6 +21,10 @@ const routes: Routes = [
     path: 'side-menu',
     canActivate: [AuthenticationGuard],
     loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
   }
 ];
 

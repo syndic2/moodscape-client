@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ThemeService } from 'src/app/services/theme/theme.service';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPage implements OnInit {
 
-  constructor() { }
+  constructor(public themeService: ThemeService) { }
 
   ngOnInit() {
   }
 
+  toogleDarkMode(event) {
+    if (event.detail.checked) {
+      this.themeService.enableDarkTheme();
+    } else {
+      this.themeService.enableMainTheme();
+    }
+  }
 }
