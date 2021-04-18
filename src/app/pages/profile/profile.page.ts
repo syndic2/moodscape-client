@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlertController, ToastController } from '@ionic/angular';
 
-import { Subscription } from 'rxjs';
-
 import { User } from 'src/app/models/user';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -14,7 +13,6 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  private profileSubscription: Subscription;
   public updateProfileForm: FormGroup;
   public errorMessages= {
     firstName: [
@@ -40,34 +38,41 @@ export class ProfilePage implements OnInit {
     private formBuilder: FormBuilder,
     private alertController: AlertController,
     private toastController: ToastController,
+    private authService: AuthenticationService,
     private userService: UserService
   ) {
     this.initializeForm();
   }
 
   ngOnInit() {
+    /*setInterval(() => {
+      if (this.authService.finishRefreshToken.getValue()) {
+        this.authService.finishRefreshToken.next(false);
+        this.pullRefresh();
+      }
+    }, 2000);*/
   }
 
   ionViewWillEnter() {
-    this.profileSubscription= this.userService.getProfile().subscribe((res: User) => {
-      this.user= Object.assign({}, res);
+    this.userService.getProfile().subscribe(res => {
+      this.user= Object.assign({}, res[1]);
 
-      delete res['imgUrl'];
-      this.updateProfileForm.setValue(res);
+      delete res[1]['__typename'];
+      delete res[1]['imgUrl'];
+      
+      this.updateProfileForm.setValue(res[1]);
     });
   }
 
-  ionViewWillLeave() {
-    this.profileSubscription.unsubscribe();
-  }
+  pullRefresh(event?: any) {
+    this.userService.getProfile().subscribe(res => {
+      this.user= Object.assign({}, res[1]);
 
-  pullRefresh(event) {
-    this.profileSubscription= this.userService.getProfile().subscribe((res: User) => {
-      this.user= Object.assign({}, res);
-
-      delete res['imgUrl'];
-      this.updateProfileForm.setValue(res);
-      event.target.complete();
+      delete res[1]['__typename'];
+      delete res[1]['imgUrl'];
+      
+      this.updateProfileForm.setValue(res[1]);
+      event && event.target.complete();
     });
   }
 

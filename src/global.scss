@@ -15,7 +15,7 @@
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
-//@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/typography.css";
 @import '@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
@@ -26,7 +26,7 @@
 //@import "~@ionic/angular/css/flex-utils.css";
 
 /* TailwindCSS */
-@import 'tailwindcss/base';
+//@import 'tailwindcss/base';
 //@import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
@@ -58,8 +58,34 @@
     --icon-font-size: 18px;
 
     &.back-button-has-icon-only {
-      min-width: 40px;
+      min-width: 39px;
       height: 40px;
+    }
+  }
+
+  ion-header.side-menu-header {
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+
+      ion-title {
+        --color: var(--ion-color-primary-contrast);
+      }
+    }
+  } 
+
+  ion-content.side-menu-content {
+    --background: var(--ion-color-primary);
+
+    ion-list {
+      ion-item {
+        --background: var(--ion-color-primary);
+        --color: var(--ion-color-primary-contrast);
+        background-color: var(--ion-color-primary) !important;
+        
+        ion-icon {  
+          color: var(--ion-color-primary-contrast);
+        }
+      }
     }
   }
 }

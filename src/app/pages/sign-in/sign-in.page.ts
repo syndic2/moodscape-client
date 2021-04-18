@@ -66,13 +66,14 @@ export class SignInPage implements OnInit {
       alert.present();
     } else {
       this.authService.login(this.signInForm.value).subscribe(async res => {
-        if (!res.status) {
+        const response= res[0];
+
+        if (!response.status) {
           const toast= await this.toastController.create({
-            message: res.text,
+            message: response.text,
             position: 'top',
             duration: 2000
           });
-
           toast.present();
         } else {
           this.router.navigate(['/side-menu']);
@@ -92,9 +93,11 @@ export class SignInPage implements OnInit {
     };
 
     this.authService.login(data, true).subscribe(async res => {
-      if (!res.status) {
+      const response= res[0];
+
+      if (!response.status) {
         const toast= await this.toastController.create({
-          message: res.text,
+          message: response.text,
           position: 'top',
           duration: 2000
         });

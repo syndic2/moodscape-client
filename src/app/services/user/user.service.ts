@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Storage } from '@ionic/storage';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
@@ -20,7 +20,7 @@ export class UserService {
     responseType: 'json'
   };
 
-  constructor(private http: HttpClient, storage: Storage) { }
+  constructor(private http: HttpClient, private storage: Storage) { }
 
   defaultHeaders() {
     return new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
@@ -47,14 +47,12 @@ export class UserService {
     `;
 
     return this.http.get(`${environment.api_url}/graphql?query=${query}`, this.httpOptions).pipe(
-      map((res: any) => ({
-        firstName: res.data.userProfile.firstName,
-        lastName: res.data.userProfile.lastName,
-        gender: res.data.userProfile.gender,
-        age: res.data.userProfile.age,
-        email: res.data.userProfile.email,
-        imgUrl: res.data.userProfile.imgUrl
-      }))
+      switchMap((res: any) => {
+        return from(Promise.all([
+          this.storage.set('user-profile', res.data.userProfile),
+          this.storage.get('user-profile')
+        ]));
+      })
     );
   }
 

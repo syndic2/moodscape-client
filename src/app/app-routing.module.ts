@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { AuthenticationGuard } from './guards/auth-guard/authentication.guard';
+import { AutoLoginGuard } from './guards/auto-login/auto-login.guard';
+import { AuthenticationGuard } from './guards/authentication/authentication.guard';
 
 const routes: Routes = [
   {
@@ -11,20 +12,23 @@ const routes: Routes = [
   },
   {
     path: 'sign-in',
+    canLoad: [AutoLoginGuard],
     loadChildren: () => import('./pages/sign-in/sign-in.module').then(m => m.SignInPageModule)
   },
   {
     path: 'sign-up',
+    canLoad: [AutoLoginGuard],
     loadChildren: () => import('./pages/sign-up/sign-up.module').then(m => m.SignUpPageModule)
   },
   {
-    path: 'side-menu',
-    canActivate: [AuthenticationGuard],
-    loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
+    path: 'forgot-password',
+    canLoad: [AutoLoginGuard],
+    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
   },
   {
-    path: 'forgot-password',
-    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
+    path: 'side-menu',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
   }
 ];
 

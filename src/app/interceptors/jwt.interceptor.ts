@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-
   constructor(
     private toastController: ToastController,
     private authService: AuthenticationService
@@ -23,35 +22,59 @@ export class JwtInterceptor implements HttpInterceptor {
     } else {
       return next.handle(this.attachToken(request)).pipe(
         map((res: any) => {
-          if (res.body) {
-            const data= res.body.data;
-            const isTokenExpired= (data.userProfile && data.userProfile.__typename === 'AuthInfoField') ||
-                                  (data.updateProfile && data.updateProfile.__typename === 'AuthInfoField')
-
-            if (!isTokenExpired) {
-              console.log('token no need to be refresh');
-
-              return res;
-            } else {
-              console.log('token need to be refreshed');
-
-              return this.authService.refreshToken().subscribe(async newToken => {
-                console.log('finish refreshed');
-                console.log('new token', newToken);
-
-                const toast= await this.toastController.create({
-                  message: 'Segarkan halaman ini. Tarik kebawah.',
-                  position: 'top',
-                  duration: 2000
-                });
-                toast.present();
-
-                return next.handle(this.attachToken(request));
-              });
-            }
-          }
+          return this.reAuthenticate(request, next, res);
         })
       );
+    }
+  }
+
+  private reAuthenticate(request: HttpRequest<any>, next: HttpHandler, res: any) {
+    if (res.body) {
+      const data= res.body.data;
+      const isTokenExpired= (data.userProfile && data.userProfile.__typename === 'AuthInfoField') ||
+                            (data.updateProfile && data.updateProfile.__typename === 'AuthInfoField')
+
+      if (!isTokenExpired) {
+        console.log('token no need to be refresh');
+
+        return res;
+      } else {
+        console.log('token need to be refreshed');
+
+        return this.authService.refreshToken().subscribe(async newToken => {
+          console.log('finish refreshing token');
+          console.log('new token', newToken);
+
+          this.authService.finishRefreshToken.next(true);
+
+          const toast= await this.toastController.create({
+            message: 'Tarik kebawah untuk segarkan halaman ini',
+            position: 'top',
+            duration: 2000
+          });
+          toast.present();
+        });
+
+        /*return this.authService.refreshToken().pipe(
+          map((res: any) => {
+            console.log('mapped here');
+
+            return res.data.refreshAuth.newToken;
+          }),
+          switchMap(newToken => {
+            console.log('finish refreshing token');
+            console.log('new token', newToken);
+
+            return this.authService.storeAccessToken(newToken).pipe(
+              switchMap(() => {
+                console.log('retrying request after stored');
+
+                return next.handle(this.attachToken(request));
+              }) 
+            )
+          })
+        );*/
+      }
     }
   }
 

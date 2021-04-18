@@ -2,7 +2,9 @@
   <ion-toolbar>
     <ion-title>Profil</ion-title>
     <ion-buttons slot="start">
-      <ion-menu-button menu="side-menu"></ion-menu-button>
+      <ion-menu-button menu="side-menu">
+        <ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
+      </ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -12,8 +14,8 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-avatar class="mx-auto">
-    <img [src]="user?.imgUrl" />
+  <ion-avatar class="mx-auto" *ngIf="user">
+    <img [src]="user.imgUrl" />
   </ion-avatar>
 
   <form [formGroup]="updateProfileForm" (ngSubmit)="onUpdate()">

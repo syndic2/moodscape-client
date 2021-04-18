@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 
 //import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { from, BehaviorSubject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
@@ -21,8 +21,9 @@ const REFRESH_TOKEN_KEY= 'auth-refresh-token';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public authenticated: Observable<any>;
-  private userData= new BehaviorSubject(null);
+  public authenticate: Observable<any>;
+  public finishRefreshToken: BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
+  private userData: BehaviorSubject<string>= new BehaviorSubject(null);
   private httpOptions: any= {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -45,16 +46,17 @@ export class AuthenticationService {
   loadStoredToken() {
     let platformObs= from(this.platform.ready());
 
-    this.authenticated= platformObs.pipe(
+    this.authenticate= platformObs.pipe(
       switchMap(() => from(this.storage.get(TOKEN_KEY))),
       map(token => {
         console.log('token from storage', token);
 
-        if (!token) return false;
-
-        this.userData.next(token);
-
-        return true;
+        if (!token) {
+          return false;
+        } else {
+          this.userData.next(token);
+          return true;
+        }
       })
     );
   }
@@ -88,11 +90,12 @@ export class AuthenticationService {
 
     return this.http.post(`${environment.api_url}/auth`, { query: query }, this.httpOptions).pipe(
       map((res: any) => res.data.login),
-      switchMap(async res => {
-        await this.storage.set(TOKEN_KEY, res.accessToken);
-        await this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken);
-
-        return res.response;
+      switchMap((res: any) => {
+        return from(Promise.all([
+          res.response,
+          this.storage.set(TOKEN_KEY, res.accessToken), 
+          this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken)
+        ]))
       })
     );
   }
@@ -110,20 +113,27 @@ export class AuthenticationService {
 
         return this.http.post(`${environment.api_url}/auth`, { query: query }, this.httpOptions).pipe(
           map((res: any) => res.data.refreshAuth.newToken),
-          switchMap(async newToken => {
-            await this.storage.set(TOKEN_KEY, newToken);
+          switchMap(newToken => {
             this.userData.next(newToken);
-
-            return newToken;
+            return from(this.storage.set(TOKEN_KEY, newToken));
           })
         );
       })
     );
   }
 
+  storeAccessToken(token) {
+    this.userData.next(token);
+    return from(this.storage.set(TOKEN_KEY, token));
+  }
+
   logout() {
     this.userData.next(null);
 
-    return from(Promise.all([this.storage.remove(TOKEN_KEY), this.storage.remove(REFRESH_TOKEN_KEY)]));
+    return from(Promise.all([
+      this.storage.remove(TOKEN_KEY), 
+      this.storage.remove(REFRESH_TOKEN_KEY),
+      this.storage.remove('user-profile')
+    ]));
   }
 }
