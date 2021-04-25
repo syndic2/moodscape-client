@@ -54,24 +54,24 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.userService.getProfile().subscribe(res => {
-      this.user= Object.assign({}, res[1]);
+    this.userService.getProfile().subscribe((res: User) => {
+      this.user= Object.assign({}, res);
 
-      delete res[1]['__typename'];
-      delete res[1]['imgUrl'];
+      delete res['__typename'];
+      delete res['imgUrl'];
       
-      this.updateProfileForm.setValue(res[1]);
+      this.updateProfileForm.setValue(res);
     });
   }
 
   pullRefresh(event?: any) {
-    this.userService.getProfile().subscribe(res => {
-      this.user= Object.assign({}, res[1]);
+    this.userService.getProfile().subscribe((res: User) => {
+      this.user= Object.assign({}, res);
 
-      delete res[1]['__typename'];
-      delete res[1]['imgUrl'];
+      delete res['__typename'];
+      delete res['imgUrl'];
       
-      this.updateProfileForm.setValue(res[1]);
+      this.updateProfileForm.setValue(res);
       event && event.target.complete();
     });
   }

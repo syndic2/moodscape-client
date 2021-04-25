@@ -1,0 +1,16 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="with-back-button with-button-icon">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="articles"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon class="icon" slot="start" name="bookmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<article-detail *ngIf="article" [article]="article"></article-detail>
+</ion-content>

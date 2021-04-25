@@ -31,8 +31,11 @@ export class JwtInterceptor implements HttpInterceptor {
   private reAuthenticate(request: HttpRequest<any>, next: HttpHandler, res: any) {
     if (res.body) {
       const data= res.body.data;
-      const isTokenExpired= (data.userProfile && data.userProfile.__typename === 'AuthInfoField') ||
-                            (data.updateProfile && data.updateProfile.__typename === 'AuthInfoField')
+      const mutation=  data[Object.keys(data)[0]]
+      /*const isTokenExpired= (data.userProfile && data.userProfile.__typename === 'AuthInfoField') ||
+                            (data.updateProfile && data.updateProfile.__typename === 'AuthInfoField')*/
+      
+      const isTokenExpired= (mutation && mutation.__typename) && mutation.__typename === 'AuthInfoField';
 
       if (!isTokenExpired) {
         console.log('token no need to be refresh');

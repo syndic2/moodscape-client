@@ -29,7 +29,15 @@ const routes: Routes = [
     path: 'side-menu',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
+  },
+  {
+    path: 'articles',
+    loadChildren: () => import('./pages/articles/articles.module').then( m => m.ArticlesPageModule)
+  },  {
+    path: 'article-detail',
+    loadChildren: () => import('./pages/details/article-detail/article-detail.module').then( m => m.ArticleDetailPageModule)
   }
+
 ];
 
 @NgModule({

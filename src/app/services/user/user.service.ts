@@ -48,10 +48,11 @@ export class UserService {
 
     return this.http.get(`${environment.api_url}/graphql?query=${query}`, this.httpOptions).pipe(
       switchMap((res: any) => {
-        return from(Promise.all([
-          this.storage.set('user-profile', res.data.userProfile),
-          this.storage.get('user-profile')
-        ]));
+        return from(this.storage.set('user-profile', res.data.userProfile)).pipe(
+          switchMap(() => {
+            return from(this.storage.get('user-profile'));
+          })
+        );
       })
     );
   }

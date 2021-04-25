@@ -9,9 +9,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-item class="border-0">
-    <ion-label>Mode Gelap</ion-label>
-    <ion-toggle (ionChange)="toogleDarkMode($event)" [checked]="themeService.isDarkMode"></ion-toggle>
-  </ion-item>
+<ion-content>
+  <div class="p-4">
+    <ion-item class="border-0">
+      <ion-label>Mode Gelap</ion-label>
+      <ion-toggle (ionChange)="toogleDarkMode($event)" [checked]="themeService.isDarkMode"></ion-toggle>
+    </ion-item>
+  </div>
 </ion-content>
