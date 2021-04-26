@@ -1,67 +1,69 @@
 <ion-content>
-  <div class="flex flex-col justify-center h-full">
-    <h1 class="text-2xl text-center">Masuk kuy!</h1>
-    <div class="p-4">
-      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-        <ion-row>
-          <ion-col size="12">
-            <ion-item>
-              <ion-label position="stacked">Alamat surel atau nama pengguna</ion-label>
-              <ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text" formControlName="emailOrUsername"></ion-input>
-              <ion-icon class="icon text-base mt-auto" slot="end" name="mail"></ion-icon>
-            </ion-item>
-            <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.emailOrUsername">
-              <ng-container *ngIf="emailOrUsername.hasError(error.type) && (emailOrUsername.touched || emailOrUsername.dirty)">
-                <small class="text-red-600">{{ error.message }}</small>
-                <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
-              </ng-container>
-            </div>
-          </ion-col>
-  
-          <ion-col size="12">
-            <ion-item>
-              <ion-label position="stacked">Kata sandi</ion-label>
-              <ion-input type="password" placeholder="Kata sandi anda" inputmode="text" formControlName="password"></ion-input>
-              <ion-icon class="icon text-base mt-auto" slot="end" name="lock-open"></ion-icon>
-            </ion-item>
-            <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.password">
-              <ng-container *ngIf="password.hasError(error.type) && (password.touched || password.dirty)">
-                <small class="text-red-600">{{ error.message }}</small>
-                <ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
-              </ng-container>
-            </div>
-          </ion-col>
-  
-          <ion-col class="text-center" size="12">
-            <ion-button type="submit" shape="round">Masuk</ion-button>
-          </ion-col>
-        </ion-row>
-      </form>
-  
-      <div class="flex justify-center mt-1">
-        <ion-button type="submit" shape="round" color="danger" (click)="onGoogleSignIn()">
-          <ion-icon slot="start" name="logo-google"></ion-icon> Masuk dengan Google
-        </ion-button>
-      </div>
-      <ion-row class="mt-4">
-        <ion-col size="6">
-          <div class="text-sm sm:text-base text-center">
-            Belum memiliki akun?
-            <span class="block">
-              Daftar <a class="font-semibold text-purple-800 underline" [routerLink]="'/sign-up'">sekarang!</a>
-            </span>
-          </div>
-        </ion-col>
-        <ion-col size="6">
-          <div class="text-sm sm:text-base text-center">
-            Lupa kata sandi?
-            <span class="block">
-              Ubah <a class="font-semibold text-purple-800 underline" [routerLink]="'/forgot-password'">disini!</a>
-            </span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </div>
-  </div>
-</ion-content>
+	<div class="flex flex-col justify-center h-full">
+		<h1 class="text-2xl text-center">Masuk kuy!</h1>
+		<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+			<ion-row>
+				<ion-col size="12">
+					<ion-item>
+						<ion-label position="stacked">Alamat surel atau nama pengguna</ion-label>
+						<ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text"
+							formControlName="emailOrUsername"></ion-input>
+						<ion-icon class="icon text-base mt-auto" slot="end" name="mail"></ion-icon>
+					</ion-item>
+					<div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.emailOrUsername">
+						<ng-container
+							*ngIf="emailOrUsername.hasError(error.type) && (emailOrUsername.touched || emailOrUsername.dirty)">
+							<small class="text-red-600">{{ error.message }}</small>
+							<ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
+						</ng-container>
+					</div>
+				</ion-col>
 
+				<ion-col size="12">
+					<ion-item>
+						<ion-label position="stacked">Kata sandi</ion-label>
+						<ion-input type="password" placeholder="Kata sandi anda" inputmode="text"
+							formControlName="password"></ion-input>
+						<ion-icon class="icon text-base mt-auto" slot="end" name="lock-open"></ion-icon>
+					</ion-item>
+					<div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.password">
+						<ng-container *ngIf="password.hasError(error.type) && (password.touched || password.dirty)">
+							<small class="text-red-600">{{ error.message }}</small>
+							<ion-icon class="text-base text-red-600 ml-1 my-auto" name="alert-circle"></ion-icon>
+						</ng-container>
+					</div>
+				</ion-col>
+
+				<ion-col class="text-center" size="12">
+					<ion-button type="submit" shape="round">Masuk</ion-button>
+				</ion-col>
+			</ion-row>
+		</form>
+
+		<div class="flex justify-center mt-1">
+			<ion-button type="submit" shape="round" color="danger" (click)="onGoogleSignIn()">
+				<ion-icon slot="start" name="logo-google"></ion-icon> Masuk dengan Google
+			</ion-button>
+		</div>
+		<ion-row class="mt-4">
+			<ion-col size="6">
+				<div class="text-sm sm:text-base text-center">
+					Belum memiliki akun?
+					<span class="block">
+						Daftar <a class="font-semibold text-purple-800 underline"
+							[routerLink]="'/sign-up'">sekarang!</a>
+					</span>
+				</div>
+			</ion-col>
+			<ion-col size="6">
+				<div class="text-sm sm:text-base text-center">
+					Lupa kata sandi?
+					<span class="block">
+						Ubah <a class="font-semibold text-purple-800 underline"
+							[routerLink]="'/forgot-password'">disini!</a>
+					</span>
+				</div>
+			</ion-col>
+		</ion-row>
+	</div>
+</ion-content>

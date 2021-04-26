@@ -3,131 +3,138 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlertController, ToastController } from '@ionic/angular';
 
+import { Subscription } from 'rxjs';
+
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+	selector: 'app-profile',
+	templateUrl: './profile.page.html',
+	styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  public updateProfileForm: FormGroup;
-  public errorMessages= {
-    firstName: [
-      { type: 'required', message: 'Nama depan tidak boleh kosong.' }
-    ],
-    lastName: [
-      { type: 'required', message: 'Nama belakang tidak boleh kosong.' }
-    ],
-    gender: [
-      { type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
-    ],
-    age: [
-      { type: 'required', message: 'Umur tidak boleh kosong.' }
-    ],
-    email: [
-      { type: 'required', message: 'Alamat surel tidak boleh kosong.' },
-      { type: 'pattern', message: 'Alamat surel tidak valid.' }
-    ]
-  };
-  public user: User;
+	public updateProfileForm: FormGroup;
+	public errorMessages = {
+		firstName: [
+			{ type: 'required', message: 'Nama depan tidak boleh kosong.' }
+		],
+		lastName: [
+			{ type: 'required', message: 'Nama belakang tidak boleh kosong.' }
+		],
+		gender: [
+			{ type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
+		],
+		age: [
+			{ type: 'required', message: 'Umur tidak boleh kosong.' }
+		],
+		email: [
+			{ type: 'required', message: 'Alamat surel tidak boleh kosong.' },
+			{ type: 'pattern', message: 'Alamat surel tidak valid.' }
+		]
+	};
+	public user: User;
+	private getProfileListener: Subscription;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private alertController: AlertController,
-    private toastController: ToastController,
-    private authService: AuthenticationService,
-    private userService: UserService
-  ) {
-    this.initializeForm();
-  }
+	constructor(
+		private formBuilder: FormBuilder,
+		private alertController: AlertController,
+		private toastController: ToastController,
+		private authService: AuthenticationService,
+		private userService: UserService
+	) {
+		this.initializeForm();
+	}
 
-  ngOnInit() {
-    /*setInterval(() => {
-      if (this.authService.finishRefreshToken.getValue()) {
-        this.authService.finishRefreshToken.next(false);
-        this.pullRefresh();
-      }
-    }, 2000);*/
-  }
+	ngOnInit() {
+		/*setInterval(() => {
+		  if (this.authService.finishRefreshToken.getValue()) {
+			this.authService.finishRefreshToken.next(false);
+			this.pullRefresh();
+		  }
+		}, 2000);*/
+	}
 
-  ionViewWillEnter() {
-    this.userService.getProfile().subscribe((res: User) => {
-      this.user= Object.assign({}, res);
+	ionViewWillEnter() {
+		this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
+			this.user = Object.assign({}, res);
 
-      delete res['__typename'];
-      delete res['imgUrl'];
-      
-      this.updateProfileForm.setValue(res);
-    });
-  }
+			delete res['__typename'];
+			delete res['imgUrl'];
 
-  pullRefresh(event?: any) {
-    this.userService.getProfile().subscribe((res: User) => {
-      this.user= Object.assign({}, res);
+			this.updateProfileForm.setValue(res);
+		});
+	}
 
-      delete res['__typename'];
-      delete res['imgUrl'];
-      
-      this.updateProfileForm.setValue(res);
-      event && event.target.complete();
-    });
-  }
+	ionViewWillLeave() {
+		this.getProfileListener.unsubscribe();
+	}
 
-  get firstName() {
-    return this.updateProfileForm.get('firstName');
-  }
+	pullRefresh(event?: any) {
+		this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
+			this.user = Object.assign({}, res);
 
-  get lastName() {
-    return this.updateProfileForm.get('lastName');
-  }
+			delete res['__typename'];
+			delete res['imgUrl'];
 
-  get gender() {
-    return this.updateProfileForm.get('gender');
-  }
+			this.updateProfileForm.setValue(res);
+			event && event.target.complete();
+		});
+	}
 
-  get age() {
-    return this.updateProfileForm.get('age');
-  }
+	get firstName() {
+		return this.updateProfileForm.get('firstName');
+	}
 
-  get email() {
-    return this.updateProfileForm.get('email');
-  }
+	get lastName() {
+		return this.updateProfileForm.get('lastName');
+	}
 
-  private initializeForm() {
-    this.updateProfileForm= this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      gender: ['', Validators.required],
-      age: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-        ]
-      ]
-    });
-  }
+	get gender() {
+		return this.updateProfileForm.get('gender');
+	}
 
-  async onUpdate() {
-    if (this.updateProfileForm.invalid) {
-      const alert= await this.alertController.create({
-        message: 'Informasi pengguna tidak boleh ada yang kosong!',
-        buttons: ['OK']
-      });
-      alert.present();
-    } else {
-      this.userService.updateUser(this.updateProfileForm.value).subscribe(async res => {
-        const toast= await this.toastController.create({
-          message: res.response.text,
-          position: 'top',
-          duration: 2000
-        });
-        toast.present();
-      });
-    }
-  }
+	get age() {
+		return this.updateProfileForm.get('age');
+	}
+
+	get email() {
+		return this.updateProfileForm.get('email');
+	}
+
+	private initializeForm() {
+		this.updateProfileForm = this.formBuilder.group({
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+			gender: ['', Validators.required],
+			age: ['', Validators.required],
+			email: [
+				'',
+				[
+					Validators.required,
+					Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+				]
+			]
+		});
+	}
+
+	async onUpdate() {
+		if (this.updateProfileForm.invalid) {
+			const alert = await this.alertController.create({
+				message: 'Informasi pengguna tidak boleh ada yang kosong!',
+				buttons: ['OK']
+			});
+			alert.present();
+		} else {
+			this.userService.updateUser(this.updateProfileForm.value).subscribe(async res => {
+				const toast = await this.toastController.create({
+					message: res.response.text,
+					position: 'top',
+					duration: 2000
+				});
+				toast.present();
+			});
+		}
+	}
 }

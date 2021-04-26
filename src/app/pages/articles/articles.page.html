@@ -24,13 +24,13 @@
 		</ion-item>
 	</ion-list>-->
 
-	<ion-virtual-scroll *ngIf="articles.length" [items]="articles" approximateItemHeigth="120px">
+	<ion-virtual-scroll *ngIf="articles.length" approxItemHeight="200" [items]="articles">
 		<ion-item class="py-2" lines="none" *virtualItem="let article">
 			<article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
 		</ion-item>
 	</ion-virtual-scroll>
 
-	<ion-infinite-scroll threshold="15%" position="bottom" [disabled]="disableLoadMore" (ionInfinite)="loadMore($event)">
+	<ion-infinite-scroll *ngIf="showInfiniteScroll" (ionInfinite)="loadMore($event)">
 		<ion-infinite-scroll-content loadingText="Memuat artikel..."></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
 </ion-content>

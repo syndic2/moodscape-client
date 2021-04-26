@@ -48,6 +48,15 @@ ion-back-button {
 	}
 }
 
+ion-infinite-scroll {
+	ion-infinite-scroll-content {
+		.infinite-loading {
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+	}
+}
+
 ion-toolbar.with-back-button {
 	--padding-start: 0.75rem;
 	--padding-end: 0.75rem;

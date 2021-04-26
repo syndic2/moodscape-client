@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { IonInfiniteScroll } from '@ionic/angular';
+
+import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article';
 import { ArticleService } from 'src/app/services/article/article.service';
@@ -9,6 +13,8 @@ import { ArticleService } from 'src/app/services/article/article.service';
 	styleUrls: ['./articles.page.scss'],
 })
 export class ArticlesPage implements OnInit {
+	@ViewChild(IonInfiniteScroll, {  static: false }) infiniteScroll: IonInfiniteScroll;
+
 	public articles: Article[] = [];
 	public sliderOptions = {
 		slidesPerView: 1,
@@ -17,9 +23,10 @@ export class ArticlesPage implements OnInit {
 		loop: true,
 		autoplay: true
 	};
-	public disableLoadMore: boolean= true;
+	public showInfiniteScroll: boolean= true;
+	private getArticlesListener: Subscription;
 	private offset: number= 0;
-	private limit: number= 10;
+	private limit: number= 5;
 
 	constructor(private articleService: ArticleService) { }
 
@@ -27,21 +34,33 @@ export class ArticlesPage implements OnInit {
 	}
 
 	ionViewWillEnter() {
-		this.disableLoadMore= false;
-		this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
+		this.resetLoadPage();
+		this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
 			this.articles= res;
 		});
 	}
 
+	ionViewWillLeave() {
+		this.getArticlesListener.unsubscribe();
+	}
+
+	private resetLoadPage() {
+		//this.infiniteScroll.disabled= false;
+		this.showInfiniteScroll= true;
+		this.offset= 0;
+		this.limit= 5;
+	}
+
 	loadMore(event) {
 		this.offset+= 5;
-		this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
+		this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
 			this.articles= this.articles.concat(res);
 			event.target.complete();
 		});
 
 		if (this.offset === 10 - this.limit) {
-			this.disableLoadMore= true;
+			//this.infiniteScroll.disabled= true;
+			this.showInfiniteScroll= false;
 		}
 	}
 }

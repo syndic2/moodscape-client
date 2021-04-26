@@ -12,7 +12,7 @@ const urls= {
 export const environment = {
   production: false,
   base_url: 'http://localhost:8100',
-  api_url: urls.api_url.dev
+  api_url: urls.api_url.prod
 };
 
 /*
