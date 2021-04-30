@@ -41,7 +41,7 @@ export class ArticleService {
 			}
 		`;
 
-		return this.http.get(`${environment.api_url}/graphql?query=${query}`, this.httpOptions).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, this.httpOptions).pipe(
 			map((res: any) => res.data.articleByUrlName)
 		);
 	}
@@ -64,7 +64,7 @@ export class ArticleService {
 			}
 		`;
 
-		return this.http.get(`${environment.api_url}/graphql?query=${query}`, this.httpOptions).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, this.httpOptions).pipe(
 			map((res: any) => res.data.allArticle)
 		);
 	}

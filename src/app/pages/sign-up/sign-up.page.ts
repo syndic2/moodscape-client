@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlertController, ToastController } from '@ionic/angular';
 
+import { Subscription } from 'rxjs';
+
 import { MatchValidator } from 'src/app/validators/match.validator';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -40,6 +42,7 @@ export class SignUpPage implements OnInit {
       { type: 'required', message: 'Konfirmasi kata sandi tidak boleh kosong.' }
     ]
   };
+  private signUpListener: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,6 +54,10 @@ export class SignUpPage implements OnInit {
   }
 
   ngOnInit() { }
+
+  ionViewWillLeave() {
+	this.signUpListener && this.signUpListener.unsubscribe();
+  }
 
   get firstName() {
     return this.signUpForm.get('firstName');
@@ -113,7 +120,7 @@ export class SignUpPage implements OnInit {
       });
       alert.present();
     } else {
-      this.userService.createUser(this.signUpForm.value).subscribe(async res => {
+      this.signUpListener= this.userService.createUser(this.signUpForm.value).subscribe(async res => {
         const toast= await this.toastController.create({
           message: res.response.text,
           position: 'top',

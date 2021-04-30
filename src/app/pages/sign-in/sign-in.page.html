@@ -6,8 +6,7 @@
 				<ion-col size="12">
 					<ion-item>
 						<ion-label position="stacked">Alamat surel atau nama pengguna</ion-label>
-						<ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text"
-							formControlName="emailOrUsername"></ion-input>
+						<ion-input type="text" placeholder="Alamat surel atau nama pengguna anda" inputmode="text" formControlName="emailOrUsername"></ion-input>
 						<ion-icon class="icon text-base mt-auto" slot="end" name="mail"></ion-icon>
 					</ion-item>
 					<div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.emailOrUsername">
@@ -22,8 +21,7 @@
 				<ion-col size="12">
 					<ion-item>
 						<ion-label position="stacked">Kata sandi</ion-label>
-						<ion-input type="password" placeholder="Kata sandi anda" inputmode="text"
-							formControlName="password"></ion-input>
+						<ion-input type="password" placeholder="Kata sandi anda" inputmode="text" formControlName="password"></ion-input>
 						<ion-icon class="icon text-base mt-auto" slot="end" name="lock-open"></ion-icon>
 					</ion-item>
 					<div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.password">
@@ -50,8 +48,7 @@
 				<div class="text-sm sm:text-base text-center">
 					Belum memiliki akun?
 					<span class="block">
-						Daftar <a class="font-semibold text-purple-800 underline"
-							[routerLink]="'/sign-up'">sekarang!</a>
+						Daftar <a class="font-semibold text-purple-800 underline" [routerLink]="'/sign-up'">sekarang!</a>
 					</span>
 				</div>
 			</ion-col>
@@ -59,8 +56,7 @@
 				<div class="text-sm sm:text-base text-center">
 					Lupa kata sandi?
 					<span class="block">
-						Ubah <a class="font-semibold text-purple-800 underline"
-							[routerLink]="'/forgot-password'">disini!</a>
+						Ubah <a class="font-semibold text-purple-800 underline" [routerLink]="'/forgot-password'">disini!</a>
 					</span>
 				</div>
 			</ion-col>

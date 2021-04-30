@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -11,8 +11,17 @@ import { Platform } from '@ionic/angular';
 })
 export class AppComponent {
 
-  constructor(private router: Router, private location: Location, private platform: Platform) { 
+  constructor(
+    private router: Router,
+    private location: Location,
+    private zone: NgZone,
+    private platform: Platform
+  ) {
+    this.setupDeepLinks();
     this.hardwareBackButton();
+  }
+
+  setupDeepLinks() {
   }
 
   hardwareBackButton() {

@@ -3,16 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 const urls= {
-  api_url: {
-    dev: 'http://127.0.0.1:5000/api',
-    prod: 'https://moodscape-api.herokuapp.com/api'
+  apiUrl: {
+    development: 'http://127.0.0.1:5000/api',
+    production: 'https://moodscape-api.herokuapp.com/api'
   }
 };
 
 export const environment = {
   production: false,
-  base_url: 'http://localhost:8100',
-  api_url: urls.api_url.prod
+  baseUrl: 'http://localhost:8100',
+  apiUrl: urls.apiUrl.production
 };
 
 /*

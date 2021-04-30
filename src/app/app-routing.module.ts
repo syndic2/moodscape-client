@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'sign-in'
   },
   {
+    path: 'page-not-found',
+    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then( m => m.PageNotFoundPageModule)
+  },
+  {
     path: 'sign-in',
     canLoad: [AutoLoginGuard],
     loadChildren: () => import('./pages/sign-in/sign-in.module').then(m => m.SignInPageModule)
@@ -34,8 +38,8 @@ const routes: Routes = [
     path: 'articles',
     loadChildren: () => import('./pages/articles/articles.module').then( m => m.ArticlesPageModule)
   },  {
-    path: 'article-detail',
-    loadChildren: () => import('./pages/details/article-detail/article-detail.module').then( m => m.ArticleDetailPageModule)
+    path: 'request-reset-password',
+    loadChildren: () => import('./pages/finishes/request-reset-password/request-reset-password.module').then( m => m.RequestResetPasswordPageModule)
   }
 
 ];

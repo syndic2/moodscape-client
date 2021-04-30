@@ -4,107 +4,111 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlertController, ToastController } from '@ionic/angular';
 
+import { Subscription } from 'rxjs';
+
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
 
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.page.html',
-  styleUrls: ['./sign-in.page.scss'],
+	selector: 'app-sign-in',
+	templateUrl: './sign-in.page.html',
+	styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
-  public signInForm: FormGroup;
-  public errorMessages= {
-    emailOrUsername: [
-      { type: 'required', message: 'Alamat surel atau nama pengguna tidak boleh kosong.' }
-    ],
-    password: [
-      { type: 'required', message: 'Kata sandi tidak boleh kosong.' }
-    ]
-  };
+	public signInForm: FormGroup;
+	public errorMessages = {
+		emailOrUsername: [
+			{ type: 'required', message: 'Alamat surel atau nama pengguna tidak boleh kosong.' }
+		],
+		password: [
+			{ type: 'required', message: 'Kata sandi tidak boleh kosong.' }
+		]
+	};
+	private signInListener: Subscription;
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private alertController: AlertController,
-    private toastController: ToastController,
-    private authService: AuthenticationService
-  ) {
-    this.initializeForm();
-  }
+	constructor(
+		private router: Router,
+		private formBuilder: FormBuilder,
+		private alertController: AlertController,
+		private toastController: ToastController,
+		private authService: AuthenticationService
+	) {
+		this.initializeForm();
+	}
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+	}
 
-  ionViewDidLeave() {
-    this.signInForm.reset();
-  }
+	ionViewDidLeave() {
+		this.signInForm.reset();
+		this.signInListener && this.signInListener.unsubscribe();
+	}
 
-  get emailOrUsername() {
-    return this.signInForm.get('emailOrUsername');
-  }
+	get emailOrUsername() {
+		return this.signInForm.get('emailOrUsername');
+	}
 
-  get password() {
-    return this.signInForm.get('password');
-  }
+	get password() {
+		return this.signInForm.get('password');
+	}
 
-  private initializeForm() {
-    this.signInForm= this.formBuilder.group({
-      emailOrUsername: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
+	private initializeForm() {
+		this.signInForm = this.formBuilder.group({
+			emailOrUsername: ['', Validators.required],
+			password: ['', Validators.required]
+		});
+	}
 
-  async onSubmit() {
-    if (this.signInForm.invalid) {
-      const alert= await this.alertController.create({
-        message: 'Alamat surel/nama pengguna atau kata sandi tidak boleh kosong!',
-        buttons: ['OK']
-      });
-      alert.present();
-    } else {
-      this.authService.login(this.signInForm.value).subscribe(async res => {
-        const response= res[0];
+	async onSubmit() {
+		if (this.signInForm.invalid) {
+			const alert = await this.alertController.create({
+				message: 'Alamat surel/nama pengguna atau kata sandi tidak boleh kosong!',
+				buttons: ['OK']
+			});
+			alert.present();
+		} else {
+			this.signInListener= this.authService.login(this.signInForm.value).subscribe(async res => {
+				const response = res[0];
 
-        if (!response.status) {
-          const toast= await this.toastController.create({
-            message: response.text,
-            position: 'top',
-            duration: 2000
-          });
-          toast.present();
-        } else {
-          this.router.navigate(['/side-menu']);
-        }
-      });
-    }
-  }
+				if (!response.status) {
+					const toast = await this.toastController.create({
+						message: response.text,
+						position: 'top',
+						duration: 2000
+					});
+					toast.present();
+				} else {
+					this.router.navigate(['/side-menu']);
+				}
+			});
+		}
+	}
 
-  async onGoogleSignIn() {
-    const accountInfo= await Plugins.GoogleAuth.signIn();
-    const data= {
-      firstName: accountInfo.givenName,
-      lastName: accountInfo.familyName,
-      email: accountInfo.email,
-      password: 'google-account',
-      imgUrl: accountInfo.imageUrl
-    };
+	async onGoogleSignIn() {
+		const accountInfo = await Plugins.GoogleAuth.signIn();
+		const data = {
+			firstName: accountInfo.givenName,
+			lastName: accountInfo.familyName,
+			email: accountInfo.email,
+			password: 'google-account',
+			imgUrl: accountInfo.imageUrl
+		};
 
-    this.authService.login(data, true).subscribe(async res => {
-      const response= res[0];
+		this.signInListener= this.authService.login(data, true).subscribe(async res => {
+			const response = res[0];
 
-      if (!response.status) {
-        const toast= await this.toastController.create({
-          message: response.text,
-          position: 'top',
-          duration: 2000
-        });
-        toast.present();
-      } else {
-        this.router.navigate(['/side-menu']);
-      }
-    });
-  }
+			if (!response.status) {
+				const toast = await this.toastController.create({
+					message: response.text,
+					position: 'top',
+					duration: 2000
+				});
+				toast.present();
+			} else {
+				this.router.navigate(['/side-menu']);
+			}
+		});
+	}
 }

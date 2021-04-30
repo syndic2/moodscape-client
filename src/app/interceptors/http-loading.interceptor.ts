@@ -9,46 +9,46 @@ import { catchError, finalize } from 'rxjs/operators';
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
 
-  constructor(private loadingController: LoadingController, private toastController: ToastController) { }
+	constructor(private loadingController: LoadingController, private toastController: ToastController) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const loading= this.loadingController.create({
-      message: 'Mohon tunggu... :)',
-      translucent: true
-    });
+	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		const loading = this.loadingController.create({
+			message: 'Mohon tunggu... :)',
+			translucent: true
+		});
 
-    this.loadingController.getTop().then(hasLoading => {
-      if (!hasLoading) {
-        loading.then(loader => loader.present());
-      }
-    })
+		this.loadingController.getTop().then(hasLoading => {
+			if (!hasLoading) {
+				loading.then(loader => loader.present());
+			}
+		})
 
-    return next.handle(request).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse) {
-          switch (error.status) {
-            case 400:
-              this.HANDLE_BAD_REQUEST();
-              break;
+		return next.handle(request).pipe(
+			catchError(error => {
+				if (error instanceof HttpErrorResponse) {
+					switch (error.status) {
+						case 400:
+							this.HANDLE_BAD_REQUEST();
+							break;
 
-            default:
-              return throwError(error);
-          }
-        }
+						default:
+							return throwError(error);
+					}
+				}
 
-        return throwError(error);
-      }),
-      finalize(() => loading.then(loader => loader.dismiss()))
-    );
-  }
+				return throwError(error);
+			}),
+			finalize(() => loading.then(loader => loader.dismiss()))
+		);
+	}
 
-  private async HANDLE_BAD_REQUEST() {
-    const toast= await this.toastController.create({
-      message: 'Terjadi kesalahan pada server. Silahkan coba kembali.',
-      position: 'top',
-      duration: 2000
-    });
+	private async HANDLE_BAD_REQUEST() {
+		const toast = await this.toastController.create({
+			message: 'Terjadi kesalahan pada server. Silahkan coba kembali.',
+			position: 'top',
+			duration: 2000
+		});
 
-    toast.present();
-  }
+		toast.present();
+	}
 }

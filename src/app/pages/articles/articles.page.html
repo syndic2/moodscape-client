@@ -24,7 +24,7 @@
 		</ion-item>
 	</ion-list>-->
 
-	<ion-virtual-scroll *ngIf="articles.length" approxItemHeight="200" [items]="articles">
+	<ion-virtual-scroll *ngIf="articles.length" approxItemHeight="250" [items]="articles">
 		<ion-item class="py-2" lines="none" *virtualItem="let article">
 			<article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
 		</ion-item>
