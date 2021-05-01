@@ -49,14 +49,14 @@ export class SignUpPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private userService: UserService
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.initializeForm();
   }
 
-  ngOnInit() { }
-
   ionViewWillLeave() {
-	this.signUpListener && this.signUpListener.unsubscribe();
+	  this.signUpListener && this.signUpListener.unsubscribe();
   }
 
   get firstName() {

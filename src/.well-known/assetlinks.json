@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : {
+      "namespace": "android_app",
+      "package_name": "com.nix.moodscape",
+      "sha256_cert_fingerprints": ["30:3a:a9:df:1f:ae:43:e3:0c:c9:ba:19:11:b5:ec:d2:69:96:2b:7f"]
+    }
+  }
+]

@@ -119,7 +119,7 @@ export class AuthenticationService {
 		);
 	}
 
-	resetPassword(email: string): Observable<any> {
+	requestResetPassword(email: string): Observable<any> {
 		const query= `
 			mutation {
 				requestResetPassword(email: "${email}") {
@@ -136,6 +136,26 @@ export class AuthenticationService {
 			map((res: any) => res.data.requestResetPassword)
 		);
 	}
+
+  resetPassword(resetToken: string, newPassword: string): Observable<any> {
+    const query= `
+      mutation {
+        resetPassword(resetToken: "${resetToken}", newPassword: "${newPassword}") {
+          userWithNewPassword {
+            password
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `;
+
+    return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
+      map((res: any) => res.data.resetPassword)
+    );
+  }
 
 	logout() {
 		this.userData.next(null);

@@ -14,14 +14,14 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 	styleUrls: ['./forgot-password.page.scss'],
 })
 export class ForgotPasswordPage implements OnInit {
-	public resetPasswordForm: FormGroup;
+	public requestResetPasswordForm: FormGroup;
 	public errorMessages= {
 		email: [
 			{ type: 'required', message: 'Alamat surel tidak boleh kosong.' },
-      		{ type: 'pattern', message: 'Alamat surel tidak valid.' }
+      { type: 'pattern', message: 'Alamat surel tidak valid.' }
 		],
 	};
-	private resetPasswordListener: Subscription;
+	private requestResetPasswordListener: Subscription;
 
 	constructor(
 		private router: Router,
@@ -29,8 +29,10 @@ export class ForgotPasswordPage implements OnInit {
 		private alertController: AlertController,
 		private toastController: ToastController,
 		private authService: AuthenticationService
-	) {
-		this.resetPasswordForm= this.formBuilder.group({
+	) { }
+
+	ngOnInit() {
+    this.requestResetPasswordForm= this.formBuilder.group({
 			email: [
 				'',
 				[
@@ -41,25 +43,22 @@ export class ForgotPasswordPage implements OnInit {
 		});
 	}
 
-	ngOnInit() {
-	}
-
 	ionViewWillLeave() {
-		this.resetPasswordListener && this.resetPasswordListener.unsubscribe();
+		this.requestResetPasswordListener && this.requestResetPasswordListener.unsubscribe();
 	}
 
 	get email() {
-		return this.resetPasswordForm.get('email');
+		return this.requestResetPasswordForm.get('email');
 	}
 
 	async onSubmit() {
 		const alert = await this.alertController.create({ buttons: ['OK'] });
 
-		if (this.resetPasswordForm.invalid) {
+		if (this.requestResetPasswordForm.invalid) {
 			alert.message= 'Alamat surel tidak boleh kosong!';
 			alert.present();
 		} else {
-			this.authService.resetPassword(this.resetPasswordForm.get('email').value).subscribe(async res => {
+			this.authService.requestResetPassword(this.email.value).subscribe(async res => {
 				if (!res.response.status) {
 					const toast = await this.toastController.create({
 						message: res.response.text,

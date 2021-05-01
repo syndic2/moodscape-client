@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -15,13 +16,27 @@ export class AppComponent {
     private router: Router,
     private location: Location,
     private zone: NgZone,
+    private deepLinks: Deeplinks,
     private platform: Platform
   ) {
-    this.setupDeepLinks();
-    this.hardwareBackButton();
+    this.initializeApp();
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.setupDeepLinks();
+      this.hardwareBackButton();
+    });
   }
 
   setupDeepLinks() {
+    this.deepLinks.route({ '/:resetToken': 'reset-password' }).subscribe(match => {
+      console.log('successfully matched route', match);
+      console.log('internal path', `${match.$route}/${match.$args.resetToken}`);
+      this.zone.run(() => {
+        this.router.navigate([match.$route, match.$args.resetToken]);
+      });
+    });
   }
 
   hardwareBackButton() {

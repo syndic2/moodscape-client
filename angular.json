@@ -28,6 +28,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/.well-known",
+                "output": ".well-known/"
+              },
+              {
+                "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
               },

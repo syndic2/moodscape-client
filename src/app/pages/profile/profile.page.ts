@@ -43,17 +43,10 @@ export class ProfilePage implements OnInit {
 		private toastController: ToastController,
 		private authService: AuthenticationService,
 		private userService: UserService
-	) {
-		this.initializeForm();
-	}
+	) { }
 
 	ngOnInit() {
-		/*setInterval(() => {
-		  if (this.authService.finishRefreshToken.getValue()) {
-			this.authService.finishRefreshToken.next(false);
-			this.pullRefresh();
-		  }
-		}, 2000);*/
+    this.initializeForm();
 	}
 
 	ionViewWillEnter() {

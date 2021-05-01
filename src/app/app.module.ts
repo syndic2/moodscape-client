@@ -5,6 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 import { HttpLoadingInterceptor } from './interceptors/http-loading.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
@@ -35,7 +36,8 @@ import { AppRoutingModule } from './app-routing.module';
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    }
+    },
+    Deeplinks
   ],
   bootstrap: [AppComponent],
 })
