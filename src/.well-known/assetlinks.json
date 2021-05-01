@@ -4,7 +4,7 @@
     "target" : {
       "namespace": "android_app",
       "package_name": "com.nix.moodscape",
-      "sha256_cert_fingerprints": ["30:3a:a9:df:1f:ae:43:e3:0c:c9:ba:19:11:b5:ec:d2:69:96:2b:7f"]
+      "sha256_cert_fingerprints": ["EA:88:5F:76:67:C7:28:4A:4E:93:5D:A0:99:45:4A:8D:43:96:34:AD:65:57:F8:6B:36:92:D5:E1:CB:54:F1:FA"]
     }
   }
 ]
