@@ -44,8 +44,17 @@ export class ArticlesPage implements OnInit {
 		this.getArticlesListener.unsubscribe();
 	}
 
-	private resetLoadPage() {
+  pullRefresh(event?: any) {
+    this.resetLoadPage();
+    this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
+			this.articles= res;
+      event && event.target.complete();
+		});
+  }
+
+	resetLoadPage() {
 		//this.infiniteScroll.disabled= false;
+    this.articles= [];
 		this.showInfiniteScroll= true;
 		this.offset= 0;
 		this.limit= 5;

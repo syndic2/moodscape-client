@@ -14,6 +14,7 @@ import StringifyObject from 'stringify-object';
 import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
+const AUTHENTICATED_USER= 'authenticated-user';
 const TOKEN_KEY = 'auth-token';
 const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
@@ -53,6 +54,10 @@ export class AuthenticationService {
 		);
 	}
 
+  getAuthenticatedUser(): Observable<any> {
+    return from(this.storage.get(AUTHENTICATED_USER));
+  }
+
 	login(data, withGoogle: boolean = false): Observable<any> {
 		const args = StringifyObject(data, {
 			singleQuotes: false,
@@ -68,6 +73,14 @@ export class AuthenticationService {
 					password: "${data.password}",
 					withGoogle: ${withGoogle ? args : "{}"}
 				) {
+          authenticatedUser {
+            firstName,
+						lastName,
+						gender,
+						age,
+						email,
+						imgUrl
+          },
 					accessToken,
 					refreshToken,
 					response {
@@ -76,7 +89,7 @@ export class AuthenticationService {
 					}
 				}
 			}
-    	`;
+    `;
 
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }, this.httpOptions).pipe(
 			map((res: any) => {
@@ -87,6 +100,7 @@ export class AuthenticationService {
 			switchMap((res: any) => {
 				return from(Promise.all([
 					res.response,
+          this.storage.set(AUTHENTICATED_USER, res.authenticatedUser),
 					this.storage.set(TOKEN_KEY, res.accessToken),
 					this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken)
 				]));
@@ -163,6 +177,7 @@ export class AuthenticationService {
 		return from(Promise.all([
 			this.storage.remove(TOKEN_KEY),
 			this.storage.remove(REFRESH_TOKEN_KEY),
+      this.storage.remove(AUTHENTICATED_USER),
 			this.storage.remove('user-profile')
 		]));
 	}

@@ -8,6 +8,33 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  public pages: any[] = [
+    {
+      title: 'Pemicu',
+			url: '/settings/triggers',
+			icon: 'alert-circle'
+    },
+    {
+      title: 'Notifikasi',
+			url: '/settings/notifications',
+			icon: 'notifications'
+    },
+    {
+      title: 'Tema',
+			url: '/settings/themes',
+			icon: 'color-palette'
+    },
+    {
+      title: 'Ubah Kata Sandi',
+      url: '/settings/change-password',
+      icon: 'shield-checkmark'
+    },
+    {
+      title: 'Umpan Balik',
+      url: '/settings/feedback',
+      icon: 'chatbubble-ellipses'
+    }
+  ];
 
   constructor(public themeService: ThemeService) { }
 

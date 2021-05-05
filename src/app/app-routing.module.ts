@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { AutoLoginGuard } from './guards/auto-login/auto-login.guard';
-import { AuthenticationGuard } from './guards/authentication/authentication.guard';
+import { routes as AutoLoginRoutes } from './routes/auto-login';
+import { routes as AuthenticatedRoutes } from './routes/authenticated';
+import { routes as SettingsRoutes } from './routes/settings';
 
 const routes: Routes = [
   {
@@ -12,31 +13,11 @@ const routes: Routes = [
   },
   {
     path: 'page-not-found',
-    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then( m => m.PageNotFoundPageModule)
-  },
-  {
-    path: 'sign-in',
-    canLoad: [AutoLoginGuard],
-    loadChildren: () => import('./pages/sign-in/sign-in.module').then(m => m.SignInPageModule)
-  },
-  {
-    path: 'sign-up',
-    canLoad: [AutoLoginGuard],
-    loadChildren: () => import('./pages/sign-up/sign-up.module').then(m => m.SignUpPageModule)
-  },
-  {
-    path: 'forgot-password',
-    canLoad: [AutoLoginGuard],
-    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
-  },
-  {
-    path: 'side-menu',
-    canLoad: [AuthenticationGuard],
-    loadChildren: () => import('./pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
+    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then(m => m.PageNotFoundPageModule)
   },
   {
     path: 'articles',
-    loadChildren: () => import('./pages/articles/articles.module').then( m => m.ArticlesPageModule)
+    loadChildren: () => import('./pages/articles/articles.module').then(m => m.ArticlesPageModule)
   },
   {
     path: 'request-reset-password',
@@ -44,8 +25,11 @@ const routes: Routes = [
   },
   {
     path: 'reset-password/:resetToken',
-    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  }
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+  },
+  ...AutoLoginRoutes,
+  ...AuthenticatedRoutes,
+  ...SettingsRoutes
 ];
 
 @NgModule({

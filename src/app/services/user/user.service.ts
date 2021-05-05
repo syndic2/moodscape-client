@@ -118,4 +118,35 @@ export class UserService {
 			map((res: any) => res.data.updateUser)
 		);
 	}
+
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    const query= `
+      mutation {
+        changePassword(oldPassword: "${oldPassword}", newPassword: "${newPassword}") {
+          userWithNewPassword {
+            __typename
+            ... on AuthInfoField {
+              message
+            },
+            ... on User {
+              firstName,
+              lastName,
+              gender,
+              age,
+              email,
+              imgUrl
+            }
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `;
+
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, this.httpOptions).pipe(
+      map((res: any) => res.data.changePassword)
+    );
+  }
 }

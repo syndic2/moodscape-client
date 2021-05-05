@@ -8,6 +8,7 @@ import { ArticlesPageRoutingModule } from './articles-routing.module';
 import { ArticlesPage } from './articles.page';
 import { ArticleCardItemComponent } from 'src/app/components/pages/articles/article-card-item/article-card-item.component';
 import { ArticleListItemComponent } from 'src/app/components/pages/articles/article-list-item/article-list-item.component';
+import { ArticleListLoaderComponent } from 'src/app/components/pages/articles/article-list-loader/article-list-loader.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { ArticleListItemComponent } from 'src/app/components/pages/articles/arti
   declarations: [
     ArticlesPage,
     ArticleCardItemComponent,
-    ArticleListItemComponent
+    ArticleListItemComponent,
+    ArticleListLoaderComponent
   ]
 })
 export class ArticlesPageModule {}

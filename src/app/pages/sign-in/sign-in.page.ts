@@ -64,7 +64,7 @@ export class SignInPage implements OnInit {
 	async onSubmit() {
 		if (this.signInForm.invalid) {
 			const alert = await this.alertController.create({
-				message: 'Alamat surel/nama pengguna atau kata sandi tidak boleh kosong!',
+				message: 'Kolom input ada yang kosong atau inputan tidak valid!',
 				buttons: ['OK']
 			});
 			alert.present();

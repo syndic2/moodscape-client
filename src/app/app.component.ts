@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,7 @@ export class AppComponent {
     private location: Location,
     private zone: NgZone,
     private deepLinks: Deeplinks,
+    private navController: NavController,
     private platform: Platform
   ) {
     this.initializeApp();
@@ -30,12 +31,15 @@ export class AppComponent {
   }
 
   setupDeepLinks() {
-    this.deepLinks.route({ '/:resetToken': 'reset-password' }).subscribe(match => {
-      console.log('successfully matched route', match);
-      console.log('internal path', `${match.$route}/${match.$args.resetToken}`);
+    this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
+      const internalPath= `${match.$link.path}`;
+      //alert(`matching a deeplink: ${internalPath}`);
       this.zone.run(() => {
-        this.router.navigate([match.$route, match.$args.resetToken]);
+        this.router.navigateByUrl(internalPath);
       });
+    }, nomatch => {
+      //alert(`not matching a deeplink: ${JSON.stringify(nomatch)}`);
+      console.error('not matching a deeplink', nomatch);
     });
   }
 

@@ -47,7 +47,7 @@ export class ResetPasswordPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.resetPasswordListener && this.resetPasswordListener.unsubscribe();
+    this.resetPasswordListener.unsubscribe();
   }
 
   get newPassword() {
@@ -62,7 +62,7 @@ export class ResetPasswordPage implements OnInit {
     const alert= await this.alertController.create({ buttons: ['OK'] });
 
     if (this.resetPasswordForm.invalid) {
-      alert.message= 'Kolom isian tidak boleh ada yang kosong!';
+      alert.message= 'Kolom input ada yang kosong atau inputan tidak valid!';
       alert.present();
     } else {
       this.authService.resetPassword(this.resetToken, this.newPassword.value).subscribe(async res => {

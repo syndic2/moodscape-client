@@ -12,23 +12,32 @@
 </ion-header>
 
 <ion-content>
-	<ion-slides *ngIf="articles.length" [options]="sliderOptions">
-		<ion-slide *ngFor="let article of articles">
-			<article-card-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-card-item>
-		</ion-slide>
-	</ion-slides>
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-	<!--<ion-list [ngClass]="'grid gap-4 grid-rows-'+articles.length" *ngIf="articles.length" lines="none">
-		<ion-item *ngFor="let article of articles">
-			<article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
-		</ion-item>
-	</ion-list>-->
+  <ng-container *ngIf="!articles.length; else showArticles">
+    <article-list-loader></article-list-loader>
+  </ng-container>
+  <ng-template #showArticles>
+    <ion-slides [options]="sliderOptions">
+      <ion-slide *ngFor="let article of articles">
+        <article-card-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-card-item>
+      </ion-slide>
+    </ion-slides>
 
-	<ion-virtual-scroll *ngIf="articles.length" approxItemHeight="250" [items]="articles">
-		<ion-item class="py-2" lines="none" *virtualItem="let article">
-			<article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
-		</ion-item>
-	</ion-virtual-scroll>
+    <!--<ion-list [ngClass]="'grid gap-4 grid-rows-'+articles.length" *ngIf="articles.length" lines="none">
+      <ion-item *ngFor="let article of articles">
+        <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
+      </ion-item>
+    </ion-list>-->
+
+    <ion-virtual-scroll approxItemHeight="250" [items]="articles">
+      <ion-item class="py-2" lines="none" *virtualItem="let article">
+        <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
+      </ion-item>
+    </ion-virtual-scroll>
+  </ng-template>
 
 	<ion-infinite-scroll *ngIf="showInfiniteScroll" (ionInfinite)="loadMore($event)">
 		<ion-infinite-scroll-content loadingText="Memuat artikel..."></ion-infinite-scroll-content>

@@ -91,7 +91,7 @@ export class SignUpPage implements OnInit {
     return this.signUpForm.get('confirmPassword');
   }
 
-  private initializeForm() {
+  initializeForm() {
     this.signUpForm= this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -113,22 +113,23 @@ export class SignUpPage implements OnInit {
   }
 
   async onSubmit() {
+    const alert= await this.alertController.create({ buttons: ['OK'] });
+
     if (this.signUpForm.invalid) {
-      const alert= await this.alertController.create({
-        message: 'Informasi pengguna tidak boleh ada yang kosong!',
-        buttons: ['OK']
-      });
+      alert.message= 'Informasi pengguna ada yang kosong atau tidak valid!';
       alert.present();
     } else {
       this.signUpListener= this.userService.createUser(this.signUpForm.value).subscribe(async res => {
-        const toast= await this.toastController.create({
-          message: res.response.text,
-          position: 'top',
-          duration: 2000
-        });
-        toast.present();
-
-        if (res.response.status) {
+        if (!res.response.status) {
+          const toast= await this.toastController.create({
+            message: res.response.text,
+            position: 'top',
+            duration: 2000
+          });
+          toast.present();
+        } else {
+          alert.message= res.response.text;
+          alert.present();
           this.signUpForm.reset();
         }
       });

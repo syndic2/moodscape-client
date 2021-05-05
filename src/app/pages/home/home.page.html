@@ -10,5 +10,20 @@
 </ion-header>
 
 <ion-content>
+  <ion-card class="bg-purple-700 rounded-lg mx-0">
+    <ion-card-content class="text-white">
+      <ion-grid fixed *ngIf="clock">
+        <ion-row>
+          <ion-col class="flex-grow-0">
+            <span class="text-7xl">{{ clock.hours }}</span>
+          </ion-col>
+          <ion-col class="flex flex-col justify-around">
+            <span class="text-3xl">: {{ clock.minutes }}</span>
+            <span class="block text-base">{{ clock.toDate() }}</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 	<a [routerLink]="['/articles']">Lihat artikel</a>
 </ion-content>

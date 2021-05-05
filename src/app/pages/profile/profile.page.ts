@@ -96,7 +96,7 @@ export class ProfilePage implements OnInit {
 		return this.updateProfileForm.get('email');
 	}
 
-	private initializeForm() {
+	initializeForm() {
 		this.updateProfileForm = this.formBuilder.group({
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
@@ -112,10 +112,10 @@ export class ProfilePage implements OnInit {
 		});
 	}
 
-	async onUpdate() {
+	async onSubmit() {
 		if (this.updateProfileForm.invalid) {
 			const alert = await this.alertController.create({
-				message: 'Informasi pengguna tidak boleh ada yang kosong!',
+				message: 'Informasi pengguna ada yang kosong atau tidak valid!',
 				buttons: ['OK']
 			});
 			alert.present();

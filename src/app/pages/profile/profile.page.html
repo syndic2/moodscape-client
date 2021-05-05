@@ -20,7 +20,7 @@
 		<ion-avatar class="mx-auto" *ngIf="user">
 			<img [src]="user.imgUrl" />
 		</ion-avatar>
-		<form [formGroup]="updateProfileForm" (ngSubmit)="onUpdate()">
+		<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
 			<ion-grid fixed>
         <ion-row>
           <ion-col size="12">

@@ -10,8 +10,15 @@
 </ion-header>
 
 <ion-content>
-	<ion-item lines="none">
+  <ion-list lines="full">
+    <ion-item [routerLink]="page.url" *ngFor="let page of pages">
+      <ion-icon class="icon" slot="start" [name]="page.icon"></ion-icon>
+      <ion-icon class="icon" slot="end" name="chevron-forward"></ion-icon>
+      <ion-label>{{ page.title }}</ion-label>
+    </ion-item>
+  </ion-list>
+	<!--<ion-item lines="none">
 		<ion-label>Mode Gelap</ion-label>
 		<ion-toggle (ionChange)="toogleDarkMode($event)" [checked]="themeService.isDarkMode"></ion-toggle>
-	</ion-item>
+	</ion-item>-->
 </ion-content>

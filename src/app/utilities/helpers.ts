@@ -9,3 +9,42 @@ export const filterObjectProps= (object) => {
 
   return cleanedObject;
 };
+
+export const transformDateTime= (dateTime: Date) => {
+  const months= [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  ];
+  const days= ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+
+  const transformed= {
+    date: dateTime.getDate(),
+    day: days[dateTime.getDay()],
+    month: months[dateTime.getMonth()],
+    year: dateTime.getFullYear(),
+    hours: dateTime.getHours(),
+    minutes: dateTime.getMinutes() < 10 ? `0${dateTime.getMinutes()}` : dateTime.getMinutes(),
+    seconds: dateTime.getSeconds(),
+    milliSeconds: dateTime.getMilliseconds(),
+    meridiem: dateTime.getHours() >= 12 ? 'PM' : 'AM',
+    timeCategory: () => {},
+    toDate: () => {},
+    toTime: () => {}
+  };
+  transformed.timeCategory= (): string => {
+    if (transformed.hours >= 4 && transformed.hours <= 10) return 'Pagi';
+    else if (transformed.hours > 10 && transformed.hours <= 14) return 'Siang';
+    else if (transformed.hours > 14 && transformed.hours <= 18) return 'Sore';
+    else return 'Malam';
+  };
+  transformed.toDate= () => {
+    return `${transformed.day}, ${transformed.date} ${transformed.month} ${transformed.year}`;
+  };
+  transformed.toTime= () => {
+    return `${transformed.hours}:${transformed.minutes}`;
+  };
+
+  return transformed;
+};
+
+

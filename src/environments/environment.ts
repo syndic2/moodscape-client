@@ -12,7 +12,7 @@ const urls= {
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8100',
-  apiUrl: urls.apiUrl.production
+  apiUrl: urls.apiUrl.development
 };
 
 /*
