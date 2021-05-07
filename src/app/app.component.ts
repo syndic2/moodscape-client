@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { NavController, Platform } from '@ionic/angular';
 
+import { AuthenticationService } from './services/authentication/authentication.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,7 +20,8 @@ export class AppComponent {
     private zone: NgZone,
     private deepLinks: Deeplinks,
     private navController: NavController,
-    private platform: Platform
+    private platform: Platform,
+    private authService: AuthenticationService
   ) {
     this.initializeApp();
   }

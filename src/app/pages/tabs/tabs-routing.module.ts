@@ -15,19 +15,19 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../sub-pages/tabs/home/home.module').then(m => m.HomePageModule)
       },
       {
         path: 'moods',
-        loadChildren: () => import('../moods/moods.module').then(m => m.MoodsPageModule)
+        loadChildren: () => import('../sub-pages/tabs/moods/moods.module').then(m => m.MoodsPageModule)
       },
       {
         path: 'habits',
-        loadChildren: () => import('../habits/habits.module').then(m => m.HabitsPageModule)
+        loadChildren: () => import('../sub-pages/tabs/habits/habits.module').then(m => m.HabitsPageModule)
       },
       {
         path: 'statistics',
-        loadChildren: () => import('../statistics/statistics.module').then(m => m.StatisticsPageModule)
+        loadChildren: () => import('../sub-pages/tabs/statistics/statistics.module').then(m => m.StatisticsPageModule)
       }
     ]
   }

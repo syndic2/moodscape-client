@@ -21,7 +21,7 @@ export class SideMenuPage implements OnInit {
 			icon: 'person-circle-outline'
 		},
 		{
-			title: 'Artikel saya',
+			title: 'Artikel Saya',
 			url: '/side-menu/my-articles',
 			icon: 'newspaper-outline'
 		},

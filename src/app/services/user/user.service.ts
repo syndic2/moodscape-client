@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Storage } from '@ionic/storage';
 
@@ -15,16 +15,7 @@ import { environment } from 'src/environments/environment';
 	providedIn: 'root'
 })
 export class UserService {
-	private httpHeaders: HttpHeaders;
-	private httpOptions: any = {
-		responseType: 'json'
-	};
-
 	constructor(private http: HttpClient, private storage: Storage) { }
-
-	defaultHeaders() {
-		return new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-	}
 
 	getProfile(): Observable<any> {
 		const query = `
@@ -46,7 +37,7 @@ export class UserService {
 			}
 		`;
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, this.httpOptions).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
 			switchMap((res: any) => {
 				return from(this.storage.set('user-profile', res.data.userProfile)).pipe(
 					switchMap(() => {
@@ -81,10 +72,7 @@ export class UserService {
 			}
 		`;
 
-		this.httpHeaders = this.defaultHeaders();
-		this.httpOptions.headers = this.httpHeaders;
-
-		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, this.httpOptions).pipe(
+		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
 			map((res: any) => res.data.createUser)
 		);
 	}
@@ -114,7 +102,7 @@ export class UserService {
 			}
     `;
 
-		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, this.httpOptions).pipe(
+		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
 			map((res: any) => res.data.updateUser)
 		);
 	}
@@ -129,12 +117,8 @@ export class UserService {
               message
             },
             ... on User {
-              firstName,
-              lastName,
-              gender,
-              age,
-              email,
-              imgUrl
+              Id,
+              password
             }
           },
           response {
@@ -145,7 +129,7 @@ export class UserService {
       }
     `;
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, this.httpOptions).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.changePassword)
     );
   }

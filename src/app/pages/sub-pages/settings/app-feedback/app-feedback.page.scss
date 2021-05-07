@@ -1,0 +1,9 @@
+.emoticons {
+  transition: transform .1s;
+}
+
+input[type=radio] {
+  &:checked + .emoticons {
+    transform: scale(1.25);
+  }
+}

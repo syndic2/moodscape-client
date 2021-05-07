@@ -6,14 +6,13 @@ import { routes as AuthenticatedRoutes } from './routes/authenticated';
 import { routes as SettingsRoutes } from './routes/settings';
 
 const routes: Routes = [
+  ...AutoLoginRoutes,
+  ...AuthenticatedRoutes,
+  ...SettingsRoutes,
   {
     path: '',
     pathMatch: 'full',
     redirectTo: 'sign-in'
-  },
-  {
-    path: 'page-not-found',
-    loadChildren: () => import('./pages/page-not-found/page-not-found.module').then(m => m.PageNotFoundPageModule)
   },
   {
     path: 'articles',
@@ -27,9 +26,10 @@ const routes: Routes = [
     path: 'reset-password/:resetToken',
     loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
   },
-  ...AutoLoginRoutes,
-  ...AuthenticatedRoutes,
-  ...SettingsRoutes
+  {
+    path: '**',
+    loadChildren: () => import('./pages/fallbacks/page-not-found/page-not-found.module').then(m => m.PageNotFoundPageModule)
+  }
 ];
 
 @NgModule({

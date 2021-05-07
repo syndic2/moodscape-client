@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -24,13 +24,6 @@ const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 export class AuthenticationService {
 	public authenticate: Observable<any>;
 	public userData: BehaviorSubject<string> = new BehaviorSubject(null);
-	private httpOptions: any = {
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		}),
-		responseType: 'json'
-	};
 
 	constructor(
 		private http: HttpClient,
@@ -91,7 +84,7 @@ export class AuthenticationService {
 			}
     `;
 
-		return this.http.post(`${environment.apiUrl}/auth`, { query: query }, this.httpOptions).pipe(
+		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => {
 				this.userData.next(res.data.login.accessToken);
 
@@ -119,7 +112,7 @@ export class AuthenticationService {
 					}
 				`;
 
-				return this.http.post(`${environment.apiUrl}/auth`, { query: query }, this.httpOptions).pipe(
+				return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 					map((res: any) => {
 						this.userData.next(res.data.refreshAuth.newToken);
 

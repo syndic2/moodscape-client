@@ -39,6 +39,13 @@
 //  }
 //}
 
+ion-item {
+  &.item-without-highlight {
+    --highlight-color-focused: none;
+    --highlight-color-valid: none;
+  }
+}
+
 ion-back-button {
 	--icon-font-size: 16px;
 
@@ -48,16 +55,33 @@ ion-back-button {
 	}
 }
 
-ion-infinite-scroll {
-	ion-infinite-scroll-content {
-		.infinite-loading {
-			margin-top: auto;
-			margin-bottom: auto;
-		}
-	}
+ion-toolbar {
+  &.with-back-button {
+    --padding-start: 0.75rem;
+    --padding-end: 0.75rem;
+    --padding-top: 0.75rem;
+    --padding-bottom: 0.75rem;
+  }
+
+  &.with-button-icon {
+    ion-button {
+      min-width: 40px;
+      height: 40px;
+      --padding-start: 0.1rem;
+      --padding-end: 0.1rem;
+      --padding-top: 0.1rem;
+      --padding-bottom: 0.1rem;
+
+      ion-icon {
+        font-size: 18px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
+  }
 }
 
-ion-toolbar.with-back-button {
+/*ion-toolbar.with-back-button {
 	--padding-start: 0.75rem;
 	--padding-end: 0.75rem;
 	--padding-top: 0.75rem;
@@ -77,6 +101,15 @@ ion-toolbar.with-button-icon {
 			font-size: 18px !important;
 			margin-left: auto !important;
 			margin-right: auto !important;
+		}
+	}
+}*/
+
+ion-infinite-scroll {
+	ion-infinite-scroll-content {
+		.infinite-loading {
+			margin-top: auto;
+			margin-bottom: auto;
 		}
 	}
 }
