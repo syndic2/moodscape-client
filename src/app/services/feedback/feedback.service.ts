@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class FeedbackService {
+
   constructor(private http: HttpClient) { }
 
   sendAppFeedback(data): Observable<any> {

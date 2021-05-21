@@ -7,10 +7,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
-import { HttpLoadingInterceptor } from './interceptors/http-loading.interceptor';
-import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { RequestHeadersInterceptor } from './interceptors/request-headers.interceptor';
+import { HttpLoadingInterceptor } from './interceptors/http-loading.interceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,11 @@ import { AppRoutingModule } from './app-routing.module';
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestHeadersInterceptor,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,

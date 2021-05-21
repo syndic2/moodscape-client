@@ -44,7 +44,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 
 	private async HANDLE_BAD_REQUEST() {
 		const toast = await this.toastController.create({
-			message: 'Terjadi kesalahan pada server. Silahkan coba kembali.',
+			message: 'Terjadi kesalahan saat melakukan request, silahkan coba kembali',
 			position: 'top',
 			duration: 2000
 		});

@@ -18,19 +18,6 @@ export class JwtInterceptor implements HttpInterceptor {
 	) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req= req.clone({
-      responseType: 'json'
-    });
-
-    if (req.method === 'POST') {
-      req= req.clone({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        })
-      });
-    }
-
 		if (req.url === `${environment.apiUrl}/auth`) {
 			return next.handle(req);
 		} else {
