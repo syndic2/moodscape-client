@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { IonicModule } from '@ionic/angular';
+
 import { ArticleListLoaderComponent } from './article-list-loader.component';
 
 @NgModule({
@@ -8,7 +10,8 @@ import { ArticleListLoaderComponent } from './article-list-loader.component';
     ArticleListLoaderComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    IonicModule
   ],
   exports: [
     ArticleListLoaderComponent
