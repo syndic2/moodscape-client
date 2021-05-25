@@ -8,18 +8,17 @@ import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
-import { filterObjectProps } from 'src/app/utilities/helpers';
+import { singleLineString, filterObjectProps } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class UserService {
-
 	constructor(private http: HttpClient, private storage: Storage) { }
 
 	getProfile(): Observable<any> {
-		const query = `
+		const query = singleLineString`
 			query {
 				userProfile {
 					__typename
@@ -59,7 +58,7 @@ export class UserService {
 				else return originalResult;
 			}
 		});
-		const query = `
+		const query = singleLineString`
 			mutation {
 				createUser(fields: ${args}) {
 					createdUser {
@@ -86,7 +85,7 @@ export class UserService {
 				else return originalResult;
 			}
 		});
-		const query = `
+		const query = singleLineString`
 			mutation {
 				updateUser(fields: ${args}) {
 					updatedUser {
@@ -109,7 +108,7 @@ export class UserService {
 	}
 
   changePassword(oldPassword: string, newPassword: string): Observable<any> {
-    const query= `
+    const query= singleLineString`
       mutation {
         changePassword(oldPassword: "${oldPassword}", newPassword: "${newPassword}") {
           userWithNewPassword {

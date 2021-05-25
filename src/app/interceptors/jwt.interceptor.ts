@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
 
 import { ToastController } from '@ionic/angular';
 
@@ -32,21 +32,26 @@ export class JwtInterceptor implements HttpInterceptor {
 	private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
 		if (res.body) {
 			const data = res.body.data;
-      let response= null;
+      const resolver= data[Object.keys(data)[0]]
 			let isTokenExpired: boolean= false;
 
-      //GET FIRST RESPONSE TO CHECK AUTH
-      if (req.method === 'POST') {
-        const mutation = data[Object.keys(data)[0]];
-        response= mutation ? mutation[Object.keys(mutation)[0]] : null; //NEED THIS, BECAUSE IF TOKEN IS NULL THEN THE RETURN IS NULL
-      } else if (req.method === 'GET') {
-        response = data[Object.keys(data)[0]];
+      console.log('resolver', resolver);
+
+      if (resolver === undefined || resolver === null) {
+        isTokenExpired= true;
+      } else {
+        if (resolver.hasOwnProperty('__typename')) {
+          if (resolver.__typename === 'AuthInfoField') {
+            isTokenExpired= true;
+          } else {
+            isTokenExpired= false;
+          }
+        } else {
+          isTokenExpired= false;
+        }
       }
 
-      //IF NULL, SET TO TRUE ELSE SET TO TRUE/FALSE
-      isTokenExpired = response !== null ? response && (response.__typename && response.__typename === 'AuthInfoField') : true;
-
-			if (!isTokenExpired) { //CHECK IF FALSE OR UNDEFINED
+			if (isTokenExpired === false) { //CHECK IF NOT EXPIRED
 				console.log('token no need to be refresh', isTokenExpired);
 
 				return res;
@@ -59,7 +64,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
 					const toast = await this.toastController.create({
 						message: 'Silahkan dicoba lagi',
-						position: 'top',
+						position: 'bottom',
 						duration: 2000
 					});
 					toast.present();

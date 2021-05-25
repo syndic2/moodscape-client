@@ -1,19 +1,11 @@
 <ion-card button class="rounded-lg">
 	<ion-card-header>
-		<img class="
-			rounded-lg
-			object-cover sm:object-none
-			w-full h-40 sm:w-auto sm:h-auto
-			mx-auto
-		" [src]="article.headerImg" alt="">
-		<ion-card-title class="
-			text-base sm:text-2xl font-semibold
-			w-72 sm:w-auto
-			mx-auto my-0
-			truncate ... sm:overflow-auto sm:whitespace-normal
-		">
+		<img class="rounded-lg object-cover sm:object-none w-full h-40 sm:w-auto sm:h-auto mx-auto" [src]="article.headerImg" alt="">
+		<ion-card-title class="text-base sm:text-2xl font-semibold w-72 sm:w-auto mx-auto my-0 truncate ... sm:overflow-auto sm:whitespace-normal">
 			{{ article.title }}
 		</ion-card-title>
-		<ion-card-subtitle class="my-0">{{ article.postedAt }} &nbsp; {{ article.author }}</ion-card-subtitle>
+		<ion-card-subtitle class="my-0">
+      {{ article.postedAt }} &nbsp; {{ article.author }}
+    </ion-card-subtitle>
 	</ion-card-header>
 </ion-card>

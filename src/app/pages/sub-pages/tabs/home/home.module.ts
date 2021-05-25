@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
+import { ClockLoaderComponent } from 'src/app/components/utilities/clock-loader/clock-loader.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { HomePage } from './home.page';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [
+    HomePage,
+    ClockLoaderComponent
+  ]
 })
 export class HomePageModule {}

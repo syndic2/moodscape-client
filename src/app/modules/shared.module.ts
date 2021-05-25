@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FooterComponent } from '../components/footer/footer.component';
+import { FooterComponent } from '../components/utilities/footer/footer.component';
 
 const Components= [
   FooterComponent

@@ -1,3 +1,18 @@
+export const singleLineString= (strings, ...values) => {
+  let output= '';
+
+  for (let i = 0; i < values.length; i++) {
+    output+= strings[i]+values[i];
+  }
+
+  output += strings[values.length];
+  let lines = output.split(/(?:\r\n|\n|\r)/);
+
+  return lines.map((line) => {
+    return line.replace(/^\s+/gm, '');
+  }).join(' ').trim();
+};
+
 export const filterObjectProps= (object) => {
   let stringfiedObj= JSON.stringify(object, (key, value) => {
     return ['', null].includes(value) || (typeof value === 'object' && (value.length === 0 || Object.keys(value).length === 0)) ? undefined : value;

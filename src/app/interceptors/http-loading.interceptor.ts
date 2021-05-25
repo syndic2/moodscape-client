@@ -26,14 +26,15 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 		return next.handle(request).pipe(
 			catchError(error => {
 				if (error instanceof HttpErrorResponse) {
-					switch (error.status) {
+          this.HANDLE_ERROR_REQUEST(error);
+					/*switch (error.status) {
 						case 400:
-							this.HANDLE_BAD_REQUEST();
+              this.HANDLE_ERROR_REQUEST(error.status);
 							break;
 
 						default:
 							return throwError(error);
-					}
+					}*/
 				}
 
 				return throwError(error);
@@ -42,13 +43,30 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 		);
 	}
 
-	private async HANDLE_BAD_REQUEST() {
-		const toast = await this.toastController.create({
+	private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
+    const toast= await this.toastController.create({ position: 'bottom', duration: 2000 });
+
+    switch (error.status) {
+      case 400:
+        toast.message= 'Terjadi kesalahan saat melakukan request, silahkan coba kembali'
+        break;
+
+      case 404:
+        toast.message= 'Terjadi kesalahan pada URL API, silahkan coba kembali';
+        break;
+
+      default:
+        return throwError(error);
+    }
+
+    toast.present();
+
+		/*const toast = await this.toastController.create({
 			message: 'Terjadi kesalahan saat melakukan request, silahkan coba kembali',
-			position: 'top',
+			position: 'bottom',
 			duration: 2000
 		});
 
-		toast.present();
+		toast.present();*/
 	}
 }

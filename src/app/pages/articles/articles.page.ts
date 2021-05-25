@@ -24,9 +24,11 @@ export class ArticlesPage implements OnInit {
 		autoplay: true
 	};
 	public showInfiniteScroll: boolean= true;
-	private getArticlesListener: Subscription;
+	private getArticlesListener: Subscription= null;
 	private offset: number= 0;
-	private limit: number= 5;
+	private limit: number= 10;
+  private page: number= 0;
+  private maxPage: number= 0;
 
 	constructor(private articleService: ArticleService) { }
 
@@ -34,20 +36,25 @@ export class ArticlesPage implements OnInit {
 	}
 
 	ionViewWillEnter() {
-		this.resetLoadPage();
-		this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
-			this.articles= res;
-		});
+    if (this.getArticlesListener === null) {
+      this.resetLoadPage();
+      this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe(res => {
+        this.maxPage= res.maxPage;
+        this.articles= res.articles;
+      });
+    }
 	}
 
 	ionViewWillLeave() {
-		this.getArticlesListener.unsubscribe();
+		this.getArticlesListener && this.getArticlesListener.unsubscribe();
 	}
 
-  pullRefresh(event?: any) {
+  pullRefresh(event) {
     this.resetLoadPage();
-    this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
-			this.articles= res;
+    this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe(res => {
+      this.maxPage= res.maxPage;
+      this.articles= res.articles;
+
       event && event.target.complete();
 		});
   }
@@ -57,17 +64,21 @@ export class ArticlesPage implements OnInit {
     this.articles= [];
 		this.showInfiniteScroll= true;
 		this.offset= 0;
-		this.limit= 5;
+		this.limit= 10;
+    this.page= 0;
+    this.maxPage= 0;
 	}
 
 	loadMore(event) {
-		this.offset+= 5;
-		this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe((res: Article[]) => {
-			this.articles= this.articles.concat(res);
+    this.page++;
+		this.getArticlesListener= this.articleService.getAll({}, this.offset+= 10, this.limit).subscribe(res => {
+      this.maxPage= res.maxPage;
+      this.articles= this.articles.concat(res.articles);
+
 			event.target.complete();
 		});
 
-		if (this.offset === 10 - this.limit) {
+		if (this.page === this.maxPage) {
 			//this.infiniteScroll.disabled= true;
 			this.showInfiniteScroll= false;
 		}

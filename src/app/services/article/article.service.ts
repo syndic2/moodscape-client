@@ -1,30 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
+import { singleLineString } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ArticleService {
-	private httpHeaders: HttpHeaders;
-	private httpOptions: any = {
-		responseType: 'json'
-	};
-
 	constructor(private http: HttpClient) { }
 
-	defaultHeaders() {
-		return new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-	}
-
 	getOneByUrlName(urlName: string): Observable<any> {
-		const query = `
+		const query = singleLineString`
 			query {
 				articleByUrlName(urlName: "${urlName}") {
 					Id,
@@ -41,30 +33,36 @@ export class ArticleService {
 			}
 		`;
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, this.httpOptions).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
 			map((res: any) => res.data.articleByUrlName)
 		);
 	}
 
-	getAll(fields = {}, offset: number = 0, limit: number = 0): Observable<any> {
+	getAll(fields= {}, offset: number = 0, limit: number = 0): Observable<any> {
 		const args = StringifyObject(fields, { singleQuotes: false });
-		const query = `
+		const query = singleLineString`
 			query {
 				allArticle(fields: ${args}, offset: ${offset}, limit: ${limit}) {
-					Id,
-					title,
-					shortSummary,
-					author,
-					postedAt,
-					reviewedBy,
-					headerImg,
-					urlName,
-					url
+          offset,
+          limit,
+          maxPage,
+          articles {
+            Id,
+            title,
+            author,
+            headerImg,
+            urlName,
+            url
+          },
+          response {
+            text,
+            status
+          }
 				}
 			}
 		`;
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, this.httpOptions).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
 			map((res: any) => res.data.allArticle)
 		);
 	}
