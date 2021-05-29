@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TriggersPageRoutingModule } from './triggers-routing.module';
+import { ActivityDetailPageRoutingModule } from './activity-detail-routing.module';
 
-import { TriggersPage } from './triggers.page';
+import { ActivityDetailPage } from './activity-detail.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TriggersPageRoutingModule
+    ActivityDetailPageRoutingModule
   ],
-  declarations: [TriggersPage]
+  declarations: [ActivityDetailPage]
 })
-export class TriggersPageModule {}
+export class ActivityDetailPageModule {}

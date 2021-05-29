@@ -11,6 +11,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
+import { singleLineString } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
@@ -59,7 +60,7 @@ export class AuthenticationService {
 				else return originalResult;
 			}
 		});
-		const query = `
+		const query = singleLineString`
 			mutation {
 				login(
 					emailOrUsername: "${withGoogle ? data.email : data.emailOrUsername}",
@@ -88,7 +89,7 @@ export class AuthenticationService {
 			map((res: any) => {
 				this.userData.next(res.data.login.accessToken);
 
-				return res.data.login
+				return res.data.login;
 			}),
 			switchMap((res: any) => {
 				return from(Promise.all([
@@ -104,7 +105,7 @@ export class AuthenticationService {
 	refreshToken(): Observable<any> {
 		return from(this.storage.get(REFRESH_TOKEN_KEY)).pipe(
 			switchMap(refreshToken => {
-				const query = `
+				const query = singleLineString`
 					mutation {
 						refreshAuth(refreshToken: "${refreshToken}") {
 							newToken
@@ -127,7 +128,7 @@ export class AuthenticationService {
 	}
 
 	requestResetPassword(email: string): Observable<any> {
-		const query= `
+		const query= singleLineString`
 			mutation {
 				requestResetPassword(email: "${email}") {
 					resetUrl,
@@ -145,7 +146,7 @@ export class AuthenticationService {
 	}
 
   resetPassword(resetToken: string, newPassword: string): Observable<any> {
-    const query= `
+    const query= singleLineString`
       mutation {
         resetPassword(resetToken: "${resetToken}", newPassword: "${newPassword}") {
           userWithNewPassword {

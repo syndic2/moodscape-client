@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 
-import { filterObjectProps } from 'src/app/utilities/helpers';
+import { singleLineString, filterObjectProps } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class FeedbackService {
   constructor(private http: HttpClient) { }
 
   sendAppFeedback(data): Observable<any> {
-    const query= `
+    const query= singleLineString`
       mutation {
         createAppFeedback(fields: ${StringifyObject(filterObjectProps(data), { singleQuotes: false })}) {
           createdFeedback {

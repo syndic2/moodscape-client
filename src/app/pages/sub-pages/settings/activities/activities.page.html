@@ -1,0 +1,44 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="with-back-button">
+    <ion-title>Kategori Aktivitas</ion-title>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/settings"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="flex flex-col h-full">
+    <ng-container *ngIf="!activityCategories.length && !activityWithoutCategory; else showActivities">
+      <div class="flex-grow flex flex-col">
+        <span class="m-auto">-Belum ada aktivitas yang tersimpan-</span>
+      </div>
+    </ng-container>
+    <ng-template #showActivities>
+      <ion-reorder-group class="flex-grow" (ionItemReorder)="reorderCategory($event)" disabled="false">
+        <activity-category-list-item *ngFor="let activityCategory of activityCategories" [activityCategory]="activityCategory"></activity-category-list-item>
+        <activity-list-item *ngFor="let activity of activityWithoutCategory.activities" [activity]="activity"></activity-list-item>
+      </ion-reorder-group>
+    </ng-template>
+    <ion-grid fixed class="flex-grow-0 mt-4 p-2">
+      <ion-row>
+        <ion-col size="12" class="p-0 ">
+          <ion-button expand="block" [routerLink]="['/activities']">
+            <ion-icon slot="start" name="accessibility"></ion-icon>
+            Tambah aktivitas
+          </ion-button>
+        </ion-col>
+        <ion-col size="12" class="p-0">
+          <ion-button expand="block" [routerLink]="['/activities']">
+            <ion-icon slot="start" name="folder-open"></ion-icon>
+            Tambah kategory aktivitas
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

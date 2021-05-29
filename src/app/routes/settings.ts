@@ -2,8 +2,8 @@ import { Routes } from "@angular/router";
 
 export const routes: Routes= [
   {
-    path: 'settings/triggers',
-    loadChildren: () => import('../pages/sub-pages/settings/triggers/triggers.module').then(m => m.TriggersPageModule)
+    path: 'settings/activities',
+    loadChildren: () => import('../pages/sub-pages/settings/activities/activities.module').then(m => m.ActivitiesPageModule)
   },
   {
     path: 'settings/notifications',

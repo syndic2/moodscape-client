@@ -53,10 +53,6 @@ export class ArticleService {
             headerImg,
             urlName,
             url
-          },
-          response {
-            text,
-            status
           }
 				}
 			}

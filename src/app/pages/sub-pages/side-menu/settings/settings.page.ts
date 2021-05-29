@@ -10,9 +10,9 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 export class SettingsPage implements OnInit {
   public pages: any[] = [
     {
-      title: 'Pemicu',
-			url: '/settings/triggers',
-			icon: 'alert-circle'
+      title: 'Aktivitas',
+			url: '/settings/activities',
+			icon: 'accessibility'
     },
     {
       title: 'Notifikasi',

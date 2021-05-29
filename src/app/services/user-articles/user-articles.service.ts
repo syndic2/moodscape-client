@@ -14,32 +14,6 @@ export class UserArticlesService {
 
   constructor(private http: HttpClient) { }
 
-  archiveArticles(article_ids: number[]): Observable<any> {
-    const query= singleLineString`
-      mutation {
-        archiveArticles(articleIds: [${article_ids}]) {
-          archivedArticles {
-            __typename
-            ... on AuthInfoField {
-              message
-            },
-            ... on ArchivedArticleIds {
-              articleIds
-            }
-          },
-          response {
-            text,
-            status
-          }
-        }
-      }
-    `;
-
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
-      map((res: any) => res.data.archiveArticles)
-    )
-  }
-
   getArchivedArticles(): Observable<any> {
     const query= singleLineString`
       query {
@@ -68,6 +42,32 @@ export class UserArticlesService {
 
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.archivedArticles)
+    )
+  }
+
+  archiveArticles(article_ids: number[]): Observable<any> {
+    const query= singleLineString`
+      mutation {
+        archiveArticles(articleIds: [${article_ids}]) {
+          archivedArticles {
+            __typename
+            ... on AuthInfoField {
+              message
+            },
+            ... on ArchivedArticleIds {
+              articleIds
+            }
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `;
+
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
+      map((res: any) => res.data.archiveArticles)
     )
   }
 

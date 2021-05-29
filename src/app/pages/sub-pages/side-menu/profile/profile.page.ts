@@ -35,7 +35,7 @@ export class ProfilePage implements OnInit {
 		]
 	};
 	public user: User;
-	private getProfileListener: Subscription;
+	private getProfileListener: Subscription= null;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -50,18 +50,20 @@ export class ProfilePage implements OnInit {
 	}
 
 	ionViewWillEnter() {
-		this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
-			this.user = Object.assign({}, res);
+		if (this.getProfileListener === null) {
+      this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
+        this.user = Object.assign({}, res);
 
-			delete res['__typename'];
-			delete res['imgUrl'];
+        delete res['__typename'];
+        delete res['imgUrl'];
 
-			this.updateProfileForm.setValue(res);
-		});
+        this.updateProfileForm.setValue(res);
+      });
+    }
 	}
 
 	ionViewWillLeave() {
-		this.getProfileListener.unsubscribe();
+		this.getProfileListener && this.getProfileListener.unsubscribe();
 	}
 
 	pullRefresh(event?: any) {

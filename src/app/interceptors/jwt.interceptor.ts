@@ -35,6 +35,7 @@ export class JwtInterceptor implements HttpInterceptor {
       const resolver= data[Object.keys(data)[0]]
 			let isTokenExpired: boolean= false;
 
+      console.log('body', res.body);
       console.log('resolver', resolver);
 
       if (resolver === undefined || resolver === null) {
@@ -63,7 +64,7 @@ export class JwtInterceptor implements HttpInterceptor {
 					console.log('new token', newToken);
 
 					const toast = await this.toastController.create({
-						message: 'Silahkan dicoba lagi',
+						message: 'Terjadi kendala pada server, silahkan dicoba lagi',
 						position: 'bottom',
 						duration: 2000
 					});
