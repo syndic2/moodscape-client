@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { routes as AutoLoginRoutes } from './routes/auto-login';
-import { routes as AuthenticatedRoutes } from './routes/authenticated';
-import { routes as SettingsRoutes } from './routes/settings';
+import { routes as AutoLoginRoutes } from './routes/auto-login.route';
+import { routes as AuthenticatedRoutes } from './routes/authenticated.route';
+import { routes as SettingsRoutes } from './routes/settings.route';
 
 const routes: Routes = [
   ...AutoLoginRoutes,

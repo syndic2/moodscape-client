@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Article } from 'src/app/models/article';
+import { Article } from 'src/app/models/article.model';
 
 @Component({
   selector: 'article-list-item',

@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { ActivityListItemModule } from 'src/app/components/pages/activities/activity-list-item/activity-list-item.module';
 import { ActivityCategoryDetailPageRoutingModule } from './activity-category-detail-routing.module';
-
 import { ActivityCategoryDetailPage } from './activity-category-detail.page';
 
 @NgModule({
@@ -13,6 +13,7 @@ import { ActivityCategoryDetailPage } from './activity-category-detail.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ActivityListItemModule,
     ActivityCategoryDetailPageRoutingModule
   ],
   declarations: [ActivityCategoryDetailPage]

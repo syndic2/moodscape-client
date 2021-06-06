@@ -6,17 +6,19 @@ import { ActivitiesPage } from './activities.page';
 const routes: Routes = [
   {
     path: '',
-    component: ActivitiesPage,
-    children: [
-      {
-        path: 'activity-category/:id',
-        loadChildren: () => import('../../../details/activity-category-detail/activity-category-detail.module').then(m => m.ActivityCategoryDetailPageModule)
-      },
-      {
-        path: 'activity/:id',
-        loadChildren: () => import('../../../details/activity-detail/activity-detail.module').then(m => m.ActivityDetailPageModule)
-      }
-    ]
+    component: ActivitiesPage
+  },
+  {
+    path: 'activity-category/:id',
+    loadChildren: () => import('../../../details/activity-category-detail/activity-category-detail.module').then(m => m.ActivityCategoryDetailPageModule)
+  },
+  {
+    path: 'activity/:id',
+    loadChildren: () => import('../../../details/activity-detail/activity-detail.module').then(m => m.ActivityDetailPageModule)
+  },
+  {
+    path: 'keeped',
+    loadChildren: () => import('../../../sub-pages/activities/keeped-activities/keeped-activities.module').then(m => m.KeepedActivitiesPageModule)
   }
 ];
 

@@ -26,9 +26,9 @@
 //@import "~@ionic/angular/css/flex-utils.css";
 
 /* TailwindCSS */
-//@import 'tailwindcss/base';
+@import 'tailwindcss/base';
 //@import 'tailwindcss/components';
-@import "tailwindcss/utilities";
+@import 'tailwindcss/utilities';
 
 //.loading-spinner {
 //  --background: none;
@@ -38,6 +38,8 @@
 //      -webkit-box-shadow: none !important;
 //  }
 //}
+
+@import './styles/modals.scss';
 
 ion-item {
   &.item-without-highlight {

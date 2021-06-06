@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
-import { Article } from 'src/app/models/article';
+import { Article } from 'src/app/models/article.model';
 import { UserArticlesService } from 'src/app/services/user-articles/user-articles.service';
 
 @Component({

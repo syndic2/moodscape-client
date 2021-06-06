@@ -4,7 +4,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
-import { Article } from 'src/app/models/article';
+import { Article } from 'src/app/models/article.model';
 import { ArticleService } from 'src/app/services/article/article.service';
 
 @Component({

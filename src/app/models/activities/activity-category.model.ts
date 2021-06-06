@@ -1,7 +1,7 @@
-import { Activity } from "./activity";
+import { Activity } from "./activity.model";
 
 export interface ActivityCategory {
   Id: number;
-  userId: string;
+  category: string;
   activities: Activity[];
 }

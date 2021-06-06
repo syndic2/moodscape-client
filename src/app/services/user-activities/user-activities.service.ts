@@ -48,16 +48,7 @@ export class UserActivitiesService {
     `;
 
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
-      map((res: any) => {
-        const result= res.data.userActivities;
-        let activityWithoutCategory= result.activityCategories.find(object => object.category === 'none');
-        let activityCategories= result.activityCategories.filter(object => object.category !== 'none');
-
-        return {
-          activityWithoutCategory: activityWithoutCategory,
-          activityCategories: activityCategories
-        }
-      })
+      map((res: any) => res.data.userActivities)
     )
   }
 
@@ -94,14 +85,6 @@ export class UserActivitiesService {
   }
 
   updateActivityCategory(): Observable<any> {
-    const query= singleLineString`
-
-    `;
-
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query });
-  }
-
-  reoderActivityCategory(): Observable<any> {
     const query= singleLineString`
 
     `;

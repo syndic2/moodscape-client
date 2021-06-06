@@ -5,7 +5,7 @@ import { ToastController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
-import { Article } from 'src/app/models/article';
+import { Article } from 'src/app/models/article.model';
 import { ArticleService } from 'src/app/services/article/article.service';
 import { UserArticlesService } from 'src/app/services/user-articles/user-articles.service';
 

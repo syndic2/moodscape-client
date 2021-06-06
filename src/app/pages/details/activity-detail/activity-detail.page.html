@@ -1,9 +1,53 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>activity-detail</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="with-back-button">
+    <ion-title>{{ (activity$ | async).name }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="
+        activityCategory ?
+          'settings/activities/activity-category/'+activityCategory.Id
+        :
+          'settings/activities'">
+        </ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="flex flex-col h-full">
+    <div class="flex-grow flex flex-col gap-y-2">
+      <div class="flex items-center gap-x-3 p-2" (click)="onUpdateName()">
+        <ion-icon class="w-8 h-8" name="create" color="primary"></ion-icon>
+        <div class="flex flex-col">
+          <span>Nama</span>
+          <span class="text-black text-opacity-50">{{ (activity$ | async).name }}</span>
+        </div>
+      </div>
 
+      <div class="flex items-center gap-x-3 p-2" (click)="onMoveToAnotherCatgory()">
+        <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
+        <div class="flex flex-col">
+          <span>Kategori</span>
+          <span class="text-black text-opacity-50">
+            {{ (activity$ | async).activityCategory ? (activity$ | async).activityCategory.category : 'Pilih kategori aktivitas' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-x-3 p-2">
+        <span>{{ (activity$ | async).icon }}</span>
+        <span>Ikon</span>
+      </div>
+    </div>
+
+    <ion-grid fixed class="flex-grow-0">
+      <ion-row>
+        <ion-col size="12" class="p-0">
+          <ion-button expand="block" color="danger" (click)="onRemove()">
+            <ion-icon slot="start" name="trash"></ion-icon>
+            Hapus
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
