@@ -3,7 +3,7 @@ import { createAction, props } from '@ngrx/store';
 export const setUserActivities= createAction(
   '[USER ACTIVITIES] Set User Activities',
   props<{ userActivities }>()
-)
+);
 
 export const reorderUserActivities= createAction(
   '[USER ACTIVITIES] Reorder User Activities',
@@ -15,6 +15,11 @@ export const moveActivitiesIntoCategory= createAction(
   props<{ activities, fromCategoryId?: number, toCategoryId: number }>()
 );
 
+export const createActivity= createAction(
+  '[USER ACTIVITIES] Create New Activity',
+  props<{ activity, activityCategoryId?: number }>()
+);
+
 export const updateActivity= createAction(
   '[USER ACTIVITIES] Update Activity',
   props<{ activityId: number, fields: {}, activityCategoryId?: number }>()
@@ -23,6 +28,11 @@ export const updateActivity= createAction(
 export const removeActivities= createAction(
   '[USER ACTIVITIES] Remove Activities',
   props<{ activityIds: number[], activityCategoryId?: number }>()
+);
+
+export const createActivityCategory= createAction(
+  '[USER ACTIVITIES] Create New Activity Category',
+  props<{ activityCategory }>()
 );
 
 export const updateActivityCategory= createAction(

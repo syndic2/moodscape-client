@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="with-back-button">
-    <ion-title>{{ (activity$ | async).name }}</ion-title>
+    <ion-title>{{ activity.name }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="
         activityCategory ?
@@ -19,7 +19,7 @@
         <ion-icon class="w-8 h-8" name="create" color="primary"></ion-icon>
         <div class="flex flex-col">
           <span>Nama</span>
-          <span class="text-black text-opacity-50">{{ (activity$ | async).name }}</span>
+          <span class="text-black text-opacity-50">{{ activity.name }}</span>
         </div>
       </div>
 
@@ -28,13 +28,13 @@
         <div class="flex flex-col">
           <span>Kategori</span>
           <span class="text-black text-opacity-50">
-            {{ (activity$ | async).activityCategory ? (activity$ | async).activityCategory.category : 'Pilih kategori aktivitas' }}
+            {{ activity.activityCategory ? activity.activityCategory.category : 'Pilih kategori aktivitas' }}
           </span>
         </div>
       </div>
 
       <div class="flex items-center gap-x-3 p-2">
-        <span>{{ (activity$ | async).icon }}</span>
+        <span>{{ activity.icon }}</span>
         <span>Ikon</span>
       </div>
     </div>

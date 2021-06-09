@@ -1,0 +1,21 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="with-back-button with-button-icon">
+    <ion-title>Kategori Aktivitas Baru</ion-title>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/settings"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #createActivityCategoryFrom="ngForm" class="flex flex-col h-full" (ngSubmit)="onSubmit(createActivityCategoryFrom)">
+    <ion-item class="flex-grow" lines="none">
+      <ion-label>Nama</ion-label>
+      <ion-input type="text" inputmode="text" name="category" placeholder="Nama kategori aktivitas" ngModel></ion-input>
+    </ion-item>
+    <ion-button type="submit">
+      <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
+      Lanjut
+    </ion-button>
+  </form>
+</ion-content>

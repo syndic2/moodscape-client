@@ -5,7 +5,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { selectActivity } from 'src/app/store/selectors/user-activities.selectors';
 import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/user-activities.actions';
@@ -22,7 +22,6 @@ import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-cat
   styleUrls: ['./activity-detail.page.scss'],
 })
 export class ActivityDetailPage implements OnInit {
-  public activity$: Observable<any>= null;
   private activity: Activity;
   public activityCategory: ActivityCategory;
   private getActivityListener: Subscription= null;
@@ -40,8 +39,7 @@ export class ActivityDetailPage implements OnInit {
 
   ngOnInit() {
     this.activityId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.activity$= this.store.select(selectActivity({ Id: this.activityId }));
-    this.getActivityCategoryListener= this.activity$.subscribe(res => {
+    this.getActivityCategoryListener= this.store.select(selectActivity({ Id: this.activityId })).subscribe(res => {
       this.activity= res;
       this.activityCategory= res.activityCategory;
     });
@@ -83,7 +81,7 @@ export class ActivityDetailPage implements OnInit {
     if (data) {
       this.store.dispatch(moveActivitiesIntoCategory({
         activities: [this.activity],
-        fromCategoryId: this.activityCategory.Id,
+        ...this.activityCategory && { fromCategoryId: this.activityCategory.Id },
         toCategoryId: data.toCategoryId
       }));
     }
@@ -115,6 +113,7 @@ export class ActivityDetailPage implements OnInit {
         }
       ]
     });
+    
     alert.present();
   }
 }

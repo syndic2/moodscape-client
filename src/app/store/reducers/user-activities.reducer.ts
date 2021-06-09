@@ -1,4 +1,4 @@
-import { on, createReducer, State } from '@ngrx/store';
+import { on, createReducer } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from '../../utilities/helpers';
 import { Activity } from '../../models/activities/activity.model';
@@ -8,8 +8,10 @@ import {
   setUserActivities,
   reorderUserActivities,
   moveActivitiesIntoCategory,
+  createActivity,
   updateActivity,
   removeActivities,
+  createActivityCategory,
   updateActivityCategory,
   removeActivityCategories
 } from '../actions/user-activities.actions';
@@ -39,7 +41,7 @@ export const userActivitiesReducer= createReducer(
   initialState,
   on(setUserActivities, ((state, { userActivities }) => ({ ...state, activityCategories: [...userActivities] }))),
 
-  on(reorderUserActivities, ((state, { from, to }) => {
+  on(reorderUserActivities, (state, { from, to }) => {
     const copyArray= [...state.activityCategories];
     let itemToMove= copyArray.splice(from, 1)[0];
 
@@ -49,9 +51,9 @@ export const userActivitiesReducer= createReducer(
       ...state,
       activityCategories: copyArray
     };
-  })),
+  }),
 
-  on(moveActivitiesIntoCategory, ((state, { activities, fromCategoryId, toCategoryId }) => {
+  on(moveActivitiesIntoCategory, (state, { activities, fromCategoryId, toCategoryId }) => {
     if (!fromCategoryId) {
       return {
         ...state,
@@ -103,7 +105,32 @@ export const userActivitiesReducer= createReducer(
         })
       ]
     };
-  })),
+  }),
+
+  on(createActivity, (state, { activity, activityCategoryId }) => {
+    if (!activityCategoryId) {
+      return {
+        ...state,
+        keepedActivties: [...state.keepedActivties, activity]
+      }
+    }
+
+    return {
+      ...state,
+      activityCategories: [
+        ...state.activityCategories.map((object, index) => {
+          if (object.Id !== activityCategoryId) {
+            return object;
+          }
+
+          return {
+            ...object,
+            activities: [...object.activities, activity]
+          }
+        })
+      ]
+    };
+  }),
 
   on(updateActivity, ((state, { activityId, fields, activityCategoryId }) => {
     const checkInKeepedActvities= state.keepedActivties.find(object => object.Id === activityId);
@@ -185,7 +212,19 @@ export const userActivitiesReducer= createReducer(
     }
   })),
   
-  on(updateActivityCategory, ((state, { activityCategoryId, fields }) => ({
+  on(createActivityCategory, (state, { activityCategory }) => ({
+    ...state,
+    activityCategories: [...state.activityCategories, activityCategory],
+    keepedActivties: [
+      ...filterArrayByAnotherArray(
+        { type: 'object', items: state.keepedActivties },
+        { type: 'object', items: activityCategory.activities },
+        { field1: 'Id', field2: 'Id' }
+      )
+    ]
+  })),
+
+  on(updateActivityCategory, (state, { activityCategoryId, fields }) => ({
     ...state,
     activityCategories: [
       ...state.activityCategories.map((object, index) => {
@@ -196,9 +235,9 @@ export const userActivitiesReducer= createReducer(
         return { ...object, ...fields }
       })
     ]
-  }))),
+  })),
 
-  on(removeActivityCategories, ((state, { activityCategoryIds, keepActivities }) => {
+  on(removeActivityCategories, (state, { activityCategoryIds, keepActivities }) => {
     if (keepActivities) {
       const removedActivityCategories: ActivityCategory[]= [
         ...filterArrayByAnotherArray(
@@ -237,7 +276,7 @@ export const userActivitiesReducer= createReducer(
         )
       ]
     };
-  }))
+  })
 );
 
 

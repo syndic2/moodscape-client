@@ -10,22 +10,20 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex flex-col h-full">
-    <ng-container *ngIf="!(activityCategoryList$ | async)?.length; else showActivityCategories">
-      <div class="flex-grow flex flex-col">
-        <span class="m-auto">-Belum ada kategori aktivitas yang tersimpan-</span>
-      </div>
-    </ng-container>
-    <ng-template #showActivityCategories>
-      <ion-list>
-        <ion-item *ngFor="let activityCategory of (activityCategoryList$ | async)" button (click)="onSelectCategory(activityCategory)">
-          <ion-icon class="mr-2" name="folder-open-outline" color="primary"></ion-icon>
-          <ion-label>
-            {{ activityCategory.category }}
-            <span class="text-black text-opacity-25">({{ activityCategory.activitiesCount }}x)</span>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ng-template>
-  </div>
+  <ng-container *ngIf="!(activityCategoryList$ | async)?.length; else showActivityCategories">
+    <div class="flex justify-center items-center h-full">
+      <span>-Belum ada kategori aktivitas yang tersimpan-</span>
+    </div>
+  </ng-container>
+  <ng-template #showActivityCategories>
+    <ion-list>
+      <ion-item *ngFor="let activityCategory of (activityCategoryList$ | async)" button (click)="onSelectCategory(activityCategory)">
+        <ion-icon class="mr-2" name="folder-open-outline" color="primary"></ion-icon>
+        <ion-label>
+          {{ activityCategory.category }}
+          <span class="text-black text-opacity-25">({{ activityCategory.activitiesCount }}x)</span>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
 </ion-content>

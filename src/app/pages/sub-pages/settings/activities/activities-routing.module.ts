@@ -17,6 +17,14 @@ const routes: Routes = [
     loadChildren: () => import('../../../details/activity-detail/activity-detail.module').then(m => m.ActivityDetailPageModule)
   },
   {
+    path: 'create-activity',
+    loadChildren: () => import('../../../sub-pages/activities/create-activity/create-activity.module').then(m => m.CreateActivityPageModule)
+  },
+  {
+    path: 'create-activity-category',
+    loadChildren: () => import('../../../sub-pages/activities/create-activity-category/create-activity-category.module').then(m => m.CreateActivityCategoryPageModule)
+  },
+  {
     path: 'keeped',
     loadChildren: () => import('../../../sub-pages/activities/keeped-activities/keeped-activities.module').then(m => m.KeepedActivitiesPageModule)
   }

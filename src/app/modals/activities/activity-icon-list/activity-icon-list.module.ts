@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { IconListPage } from './icon-list.page';
+import { ActivityIconListPage } from './activity-icon-list.page';
 
 @NgModule({
   imports: [
@@ -12,6 +12,6 @@ import { IconListPage } from './icon-list.page';
     FormsModule,
     IonicModule
   ],
-  declarations: [IconListPage]
+  declarations: [ActivityIconListPage]
 })
-export class IconListPageModule {}
+export class ActivityIconListPageModule {}
