@@ -7,7 +7,6 @@ import { select ,Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ActivityCategoryList } from 'src/app/models/activities/activity-category-list.model';
 import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
 import { selectActivityCategoryList } from 'src/app/store/selectors/user-activities.selectors';
 
@@ -19,7 +18,7 @@ import { selectActivityCategoryList } from 'src/app/store/selectors/user-activit
 export class ActivityCategoryListPage implements OnInit {
   @Input() currentActivityCategory: ActivityCategory;
 
-  public activityCategoryList$: Observable<ActivityCategoryList[]>= this.store.pipe(
+  public activityCategoryList$: Observable<any[]>= this.store.pipe(
     select(selectActivityCategoryList),
     map(res => this.currentActivityCategory ? res.filter(object => object.Id !== this.currentActivityCategory.Id) : res)
   );

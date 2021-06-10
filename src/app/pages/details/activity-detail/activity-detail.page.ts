@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { selectActivity } from 'src/app/store/selectors/user-activities.selectors';
 import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/user-activities.actions';
 
-import { Activity } from 'src/app/models/activities/activity.model';
 import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
 import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-name/activity-edit-name.page';
@@ -22,7 +21,7 @@ import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-cat
   styleUrls: ['./activity-detail.page.scss'],
 })
 export class ActivityDetailPage implements OnInit {
-  private activity: Activity;
+  public activity;
   public activityCategory: ActivityCategory;
   private getActivityListener: Subscription= null;
   private getActivityCategoryListener: Subscription= null;
@@ -113,7 +112,7 @@ export class ActivityDetailPage implements OnInit {
         }
       ]
     });
-    
+
     alert.present();
   }
 }

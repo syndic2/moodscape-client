@@ -47,7 +47,7 @@ export class ActivitiesPage implements OnInit {
     });
   }
 
-  reorderCategory(event: CustomEvent<ItemReorderEventDetail>) {
+  reorderCategory(event) {
     this.store.dispatch(reorderUserActivities({ from: event.detail.from, to: event.detail.to }));
     event.detail.complete();
   }

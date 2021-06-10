@@ -11,8 +11,7 @@ import { userActivitiesReducer } from 'src/app/store/reducers/user-activities.re
 
 import { ActivitiesPageRoutingModule } from './activities-routing.module';
 import { ActivitiesPage } from './activities.page';
-import { ActivityCategoryListItemComponent } from 'src/app/components/pages/activities/activity-category-list-item/activity-category-list-item.component';
-import { ActivityCategoryListLoaderComponent } from 'src/app/components/pages/activities/activity-category-list-loader/activity-category-list-loader.component';
+import { ActivityCategoryListItemModule } from 'src/app/components/pages/activities/activity-category-list-item/activity-category-list-item.module';
 import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activity-category-list/activity-category-list.module';
 
 @NgModule({
@@ -22,12 +21,11 @@ import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activi
     IonicModule,
     StoreModule.forFeature(StoreFeatureKeys.UserActivities, userActivitiesReducer),
     ActivitiesPageRoutingModule,
+    ActivityCategoryListItemModule,
     ActivityCategoryListPageModule
   ],
   declarations: [
     ActivitiesPage,
-    ActivityCategoryListItemComponent,
-    ActivityCategoryListLoaderComponent
   ]
 })
 export class ActivitiesPageModule {}
