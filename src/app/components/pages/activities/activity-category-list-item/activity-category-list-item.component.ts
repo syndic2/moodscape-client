@@ -13,8 +13,8 @@ import { ActivityCategoryPopoverComponent } from '../activity-category-popover/a
 export class ActivityCategoryListItemComponent implements OnInit {
   @Input() activityCategory: ActivityCategory;
   @Input() forReorder: boolean= false;
-  @ViewChild('activityCategoryTemplate', { static: true}) template;
-  
+  @ViewChild('activityCategoryTemplate', { static: true }) template;
+
   constructor(private viewContainerRef: ViewContainerRef, private popoverController: PopoverController) { }
 
   ngOnInit() {

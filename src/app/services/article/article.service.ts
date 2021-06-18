@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 	providedIn: 'root'
 })
 export class ArticleService {
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient, @Inject('skipLoading') @Optional() private skipLoading: string) { }
 
 	getOneByUrlName(urlName: string): Observable<any> {
 		const query = singleLineString`
@@ -38,7 +38,7 @@ export class ArticleService {
 		);
 	}
 
-	getAll(fields= {}, offset: number = 0, limit: number = 0): Observable<any> {
+	getAll(fields= {}, offset: number = 0, limit: number = 10): Observable<any> {
 		const args = StringifyObject(fields, { singleQuotes: false });
 		const query = singleLineString`
 			query {
@@ -50,6 +50,7 @@ export class ArticleService {
             Id,
             title,
             author,
+            postedAt,
             headerImg,
             urlName,
             url
@@ -58,7 +59,11 @@ export class ArticleService {
 			}
 		`;
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      ...this.skipLoading && {
+        headers: { skipLoading: this.skipLoading }
+      }
+    }).pipe(
 			map((res: any) => res.data.allArticle)
 		);
 	}

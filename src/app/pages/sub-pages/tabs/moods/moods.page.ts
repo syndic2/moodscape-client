@@ -11,5 +11,4 @@ export class MoodsPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

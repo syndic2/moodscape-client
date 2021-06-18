@@ -16,7 +16,7 @@ export class UserActivitiesService {
 
   getActivity(activiy_id: number): Observable<any> {
     const query= singleLineString`
-
+      
     `;
 
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(

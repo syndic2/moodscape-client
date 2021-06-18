@@ -1,0 +1,11 @@
+@import '../../../../../../node_modules/three-dots/dist/three-dots.min.css';
+
+.dot-pulse {
+  color: var(--ion-color-primary);
+  background-color: var(--ion-color-primary);
+  
+  &::before, &::after {
+    color: var(--ion-color-primary);
+    background-color: var(--ion-color-primary);
+  }
+}

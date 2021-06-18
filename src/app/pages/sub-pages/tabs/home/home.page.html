@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-		<ion-title>Beranda</ion-title>
+		<ion-title class="pl-1">Beranda</ion-title>
 		<ion-buttons slot="start">
 			<ion-menu-button menu="side-menu">
 				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
@@ -10,25 +10,43 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="!clock; else showClock">
-    <clock-loader></clock-loader>
-  </ng-container>
-  <ng-template #showClock>
-    <ion-card class="bg-purple-700 rounded-lg mx-0">
-      <ion-card-content class="text-white">
-        <ion-grid fixed>
-          <ion-row>
-            <ion-col class="flex-grow-0">
-              <span class="text-7xl">{{ clock.hours }}</span>
-            </ion-col>
-            <ion-col class="flex flex-col justify-around">
-              <span class="text-3xl">: {{ clock.minutes }}</span>
-              <span class="block text-base">{{ clock.toDate() }}</span>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
-	<a [routerLink]="['/articles']">Lihat artikel</a>
+  <section>
+    <ng-container *ngIf="!clock; else showClock">
+      <clock-loader></clock-loader>
+    </ng-container>
+    <ng-template #showClock>
+      <ion-card class="bg-purple-700 rounded-lg mx-0">
+        <ion-card-content class="text-white">
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col class="flex-grow-0">
+                <span class="text-7xl">{{ clock.hours }}</span>
+              </ion-col>
+              <ion-col class="flex flex-col justify-around">
+                <span class="text-3xl">: {{ clock.minutes }}</span>
+                <span class="block text-base">{{ clock.toDate() }}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </section>
+
+	<section class="mt-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-lg font-bold">Asupan Motivasimu!</h1>
+      <a class="text-primary" [routerLink]="['/articles']">Lihat semua</a>
+    </div>
+    <ng-container *ngIf="!articles.length; else showArticles">
+      <article-featured-loader></article-featured-loader>
+    </ng-container>
+    <ng-template #showArticles>
+      <ion-slides class="mt-2" [options]="sliderOptions" pager="true">
+        <ion-slide *ngFor="let article of articles" [routerLink]="['/articles', article.urlName]">
+          <article-featured-item [article]="article"></article-featured-item>
+        </ion-slide>
+      </ion-slides>
+    </ng-template>
+  </section>
 </ion-content>

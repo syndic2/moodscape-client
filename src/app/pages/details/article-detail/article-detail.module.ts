@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { ArticleDetailPageRoutingModule } from './article-detail-routing.module';
 import { ArticleDetailPage } from './article-detail.page';
-import { ArticleDetailComponent } from 'src/app/components/shared-core/article-detail/article-detail.component';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import { ArticleDetailComponent } from 'src/app/components/shared-core/article-d
     ArticleDetailPageRoutingModule
   ],
   declarations: [
-    ArticleDetailPage,
-    ArticleDetailComponent
+    ArticleDetailPage
   ]
 })
 export class ArticleDetailPageModule {}

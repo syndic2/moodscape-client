@@ -31,9 +31,7 @@ export class ArticleDetailPage implements OnInit {
   }
 
 	ionViewWillEnter() {
-    if (this.getArticleListener === null) {
-      this.getArticleListener= this.articleService.getOneByUrlName(this.urlName).subscribe((res: Article) => this.article = res);
-    }
+    this.getArticleListener= this.articleService.getOneByUrlName(this.urlName).subscribe((res: Article) => this.article = res);
 	}
 
 	ionViewWillLeave() {

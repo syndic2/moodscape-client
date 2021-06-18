@@ -15,7 +15,7 @@ export class ActivityListItemComponent implements OnInit {
   @Input() activity: Activity;
   @Input() activityCategory: ActivityCategory;
   @Input() forReorder: boolean= false;
-  @ViewChild('activityTemplate', { static: true}) template;
+  @ViewChild('activityTemplate', { static: true }) template;
 
   constructor(private viewContainerRef: ViewContainerRef, private popoverController: PopoverController) { }
 

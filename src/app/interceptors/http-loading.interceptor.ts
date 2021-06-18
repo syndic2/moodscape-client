@@ -12,29 +12,27 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 	constructor(private loadingController: LoadingController, private toastController: ToastController) { }
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		const loading = this.loadingController.create({
+    console.log('skip loading', request.headers.has('skipLoading'));
+
+    const loading = this.loadingController.create({
 			message: 'Mohon tunggu... :)',
 			translucent: true
 		});
 
-		this.loadingController.getTop().then(hasLoading => {
-			if (!hasLoading) {
-				loading.then(loader => loader.present());
-			}
-		})
+    if (!request.headers.has('skipLoading')) {
+      console.log('loading not skipped');
+
+      this.loadingController.getTop().then(hasLoading => {
+        if (!hasLoading) {
+          loading.then(loader => loader.present());
+        }
+      });
+    }
 
 		return next.handle(request).pipe(
 			catchError(error => {
 				if (error instanceof HttpErrorResponse) {
           this.HANDLE_ERROR_REQUEST(error);
-					/*switch (error.status) {
-						case 400:
-              this.HANDLE_ERROR_REQUEST(error.status);
-							break;
-
-						default:
-							return throwError(error);
-					}*/
 				}
 
 				return throwError(error);
@@ -60,13 +58,5 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
     }
 
     toast.present();
-
-		/*const toast = await this.toastController.create({
-			message: 'Terjadi kesalahan saat melakukan request, silahkan coba kembali',
-			position: 'bottom',
-			duration: 2000
-		});
-
-		toast.present();*/
 	}
 }

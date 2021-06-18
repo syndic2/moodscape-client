@@ -19,7 +19,7 @@ export class RequestHeadersInterceptor implements HttpInterceptor {
         })
       });
     }
-
+    
     return next.handle(req);
   }
 }

@@ -1,0 +1,17 @@
+<ng-template #bubbleChat>
+  <ng-container *ngIf="message.user === 'Me'">
+    <div class="self-end bg-purple-600 rounded-2xl text-white max-w-3/4 p-3">
+      <p class="whitespace-pre-wrap text-sm" [innerHTML]="message.text"></p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="message.user !== 'Me'">
+    <ng-container *ngIf="message.isLoading; else showBubble">
+      <div class="dot-pulse ml-4"></div>
+    </ng-container>
+    <ng-template #showBubble>
+      <div class="self-start bg-primary rounded-2xl text-white max-w-3/4 p-3">
+        <p class="whitespace-pre-wrap text-sm" [innerHTML]="message.text"></p>
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-template>

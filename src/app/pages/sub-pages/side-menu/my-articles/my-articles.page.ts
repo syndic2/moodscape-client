@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertController } from '@ionic/angular';
+
 import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
@@ -16,7 +18,7 @@ export class MyArticlesPage implements OnInit {
   private getArchivedArticlesListener: Subscription= null;
   private removeArchivedArticlesListener: Subscription= null;
 
-  constructor(private userArticles: UserArticlesService) { }
+  constructor(private alertController: AlertController, private userArticles: UserArticlesService) { }
 
   ngOnInit() {
   }
@@ -46,9 +48,25 @@ export class MyArticlesPage implements OnInit {
     });
   }
 
-  onRemove(article_id: number) {
-    this.removeArchivedArticlesListener= this.userArticles.removeArchivedArticles([article_id]).subscribe(res => {
-      this.articles= this.articles.filter((article: Article) => article.Id !== article_id);
+  async onRemove(article_id: number) {
+    const alert= await this.alertController.create({
+      message: 'Apakah anda yakin ingin menghapus artikel ini?',
+      buttons: [
+        {
+          text: 'Tetap simpan',
+          role: 'cancel'
+        },
+        {
+          text: 'Hapus',
+          handler: () => {
+            this.removeArchivedArticlesListener= this.userArticles.removeArchivedArticles([article_id]).subscribe(res => {
+              this.articles= this.articles.filter((article: Article) => article.Id !== article_id);
+            });
+          }
+        }
+      ]
     });
+    
+    alert.present();
   }
 }

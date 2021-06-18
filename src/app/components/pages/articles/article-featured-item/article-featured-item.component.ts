@@ -3,14 +3,14 @@ import { Component, OnInit, Input, ViewChild, ViewContainerRef } from '@angular/
 import { Article } from 'src/app/models/article.model';
 
 @Component({
-  selector: 'article-list-item',
-  templateUrl: './article-list-item.component.html',
-  styleUrls: ['./article-list-item.component.scss'],
+  selector: 'article-featured-item',
+  templateUrl: './article-featured-item.component.html',
+  styleUrls: ['./article-featured-item.component.scss'],
 })
-export class ArticleListItemComponent implements OnInit {
+export class ArticleFeaturedItemComponent implements OnInit {
   @Input() article: Article;
-  @ViewChild('articleTemplate', { static: true }) template;
-
+  @ViewChild('articleFeaturedTemplate', { static: true }) template;
+  
   constructor(private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit() {

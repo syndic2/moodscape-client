@@ -3,14 +3,32 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   important: true,
   theme: {
-    backgroundColor: theme => ({
-      ...theme('colors'),
-      'primary': '#5b21b6'
-    }),
-    extend: {},
+    extend: {
+      width: {
+        'fit-content': 'fit-content'
+      },
+      maxWidth: {
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
+      },
+      maxHeight: {
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
+      },
+      height: {
+        'fit-content': 'fit-content'
+      },
+      colors: {
+        primary: '#5b21b6'
+      }
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp')
+  ],
 };

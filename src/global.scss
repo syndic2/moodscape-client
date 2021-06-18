@@ -41,6 +41,10 @@
 
 @import './styles/modals.scss';
 
+.swiper-slide, .swiper-pagination {
+  position: static !important;
+}
+
 ion-item {
   &.item-without-highlight {
     --highlight-color-focused: none;
@@ -82,30 +86,6 @@ ion-toolbar {
     }
   }
 }
-
-/*ion-toolbar.with-back-button {
-	--padding-start: 0.75rem;
-	--padding-end: 0.75rem;
-	--padding-top: 0.75rem;
-	--padding-bottom: 0.75rem;
-}
-
-ion-toolbar.with-button-icon {
-	ion-button {
-		min-width: 40px;
-		height: 40px;
-		--padding-start: 0.1rem;
-		--padding-end: 0.1rem;
-		--padding-top: 0.1rem;
-		--padding-bottom: 0.1rem;
-
-		ion-icon {
-			font-size: 18px !important;
-			margin-left: auto !important;
-			margin-right: auto !important;
-		}
-	}
-}*/
 
 ion-infinite-scroll {
 	ion-infinite-scroll-content {

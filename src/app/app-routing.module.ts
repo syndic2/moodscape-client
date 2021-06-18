@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/articles/articles.module').then(m => m.ArticlesPageModule)
   },
   {
+    path: 'chat-with-bot',
+    loadChildren: () => import('./pages/chat-with-bot/chat-with-bot.module').then(m => m.ChatWithBotPageModule)
+  },
+  {
     path: 'request-reset-password',
     loadChildren: () => import('./pages/finishes/request-reset-password/request-reset-password.module').then( m => m.RequestResetPasswordPageModule)
   },
