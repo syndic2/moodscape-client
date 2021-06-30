@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { ProfileFieldsLoaderComponent } from 'src/app/components/pages/profile/profile-fields-loader/profile-fields-loader.component';
+import { ProfileFieldsModule } from 'src/app/components/pages/profile/profile-fields/profile-fields.module';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
 		IonicModule,
-		ProfilePageRoutingModule
+		ProfilePageRoutingModule,
+    ProfileFieldsModule
 	],
 	declarations: [
 		ProfilePage,

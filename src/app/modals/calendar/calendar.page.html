@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary" class="rounded-t-3xl">
+    <ion-title class="flex text-center">{{ (currentDate | dateInBahasa).fullDate }}</ion-title>
+    <button (click)="close()" slot="start" class="flex items-center focus:outline-none">
+      <ion-icon slot="start" name="close-circle" color="light" size="large"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="rounded-b-3xl">
+  <div class="flex justify-between items-center gap-x-2">
+    <button (click)="prev()" class="flex items-center focus:outline-none">
+      <ion-icon name="chevron-back" color="primary" size="large"></ion-icon>
+    </button>
+    <h2 class="text-lg text-center font-semibold">{{ viewTitle }}</h2>
+    <button (click)="next()" class="flex items-center focus:outline-none">
+      <ion-icon name="chevron-forward" color="primary" size="large"></ion-icon>
+    </button>
+  </div>
+  <calendar
+    [calendarMode]="mode"
+    [dateFormatter]="dateFormatter"
+    [eventSource]="eventSource"
+    [currentDate]="currentDate"
+    (onTitleChanged)="onTitleChanged($event)"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)">
+  </calendar>
+  <div class="flex justify-center mt-4">
+    <button (click)="onSelectDate()" class="flex flex-col items-center text-4xl focus:outline-none">
+      <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+      <span class="text-sm">Pilih</span>
+    </button>
+  </div>
+</ion-content>

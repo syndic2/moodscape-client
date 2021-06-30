@@ -1,0 +1,43 @@
+ion-toolbar {
+  --padding-top: 1rem;
+  --padding-bottom: 1rem;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  border-radius: 0 !important;
+}
+
+ion-content {
+  --padding-top: 1rem;
+}
+
+:host {
+  &.ion-page {
+    height: 65%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 2rem;
+  }
+
+  ::ng-deep {
+    .table-bordered {
+      border: 0 !important;
+
+      th {
+        background: var(--ion-color-primary) !important;
+        color: white !important;
+      }
+
+      th, td {
+        border: 0 !important;
+      }
+    }
+
+    .monthview-selected {
+      background-color: var(--ion-color-primary) !important;
+    }
+
+    .event-detail-container {
+      display: none;
+    }
+  }
+}

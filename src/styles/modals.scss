@@ -1,9 +1,16 @@
 .activity-edit-name-modal {
   .modal-wrapper {
     position: absolute;
-    top: initial;
     bottom: 0;
     height: 50%;
-    min-height: initial;
   }
 }
+
+.calendar-modal {
+  .modal-wrapper {
+    position: absolute;
+    background: transparent;
+  }
+}
+
+

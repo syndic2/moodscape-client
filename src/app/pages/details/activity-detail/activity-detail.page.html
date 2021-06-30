@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar class="with-back-button">
+  <ion-toolbar>
     <ion-title>{{ activity.name }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="
@@ -42,7 +42,7 @@
     <ion-grid fixed class="flex-grow-0">
       <ion-row>
         <ion-col size="12" class="p-0">
-          <ion-button expand="block" color="danger" (click)="onRemove()">
+          <ion-button (click)="onRemove()" expand="block" color="danger" class="normal-case">
             <ion-icon slot="start" name="trash"></ion-icon>
             Hapus
           </ion-button>

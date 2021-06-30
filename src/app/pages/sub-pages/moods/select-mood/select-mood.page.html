@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="flex flex-col justify-center h-full">
+    <h1 class="text-md text-center font-bold">Bagaimana kabarmu hari ini?</h1>
+
+    <div class="mt-20">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="6" class="ion-activatable flex items-center">
+            <div (click)="onSelectDate()" class="flex items-center gap-x-1 bg-transparent border-b-2 border-primary px-4 pb-2">
+              <ion-icon name="calendar" color="primary"></ion-icon>
+              <ion-input
+                type="text"
+                inputmode="text"
+                class="input-without-padding text-center w-fit-content"
+                [value]="(selectedDate | dateInBahasa).shortDate"
+                placeholder="date"
+                readonly>
+              </ion-input>
+              <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
+            </div>
+            <ion-ripple-effect></ion-ripple-effect>
+          </ion-col>
+
+          <ion-col size="6" class="ion-activatable flex items-center">
+            <div class="flex gap-x-1 bg-transparent border-b-2 border-primary px-4 pb-2">
+              <ion-icon name="time" color="primary"></ion-icon>
+              <ion-input
+                [ngxTimepicker]="timePicker"
+                [format]="24"
+                type="text"
+                inputmode="text"
+                class="input-without-padding text-center"
+                [value]="selectedTime"
+                placeholder="time"
+                readonly>
+              </ion-input>
+              <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
+            </div>
+            <ion-ripple-effect></ion-ripple-effect>
+
+            <ngx-material-timepicker
+              #timePicker
+              [defaultTime]="selectedTime"
+              [cancelBtnTmpl]="cancelButton"
+              [confirmBtnTmpl]="confirmButton"
+              [enableKeyboardInput]="true"
+              [disableAnimation]="false"
+              (timeChanged)="onSelectTime($event)">
+            </ngx-material-timepicker>
+
+            <ng-template #cancelButton>
+              <button class="text-primary uppercase">Kembali</button>
+            </ng-template>
+            <ng-template #confirmButton>
+              <button class="text-primary uppercase">Ok</button>
+            </ng-template>
+          </ion-col>
+
+          <ion-col size="12" class="mt-20">
+            <select-emoticon (selectEmoticonEvent)="onSelectEmoticon($event)"></select-emoticon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="flex flex-col items-center mt-20">
+      <button (click)="onNext()" class="flex text-5xl focus:outline-none">
+        <ion-icon name="chevron-forward-circle" color="primary" class="flex"></ion-icon>
+      </button>
+      <span class="text-md">Lanjut</span>
+    </div>
+  </div>
+</ion-content>

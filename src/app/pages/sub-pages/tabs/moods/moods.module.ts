@@ -5,8 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MoodsPageRoutingModule } from './moods-routing.module';
-
 import { MoodsPage } from './moods.page';
+import { MoodListItemComponent } from 'src/app/components/pages/moods/mood-list-item/mood-list-item.component';
+import { MoodListLoaderComponent } from 'src/app/components/pages/moods/mood-list-loader/mood-list-loader.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,10 @@ import { MoodsPage } from './moods.page';
     IonicModule,
     MoodsPageRoutingModule
   ],
-  declarations: [MoodsPage]
+  declarations: [
+    MoodsPage,
+    MoodListItemComponent,
+    MoodListLoaderComponent
+  ]
 })
 export class MoodsPageModule {}

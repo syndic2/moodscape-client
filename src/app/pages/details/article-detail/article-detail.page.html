@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar class="with-back-button with-button-icon">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="articles"></ion-back-button>
     </ion-buttons>
@@ -15,7 +15,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <ng-container *ngIf="article">
     <h1 class="text-lg sm:text-2xl font-semibold text-left mt-0">{{ article.title }}</h1>
     <div class="text-black text-opacity-50 text-sm sm:text-base">

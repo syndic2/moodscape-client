@@ -3,22 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FooterComponent } from '../components/utilities/footer/footer.component';
+import { FooterComponent } from '../components/footer/footer.component';
 
 const Components= [
   FooterComponent
 ];
 
 @NgModule({
-  declarations: [
-    ...Components
-  ],
+  declarations: [...Components],
   imports: [
     CommonModule,
     IonicModule
   ],
-  exports: [
-    ...Components
-  ]
+  exports: [...Components]
 })
 export class SharedModule { }

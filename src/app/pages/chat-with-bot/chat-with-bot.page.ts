@@ -32,6 +32,10 @@ export class ChatWithBotPage implements OnInit {
   ngOnInit() {
   }
 
+  logScrolling(event) {
+    console.log('event', event);
+  }
+  
   onSendMessage() {
     if (this.messageText && this.messageText.trim()) {
       const sendedMessage= {

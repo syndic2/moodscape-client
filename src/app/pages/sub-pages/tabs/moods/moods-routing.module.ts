@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: MoodsPage
+  },
+  {
+    path: 'select-mood',
+    loadChildren: () => import('../../../sub-pages/moods/select-mood/select-mood.module').then(m => m.SelectMoodPageModule)
+  },
+  {
+    path: 'create-mood',
+    loadChildren: () => import('../../../sub-pages/moods/create-detail-mood/create-detail-mood.module').then(m => m.CreateDetailMoodPageModule)
   }
 ];
 

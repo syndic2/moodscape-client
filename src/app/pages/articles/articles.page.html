@@ -1,11 +1,11 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar class="with-back-button with-button-icon">
+	<ion-toolbar>
     <ion-title>Artikel</ion-title>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="side-menu"></ion-back-button>
 		</ion-buttons>
 		<ion-buttons slot="end">
-			<ion-button shape="round" [routerLink]="['/side-menu/my-articles']">
+			<ion-button [routerLink]="['/side-menu/my-articles']">
 				<ion-icon class="icon" name="bookmarks"></ion-icon>
 			</ion-button>
 		</ion-buttons>
@@ -27,13 +27,13 @@
         <article-card-item [article]="article"></article-card-item>
       </ion-slide>
     </ion-slides>
-    
+
     <ion-list class="grid grid-flow-row gap-4" *ngIf="articles.length" lines="none">
       <ion-item id='{{ "article_"+idx }}' *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
       </ion-item>
     </ion-list>
-
+    
     <!--<ion-virtual-scroll approxItemHeight="300" [items]="articles">
       <ion-item id='{{ "article_"+idx }}' class="py-2" lines="none" *virtualItem="let article; let idx= index;" [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
@@ -44,7 +44,7 @@
 	<ion-infinite-scroll [ngClass]="{ 'hidden': !showInfiniteScroll }" (ionInfinite)="loadMore($event)">
 		<ion-infinite-scroll-content>
       <div class="flex justify-center items-center">
-        <ion-button size="small" (click)="onLoadMore()" shape="round">Muat lagi</ion-button>
+        <ion-button (click)="onLoadMore()" size="small" shape="round" class="normal-case">Muat lagi</ion-button>
       </div>
     </ion-infinite-scroll-content>
 	</ion-infinite-scroll>

@@ -10,5 +10,18 @@
 </ion-header>
 
 <ion-content>
-	Moods
+  <ion-searchbar class="rounded-3xl" (ionChange)="onSearchChange($event)" inputmode="text" type="text" placeholder="Cari mood" showCancelButton="never"></ion-searchbar>
+	<ion-button [routerLink]="['/side-menu/tabs/moods/select-mood']" expand="block" color="primary" class="normal-case">
+    Tambahkan Mood anda!
+    <ion-icon slot="start" name="add-circle"></ion-icon>
+  </ion-button>
+
+  <ng-container *ngIf="!moods.length; else showMoods">
+    <mood-list-loader class="block mt-6"></mood-list-loader>
+  </ng-container>
+  <ng-template #showMoods>
+    <ion-list class="mt-6">
+
+    </ion-list>
+  </ng-template>
 </ion-content>

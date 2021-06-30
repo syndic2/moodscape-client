@@ -12,8 +12,8 @@
 <ion-content>
   <ion-list lines="full">
     <ion-item [routerLink]="page.url" *ngFor="let page of pages">
-      <ion-icon class="icon" slot="start" [name]="page.icon"></ion-icon>
-      <ion-icon class="icon" slot="end" name="chevron-forward"></ion-icon>
+      <ion-icon slot="start" [name]="page.icon" color="primary"></ion-icon>
+      <ion-icon slot="end" name="chevron-forward" color="primary"></ion-icon>
       <ion-label>{{ page.title }}</ion-label>
     </ion-item>
   </ion-list>

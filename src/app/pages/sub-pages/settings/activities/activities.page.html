@@ -17,35 +17,37 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="flex flex-col h-full">
-    <ng-container *ngIf="!(activityCategories$ | async)?.length; else showActivityCategories">
-      <div class="flex-grow flex flex-col">
-        <span class="m-auto">-Belum ada aktivitas yang tersimpan-</span>
-      </div>
-    </ng-container>
-    <ng-template #showActivityCategories>
-      <ion-reorder-group class="flex-grow" (ionItemReorder)="reorderCategory($event)" disabled="false">
-        <ion-item *ngFor="let activityCategory of (activityCategories$ | async)">
-          <activity-category-list-item [activityCategory]="activityCategory" [forReorder]="true"></activity-category-list-item>
-        </ion-item>
-      </ion-reorder-group>
-    </ng-template>
+  <ng-container *ngIf="!(activityCategories$ | async)?.length; else showActivityCategories">
+    <div class="flex justify-center items-center">
+      <span>-Belum ada aktivitas yang tersimpan-</span>
+    </div>
+  </ng-container>
+  <ng-template #showActivityCategories>
+    <ion-reorder-group (ionItemReorder)="reorderCategory($event)" disabled="false">
+      <ion-item *ngFor="let activityCategory of (activityCategories$ | async)">
+        <activity-category-list-item [activityCategory]="activityCategory" [forReorder]="true"></activity-category-list-item>
+      </ion-item>
+    </ion-reorder-group>
+  </ng-template>
+</ion-content>
 
+<ion-footer>
+  <ion-toolbar>
     <ion-grid fixed class="flex-grow-0 mt-4 p-2">
       <ion-row>
         <ion-col size="12" class="p-0">
-          <ion-button expand="block" [routerLink]="['/settings/activities/create-activity']">
+          <ion-button expand="block" [routerLink]="['/settings/activities/create-activity']" class="normal-case">
             <ion-icon slot="start" name="accessibility"></ion-icon>
             Tambah aktivitas
           </ion-button>
         </ion-col>
         <ion-col size="12" class="p-0">
-          <ion-button expand="block" [routerLink]="['/settings/activities/create-activity-category']">
+          <ion-button expand="block" [routerLink]="['/settings/activities/create-activity-category']" class="normal-case">
             <ion-icon slot="start" name="folder-open"></ion-icon>
             Tambah kategory aktivitas
           </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>

@@ -59,8 +59,7 @@ export const transformDateTime= (dateTime: Date) => {
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
-  const days= ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-
+  const days= ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   const transformed= {
     date: dateTime.getDate(),
     day: days[dateTime.getDay()],
@@ -72,18 +71,31 @@ export const transformDateTime= (dateTime: Date) => {
     milliSeconds: dateTime.getMilliseconds(),
     meridiem: dateTime.getHours() >= 12 ? 'PM' : 'AM',
     timeCategory: () => {},
+    toISODate: () => {},
+    toShortDate: () => {},
     toDate: () => {},
     toTime: () => {}
   };
+
   transformed.timeCategory= (): string => {
     if (transformed.hours >= 4 && transformed.hours <= 10) return 'Pagi';
     else if (transformed.hours > 10 && transformed.hours <= 14) return 'Siang';
     else if (transformed.hours > 14 && transformed.hours <= 18) return 'Sore';
     else return 'Malam';
   };
+  
+  transformed.toISODate= () => {
+    return `${transformed.year}-${dateTime.getMonth()+1}-${transformed.date}`;
+  };
+
+  transformed.toShortDate= () => {
+    return `${transformed.day}, ${transformed.date}/${dateTime.getMonth()+1}/${transformed.year}`;
+  };
+
   transformed.toDate= () => {
     return `${transformed.day}, ${transformed.date} ${transformed.month} ${transformed.year}`;
   };
+
   transformed.toTime= () => {
     return `${transformed.hours}:${transformed.minutes}`;
   };

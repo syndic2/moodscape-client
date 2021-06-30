@@ -59,26 +59,6 @@ export class SignUpPage implements OnInit {
 	  this.signUpListener && this.signUpListener.unsubscribe();
   }
 
-  get firstName() {
-    return this.signUpForm.get('firstName');
-  }
-
-  get lastName() {
-    return this.signUpForm.get('lastName');
-  }
-
-  get gender() {
-    return this.signUpForm.get('gender');
-  }
-
-  get age() {
-    return this.signUpForm.get('age');
-  }
-
-  get email() {
-    return this.signUpForm.get('email');
-  }
-
   get username() {
     return this.signUpForm.get('username');
   }
