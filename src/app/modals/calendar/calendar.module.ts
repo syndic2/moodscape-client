@@ -19,9 +19,7 @@ registerLocaleData(localeId);
     NgCalendarModule,
     SharedPipeModule
   ],
-  declarations: [
-    CalendarPage,
-  ],
+  declarations: [CalendarPage],
   providers: [
     { provide: LOCALE_ID, useValue: 'id-ID' }
   ],

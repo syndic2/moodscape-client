@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProfileFieldsComponent implements OnInit {
   @Input() form: FormGroup;
-  @Input() errorMessages: [];
+  @Input() errorMessages;
   @ViewChild('profileFields', { static: true }) template;
 
   constructor(private viewContainerRef: ViewContainerRef) { }

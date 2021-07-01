@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary" class="rounded-t-3xl">
-    <ion-title class="flex text-center">{{ (currentDate | dateInBahasa).fullDate }}</ion-title>
+    <ion-title class="flex text-center">{{ (currentDate | dateInBahasa)?.fullDate }}</ion-title>
     <button (click)="close()" slot="start" class="flex items-center focus:outline-none">
       <ion-icon slot="start" name="close-circle" color="light" size="large"></ion-icon>
     </button>

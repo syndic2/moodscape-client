@@ -70,33 +70,33 @@ export const transformDateTime= (dateTime: Date) => {
     seconds: dateTime.getSeconds(),
     milliSeconds: dateTime.getMilliseconds(),
     meridiem: dateTime.getHours() >= 12 ? 'PM' : 'AM',
-    timeCategory: () => {},
-    toISODate: () => {},
-    toShortDate: () => {},
-    toDate: () => {},
-    toTime: () => {}
+    timeCategory: null,
+    toISODate: null,
+    toShortDate: null,
+    toDate: null,
+    toTime: null
   };
-
+  
   transformed.timeCategory= (): string => {
     if (transformed.hours >= 4 && transformed.hours <= 10) return 'Pagi';
     else if (transformed.hours > 10 && transformed.hours <= 14) return 'Siang';
     else if (transformed.hours > 14 && transformed.hours <= 18) return 'Sore';
     else return 'Malam';
   };
-  
-  transformed.toISODate= () => {
+
+  transformed.toISODate= (): string => {
     return `${transformed.year}-${dateTime.getMonth()+1}-${transformed.date}`;
   };
 
-  transformed.toShortDate= () => {
+  transformed.toShortDate= (): string => {
     return `${transformed.day}, ${transformed.date}/${dateTime.getMonth()+1}/${transformed.year}`;
   };
 
-  transformed.toDate= () => {
+  transformed.toDate= (): string => {
     return `${transformed.day}, ${transformed.date} ${transformed.month} ${transformed.year}`;
   };
 
-  transformed.toTime= () => {
+  transformed.toTime= (): string => {
     return `${transformed.hours}:${transformed.minutes}`;
   };
 

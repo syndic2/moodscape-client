@@ -6,7 +6,7 @@ import { transformDateTime } from 'src/app/utilities/helpers';
   name: 'dateInBahasa'
 })
 export class DateInBahasaPipe implements PipeTransform {
-  transform(date: Date, ...args: unknown[]): unknown {
+  transform(date: Date, ...args: unknown[]) {
     return {
       shortDate: transformDateTime(date).toShortDate(),
       fullDate: transformDateTime(date).toDate()

@@ -34,8 +34,8 @@ export class MoodsPage implements OnInit {
     this.getUserMoodsListener && this.getUserMoodsListener.unsubscribe();
   }
 
-  async onSearchChange() {
-
+  async onSearchChange(event) {
+    
   }
 
   async onSubmit() {

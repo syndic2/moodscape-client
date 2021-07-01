@@ -12,8 +12,8 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
   styleUrls: ['./select-mood.page.scss'],
 })
 export class SelectMoodPage implements OnInit {
-  public selectedDate: string | Date= new Date();
-  public selectedTime: string | void= transformDateTime(new Date()).toTime();
+  public selectedDate: Date= new Date();
+  public selectedTime: string= transformDateTime(new Date()).toTime();
   public selectedEmoticon: Emoticon;
 
   constructor(
@@ -60,7 +60,7 @@ export class SelectMoodPage implements OnInit {
     } else {
       this.navController.navigateForward('/side-menu/tabs/moods/create-mood', {
         state: {
-          date: transformDateTime(this.selectedDate as Date).toISODate(),
+          date: transformDateTime(this.selectedDate).toISODate(),
           time: this.selectedTime,
           emoticon: this.selectedEmoticon
         }

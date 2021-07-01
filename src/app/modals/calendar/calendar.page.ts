@@ -10,10 +10,10 @@ import { CalendarComponent } from 'ionic2-calendar';
 })
 export class CalendarPage implements OnInit {
   @Input() selectedDate: Date;
-  @ViewChild(CalendarComponent, null) calendar: CalendarComponent;
+  @ViewChild(CalendarComponent) calendar: CalendarComponent;
 
   public viewTitle: string;
-  public mode: string= 'month';
+  public mode: any= 'month';
   public dateFormatter= {
     formatMonthViewDayHeader: function(date: Date) {
       const days: string[]= ['M', 'S', 'S', 'R', 'K', 'J', 'S']
