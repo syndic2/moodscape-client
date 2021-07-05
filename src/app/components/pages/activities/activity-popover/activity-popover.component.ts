@@ -6,8 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/user-activities.actions';
 
-import { Activity } from 'src/app/models/activities/activity.model';
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { Activity, ActivityCategory } from 'src/app/models/activity.model';
 import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
 import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-name/activity-edit-name.page';
@@ -72,7 +71,7 @@ export class ActivityPopoverComponent implements OnInit {
       }));
     }
   }
-  
+
   async onRemove() {
     this.popoverController.dismiss();
 

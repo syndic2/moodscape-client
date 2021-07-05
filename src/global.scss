@@ -30,6 +30,13 @@
 //@import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Ionic Component Custom Styles */
+@import './styles/modals.scss';
+
+.popover-content {
+  border-radius: 1.25rem !important;
+}
+
 //.loading-spinner {
 //  --background: none;
 //
@@ -38,8 +45,6 @@
 //      -webkit-box-shadow: none !important;
 //  }
 //}
-
-@import './styles/modals.scss';
 
 /* Swiper */
 .swiper-slide, .swiper-pagination {
@@ -69,6 +74,14 @@ ngx-material-timepicker-content {
   --clock-face-background-color: #f0f0f0;
   --clock-hand-color: var(--ion-color-primary) !important;
 
+  .timepicker-dial__container {
+    justify-content: center !important;
+
+    .timepicker-dial__period {
+      display: none !important;
+    }
+  }
+
   .timepicker-dial__hint {
     display: none !important;
   }
@@ -96,6 +109,12 @@ ion-input {
     --padding-bottom: 0;
     --padding-start: 0;
     --padding-end: 0;
+  }
+}
+
+ion-button {
+  &.rounded-button {
+    --border-radius: 1.5rem;
   }
 }
 

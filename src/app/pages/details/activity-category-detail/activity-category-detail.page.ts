@@ -6,8 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { selectActivityCategory } from 'src/app/store/selectors/user-activities.selectors';
-
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { ActivityCategory } from 'src/app/models/activity.model';
 
 @Component({
   selector: 'app-activity-category-detail',

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 
-import { NavController, AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Emoticon } from 'src/app/models/mood.model';
@@ -17,7 +18,7 @@ export class SelectMoodPage implements OnInit {
   public selectedEmoticon: Emoticon;
 
   constructor(
-    private navController: NavController,
+    private router: Router,
     private alertController: AlertController,
     private modalController: ModalController
   ) { }
@@ -58,13 +59,16 @@ export class SelectMoodPage implements OnInit {
       });
       alert.present();
     } else {
-      this.navController.navigateForward('/side-menu/tabs/moods/create-mood', {
+      const navigationExtras: NavigationExtras= {
         state: {
-          date: transformDateTime(this.selectedDate).toISODate(),
-          time: this.selectedTime,
-          emoticon: this.selectedEmoticon
+          emoticon: this.selectedEmoticon,
+          timestamps: {
+            date: transformDateTime(this.selectedDate).toISODate(),
+            time: this.selectedTime
+          }
         }
-      });
+      };
+      this.router.navigate(['/side-menu/tabs/moods/create-mood'], navigationExtras);
     }
   }
 }

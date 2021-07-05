@@ -8,14 +8,20 @@
 </ion-header>
 
 <ion-content>
-  <form #createActivityCategoryFrom="ngForm" class="flex flex-col h-full" (ngSubmit)="onSubmit(createActivityCategoryFrom)">
-    <ion-item class="flex-grow" lines="none">
-      <ion-label>Nama</ion-label>
-      <ion-input type="text" inputmode="text" name="category" placeholder="Nama kategori aktivitas" ngModel></ion-input>
-    </ion-item>
-    <ion-button type="submit" class="normal-case">
-      <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
-      Lanjut
-    </ion-button>
-  </form>
+  <div class="flex flex-col justify-center h-full">
+    <div class="flex justify-center items-center p-8">
+      <img src="../../../../../assets/images/manage-folder.png" alt="">
+    </div>
+    
+    <form #createActivityCategoryFrom="ngForm" (ngSubmit)="onSubmit(createActivityCategoryFrom)" class="flex-1 flex flex-col gap-y-2">
+      <ion-item lines="none" class="flex-grow rounded-xl">
+        <ion-label>Nama</ion-label>
+        <ion-input type="text" inputmode="text" name="category" placeholder="Nama kategori aktivitas" ngModel></ion-input>
+      </ion-item>
+      <ion-button type="submit" expand="block" shape="round" class="normal-case w-1/2 mx-auto ">
+        <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
+        Lanjut
+      </ion-button>
+    </form>
+  </div>
 </ion-content>

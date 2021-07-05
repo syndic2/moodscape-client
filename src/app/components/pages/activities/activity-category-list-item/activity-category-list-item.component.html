@@ -3,9 +3,9 @@
     {{ activityCategory.category }}
     <span class="text-black text-opacity-50">({{ activityCategory.activities.length }}x)</span>
   </ion-label>
-  <ion-reorder *ngIf="forReorder" class="flex gap-2 mx-4" slot="start">
+  <ion-reorder *ngIf="forReorder" class="flex gap-2 mr-4" slot="start">
     <ion-icon name="menu-outline"></ion-icon>
     <ion-icon name="folder-open-outline" color="primary"></ion-icon>
   </ion-reorder>
-  <ion-icon (click)="openPopover($event)" name="ellipsis-vertical-circle"></ion-icon>
+  <ion-icon (click)="openPopover($event)" name="ellipsis-vertical-circle" color="primary"></ion-icon>
 </ng-template>

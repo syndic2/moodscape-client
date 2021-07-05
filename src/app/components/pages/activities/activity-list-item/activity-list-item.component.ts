@@ -2,8 +2,7 @@ import { Component, OnInit, Input, ViewChild, ViewContainerRef } from '@angular/
 
 import { PopoverController } from '@ionic/angular';
 
-import { Activity } from 'src/app/models/activities/activity.model';
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { Activity, ActivityCategory } from 'src/app/models/activity.model';
 import { ActivityPopoverComponent } from '../activity-popover/activity-popover.component';
 
 @Component({

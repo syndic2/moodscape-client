@@ -1,0 +1,15 @@
+<div class="rounded-xl border-2 border-purple-700 border-opacity-50 p-3">
+  <!-- Header -->
+  <div class="flex gap-x-2 items-center">
+    <span class="flex-grow">{{ title }}</span>
+    <ng-content select="[extraButtons]"></ng-content>
+    <button type="button" (click)="onToogle()" class="flex items-center focus:outline-none">
+      <ion-icon [@rotate]="isOpen ? 'rotated' : 'default'" name="chevron-down-circle-outline" color="primary"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div [@collapse]="isOpen ? 'collapsed' : 'default'">
+    <ng-content select="[content]"></ng-content>
+  </div>
+</div>

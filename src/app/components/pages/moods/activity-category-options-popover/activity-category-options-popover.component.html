@@ -1,0 +1,13 @@
+<ion-list lines="none">
+  <ng-container *ngIf="activityCategory">
+    <ion-item (click)="onAddActivity()">
+      <ion-label>Tambah Aktivitas</ion-label>
+    </ion-item>
+  </ng-container>
+  <ion-item (click)="onAddCategory()">
+    <ion-label>Tambah Kategori Aktivitas</ion-label>
+  </ion-item>
+  <ion-item (click)="onManageCategory()" class="border-t-1 border-gray-400">
+    <ion-label>Kelola Kategori Aktivitas</ion-label>
+  </ion-item>
+</ion-list>

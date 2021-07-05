@@ -13,7 +13,7 @@
       <span class="m-auto">-Belum ada aktivitas yang tersimpan-</span>
     </ng-container>
     <ng-template #showKeepedActivities>
-      <ion-list>
+      <ion-list lines="full">
         <ion-item *ngFor="let activity of (keepedActivities$ | async)">
           <activity-list-item [activity]="activity"></activity-list-item>
         </ion-item>

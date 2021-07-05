@@ -13,7 +13,7 @@
       <span class="m-auto">-Belum ada aktivitas-</span>
     </ng-container>
     <ng-template #showActivities>
-      <ion-list>
+      <ion-list lines="full">
         <ion-item *ngFor="let activity of (activityCategory$ | async).activities">
           <activity-list-item [activity]="activity" [activityCategory]="(activityCategory$ | async)">
         </activity-list-item>

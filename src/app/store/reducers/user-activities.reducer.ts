@@ -1,9 +1,8 @@
 import { on, createReducer } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from '../../utilities/helpers';
-import { Activity } from '../../models/activities/activity.model';
-import { ActivityCategory } from '../../models/activities/activity-category.model';
-import { UserActivitesState } from '../states/user-activities.state';
+import { Activity, ActivityCategory } from '../../models/activity.model';
+import { UserActivitesState } from '../states';
 import {
   setUserActivities,
   reorderUserActivities,
@@ -211,7 +210,7 @@ export const userActivitiesReducer= createReducer(
       ]
     }
   })),
-  
+
   on(createActivityCategory, (state, { activityCategory }) => ({
     ...state,
     activityCategories: [...state.activityCategories, activityCategory],

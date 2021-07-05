@@ -8,7 +8,7 @@
 
 <ion-content>
   <div class="flex flex-col justify-center h-full">
-    <h1 class="text-md text-center font-bold">Bagaimana kabarmu hari ini?</h1>
+    <h1 class="text-lg text-center font-bold">Bagaimana kabarmu hari ini?</h1>
 
     <div class="mt-20">
       <ion-grid fixed>
@@ -20,7 +20,7 @@
                 type="text"
                 inputmode="text"
                 class="input-without-padding text-center w-fit-content"
-                [value]="(selectedDate | dateInBahasa)?.shortDate"
+                [value]="(selectedDate | dateInBahasa).shortDate"
                 placeholder="date"
                 readonly>
               </ion-input>

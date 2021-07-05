@@ -33,7 +33,7 @@
         <article-list-item [article]="article"></article-list-item>
       </ion-item>
     </ion-list>
-    
+
     <!--<ion-virtual-scroll approxItemHeight="300" [items]="articles">
       <ion-item id='{{ "article_"+idx }}' class="py-2" lines="none" *virtualItem="let article; let idx= index;" [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
@@ -44,7 +44,7 @@
 	<ion-infinite-scroll [ngClass]="{ 'hidden': !showInfiniteScroll }" (ionInfinite)="loadMore($event)">
 		<ion-infinite-scroll-content>
       <div class="flex justify-center items-center">
-        <ion-button (click)="onLoadMore()" size="small" shape="round" class="normal-case">Muat lagi</ion-button>
+        <ion-button (click)="onLoadMore()" size="small" shape="round" class="normal-case">Muat Lagi</ion-button>
       </div>
     </ion-infinite-scroll-content>
 	</ion-infinite-scroll>

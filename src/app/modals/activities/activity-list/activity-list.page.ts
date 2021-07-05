@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 
 import { selectKeepedActivities } from 'src/app/store/selectors/user-activities.selectors';
 
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { ActivityCategory } from 'src/app/models/activity.model';
 import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { createActivityCategory } from 'src/app/store/actions/user-activities.actions';
 

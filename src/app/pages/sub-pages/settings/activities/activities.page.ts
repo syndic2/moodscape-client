@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { IonReorderGroup } from '@ionic/angular';
-import { ItemReorderEventDetail } from '@ionic/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,7 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { setUserActivities, reorderUserActivities } from 'src/app/store/actions/user-activities.actions';
 import { selectUserActivities } from 'src/app/store/selectors/user-activities.selectors';
 
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { ActivityCategory } from 'src/app/models/activity.model';
 import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 
 @Component({
@@ -19,7 +18,7 @@ import { UserActivitiesService } from 'src/app/services/user-activities/user-act
 })
 export class ActivitiesPage implements OnInit {
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
-
+  
   public activityCategories$: Observable<ActivityCategory[]>= this.store.select(selectUserActivities);
   private getUserActivitiesListener: Subscription= null;
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
@@ -24,8 +23,6 @@ import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activi
     ActivityCategoryListItemModule,
     ActivityCategoryListPageModule
   ],
-  declarations: [
-    ActivitiesPage,
-  ]
+  declarations: [ActivitiesPage]
 })
 export class ActivitiesPageModule {}

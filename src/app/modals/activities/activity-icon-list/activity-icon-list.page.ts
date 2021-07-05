@@ -4,14 +4,12 @@ import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
 
 import { createActivity } from 'src/app/store/actions/user-activities.actions';
 
-import { ActivityIcon } from 'src/app/models/activities/activity-icon.model';
+import { ActivityIcon } from 'src/app/models/activity.model';
 import { ActivityIconsService } from 'src/app/services/activity-icons/activity-icons.service';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityCategoryListPage } from '../activity-category-list/activity-category-list.page';
 
 @Component({
@@ -31,8 +29,7 @@ export class ActivityIconListPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private modalController: ModalController,
-    private activityIconsService: ActivityIconsService,
-    private userActivitiesService: UserActivitiesService
+    private activityIconsService: ActivityIconsService
   ) { }
 
   ngOnInit() {
@@ -63,7 +60,7 @@ export class ActivityIconListPage implements OnInit {
           text: 'Simpan',
           handler: async () => {
             this.modalController.dismiss();
-            
+
             const modal= await this.modalController.create({ component: ActivityCategoryListPage });
             modal.present();
 

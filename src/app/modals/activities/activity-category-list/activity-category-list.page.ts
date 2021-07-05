@@ -7,7 +7,7 @@ import { select ,Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { ActivityCategory } from 'src/app/models/activity.model';
 import { selectActivityCategoryList } from 'src/app/store/selectors/user-activities.selectors';
 
 @Component({

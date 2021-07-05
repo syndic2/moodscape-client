@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ViewContainerRef } from '@angular/
 
 import { PopoverController } from '@ionic/angular';
 
-import { ActivityCategory } from 'src/app/models/activities/activity-category.model';
+import { ActivityCategory } from 'src/app/models//activity.model';
 import { ActivityCategoryPopoverComponent } from '../activity-category-popover/activity-category-popover.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class ActivityCategoryListItemComponent implements OnInit {
       componentProps: { activityCategory: this.activityCategory },
       translucent: true
     });
-
+    
     popover.present();
   }
 }

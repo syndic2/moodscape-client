@@ -22,7 +22,7 @@
           <span class="text-black text-opacity-50">{{ activity.name }}</span>
         </div>
       </div>
-
+      
       <div class="flex items-center gap-x-3 p-2" (click)="onMoveToAnotherCatgory()">
         <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
         <div class="flex flex-col">
@@ -39,15 +39,9 @@
       </div>
     </div>
 
-    <ion-grid fixed class="flex-grow-0">
-      <ion-row>
-        <ion-col size="12" class="p-0">
-          <ion-button (click)="onRemove()" expand="block" color="danger" class="normal-case">
-            <ion-icon slot="start" name="trash"></ion-icon>
-            Hapus
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
+      <ion-icon slot="start" name="trash"></ion-icon>
+      Hapus
+    </ion-button>
   </div>
 </ion-content>

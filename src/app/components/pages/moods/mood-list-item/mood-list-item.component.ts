@@ -10,5 +10,4 @@ export class MoodListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
 }

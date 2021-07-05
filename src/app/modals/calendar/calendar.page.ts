@@ -45,7 +45,7 @@ export class CalendarPage implements OnInit {
   onTitleChanged(title: string) {
     this.viewTitle= title;
   }
-
+  
   onCurrentDateChanged(date: Date) {
     this.currentDate= date;
   }

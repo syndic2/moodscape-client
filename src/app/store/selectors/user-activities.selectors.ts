@@ -1,7 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { StoreFeatureKeys } from '../feature-keys';
-import { UserActivitesState } from '../states/user-activities.state';
+import { UserActivitesState } from '../states';
 
 export const selectActivityCategoriesFeature= createFeatureSelector<UserActivitesState>(StoreFeatureKeys.UserActivities);
 

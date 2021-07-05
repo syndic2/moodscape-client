@@ -1,3 +1,5 @@
+import { Activity } from "./activity.model";
+
 export interface Emoticon {
   name: string;
   value: number;
@@ -6,10 +8,10 @@ export interface Emoticon {
 
 export interface Mood {
   Id: number;
-  mood: string;
+  emoticon: Emoticon,
   timestamps: { date: string, time: string }
   parameters: { internal?: string, external?: string };
-  activity_ids?: number[];
+  activities?: Activity[];
   note?: string;
   imgPaths?: string[];
 };

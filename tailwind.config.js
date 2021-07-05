@@ -8,7 +8,6 @@ module.exports = {
         'fit-content': 'fit-content'
       },
       maxWidth: {
-        'fit-content': 'fit-content',
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
@@ -17,7 +16,6 @@ module.exports = {
         'fit-content': 'fit-content'
       },
       maxHeight: {
-        'fit-content': 'fit-content',
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
@@ -26,7 +24,7 @@ module.exports = {
         '1': '1px'
       },
       colors: {
-        primary: '#5b21b6'
+        primary: 'var(--ion-color-primary)'
       }
     },
   },

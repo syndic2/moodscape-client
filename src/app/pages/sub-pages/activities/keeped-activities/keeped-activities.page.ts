@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { selectKeepedActivities } from 'src/app/store/selectors/user-activities.selectors';
 
-import { Activity } from 'src/app/models/activities/activity.model';
+import { Activity } from 'src/app/models/activity.model';
 import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 
 @Component({
