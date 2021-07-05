@@ -36,7 +36,7 @@ export class CreateDetailMoodPage implements OnInit {
     }
   }
 
-  async openPopover(event, activityCategory: ActivityCategory) {
+  async openPopover(event, activityCategory?: ActivityCategory) {
     const popover= await this.popoverController.create({
       event: event,
       component: ActivityCategoryOptionsPopoverComponent,
