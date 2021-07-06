@@ -11,10 +11,10 @@ export class SelectTimeComponent implements OnInit {
   @Output() selectTimeEvent= new EventEmitter<string>();
   @ViewChild('selectTimeTemplate', { static: true }) template;
 
-  private selectedTime: string= transformDateTime(new Date()).toTime();
+  public selectedTime: string= transformDateTime(new Date()).toTime();
 
   constructor(private viewContainerRef: ViewContainerRef) { }
-  
+
   ngOnInit() {
     this.viewContainerRef.createEmbeddedView(this.template);
     this.selectTimeEvent.emit(this.selectedTime);
