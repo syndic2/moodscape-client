@@ -28,7 +28,7 @@
       </ion-slide>
     </ion-slides>
 
-    <ion-list class="grid grid-flow-row gap-4" *ngIf="articles.length" lines="none">
+    <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" *ngIf="articles.length" lines="none">
       <ion-item id='{{ "article_"+idx }}' *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
       </ion-item>

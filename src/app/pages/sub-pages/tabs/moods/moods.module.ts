@@ -11,7 +11,7 @@ import { userMoodsReducer } from 'src/app/store/reducers/user-moods.reducer';
 
 import { MoodsPageRoutingModule } from './moods-routing.module';
 import { MoodsPage } from './moods.page';
-import { MoodListItemComponent } from 'src/app/components/pages/moods/mood-list-item/mood-list-item.component';
+import { MoodListItemModule } from 'src/app/components/pages/moods/mood-list-item/mood-list-item.module';
 import { MoodListLoaderComponent } from 'src/app/components/pages/moods/mood-list-loader/mood-list-loader.component';
 
 @NgModule({
@@ -20,11 +20,11 @@ import { MoodListLoaderComponent } from 'src/app/components/pages/moods/mood-lis
     FormsModule,
     IonicModule,
     StoreModule.forFeature(StoreFeatureKeys.UserMoods, userMoodsReducer),
-    MoodsPageRoutingModule
+    MoodsPageRoutingModule,
+    MoodListItemModule
   ],
   declarations: [
     MoodsPage,
-    MoodListItemComponent,
     MoodListLoaderComponent
   ]
 })

@@ -1,0 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-toolbar>
+      <ion-title>{{ ((mood$ | async)?.timestamps.date | dateInBahasa).fullDate }}</ion-title>
+    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onUpdate()">
+        <ion-icon class="icon" name="checkmark-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>

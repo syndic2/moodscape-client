@@ -1,19 +1,13 @@
 <ion-card class="rounded-lg mx-0">
   <ion-card-content>
     <ion-grid fixed>
-      <ion-row>
-        <ion-col class="flex-grow-0">
-          <span class="text-7xl h-16">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </span>
+      <ion-row class="flex gap-x-2">
+        <ion-col class="flex-grow-0 p-0">
+          <ion-skeleton-text animated class="w-24 h-24"></ion-skeleton-text>
         </ion-col>
-        <ion-col class="flex flex-col justify-around">
-          <span class="text-3xl">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </span>
-          <span class="block text-base">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </span>
+        <ion-col class="flex flex-col justify-around p-0">
+          <ion-skeleton-text animated class="w-1/2"></ion-skeleton-text>
+          <ion-skeleton-text animated class="w-3/4"></ion-skeleton-text>
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -10,19 +10,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar (ionChange)="onSearchChange($event)" inputmode="text" type="text" placeholder="Cari mood" showCancelButton="never" shape="round"></ion-searchbar>
+  <ion-searchbar (click)="openSearchPage()" inputmode="text" type="text" placeholder="Cari mood" showCancelButton="never">
+  </ion-searchbar>
+
 	<ion-button [routerLink]="['/side-menu/tabs/moods/select-mood']" expand="block" shape="round" color="primary" class="normal-case">
     Tambahkan Mood anda!
     <ion-icon slot="start" name="add-circle"></ion-icon>
   </ion-button>
-
-  <ng-container *ngIf="!(moods$ | async)?.length; else showMoods">
+  
+  <ng-container *ngIf="isLoading; else showMoods">
     <mood-list-loader class="block mt-6"></mood-list-loader>
   </ng-container>
   <ng-template #showMoods>
-    <ion-list lines="none" class="grid grid-flow-row gap-y-4 bg-transparent mt-6">
+    <ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent mt-6 p-0">
       <ion-item *ngFor="let mood of (moods$ | async)">
-        {{ mood.emoticon.name }}
+        <mood-list-item [mood]="mood" class="flex-grow"></mood-list-item>
       </ion-item>
     </ion-list>
   </ng-template>

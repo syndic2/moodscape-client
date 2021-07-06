@@ -9,6 +9,14 @@ const routes: Routes = [
     component: MoodsPage
   },
   {
+    path: 'detail/:id',
+    loadChildren: () => import('../../../details/mood-detail/mood-detail.module').then(m => m.MoodDetailPageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('../../../sub-pages/moods/search-mood/search-mood.module').then(m => m.SearchMoodPageModule)
+  },
+  {
     path: 'select-mood',
     loadChildren: () => import('../../../sub-pages/moods/select-mood/select-mood.module').then(m => m.SelectMoodPageModule)
   },

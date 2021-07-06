@@ -87,7 +87,7 @@ export const userMoodsReducer= createReducer(
     ...filterArrayByAnotherArray(
       { type: 'object', items: state },
       { type: 'none-object', items: moodIds },
-      { field1: 'Id', field2: 'Id' }
+      { field1: 'Id' }
     )
   ])
 );

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -8,7 +9,6 @@ import { selectMoods } from 'src/app/store/selectors/user-moods-selectors';
 
 import { Mood } from 'src/app/models/mood.model';
 import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service';
-
 @Component({
   selector: 'app-moods',
   templateUrl: './moods.page.html',
@@ -21,9 +21,9 @@ import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service
 export class MoodsPage implements OnInit {
   public moods$: Observable<Mood[]>= this.store.select(selectMoods);
   private getUserMoodsListener: Subscription= null;
-  private isLoading: boolean= true;
-
-  constructor(private store: Store, private userMoodsService: UserMoodsService) { }
+  public isLoading: boolean= false;
+  
+  constructor(private store: Store, private router: Router, private userMoodsService: UserMoodsService) { }
 
   ngOnInit() {
   }
@@ -34,12 +34,12 @@ export class MoodsPage implements OnInit {
       //setUserMoods({ userMoods: res });
     });*/
   }
-  
+
   ionViewWillLeave() {
     this.getUserMoodsListener && this.getUserMoodsListener.unsubscribe();
   }
 
-  async onSearchChange(event) {
-
+  openSearchPage() {
+    this.router.navigate(['/side-menu/tabs/moods/search']);
   }
 }

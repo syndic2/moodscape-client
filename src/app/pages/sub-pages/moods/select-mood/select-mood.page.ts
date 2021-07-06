@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Emoticon } from 'src/app/models/mood.model';
-import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'app-select-mood',
@@ -13,34 +12,17 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
   styleUrls: ['./select-mood.page.scss'],
 })
 export class SelectMoodPage implements OnInit {
-  public selectedDate: Date= new Date();
-  public selectedTime: string= transformDateTime(new Date()).toTime();
+  public selectedDate: Date;
+  public selectedTime: string;
   public selectedEmoticon: Emoticon;
 
-  constructor(
-    private router: Router,
-    private alertController: AlertController,
-    private modalController: ModalController
-  ) { }
+  constructor(private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
   }
 
-  async onSelectDate() {
-    const modal= await this.modalController.create({
-      component: CalendarPage,
-      componentProps: {
-        selectedDate: this.selectedDate
-      },
-      cssClass: 'calendar-modal'
-    });
-    modal.present();
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.selectedDate) {
-      this.selectedDate= data.selectedDate;
-    }
+  onSelectDate(date: Date) {
+    this.selectedDate= date;
   }
 
   onSelectTime(time: string) {

@@ -14,5 +14,5 @@ export const selectMood= (props) => {
   return createSelector(
     selectMoods,
     state => state.find(object => object.Id === props.Id)
-  )
+  );
 };

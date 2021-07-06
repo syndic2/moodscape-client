@@ -6,10 +6,10 @@ import { transformDateTime } from 'src/app/utilities/helpers';
   name: 'dateInBahasa'
 })
 export class DateInBahasaPipe implements PipeTransform {
-  transform(date: Date, ...args: unknown[]) {
+  transform(date: Date | string, ...args: unknown[]) {
     return {
-      shortDate: transformDateTime(date).toShortDate(),
-      fullDate: transformDateTime(date).toDate()
+      shortDate: transformDateTime(new Date(date)).toShortDate(),
+      fullDate: transformDateTime(new Date(date)).toDate()
     };
   }
 }
