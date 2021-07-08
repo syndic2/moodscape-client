@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 
 import { Emoticon } from 'src/app/models/mood.model';
 
@@ -8,6 +16,7 @@ import { Emoticon } from 'src/app/models/mood.model';
   styleUrls: ['./select-emoticon.component.scss'],
 })
 export class SelectEmoticonComponent implements OnInit {
+  @Input() selectedEmoticon: Emoticon;
   @Output() selectEmoticonEvent= new EventEmitter<any>();
   @ViewChild('selectEmoticon', { static: true }) template;
 
@@ -15,7 +24,7 @@ export class SelectEmoticonComponent implements OnInit {
     {
       name: 'gembira',
       value: 5,
-      icon: 'icons/svg/emoticons/smiling.svg'
+      icon: 'icons/svg/emoticons/happy.svg'
     },
     {
       name: 'senang',
@@ -35,7 +44,7 @@ export class SelectEmoticonComponent implements OnInit {
     {
       name: 'buruk',
       value: 1,
-      icon: 'icons/svg/emoticons/angry.svg'
+      icon: 'icons/svg/emoticons/awful.svg'
     },
   ];
 

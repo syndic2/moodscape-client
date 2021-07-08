@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { selectMood } from 'src/app/store/selectors/user-moods-selectors';
 import { updateMood } from 'src/app/store/actions/user-moods.actions';
 
-import { Mood } from 'src/app/models/mood.model';
+import { transformDateTime } from 'src/app/utilities/helpers';
+import { Activity } from 'src/app/models/activity.model';
+import { Emoticon, Mood } from 'src/app/models/mood.model';
 import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service';
 
 @Component({
@@ -18,22 +20,73 @@ import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service
   styleUrls: ['./mood-detail.page.scss'],
 })
 export class MoodDetailPage implements OnInit {
-  public mood$: Observable<Mood>= null;
+  private updateMoodListener: Subscription= null;
+  public mood: Mood;
   private moodId: number;
 
   constructor(
     private store: Store,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastController: ToastController,
+    private alertController: AlertController,
     private userMoodsService: UserMoodsService
   ) { }
 
   ngOnInit() {
     this.moodId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.mood$= this.store.select(selectMood({ Id: this.moodId }));
+    this.store.select(selectMood({ Id: this.moodId })).subscribe(res => {
+      this.mood= {
+        ...res,
+        timestamps: { ...res.timestamps },
+        parameters: { ...res.parameters },
+        activities: [...res.activities]
+      };
+    });
+  }
+
+  ionViewWillLeave() {
+    this.updateMoodListener && this.updateMoodListener.unsubscribe();
+  }
+
+  pullRefresh(event) {
+    this.store.select(selectMood({ Id: this.moodId })).subscribe(res => {
+      this.mood= {
+        ...res,
+        timestamps: { ...res.timestamps },
+        parameters: { ...res.parameters },
+        activities: [...res.activities]
+      };
+
+      event && event.target.complete();
+    });
+  }
+
+  onSelectDate(date: Date) {
+    this.mood.timestamps.date= transformDateTime(new Date(date)).toISODate();
+  }
+
+  onSelectTime(time: string) {
+    this.mood.timestamps.time= time;
+  }
+
+  onSelectEmoticon(emoticon: Emoticon) {
+    this.mood.emoticon= emoticon;
+  }
+
+  onSelectActivities(activities: Activity[]) {
+    this.mood.activities= activities;
   }
 
   async onUpdate() {
+    this.store.dispatch(updateMood({ moodId: this.mood.Id, fields: this.mood }));
 
+    const alert= await this.alertController.create({
+      subHeader: 'Perbarui Mood',
+      message: 'Berhasil menyimpan perubahan!',
+      buttons: ['OK']
+    });
+    alert.present();
+    
+    //this.router.navigate(['/side-menu/tabs/moods']);
   }
 }

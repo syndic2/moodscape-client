@@ -1,13 +1,13 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { Mood } from 'src/app/models/mood.model';
 
 import { StoreFeatureKeys  } from '../feature-keys';
+import { UserMoodsState } from '../states';
 
-export const selectUserMoodsFeature= createFeatureSelector<Mood[]>(StoreFeatureKeys.UserMoods);
+export const selectUserMoodsFeature= createFeatureSelector<UserMoodsState>(StoreFeatureKeys.UserMoods);
 
 export const selectMoods= createSelector(
   selectUserMoodsFeature,
-  state => state
+  state => state.moods
 );
 
 export const selectMood= (props) => {

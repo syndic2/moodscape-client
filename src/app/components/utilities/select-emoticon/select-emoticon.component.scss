@@ -1,9 +1,10 @@
-.emoticons {
+ion-icon {
+  font-size: 3rem;
   transition: transform .1s;
 }
 
 input[type=radio] {
-  &:checked + .emoticons {
+  &:checked + ion-icon {
     transform: scale(1.25);
   }
 }

@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-toolbar>
-      <ion-title>{{ ((mood$ | async)?.timestamps.date | dateInBahasa).fullDate }}</ion-title>
+      <ion-title>{{ (mood.timestamps.date | dateInBahasa).fullDate }}</ion-title>
     </ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
@@ -15,5 +15,73 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6" class="ion-activatable">
+        <select-date [selectedDate]="mood.timestamps.date" (selectDateEvent)="onSelectDate($event)"></select-date>
+        <ion-ripple-effect></ion-ripple-effect>
+      </ion-col>
+
+      <ion-col size="6" class="ion-activatable">
+        <select-time [selectedTime]="mood.timestamps.time" (selectTimeEvent)="onSelectTime($event)"></select-time>
+        <ion-ripple-effect></ion-ripple-effect>
+      </ion-col>
+
+      <ion-col size="12" class="mt-8">
+        <select-emoticon [selectedEmoticon]="mood.emoticon" (selectEmoticonEvent)="onSelectEmoticon($event)"></select-emoticon>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex items-center gap-x-1">
+          <ion-icon src="../../../../assets/icons/svg/thinking.svg" color="primary"></ion-icon>
+          <ion-label>Internal</ion-label>
+        </div>
+        <ion-textarea rows="5" name="internal" [(ngModel)]="mood.parameters.internal" class="rounded-2xl bg-gray-200 w-full p-2" placeholder="Contoh: Apa yang sedang anda pikirkan? Mengelamun? Membayangkan sesuatu?"></ion-textarea>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex items-center gap-x-1">
+          <ion-icon src="../../../../assets/icons/svg/dancing.svg" color="primary"></ion-icon>
+          <ion-label>External</ion-label>
+        </div>
+        <ion-textarea rows="5" name="external" [(ngModel)]="mood.parameters.external" class="rounded-2xl bg-gray-200 w-full p-2" placeholder="Contoh: Anda sedang keluar bersama siapa? Dimana? Kapan?"></ion-textarea>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex items-center gap-x-1">
+          <ion-icon name="accessibility" color="primary"></ion-icon>
+          <ion-label>Aktivitas</ion-label>
+        </div>
+        <select-activities [selectedActivities]="mood.activities" (selectActivitiesEvent)="onSelectActivities($event)"></select-activities>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex items-center gap-x-1">
+          <ion-icon name="document-text" color="primary"></ion-icon>
+          <ion-label>Catatan</ion-label>
+        </div>
+        <ion-textarea rows="5" [(ngModel)]="mood.note" class="rounded-2xl bg-gray-200 w-full p-2" placeholder="Catatan tambahan..."></ion-textarea>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex items-center gap-x-1">
+          <ion-icon name="camera" color="primary"></ion-icon>
+          <ion-label>Gambar</ion-label>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" class="mt-4">
+        <div class="flex flex-col items-center">
+          <button type="button" (click)="onUpdate()" class="flex text-5xl focus:outline-none">
+            <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+          </button>
+          <span class="block text-md">Simpan</span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

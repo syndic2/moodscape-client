@@ -1,8 +1,8 @@
 <ion-card class="rounded-2xl">
   <ion-card-content>
     <div class="flex items-start gap-x-4">
-      <img [src]="'../../../../../assets/'+mood.emoticon.icon" class="object-contain w-14" alt="">
-      <div class="flex-grow flex flex-col gap-y-1">
+      <ion-icon [src]="'../../../../../assets/'+mood.emoticon.icon" color="primary" class="emoticons"></ion-icon>
+      <div class="flex-1 flex flex-col gap-y-1">
         <!-- Detail -->
         <div class="flex flex-col">
           <span>{{ (mood.timestamps.date | dateInBahasa).fullDate }}</span>
@@ -11,10 +11,10 @@
             <span>{{ mood.timestamps.time }}</span>
           </div>
         </div>
-        
+
         <!-- Activities -->
-        <div class="flex overflow gap-x-2">
-          <span *ngFor="let activity of mood.activities">{{ activity.icon }}</span>
+        <div class="flex flex-wrap gap-2">
+          <label *ngFor="let activity of mood.activities">{{ activity.name }}</label>
         </div>
       </div>
       <div class="relative">

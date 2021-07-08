@@ -1,4 +1,12 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 
@@ -8,10 +16,9 @@ import { transformDateTime } from 'src/app/utilities/helpers';
   styleUrls: ['./select-time.component.scss'],
 })
 export class SelectTimeComponent implements OnInit {
+  @Input() selectedTime: string= transformDateTime(new Date()).toTime();
   @Output() selectTimeEvent= new EventEmitter<string>();
   @ViewChild('selectTimeTemplate', { static: true }) template;
-
-  public selectedTime: string= transformDateTime(new Date()).toTime();
 
   constructor(private viewContainerRef: ViewContainerRef) { }
 

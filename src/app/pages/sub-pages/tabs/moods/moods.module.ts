@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
@@ -19,6 +21,7 @@ import { MoodListLoaderComponent } from 'src/app/components/pages/moods/mood-lis
     CommonModule,
     FormsModule,
     IonicModule,
+    FontAwesomeModule,
     StoreModule.forFeature(StoreFeatureKeys.UserMoods, userMoodsReducer),
     MoodsPageRoutingModule,
     MoodListItemModule

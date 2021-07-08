@@ -22,7 +22,7 @@ export class MoodsPage implements OnInit {
   public moods$: Observable<Mood[]>= this.store.select(selectMoods);
   private getUserMoodsListener: Subscription= null;
   public isLoading: boolean= false;
-  
+
   constructor(private store: Store, private router: Router, private userMoodsService: UserMoodsService) { }
 
   ngOnInit() {
@@ -37,6 +37,10 @@ export class MoodsPage implements OnInit {
 
   ionViewWillLeave() {
     this.getUserMoodsListener && this.getUserMoodsListener.unsubscribe();
+  }
+
+  pullRefresh(event) {
+    event && event.target.complete();
   }
 
   openSearchPage() {

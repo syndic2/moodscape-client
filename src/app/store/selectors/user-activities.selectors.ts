@@ -7,7 +7,7 @@ export const selectActivityCategoriesFeature= createFeatureSelector<UserActivite
 
 export const selectActivityCategoryList= createSelector(
   selectActivityCategoriesFeature,
-  (state) => state.activityCategories.map((object, index) => ({
+  state => state.activityCategories.map((object, index) => ({
     Id: object.Id,
     category: object.category,
     activitiesCount: object.activities.length
@@ -47,6 +47,49 @@ export const selectActivities= createSelector(
     return activities;
   }
 );
+
+export const selectCheckedUserActivities= (props) => {
+  return createSelector(
+    selectUserActivities,
+    state => state.map(activityCategory => {
+      return {
+        ...activityCategory,
+        activities: [
+          ...activityCategory.activities.map(userActivity => {
+            const activity= props.selectedActivities.find(selected => selected.Id === userActivity.Id);
+
+            if (!activity) {
+              return userActivity;
+            }
+
+            return {
+              ...userActivity,
+              isChecked: true
+            }
+          })
+        ]
+      };
+    })
+  );
+};
+
+export const selectCheckedKeepedActivities= (props) => {
+  return createSelector(
+    selectKeepedActivities,
+    state => state.map(keeped => {
+      const activity= props.selectedActivities.find(selected => selected.Id === keeped.Id);
+
+      if (!activity) {
+        return keeped;
+      }
+
+      return {
+        ...keeped,
+        isChecked: true
+      }
+    })
+  );
+};
 
 export const selectActivity= (props) => {
   return createSelector(

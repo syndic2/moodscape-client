@@ -1,0 +1,41 @@
+<ng-template #selectActivitiesTemplate>
+  <div class="flex flex-col gap-y-4 mt-2">
+    <!-- Keeped Activities -->
+    <ng-container *ngIf="(keepedActivities$ | async)?.length">
+      <accordion [title]='"Tidak berkategori"'>
+        <button type="button" extraButtons (click)="openPopover($event)" class="flex focus:outline-none">
+          <ion-icon name="add-circle-outline" color="primary"></ion-icon>
+        </button>
+        
+        <div content class="flex flex-wrap justify-center gap-2 mt-3">
+          <div *ngFor="let activity of (keepedActivities$ | async)" class="relative">
+            <div class="absolute inset-0 flex justify-center items-center">
+              <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="activity.isChecked ? activity.isChecked : false">
+            </div>
+            <label>{{ activity.name }}</label>
+          </div>
+        </div>
+      </accordion>
+    </ng-container>
+
+    <!-- Categorized Activities -->
+    <ng-container *ngIf="(activityCategories$ | async)?.length">
+      <ng-container *ngFor="let activityCategory of (activityCategories$ | async)">
+        <accordion *ngIf="activityCategory.activities.length" [title]="activityCategory.category">
+          <button type="button" extraButtons (click)="openPopover($event, activityCategory)" class="flex focus:outline-none">
+            <ion-icon name="add-circle-outline" color="primary"></ion-icon>
+          </button>
+
+          <div content class="flex flex-wrap justify-center gap-2 mt-3">
+            <div *ngFor="let activity of activityCategory.activities" class="relative">
+              <div class="absolute inset-0 flex justify-center items-center">
+                <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="activity.isChecked ? activity.isChecked : false">
+              </div>
+              <label>{{ activity.name }}</label>
+            </div>
+          </div>
+        </accordion>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

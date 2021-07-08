@@ -6,22 +6,20 @@ import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { userActivitiesReducer } from 'src/app/store/reducers/user-activities.reducer';
+import { userMoodsReducer } from 'src/app/store/reducers/user-moods.reducer';
 
 import { CreateDetailMoodPageRoutingModule } from './create-detail-mood-routing.module';
 import { CreateDetailMoodPage } from './create-detail-mood.page';
-import { ActivityCategoryOptionsPopoverModule } from 'src/app/components/pages/moods/activity-category-options-popover/activity-category-options-popover.module';
-import { AccordionModule } from 'src/app/components/widgets/accordion/accordion.module';
+import { SelectActivitiesModule } from 'src/app/components/utilities/select-activities/select-activities.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.UserActivities, userActivitiesReducer),
+    StoreModule.forFeature(StoreFeatureKeys.UserMoods, userMoodsReducer),
     CreateDetailMoodPageRoutingModule,
-    ActivityCategoryOptionsPopoverModule,
-    AccordionModule
+    SelectActivitiesModule
   ],
   declarations: [CreateDetailMoodPage]
 })
