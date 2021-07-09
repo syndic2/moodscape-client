@@ -6,11 +6,11 @@
         <button type="button" extraButtons (click)="openPopover($event)" class="flex focus:outline-none">
           <ion-icon name="add-circle-outline" color="primary"></ion-icon>
         </button>
-        
+
         <div content class="flex flex-wrap justify-center gap-2 mt-3">
           <div *ngFor="let activity of (keepedActivities$ | async)" class="relative">
             <div class="absolute inset-0 flex justify-center items-center">
-              <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="activity.isChecked ? activity.isChecked : false">
+              <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="!activity.isChecked ? false : activity.isChecked">
             </div>
             <label>{{ activity.name }}</label>
           </div>
@@ -29,7 +29,7 @@
           <div content class="flex flex-wrap justify-center gap-2 mt-3">
             <div *ngFor="let activity of activityCategory.activities" class="relative">
               <div class="absolute inset-0 flex justify-center items-center">
-                <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="activity.isChecked ? activity.isChecked : false">
+                <input type="checkbox" (change)="onSelectActivity($event)" [value]="activity | json" [checked]="!activity.isChecked ? false : activity.isChecked">
               </div>
               <label>{{ activity.name }}</label>
             </div>

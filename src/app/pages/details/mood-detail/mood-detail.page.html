@@ -22,7 +22,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="6" class="ion-activatable">
-        <select-date [selectedDate]="mood.timestamps.date" (selectDateEvent)="onSelectDate($event)"></select-date>
+        <select-date [selectedDate]="(mood.timestamps.date | dateInBahasa).dateObject" (selectDateEvent)="onSelectDate($event)"></select-date>
         <ion-ripple-effect></ion-ripple-effect>
       </ion-col>
 

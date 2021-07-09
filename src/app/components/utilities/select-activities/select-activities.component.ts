@@ -32,8 +32,8 @@ export class SelectActivitiesComponent implements OnInit {
   @Output() selectActivitiesEvent= new EventEmitter<Activity[]>();
   @ViewChild('selectActivitiesTemplate', { static: true }) template;
 
-  public activityCategories$: Observable<ActivityCategory[]>= this.store.select(selectUserActivities);
-  public keepedActivities$: Observable<Activity[]>= this.store.select(selectKeepedActivities);
+  public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(selectUserActivities);
+  public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(selectKeepedActivities);
 
   constructor(
     private viewContainerRef: ViewContainerRef,
@@ -71,7 +71,7 @@ export class SelectActivitiesComponent implements OnInit {
     } else {
       this.selectedActivities= [...this.selectedActivities.filter(object => object.Id !== activity.Id)];
     }
-    
+
     this.selectActivitiesEvent.emit(this.selectedActivities);
   }
 }

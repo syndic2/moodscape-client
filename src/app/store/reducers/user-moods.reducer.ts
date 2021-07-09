@@ -61,8 +61,6 @@ export const userMoodsReducer= createReducer(
     ...state,
     moods: [
       ...state.moods.map((object, index) => {
-        console.log('fields', fields);
-
         if (object.Id !== moodId) {
           return object;
         }
