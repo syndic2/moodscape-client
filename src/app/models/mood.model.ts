@@ -15,3 +15,11 @@ export interface Mood {
   note?: string;
   imgPaths?: string[];
 };
+
+export interface FilterMood {
+  searchText: string,
+  emoticon?: Emoticon,
+  parameters?: { internal?: boolean, external?: boolean },
+  activities?: Activity[],
+  note?: boolean
+};

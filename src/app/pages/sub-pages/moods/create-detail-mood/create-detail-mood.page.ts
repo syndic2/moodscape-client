@@ -34,7 +34,8 @@ export class CreateDetailMoodPage implements OnInit {
           internal: form.value.internal,
           external: form.value.external
         },
-        activities: this.selectedActivities
+        activities: this.selectedActivities,
+        note: form.value.note
       }
     };
     this.store.dispatch(createMood({ mood: this.fields }));

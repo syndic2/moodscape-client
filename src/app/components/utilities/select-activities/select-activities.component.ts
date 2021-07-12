@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { PopoverController } from '@ionic/angular';
 
@@ -28,22 +20,16 @@ import { ActivityCategoryOptionsPopoverComponent } from '../../pages/moods/activ
   styleUrls: ['./select-activities.component.scss'],
 })
 export class SelectActivitiesComponent implements OnInit {
+  @Input() extraButtons: boolean= true;
   @Input() selectedActivities: Activity[]= [];
   @Output() selectActivitiesEvent= new EventEmitter<Activity[]>();
-  @ViewChild('selectActivitiesTemplate', { static: true }) template;
 
   public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(selectUserActivities);
   public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(selectKeepedActivities);
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private store: Store,
-    private popoverController: PopoverController
-  ) { }
+  constructor(private store: Store, private popoverController: PopoverController) { }
 
   ngOnInit() {
-    this.viewContainerRef.createEmbeddedView(this.template);
-
     if (this.selectedActivities.length) {
       this.activityCategories$= this.store.select(selectCheckedUserActivities({ selectedActivities: this.selectedActivities }));
       this.keepedActivities$= this.store.select(selectCheckedKeepedActivities({ selectedActivities: this.selectedActivities }));

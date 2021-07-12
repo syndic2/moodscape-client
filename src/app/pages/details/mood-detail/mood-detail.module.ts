@@ -23,7 +23,7 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.MoodModule, userMoodsReducer),
+    StoreModule.forFeature(StoreFeatureKeys.UserMoods, userMoodsReducer),
     FontAwesomeModule,
     MoodDetailPageRoutingModule,
     SelectDateModule,

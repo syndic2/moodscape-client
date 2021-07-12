@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 import { Emoticon } from 'src/app/models/mood.model';
 
@@ -18,7 +10,6 @@ import { Emoticon } from 'src/app/models/mood.model';
 export class SelectEmoticonComponent implements OnInit {
   @Input() selectedEmoticon: Emoticon;
   @Output() selectEmoticonEvent= new EventEmitter<any>();
-  @ViewChild('selectEmoticon', { static: true }) template;
 
   public emoticons: Emoticon[]= [
     {
@@ -48,11 +39,9 @@ export class SelectEmoticonComponent implements OnInit {
     },
   ];
 
-  constructor(private viewContainerRef: ViewContainerRef) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.viewContainerRef.createEmbeddedView(this.template);
-  }
+  ngOnInit() {}
 
   onSelect(emoticon: Emoticon) {
     this.selectEmoticonEvent.emit(emoticon);

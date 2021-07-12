@@ -5,11 +5,6 @@ export const setUserMoods= createAction(
   props<{ userMoods }>()
 );
 
-export const searchMood= createAction(
-  '[USER MOODS] Search Mood',
-  props<{ fields }>()
-);
-
 export const createMood= createAction(
   '[USER MOODS] Create New Mood',
   props<{ mood }>()

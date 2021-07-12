@@ -3,30 +3,30 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
 import { userMoodsReducer } from 'src/app/store/reducers/user-moods.reducer';
 
-import { MoodsPageRoutingModule } from './moods-routing.module';
-import { MoodsPage } from './moods.page';
-import { MoodListItemModule } from 'src/app/components/pages/moods/mood-list-item/mood-list-item.module';
+import { SearchResultsMoodPageRoutingModule } from './search-results-mood-routing.module';
+import { SearchResultsMoodPage } from './search-results-mood.page';
 import { MoodListLoaderModule } from 'src/app/components/pages/moods/mood-list-loader/mood-list-loader.module';
+import { MoodListItemModule } from 'src/app/components/pages/moods/mood-list-item/mood-list-item.module';
+import { MoodSearchFiltersComponent } from 'src/app/components/pages/moods/mood-search-filters/mood-search-filters.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FontAwesomeModule,
     StoreModule.forFeature(StoreFeatureKeys.UserMoods, userMoodsReducer),
-    MoodsPageRoutingModule,
+    SearchResultsMoodPageRoutingModule,
     MoodListItemModule,
     MoodListLoaderModule
   ],
-  declarations: [MoodsPage]
+  declarations: [
+    SearchResultsMoodPage,
+    MoodSearchFiltersComponent
+  ]
 })
-export class MoodsPageModule {}
+export class SearchResultsMoodPageModule {}

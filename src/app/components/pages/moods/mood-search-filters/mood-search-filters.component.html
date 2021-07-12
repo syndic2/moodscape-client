@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-y-2">
+  <span class="font-semibold">Pencarian bedasarkan:</span>
+  <ul class="list-disc list-inside">
+    <li>
+      <div class="inline-flex items-center gap-x-2">
+        <label>Mood:</label>
+        <ng-container *ngIf="!filters?.emoticon; else showEmoticon">
+          <ion-icon name="remove-outline" color="danger"></ion-icon>
+        </ng-container>
+        <ng-template #showEmoticon>
+          <ion-icon [src]="'../../../../assets/'+filters?.emoticon?.icon" color="primary" size="large"></ion-icon>
+        </ng-template>
+      </div>
+    </li>
+    <li>
+      <div class="inline-flex items-center gap-x-2">
+        <label>Internal:</label>
+        <ion-icon [name]="filters?.parameters?.internal ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.internal ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li>
+      <div class="inline-flex items-center gap-x-2">
+        <label>External:</label>
+        <ion-icon [name]="filters?.parameters?.external ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.external ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li>
+      <div class="inline-flex gap-x-2">
+        <label class="h-fit-content">Aktivitas:</label>
+        <ng-container *ngIf="!filters?.activities.length; else showActivities">
+          <ion-icon name="remove-outline" color="danger"></ion-icon>
+        </ng-container>
+        <ng-template #showActivities>
+          <div class="flex flex-wrap gap-1">
+            <label *ngFor="let activity of filters?.activities; let isLast= last;">
+              {{ activity.name }}{{ isLast ? '' : ',' }}
+            </label>
+          </div>
+        </ng-template>
+      </div>
+    </li>
+    <li>
+      <div class="inline-flex items-center gap-x-2">
+        <label>Catatan:</label>
+        <ion-icon [name]="filters?.note ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.note ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+  </ul>
+</div>

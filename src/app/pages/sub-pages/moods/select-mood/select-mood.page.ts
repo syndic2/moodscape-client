@@ -50,7 +50,7 @@ export class SelectMoodPage implements OnInit {
           }
         }
       };
-      this.router.navigate(['/side-menu/tabs/moods/create-mood'], navigationExtras);
+      this.router.navigate(['/moods/create/step-2'], navigationExtras);
     }
   }
 }

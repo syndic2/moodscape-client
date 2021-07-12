@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-			<ion-back-button defaultHref="side-menu/tabs/moods/select-mood"></ion-back-button>
+			<ion-back-button defaultHref="moods/create/step-1"></ion-back-button>
 		</ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -32,7 +32,7 @@
             <ion-icon name="accessibility" color="primary"></ion-icon>
             <ion-label>Aktivitas</ion-label>
           </div>
-          <select-activities (selectActivitiesEvent)="onSelectActivities($event)"></select-activities>
+          <select-activities (selectActivitiesEvent)="onSelectActivities($event)" class="block mt-2"></select-activities>
         </ion-col>
 
         <ion-col size="12">

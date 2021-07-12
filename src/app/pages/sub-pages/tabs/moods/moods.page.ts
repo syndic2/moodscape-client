@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -23,7 +22,7 @@ export class MoodsPage implements OnInit {
   private getUserMoodsListener: Subscription= null;
   public isLoading: boolean= false;
 
-  constructor(private store: Store, private router: Router, private userMoodsService: UserMoodsService) { }
+  constructor(private store: Store, private userMoodsService: UserMoodsService) { }
 
   ngOnInit() {
   }
@@ -41,9 +40,5 @@ export class MoodsPage implements OnInit {
 
   pullRefresh(event) {
     event && event.target.complete();
-  }
-
-  openSearchPage() {
-    this.router.navigate(['/side-menu/tabs/moods/search']);
   }
 }

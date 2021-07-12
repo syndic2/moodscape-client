@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Hasil pencarian</ion-title>
+    <ion-buttons slot="start">
+			<ion-back-button defaultHref="moods/search"></ion-back-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="isLoading; else finishLoading">
+    <mood-list-loader></mood-list-loader>
+  </ng-container>
+
+  <ng-template #finishLoading>
+    <div class="flex flex-col gap-y-2 h-full">
+      <mood-search-filters [filters]="filters"></mood-search-filters>
+
+      <ng-container *ngIf="!(searchResults$ | async)?.length; else showSearchResults">
+        <div class="flex-1 flex flex-col items-center justify-center gap-y-2">
+          <img src="../../../../../assets/images/no-data-found.png" class="object-contain w-72" alt="">
+          <label class="font-semibold">-Data tidak ditemukan-</label>
+        </div>
+      </ng-container>
+
+      <ng-template #showSearchResults>
+        <div class="flex flex-col gap-y-1 mt-8">
+          <span class="font-semibold">Data yang ditemukan: {{ (searchResults$ | async)?.length }} data</span>
+          <ion-list lines="none" class="grid grid-flow-row bg-transparent p-0">
+            <ion-item *ngFor="let mood of (searchResults$ | async)">
+              <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</ion-content>

@@ -25,12 +25,12 @@ export class MoodPopoverComponent implements OnInit {
     private popoverController: PopoverController,
     private userMoodsService: UserMoodsService
   ) { }
-
+    
   ngOnInit() {}
 
   onUpdate() {
     this.popoverController.dismiss();
-    this.router.navigate(['/side-menu/tabs/moods/detail', this.mood.Id]);
+    this.router.navigate(['/moods', this.mood.Id]);
   }
 
   async onRemove() {
