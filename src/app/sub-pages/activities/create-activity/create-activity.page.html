@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg sm:text-xl">Aktivitas Baru</ion-title>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/settings"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="flex flex-col gap-y-2 h-full">
+    <div class="flex justify-center items-center p-8">
+      <img src="../../../../../assets/images/meditation.jpg" class="rounded-full" alt="">
+    </div>
+
+    <form #createActivityForm="ngForm" (ngSubmit)="onSubmit(createActivityForm)" class="flex-1 flex flex-col gap-y-2">
+      <ion-item lines="none" class="flex-grow rounded-xl">
+        <ion-label>Nama</ion-label>
+        <ion-input type="text" inputmode="text" name="name" ngModel placeholder="Nama aktivitas"></ion-input>
+      </ion-item>
+      <ion-button type="submit" expand="block" shape="round" class="normal-case w-1/2 mx-auto">
+        <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
+        Lanjut
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

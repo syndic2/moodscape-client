@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border">
+	<ion-toolbar>
+		<ion-title class="text-lg sm:text-xl">Beranda</ion-title>
+		<ion-buttons slot="start">
+			<ion-menu-button menu="side-menu">
+				<ion-icon src="../../assets/icons/svg/menu.svg" class="icon"></ion-icon>
+			</ion-menu-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section>
+    <ng-container *ngIf="!clock; else showClock">
+      <clock-loader></clock-loader>
+    </ng-container>
+    <ng-template #showClock>
+      <ion-card class="bg-purple-700 rounded-lg m-0 p-3">
+        <ion-card-content class="flex items-center gap-x-2 text-white">
+          <h1 class="text-7xl sm:text-6xl mb-0">{{ clock.hours }}</h1>
+          <div class="flex flex-col gap-y-1">
+            <span class="text-2xl sm:text-lg">: {{ clock.minutes }}</span>
+            <span class="text-lg">{{ clock.toDate() }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </section>
+
+	<section class="mt-10">
+    <div class="flex justify-between items-center">
+      <h1 class="text-md sm:text-lg font-bold">Asupan Motivasimu!</h1>
+      <a class="text-primary" [routerLink]="['/articles']">Lihat semua</a>
+    </div>
+    <ng-container *ngIf="!articles.length; else showArticles">
+      <article-featured-loader></article-featured-loader>
+    </ng-container>
+    <ng-template #showArticles>
+      <ion-slides class="mt-2" [options]="sliderOptions" pager="true">
+        <ion-slide *ngFor="let article of articles" [routerLink]="['/articles', article.urlName]">
+          <article-featured-item [article]="article"></article-featured-item>
+        </ion-slide>
+      </ion-slides>
+    </ng-template>
+  </section>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button size="small" [routerLink]="['/chat-with-bot']">
+    <ion-icon name="chatbubble" size="default" class="p-1"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

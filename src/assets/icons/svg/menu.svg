@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Svg Vector Icons : http://www.onlinewebfonts.com/icon -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
-  <metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="980.000000pt" height="706.000000pt" viewBox="0 0 980.000000 706.000000" preserveAspectRatio="xMidYMid meet">
+  <metadata>Created by potrace 1.15, written by Peter Selinger 2001-2017</metadata>
   <defs>
     <style>
       .color {
@@ -10,9 +9,19 @@
       }
     </style>
   </defs>
-  <g>
-    <path class="color" d="M990,210.3c0,38.7-31.3,70-70,70H80c-38.7,0-70-31.3-70-70l0,0c0-38.7,31.3-70,70-70H920C958.5,140.2,990,171.6,990,210.3L990,210.3L990,210.3z"/>
-    <path class="color" d="M713.4,500c0,38.7-31.3,70-70,70H80c-38.7,0-70-31.3-70-70l0,0c0-38.7,31.3-70,70-70l563.3,0C682,430,713.4,461.3,713.4,500L713.4,500L713.4,500z"/>
-    <path class="color" d="M503.4,789.7c0,38.7-31.3,70-70,70H80c-38.7,0-70-31.3-70-70l0,0c0-38.7,31.3-70,70-70h353.4C472.1,719.7,503.4,751.2,503.4,789.7L503.4,789.7L503.4,789.7z"/>
+  <g transform="translate(0.000000,706.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+    <path class="color" d="
+      M284 7050 c-102 -20 -212 -110 -256 -207 -33 -74 -32 -209 3 -283 14
+      -30 46 -77 71 -105 24 -27 277 -380 562 -782 l518 -733 3706 0 3707 1 580 800
+      c319 441 589 817 600 837 15 29 19 56 19 127 0 78 -3 98 -27 147 -37 77 -96
+      134 -175 171 l-67 32 -4600 1 c-2530 1 -4619 -2 -4641 -6z" />
+    <path class="color" d="
+      M1690 4225 c0 -3 221 -318 491 -700 l491 -695 2196 1 2197 0 109 152
+      c61 84 289 398 507 700 l398 547 -3194 0 c-1757 0 -3195 -2 -3195 -5z" />
+    <path class="color" d="
+      M3182 2112 c2 -4 295 -421 651 -925 357 -505 658 -937 670 -960 12
+      -23 51 -71 87 -108 80 -82 144 -109 254 -109 133 0 226 53 303 173 26 40 347
+      486 713 992 367 506 670 926 674 933 6 9 -332 12 -1674 12 -925 0 -1680 -4
+      -1678 -8z" />
   </g>
 </svg>

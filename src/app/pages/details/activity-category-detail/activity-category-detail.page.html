@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>{{ (activityCategory$ | async).category }}</ion-title>
+    <ion-title class="text-lg sm:text-xl">{{ activityCategory.category }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="settings/activities"></ion-back-button>
     </ion-buttons>
@@ -8,17 +8,45 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex flex-col h-full">
-    <ng-container *ngIf="!(activityCategory$ | async).activities.length; else showActivities">
-      <span class="m-auto">-Belum ada aktivitas-</span>
-    </ng-container>
-    <ng-template #showActivities>
-      <ion-list lines="full">
-        <ion-item *ngFor="let activity of (activityCategory$ | async).activities">
-          <activity-list-item [activity]="activity" [activityCategory]="(activityCategory$ | async)">
-        </activity-list-item>
-        </ion-item>
-      </ion-list>
-    </ng-template>
+  <div class="flex flex-col gap-y-2 h-full">
+    <div class="flex items-center gap-x-3" (click)="onUpdate()">
+      <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
+      <div class="flex flex-col">
+        <span>Kategori</span>
+        <span class="text-black text-opacity-50">
+          {{ activityCategory.category }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col gap-y-2 mt-6">
+      <ion-label class="font-semibold">Aktivitas</ion-label>
+
+      <ng-container *ngIf="!activityCategory.activities.length; else showActivities">
+        <span class="m-auto">-Belum ada aktivitas-</span>
+      </ng-container>
+
+      <ng-template #showActivities>
+        <ion-list lines="none" class="rounded-2xl">
+          <ion-item *ngFor="let activity of activityCategory.activities">
+            <activity-list-item [activity]="activity" [activityCategory]="activityCategory">
+          </activity-list-item>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+    </div>
   </div>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="p-2">
+    <!--<ion-button (click)="onCreateActivity()" expand="block" shape="round" color="primary" class="normal-case w-3/4 mx-auto">
+      <ion-icon slot="start" name="add-circle"></ion-icon>
+      Tambah Aktivitas Baru
+    </ion-button>-->
+    <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
+      <ion-icon slot="start" name="trash"></ion-icon>
+      Hapus
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -19,6 +19,7 @@ import { ActivityCategoryListPage } from '../activity-category-list/activity-cat
 })
 export class ActivityIconListPage implements OnInit {
   @Input() fields;
+  @Input() fromActivityCategory;
 
   public activityIcons: ActivityIcon[]= [];
   private getActivityIconsListener: Subscription= null;
@@ -53,36 +54,45 @@ export class ActivityIconListPage implements OnInit {
   async onCreate() {
     this.fields= { Id: 999, ...this.fields, ...{ icon: this.selectedIcon } };
 
-    const alert= await this.alertController.create({
-      message: 'Apakah aktivitas yang terbuat ingin langsung disimpan pada kategori?',
-      buttons: [
-        {
-          text: 'Simpan',
-          handler: async () => {
-            this.modalController.dismiss();
+    if (!this.fromActivityCategory) {
+      const alert= await this.alertController.create({
+        message: 'Apakah aktivitas yang terbuat ingin langsung disimpan pada kategori?',
+        buttons: [
+          {
+            text: 'Simpan',
+            handler: async () => {
+              this.modalController.dismiss();
 
-            const modal= await this.modalController.create({ component: ActivityCategoryListPage });
-            modal.present();
+              const modal= await this.modalController.create({ component: ActivityCategoryListPage });
+              modal.present();
 
-            const { data }= await modal.onWillDismiss();
+              const { data }= await modal.onWillDismiss();
 
-            if (data) {
-              this.store.dispatch(createActivity({ activity: this.fields, activityCategoryId: data.toCategoryId }));
-              this.router.navigate(['/settings/activities/activity-category', data.toCategoryId]);
+              if (data) {
+                this.store.dispatch(createActivity({ activity: this.fields, activityCategoryId: data.toCategoryId }));
+                this.router.navigate(['/settings/activities/activity-category', data.toCategoryId]);
+              }
+            }
+          },
+          {
+            text: 'Tidak',
+            handler: () => {
+              this.modalController.dismiss();
+              this.store.dispatch(createActivity({ activity: this.fields }));
+              this.router.navigate(['/settings/activities/keeped']);
             }
           }
-        },
-        {
-          text: 'Tidak',
-          handler: () => {
-            this.modalController.dismiss();
-            this.store.dispatch(createActivity({ activity: this.fields }));
-            this.router.navigate(['/settings/activities/keeped']);
-          }
-        }
-      ]
-    });
+        ]
+      });
 
-    alert.present();
+      alert.present();
+    } else {
+      this.modalController.dismiss();
+      this.store.dispatch(createActivity({
+        activity: this.fields,
+        activityCategoryId: this.fromActivityCategory.activityCategory.Id
+      }));
+      this.router.navigate([this.fromActivityCategory.redirectTo]);
+    }
   }
 }

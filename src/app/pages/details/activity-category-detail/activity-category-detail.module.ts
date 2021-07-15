@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ActivityCategoryDetailPageRoutingModule } from './activity-category-detail-routing.module';
 import { ActivityCategoryDetailPage } from './activity-category-detail.page';
 import { ActivityListItemModule } from 'src/app/components/pages/activities/activity-list-item/activity-list-item.module';
+import { ActivityCategoryEditNamePageModule } from 'src/app/modals/activities/activity-category-edit-name/activity-category-edit-name.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ActivityListItemModule } from 'src/app/components/pages/activities/acti
     FormsModule,
     IonicModule,
     ActivityCategoryDetailPageRoutingModule,
-    ActivityListItemModule
+    ActivityListItemModule,
+    ActivityCategoryEditNamePageModule
   ],
   declarations: [ActivityCategoryDetailPage]
 })

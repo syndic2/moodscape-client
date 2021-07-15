@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>{{ activity.name }}</ion-title>
+    <ion-title class="text-lg sm:text-xl">{{ activity.name }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="
         activityCategory ?
@@ -13,35 +13,37 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex flex-col h-full">
-    <div class="flex-grow flex flex-col gap-y-2">
-      <div class="flex items-center gap-x-3 p-2" (click)="onUpdateName()">
-        <ion-icon class="w-8 h-8" name="create" color="primary"></ion-icon>
-        <div class="flex flex-col">
-          <span>Nama</span>
-          <span class="text-black text-opacity-50">{{ activity.name }}</span>
-        </div>
-      </div>
-      
-      <div class="flex items-center gap-x-3 p-2" (click)="onMoveToAnotherCatgory()">
-        <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
-        <div class="flex flex-col">
-          <span>Kategori</span>
-          <span class="text-black text-opacity-50">
-            {{ activity.activityCategory ? activity.activityCategory.category : 'Pilih kategori aktivitas' }}
-          </span>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-x-3 p-2">
-        <span>{{ activity.icon }}</span>
-        <span>Ikon</span>
+  <div class="flex flex-col gap-y-2 h-full">
+    <div class="flex items-center gap-x-3 p-2" (click)="onUpdateName()">
+      <ion-icon class="w-8 h-8" name="create" color="primary"></ion-icon>
+      <div class="flex flex-col">
+        <span>Nama</span>
+        <span class="text-black text-opacity-50">{{ activity.name }}</span>
       </div>
     </div>
 
+    <div class="flex items-center gap-x-3 p-2" (click)="onMoveToAnotherCatgory()">
+      <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
+      <div class="flex flex-col">
+        <span>Kategori</span>
+        <span class="text-black text-opacity-50">
+          {{ activity.activityCategory ? activity.activityCategory.category : 'Pilih kategori aktivitas' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-x-3 p-2">
+      <span>{{ activity.icon }}</span>
+      <span>Ikon</span>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="p-2">
     <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
       <ion-icon slot="start" name="trash"></ion-icon>
       Hapus
     </ion-button>
-  </div>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>

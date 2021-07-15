@@ -19,15 +19,15 @@ const routes: Routes = [
       },
       {
         path: 'profile',
-        loadChildren: () => import('../sub-pages/side-menu/profile/profile.module').then(m => m.ProfilePageModule)
+        loadChildren: () => import('../../sub-pages/side-menu/profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
         path: 'my-articles',
-        loadChildren: () => import('../sub-pages/side-menu/my-articles/my-articles.module').then( m => m.MyArticlesPageModule)
+        loadChildren: () => import('../../sub-pages/side-menu/my-articles/my-articles.module').then( m => m.MyArticlesPageModule)
       },
       {
         path: 'settings',
-        loadChildren: () => import('../sub-pages/side-menu/settings/settings.module').then( m => m.SettingsPageModule)
+        loadChildren: () => import('../../sub-pages/side-menu/settings/settings.module').then( m => m.SettingsPageModule)
       }
     ]
   }

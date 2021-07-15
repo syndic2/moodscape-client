@@ -7,9 +7,9 @@
       <ion-icon [@rotate]="isOpen ? 'rotated' : 'default'" name="chevron-down-circle-outline" color="primary"></ion-icon>
     </button>
   </div>
-
+  
   <!-- Content -->
-  <div [@collapse]="isOpen ? 'collapsed' : 'default'">
+  <div #content [@collapse]="{ value: isOpen ? 'collapsed' : 'default', params: { scrollHeight: contentScrollHeight }}">
     <ng-content select="[content]"></ng-content>
   </div>
 </div>

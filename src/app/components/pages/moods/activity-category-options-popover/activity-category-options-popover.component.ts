@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router, NavigationExtras } from '@angular/router';
+
+import { PopoverController } from '@ionic/angular';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
 
@@ -10,19 +13,29 @@ import { ActivityCategory } from 'src/app/models/activity.model';
 export class ActivityCategoryOptionsPopoverComponent implements OnInit {
   @Input() activityCategory: ActivityCategory;
 
-  constructor() { }
+  private extrasData: NavigationExtras= {
+    state: {
+      redirectTo: this.router.url
+    }
+  }
+
+  constructor(private router: Router, private popoverController: PopoverController) { }
 
   ngOnInit() {}
 
   onAddActivity() {
-
+    this.extrasData.state.activityCategory= this.activityCategory;
+    this.popoverController.dismiss();
+    this.router.navigate(['/settings/activities/create-activity'], this.extrasData);
   }
 
   onAddCategory() {
-
+    this.popoverController.dismiss();
+    this.router.navigate(['/settings/activities/create-activity-category']);
   }
 
   onManageCategory() {
-    
+    this.popoverController.dismiss();
+    this.router.navigate(['/settings/activities']);
   }
 }
