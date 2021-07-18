@@ -4,6 +4,9 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      colors: {
+        primary: 'var(--ion-color-primary)'
+      },
       width: {
         'fit-content': 'fit-content'
       },
@@ -13,7 +16,8 @@ module.exports = {
         '3/4': '75%',
       },
       height: {
-        'fit-content': 'fit-content'
+        'fit-content': 'fit-content',
+        'inherit': 'inherit'
       },
       maxHeight: {
         '1/4': '25%',
@@ -23,10 +27,13 @@ module.exports = {
       borderWidth: {
         '1': '1px'
       },
-      colors: {
-        primary: 'var(--ion-color-primary)'
+      gridTemplateColumns: {
+        'auto-fr(1)': 'auto 1fr'
+      },
+      gridAutoColumns: {
+        'fit-content': 'minmax(min-content, max-content)',
       }
-    },
+    }
   },
   variants: {
     extend: {},

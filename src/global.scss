@@ -198,6 +198,21 @@ ion-content {
   --padding-bottom: 1rem;
 	--padding-start: 1rem;
 	--padding-end: 1rem;
+
+  &.flex-col-center {
+    &::part(scroll) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &.gap-col-1 {
+    &::part(scroll) {
+      column-gap: 0.25rem;
+    }
+  }
 }
 
 /* Custom theme */

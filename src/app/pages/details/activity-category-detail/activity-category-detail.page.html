@@ -18,9 +18,14 @@
         </span>
       </div>
     </div>
-
+    
     <div class="flex-1 flex flex-col gap-y-2 mt-6">
-      <ion-label class="font-semibold">Aktivitas</ion-label>
+      <div class="flex items-center justify-between">
+        <ion-label class="font-semibold">Aktivitas</ion-label>
+        <button (click)="onCreateActivity()" class="flex focus:outline-none">
+          <ion-icon name="add-circle-outline" color="primary" size="large"></ion-icon>
+        </button>
+      </div>
 
       <ng-container *ngIf="!activityCategory.activities.length; else showActivities">
         <span class="m-auto">-Belum ada aktivitas-</span>

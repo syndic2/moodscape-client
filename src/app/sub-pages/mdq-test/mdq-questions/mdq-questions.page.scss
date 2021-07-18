@@ -1,0 +1,9 @@
+.selection {
+  transition: transform .1s;
+}
+
+input[type=radio] {
+  &:checked + .selection {
+    transform: scale(1.2);
+  }
+}

@@ -1,11 +1,13 @@
 <ion-header>
 	<ion-toolbar>
-    <ion-buttons slot="start" class="self-start">
-			<ion-back-button defaultHref="/side-menu/tabs/home" color="primary"></ion-back-button>
-		</ion-buttons>
-    <ion-avatar class="mx-auto">
-      <img src="../../../assets/images/chatbot.png" />
-    </ion-avatar>
+    <div class="flex items-center">
+      <button [routerLink]="['/side-menu/tabs/home']" class="flex text-2xl focus:outline-none">
+        <ion-icon slot="icon-only" name="arrow-back" color="primary"></ion-icon>
+      </button>
+      <ion-avatar class="mx-auto">
+          <img src="../../../assets/images/chatbot.png" />
+        </ion-avatar>
+    </div>
 	</ion-toolbar>
 </ion-header>
 

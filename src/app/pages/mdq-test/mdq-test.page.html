@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg sm:text-xl">Mood Disorder Questionnaire</ion-title>
+    <ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/tabs/home" [routerLink]="['/side-menu/tabs/home']"></ion-back-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="grid grid-flow-row gap-y-7">
+    <img src="../../../assets/images/mood-disorder.png" class="object-contain w-52 mx-auto" alt="">
+    
+    <div class="flex flex-col gap-y-2">
+      <h3 class="text-md font-semibold">Apa itu MDQ (Mood Disorder Questionaire) Tes?</h3>
+      <ul class="list-disc list-outside text-sm sm:text-base"> 
+        <li class="ml-4">
+          MDQ merupakan alat ukur skrining bipolar yang paling sering digunakan didunia.
+          MDQ dapat terbilang sangat baik untuk skrining Bipolar I (depresi dan mania). 
+          Namun tidak begitu sensitif untuk Bipolar II (depresi dan hipomania) atau Bipolar NOS (Not Otherwise Spesified).
+        </li>
+        <li class="ml-4">
+          Tes MDQ hanya bertujuan untuk melakukan skrining saja dan tidak untuk mendiagnosa seseorang.
+        </li>
+        <li class="ml-4">
+          Dibutuhkan kurang lebih 5 menit untuk menyelesaikan pengisian kuesioner.
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-y-2">
+      <h3 class="text-md font-semibold">Isi kuesioner</h3>
+      <ul class="list-disc list-outside text-sm sm:text-base">
+        <li class="ml-4">
+          Pertanyaan akan dibagi menjadi 3 bagian. Bagian pertama terdiri dari 13 pertanyaan dengan pilihan jawaban "Ya" atau "Tidak". 
+        </li>
+        <li class="ml-4">
+          Bagian kedua hanya terdiri dari 1 pertanyaan dengan pilihan jawaban "Ya" atau "Tidak".
+        </li>
+        <li class="ml-4">
+          Bagian ketiga terdiri dari 1 pertanyaan dengan pilihan jawaban yaitu tingkat permasalahan.
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-y-2">
+      <h3 class="text-md font-semibold">Bagaimana cara perhitungan skor dalam MDQ?</h3>
+      <span class="text-sm italic">*Untuk mengetahui indikasi adanya kemungkinan seseorang terkena Bipolar Disorder, maka harus memenuhi syarat dibawah ini:</span>
+      <ul class="list-disc list-outside text-sm sm:text-base">
+        <li class="ml-4">
+          Pertanyaan bagian pertama terpilih 7 dengan jawaban "Ya".
+        </li>
+        <li class="ml-4">
+          Pertanyaan bagian kedua terpilih jawaban "Ya".
+        </li>
+        <li class="ml-4">
+          Pertanyaan bagian ketiga terpilih jawaban "Permasalahan Sedang" atau "Permasalahan Serius" .
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col items-center gap-y-3">
+      <img src="../../../assets/images/questionnaire.png" alt="" class="object-contain w-48">
+      <div class="flex items-center gap-x-2">
+        <label>Mulai Tes</label>
+        <button [routerLink]="['/mdq-test/questions']" [queryParams]="{ page: 1 }" class="flex focus:outline-none">
+          <ion-icon name="arrow-forward-circle" color="primary" size="large"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>
