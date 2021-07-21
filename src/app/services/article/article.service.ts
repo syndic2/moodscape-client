@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class ArticleService {
 	constructor(private http: HttpClient, @Inject('skipLoading') @Optional() private skipLoading: string) { }
 
-	getOneByUrlName(urlName: string): Observable<any> {
+	getArticleByUrlName(urlName: string): Observable<any> {
 		const query = singleLineString`
 			query {
 				articleByUrlName(urlName: "${urlName}") {
@@ -38,11 +38,11 @@ export class ArticleService {
 		);
 	}
 
-	getAll(fields= {}, offset: number = 0, limit: number = 10): Observable<any> {
+	getArticles(fields= {}, offset: number = 0, limit: number = 10): Observable<any> {
 		const args = StringifyObject(fields, { singleQuotes: false });
 		const query = singleLineString`
 			query {
-				allArticle(fields: ${args}, offset: ${offset}, limit: ${limit}) {
+				articles(fields: ${args}, offset: ${offset}, limit: ${limit}) {
           offset,
           limit,
           maxPage,
@@ -64,7 +64,88 @@ export class ArticleService {
         headers: { skipLoading: this.skipLoading }
       }
     }).pipe(
-			map((res: any) => res.data.allArticle)
+			map((res: any) => res.data.articles)
 		);
 	}
+
+  getArchivedArticles(): Observable<any> {
+    const query= singleLineString`
+      query {
+        archivedArticles {
+          __typename
+          ... on AuthInfoField {
+            message
+          },
+          ... on UserArticles {
+            articles {
+              Id,
+              title,
+              headerImg,
+              author,
+              urlName,
+              url
+            },
+            response {
+              text,
+              status
+            }
+          }
+        }
+      }
+    `;
+
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+      map((res: any) => res.data.archivedArticles)
+    )
+  }
+
+  archiveArticles(article_ids: number[]): Observable<any> {
+    const query= singleLineString`
+      mutation {
+        archiveArticles(articleIds: [${article_ids}]) {
+          archivedArticles {
+            __typename
+            ... on AuthInfoField {
+              message
+            },
+            ... on ArchivedArticleIds {
+              articleIds
+            }
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `;
+
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
+      map((res: any) => res.data.archiveArticles)
+    )
+  }
+
+  removeArchivedArticles(article_ids: number[]) {
+    const query= singleLineString`
+      mutation {
+        removeArchivedArticles(articleIds: [${article_ids}]) {
+          removedArticles {
+            __typename
+            ... on AuthInfoField {
+              message
+            },
+            ... on ArchivedArticleIds {
+              articleIds
+            }
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `;
+
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query });
+  }
 }

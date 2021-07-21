@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
-import { UserArticlesService } from 'src/app/services/user-articles/user-articles.service';
+import { ArticleService } from 'src/app/services/article/article.service';
 
 @Component({
   selector: 'app-my-articles',
@@ -14,20 +14,19 @@ import { UserArticlesService } from 'src/app/services/user-articles/user-article
 })
 export class MyArticlesPage implements OnInit {
   public articles: Article[]= [];
-  public finishLoad: boolean= false;
+  public isLoading: boolean= true;
   private getArchivedArticlesListener: Subscription= null;
   private removeArchivedArticlesListener: Subscription= null;
 
-  constructor(private alertController: AlertController, private userArticles: UserArticlesService) { }
+  constructor(private alertController: AlertController, private articleService: ArticleService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     if (this.getArchivedArticlesListener === null) {
-      this.getArchivedArticlesListener= this.userArticles.getArchivedArticles().subscribe(res => {
+      this.getArchivedArticlesListener= this.articleService.getArchivedArticles().subscribe(res => {
         this.articles= res.articles;
-        this.finishLoad= true;
+        this.isLoading= false;
       });
     }
   }
@@ -38,11 +37,11 @@ export class MyArticlesPage implements OnInit {
   }
 
   pullRefresh(event) {
-    this.finishLoad= false;
+    this.isLoading= true;
 
-    this.getArchivedArticlesListener= this.userArticles.getArchivedArticles().subscribe(res => {
+    this.getArchivedArticlesListener= this.articleService.getArchivedArticles().subscribe(res => {
       this.articles= res.articles;
-      this.finishLoad= true;
+      this.isLoading= false;
 
       event && event.target.complete();
     });
@@ -59,8 +58,8 @@ export class MyArticlesPage implements OnInit {
         {
           text: 'Hapus',
           handler: () => {
-            this.removeArchivedArticlesListener= this.userArticles.removeArchivedArticles([article_id]).subscribe(res => {
-              this.articles= this.articles.filter((article: Article) => article.Id !== article_id);
+            this.removeArchivedArticlesListener= this.articleService.removeArchivedArticles([article_id]).subscribe(res => {
+              this.articles= this.articles.filter(object => object.Id !== article_id);
             });
           }
         }

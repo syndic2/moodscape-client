@@ -7,11 +7,10 @@ import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 
-import { selectActivity } from 'src/app/store/selectors/user-activities.selectors';
-import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/user-activities.actions';
+import { selectActivity } from 'src/app/store/selectors/activities.selectors';
+import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/activities.actions';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-name/activity-edit-name.page';
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
 
@@ -32,8 +31,7 @@ export class ActivityDetailPage implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private alertController: AlertController,
-    private modalController: ModalController,
-    private userActivitiesService: UserActivitiesService
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {

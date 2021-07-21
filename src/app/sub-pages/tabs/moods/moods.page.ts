@@ -3,17 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { setUserMoods } from 'src/app/store/actions/user-moods.actions';
-import { selectMoods } from 'src/app/store/selectors/user-moods-selectors';
+import { setUserMoods } from 'src/app/store/actions/moods.actions';
+import { selectMoods } from 'src/app/store/selectors/moods.selectors';
 
 import { Mood } from 'src/app/models/mood.model';
-import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service';
+import { MoodService } from 'src/app/services/mood/moods.service';
+
 @Component({
   selector: 'app-moods',
   templateUrl: './moods.page.html',
   styleUrls: ['./moods.page.scss'],
   providers: [
-    UserMoodsService,
+    MoodService,
     { provide: 'skipLoading', useValue: 'true' }
   ]
 })
@@ -22,7 +23,7 @@ export class MoodsPage implements OnInit {
   private getUserMoodsListener: Subscription= null;
   public isLoading: boolean= false;
 
-  constructor(private store: Store, private userMoodsService: UserMoodsService) { }
+  constructor(private store: Store, private mood: MoodService) { }
 
   ngOnInit() {
   }

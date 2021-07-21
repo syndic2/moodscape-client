@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getArticlesListener= this.articleService.getAll().subscribe(res => {
+    this.getArticlesListener= this.articleService.getArticles().subscribe(res => {
       this.articles= res.articles;
     });
   }

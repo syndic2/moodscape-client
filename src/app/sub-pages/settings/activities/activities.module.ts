@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { userActivitiesReducer } from 'src/app/store/reducers/user-activities.reducer';
+import { activitiesReducer } from 'src/app/store/reducers/activities.reducer';
 
 import { ActivitiesPageRoutingModule } from './activities-routing.module';
 import { ActivitiesPage } from './activities.page';
@@ -18,7 +18,7 @@ import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activi
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.UserActivities, userActivitiesReducer),
+    StoreModule.forFeature(StoreFeatureKeys.ActivitiesState, activitiesReducer),
     ActivitiesPageRoutingModule,
     ActivityCategoryListItemModule,
     ActivityCategoryListPageModule

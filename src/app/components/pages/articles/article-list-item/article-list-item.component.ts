@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Article } from 'src/app/models/article.model';
 
@@ -9,11 +9,9 @@ import { Article } from 'src/app/models/article.model';
 })
 export class ArticleListItemComponent implements OnInit {
   @Input() article: Article;
-  @ViewChild('articleTemplate', { static: true }) template;
 
-  constructor(private viewContainerRef: ViewContainerRef) { }
-
+  constructor() { }
+  
   ngOnInit() {
-    this.viewContainerRef.createEmbeddedView(this.template);
   }
 }

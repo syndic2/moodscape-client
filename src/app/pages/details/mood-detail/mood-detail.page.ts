@@ -6,13 +6,13 @@ import { AlertController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { selectMood } from 'src/app/store/selectors/user-moods-selectors';
-import { updateMood } from 'src/app/store/actions/user-moods.actions';
+import { selectMood } from 'src/app/store/selectors/moods.selectors';
+import { updateMood } from 'src/app/store/actions/moods.actions';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Activity } from 'src/app/models/activity.model';
 import { Emoticon, Mood } from 'src/app/models/mood.model';
-import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service';
+import { MoodService } from 'src/app/services/mood/moods.service';
 
 @Component({
   selector: 'app-mood-detail',
@@ -29,7 +29,7 @@ export class MoodDetailPage implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private alertController: AlertController,
-    private userMoodsService: UserMoodsService
+    private moodService: MoodService
   ) { }
 
   ngOnInit() {

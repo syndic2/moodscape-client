@@ -8,11 +8,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { selectKeepedActivities } from 'src/app/store/selectors/user-activities.selectors';
+import { createActivityCategory } from 'src/app/store/actions/activities.actions';
+import { selectKeepedActivities } from 'src/app/store/selectors/activities.selectors';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
-import { createActivityCategory } from 'src/app/store/actions/user-activities.actions';
 
 @Component({
   selector: 'app-activity-list',
@@ -29,9 +28,9 @@ export class ActivityListPage implements OnInit {
   constructor(
     private store: Store,
     private router: Router,
-    private modalController: ModalController,
-    private userActivitiesService: UserActivitiesService) { }
-
+    private modalController: ModalController
+  ) { }
+    
   ngOnInit() {
     this.store.select(selectKeepedActivities).pipe(
       map(res => res.map((object, index) => ({ ...object, isChecked: false }))

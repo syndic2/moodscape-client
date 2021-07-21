@@ -5,11 +5,11 @@ import { IonReorderGroup } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { setUserActivities, reorderUserActivities } from 'src/app/store/actions/user-activities.actions';
-import { selectUserActivities } from 'src/app/store/selectors/user-activities.selectors';
+import { setUserActivities, reorderActivityCategory } from 'src/app/store/actions/activities.actions';
+import { selectUnkeepedActivities } from 'src/app/store/selectors/activities.selectors';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
+import { ActivityService } from 'src/app/services/activity/activity.service';
 
 @Component({
   selector: 'app-activities',
@@ -19,35 +19,35 @@ import { UserActivitiesService } from 'src/app/services/user-activities/user-act
 export class ActivitiesPage implements OnInit {
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
   
-  public activityCategories$: Observable<ActivityCategory[]>= this.store.select(selectUserActivities);
-  private getUserActivitiesListener: Subscription= null;
+  public activityCategories$: Observable<ActivityCategory[]>= this.store.select(selectUnkeepedActivities);
+  private getActivitiesListener: Subscription= null;
 
-  constructor(private store: Store, private userActivitiesService: UserActivitiesService) { }
+  constructor(private store: Store, private activityService: ActivityService) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    if (this.getUserActivitiesListener === null) {
-      this.getUserActivitiesListener= this.userActivitiesService.getActivities().subscribe(res => {
-        this.store.dispatch(setUserActivities({ userActivities: res.activityCategories }));
+    if (this.getActivitiesListener === null) {
+      this.getActivitiesListener= this.activityService.getActivities().subscribe(res => {
+        this.store.dispatch(setUserActivities({ activities: res.activityCategories }));
       });
     }
   }
 
   ionViewWillLeave() {
-    this.getUserActivitiesListener && this.getUserActivitiesListener.unsubscribe();
+    this.getActivitiesListener && this.getActivitiesListener.unsubscribe();
   }
 
   pullRefresh(event) {
-    this.getUserActivitiesListener= this.userActivitiesService.getActivities().subscribe(res => {
-      this.store.dispatch(setUserActivities({ userActivities: res.activityCategories }));
+    this.getActivitiesListener= this.activityService.getActivities().subscribe(res => {
+      this.store.dispatch(setUserActivities({ activities: res.activityCategories }));
       event && event.target.complete();
     });
   }
 
   reorderCategory(event) {
-    this.store.dispatch(reorderUserActivities({ from: event.detail.from, to: event.detail.to }));
+    this.store.dispatch(reorderActivityCategory({ from: event.detail.from, to: event.detail.to }));
     event.detail.complete();
   }
 }

@@ -4,10 +4,8 @@ import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { selectKeepedActivities } from 'src/app/store/selectors/user-activities.selectors';
-
+import { selectKeepedActivities } from 'src/app/store/selectors/activities.selectors';
 import { Activity } from 'src/app/models/activity.model';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 
 @Component({
   selector: 'app-keeped-activities',
@@ -18,7 +16,7 @@ export class KeepedActivitiesPage implements OnInit {
   public keepedActivities$: Observable<Activity[]>= this.store.select(selectKeepedActivities);
   private getKeepedActivities: Subscription= null;
 
-  constructor(private store: Store, private userActivitiesService: UserActivitiesService) { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
   }

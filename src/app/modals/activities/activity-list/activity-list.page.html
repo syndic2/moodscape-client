@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Pilih Aktivitas</ion-title>
+    <ion-title class="text-lg sm:text-xl">Pilih Aktivitas</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onClose()">
-        <ion-icon name="close-circle" class="icon" style="font-size: 35px !important;"></ion-icon>
+        <ion-icon slot="icon-only" name="close" class="icon"></ion-icon>
       </ion-button>
     </ion-buttons>
 	</ion-toolbar>
@@ -16,21 +16,26 @@
     </div>
   </ng-container>
   <ng-template #showActivities>
-    <div class="flex flex-col h-full">
-      <ion-list class="flex-grow">
-        <ion-item>
-          <ion-label>Pilih semua</ion-label>
-          <ion-checkbox color="primary" [(ngModel)]="selectAll" (ionChange)="onSelectAll()"></ion-checkbox>
-        </ion-item>
-        <ion-item *ngFor="let activity of activities">
-          <ion-label>{{ activity.name }}</ion-label>
-          <ion-checkbox color="primary" [(ngModel)]="activity.isChecked"></ion-checkbox>
-        </ion-item>
-      </ion-list>
-      <ion-button (click)="onCreate()">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>Pilih semua</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="selectAll" (ionChange)="onSelectAll()"></ion-checkbox>
+      </ion-item>
+      <ion-item *ngFor="let activity of activities">
+        <ion-label>{{ activity.name }}</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="activity.isChecked"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div class="flex p-4">
+      <ion-button (click)="onCreate()" expand="block" shape="round" class="normal-case w-3/4 mx-auto">
         <ion-icon slot="start" name="add-circle"></ion-icon>
         Simpan
       </ion-button>
     </div>
-  </ng-template>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>

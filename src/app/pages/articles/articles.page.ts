@@ -13,8 +13,8 @@ import { ArticleService } from 'src/app/services/article/article.service';
 	styleUrls: ['./articles.page.scss'],
 })
 export class ArticlesPage implements OnInit {
-  @ViewChild(IonContent, { static: false }) content: IonContent;
-	@ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonContent, { static: true }) content: IonContent;
+	@ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
 
 	public articles: Article[] = [];
 	public sliderOptions = {
@@ -39,7 +39,7 @@ export class ArticlesPage implements OnInit {
 	ionViewWillEnter() {
     if (this.getArticlesListener === null) {
       this.resetLoadPage();
-      this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe(res => {
+      this.getArticlesListener= this.articleService.getArticles({}, this.offset, this.limit).subscribe(res => {
         this.maxPage= res.maxPage;
         this.articles= res.articles;
       });
@@ -52,7 +52,7 @@ export class ArticlesPage implements OnInit {
 
   pullRefresh(event) {
     this.resetLoadPage();
-    this.getArticlesListener= this.articleService.getAll({}, this.offset, this.limit).subscribe(res => {
+    this.getArticlesListener= this.articleService.getArticles({}, this.offset, this.limit).subscribe(res => {
       this.maxPage= res.maxPage;
       this.articles= res.articles;
 
@@ -88,7 +88,7 @@ export class ArticlesPage implements OnInit {
 
   onLoadMore() {
     this.page++;
-		this.getArticlesListener= this.articleService.getAll({}, this.offset+= 10, this.limit).subscribe(res => {
+		this.getArticlesListener= this.articleService.getArticles({}, this.offset+= 10, this.limit).subscribe(res => {
       const lastArticleElement= document.getElementById(`article_${this.articles.length-1}`);
       this.content.scrollToPoint(0, lastArticleElement.offsetTop, 1000);
 

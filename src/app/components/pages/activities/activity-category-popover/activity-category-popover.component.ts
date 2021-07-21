@@ -4,10 +4,9 @@ import { PopoverController, AlertController, ModalController } from '@ionic/angu
 
 import { Store } from '@ngrx/store';
 
-import { updateActivityCategory, removeActivityCategories } from 'src/app/store/actions/user-activities.actions';
+import { updateActivityCategory, removeActivityCategories } from 'src/app/store/actions/activities.actions';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityCategoryEditNamePage } from 'src/app/modals/activities/activity-category-edit-name/activity-category-edit-name.page';
 
 @Component({
@@ -22,8 +21,7 @@ export class ActivityCategoryPopoverComponent implements OnInit {
     private store: Store,
     private popoverController: PopoverController,
     private alertController: AlertController,
-    private modalController: ModalController,
-    private userActivitiesService: UserActivitiesService
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {

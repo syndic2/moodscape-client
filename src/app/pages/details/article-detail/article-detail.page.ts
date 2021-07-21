@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
 import { ArticleService } from 'src/app/services/article/article.service';
-import { UserArticlesService } from 'src/app/services/user-articles/user-articles.service';
 
 @Component({
 	selector: 'app-article-detail',
@@ -22,8 +21,7 @@ export class ArticleDetailPage implements OnInit {
 	constructor(
     private activatedRoute: ActivatedRoute,
     private toastController: ToastController,
-    private articleService: ArticleService,
-    private userArticlesService: UserArticlesService
+    private articleService: ArticleService
   ) { }
 
 	ngOnInit() {
@@ -31,7 +29,7 @@ export class ArticleDetailPage implements OnInit {
   }
 
 	ionViewWillEnter() {
-    this.getArticleListener= this.articleService.getOneByUrlName(this.urlName).subscribe((res: Article) => this.article = res);
+    this.getArticleListener= this.articleService.getArticleByUrlName(this.urlName).subscribe((res: Article) => this.article = res);
 	}
 
 	ionViewWillLeave() {
@@ -39,7 +37,7 @@ export class ArticleDetailPage implements OnInit {
 	}
 
   pullRefresh(event) {
-    this.getArticleListener= this.articleService.getOneByUrlName(this.urlName).subscribe((res: Article) => {
+    this.getArticleListener= this.articleService.getArticleByUrlName(this.urlName).subscribe((res: Article) => {
       this.article = res;
 
       event && event.target.complete();
@@ -47,7 +45,7 @@ export class ArticleDetailPage implements OnInit {
   }
 
   onArchive() {
-    this.userArticlesService.archiveArticles([this.article.Id]).subscribe(async res => {
+    this.articleService.archiveArticles([this.article.Id]).subscribe(async res => {
       const toast= await this.toastController.create({
         message: res.response.text,
         position: 'bottom',

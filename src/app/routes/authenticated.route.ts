@@ -8,6 +8,8 @@ export const routes: Routes= [
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
   },
+
+  /* Moods */
   {
     path: 'moods/search',
     canLoad: [AuthenticationGuard],
@@ -32,5 +34,27 @@ export const routes: Routes= [
     path: 'moods/:id',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/details/mood-detail/mood-detail.module').then(m => m.MoodDetailPageModule)
+  },
+
+  /*Habits */
+  {
+    path: 'habits/search',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/habits/search-habit/search-habit.module').then(m => m.SearchHabitPageModule)
+  },
+  {
+    path: 'habits/search-results', 
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/habits/search-results-habit/search-results-habit.module').then(m => m.SearchResultsHabitPageModule)
+  },
+  {
+    path: 'habits/create',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/habits/create-habit/create-habit.module').then(m => m.CreateHabitPageModule)
+  }, 
+  {
+    path: 'habits/:id',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../pages/details/habit-detail/habit-detail.module').then(m => m.HabitDetailPageModule)
   }
-]
+];

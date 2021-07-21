@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
-import { createMood } from 'src/app/store/actions/user-moods.actions';
+import { createMood } from 'src/app/store/actions/moods.actions';
 import { Activity } from 'src/app/models/activity.model';
 
 @Component({

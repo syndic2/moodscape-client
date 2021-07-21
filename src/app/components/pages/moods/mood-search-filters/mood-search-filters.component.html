@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-y-2">
   <span class="font-semibold">Pencarian bedasarkan:</span>
-  <ul class="list-disc list-inside">
-    <li>
+  <ul class="list-disc list-outside">
+    <li class="ml-4">
       <div class="inline-flex items-center gap-x-2">
         <label>Mood:</label>
         <ng-container *ngIf="!filters?.emoticon; else showEmoticon">
@@ -12,19 +12,22 @@
         </ng-template>
       </div>
     </li>
-    <li>
+
+    <li class="ml-4">
       <div class="inline-flex items-center gap-x-2">
         <label>Internal:</label>
         <ion-icon [name]="filters?.parameters?.internal ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.internal ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
-    <li>
+
+    <li class="ml-4">
       <div class="inline-flex items-center gap-x-2">
         <label>External:</label>
         <ion-icon [name]="filters?.parameters?.external ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.external ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
-    <li>
+    
+    <li class="ml-4">
       <div class="inline-flex gap-x-2">
         <label class="h-fit-content">Aktivitas:</label>
         <ng-container *ngIf="!filters?.activities.length; else showActivities">
@@ -39,7 +42,8 @@
         </ng-template>
       </div>
     </li>
-    <li>
+
+    <li class="ml-4"> 
       <div class="inline-flex items-center gap-x-2">
         <label>Catatan:</label>
         <ion-icon [name]="filters?.note ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.note ? 'success' : 'danger'"></ion-icon>

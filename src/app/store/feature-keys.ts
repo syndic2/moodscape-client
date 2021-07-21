@@ -1,4 +1,5 @@
 export enum StoreFeatureKeys {
-  UserActivities= 'user-activities',
-  UserMoods = 'user-moods'
+  ActivitiesState= 'activities',
+  MoodsState= 'moods',
+  HabitsState= 'habits'
 };

@@ -6,9 +6,8 @@ import { AlertController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
-import { createActivityCategory } from 'src/app/store/actions/user-activities.actions';
+import { createActivityCategory } from 'src/app/store/actions/activities.actions';
 
-import { UserActivitiesService } from 'src/app/services/user-activities/user-activities.service';
 import { ActivityListPage } from 'src/app/modals/activities/activity-list/activity-list.page';
 
 @Component({
@@ -23,8 +22,7 @@ export class CreateActivityCategoryPage implements OnInit {
     private store: Store,
     private router: Router,
     private alertController: AlertController,
-    private modalController: ModalController,
-    private userActivitiesService: UserActivitiesService
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {

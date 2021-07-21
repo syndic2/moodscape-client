@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';;
 import { Observable } from 'rxjs';
 
-import { selectSearchedMoods } from 'src/app/store/selectors/user-moods-selectors';
+import { selectSearchedMoods } from 'src/app/store/selectors/moods.selectors';
 import { Mood, FilterMood } from 'src/app/models/mood.model'
 
 @Component({

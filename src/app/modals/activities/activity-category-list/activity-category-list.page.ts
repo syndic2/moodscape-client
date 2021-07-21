@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { selectActivityCategoryList } from 'src/app/store/selectors/user-activities.selectors';
+import { selectActivityCategoryList } from 'src/app/store/selectors/activities.selectors';
 
 @Component({
   selector: 'app-activity-category-list',

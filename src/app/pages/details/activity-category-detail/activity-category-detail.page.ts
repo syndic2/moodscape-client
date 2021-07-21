@@ -5,8 +5,8 @@ import { AlertController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
-import { updateActivityCategory, removeActivityCategories } from 'src/app/store/actions/user-activities.actions';
-import { selectActivityCategory } from 'src/app/store/selectors/user-activities.selectors';
+import { updateActivityCategory, removeActivityCategories } from 'src/app/store/actions/activities.actions';
+import { selectActivityCategory } from 'src/app/store/selectors/activities.selectors';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
 import { ActivityCategoryEditNamePage } from 'src/app/modals/activities/activity-category-edit-name/activity-category-edit-name.page';

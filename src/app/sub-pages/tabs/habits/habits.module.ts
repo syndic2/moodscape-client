@@ -4,16 +4,22 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HabitsPageRoutingModule } from './habits-routing.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreFeatureKeys } from 'src/app/store/feature-keys';
 
+import { HabitsPageRoutingModule } from './habits-routing.module';
 import { HabitsPage } from './habits.page';
+import { HabitListItemModule } from 'src/app/components/pages/habits/habit-list-item/habit-list-item.module';
+import { HabitListLoaderModule } from 'src/app/components/pages/habits/habit-list-loader/habit-list-loader.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HabitsPageRoutingModule
+    HabitsPageRoutingModule,
+    HabitListItemModule,
+    HabitListLoaderModule
   ],
   declarations: [HabitsPage]
 })

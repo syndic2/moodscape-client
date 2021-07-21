@@ -5,10 +5,10 @@ import { AlertController, PopoverController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
-import { removeMoods } from 'src/app/store/actions/user-moods.actions';
+import { removeMoods } from 'src/app/store/actions/moods.actions';
 
 import { Mood } from 'src/app/models/mood.model';
-import { UserMoodsService } from 'src/app/services/user-moods/user-moods.service';
+import { MoodService } from 'src/app/services/mood/moods.service';
 
 @Component({
   selector: 'app-mood-popover',
@@ -23,7 +23,7 @@ export class MoodPopoverComponent implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private popoverController: PopoverController,
-    private userMoodsService: UserMoodsService
+    private moodService: MoodService
   ) { }
     
   ngOnInit() {}

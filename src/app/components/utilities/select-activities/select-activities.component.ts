@@ -6,11 +6,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import {
-  selectUserActivities,
+  selectUnkeepedActivities,
   selectKeepedActivities,
-  selectCheckedUserActivities,
+  selectCheckedUnkeepedActivities,
   selectCheckedKeepedActivities
-} from 'src/app/store/selectors/user-activities.selectors';
+} from 'src/app/store/selectors/activities.selectors';
 import { Activity, ActivityCategory } from 'src/app/models/activity.model';
 import { ActivityCategoryOptionsPopoverComponent } from '../../pages/moods/activity-category-options-popover/activity-category-options-popover.component';
 
@@ -24,14 +24,14 @@ export class SelectActivitiesComponent implements OnInit {
   @Input() selectedActivities: Activity[]= [];
   @Output() selectActivitiesEvent= new EventEmitter<Activity[]>();
 
-  public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(selectUserActivities);
+  public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(selectUnkeepedActivities);
   public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(selectKeepedActivities);
 
   constructor(private store: Store, private popoverController: PopoverController) { }
 
   ngOnInit() {
     if (this.selectedActivities.length) {
-      this.activityCategories$= this.store.select(selectCheckedUserActivities({ selectedActivities: this.selectedActivities }));
+      this.activityCategories$= this.store.select(selectCheckedUnkeepedActivities({ selectedActivities: this.selectedActivities }));
       this.keepedActivities$= this.store.select(selectCheckedKeepedActivities({ selectedActivities: this.selectedActivities }));
     }
   }

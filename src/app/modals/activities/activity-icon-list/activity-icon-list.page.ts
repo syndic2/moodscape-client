@@ -6,10 +6,10 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { createActivity } from 'src/app/store/actions/user-activities.actions';
+import { createActivity } from 'src/app/store/actions/activities.actions';
 
 import { ActivityIcon } from 'src/app/models/activity.model';
-import { ActivityIconsService } from 'src/app/services/activity-icons/activity-icons.service';
+import { ActivityService } from 'src/app/services/activity/activity.service';
 import { ActivityCategoryListPage } from '../activity-category-list/activity-category-list.page';
 
 @Component({
@@ -30,11 +30,11 @@ export class ActivityIconListPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private modalController: ModalController,
-    private activityIconsService: ActivityIconsService
+    private activityService: ActivityService
   ) { }
 
   ngOnInit() {
-    this.getActivityIconsListener= this.activityIconsService.getActivityIcons().subscribe(res => {
+    this.getActivityIconsListener= this.activityService.getActivityIcons().subscribe(res => {
       this.activityIcons= res;
     });
   }
