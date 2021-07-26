@@ -25,13 +25,17 @@ module.exports = {
         '3/4': '75%',
       },
       borderWidth: {
-        '1': '1px'
+        '1': '1px',
+        '6': '6px'
       },
       gridTemplateColumns: {
         'auto-fr(1)': 'auto 1fr'
       },
       gridAutoColumns: {
         'fit-content': 'minmax(min-content, max-content)',
+      },
+      brightness: {
+        25: '.25'
       }
     }
   },

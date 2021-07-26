@@ -1,6 +1,7 @@
 import { on, createReducer } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
+import { EMOTICON_COLORS } from 'src/app/models/mood.model';
 import { MoodsState } from '../states';
 import { setUserMoods, createMood, updateMood, removeMoods } from '../actions/moods.actions';
 
@@ -12,9 +13,10 @@ const initialState: MoodsState= {
         name: 'senang',
         value: 4,
         icon: 'icons/svg/emoticons/smile.svg',
+        color: EMOTICON_COLORS.SENANG
       },
       timestamps: {
-        date: '2021-7-5',
+        date: '2021-07-05',
         time: '12:05'
       },
       parameters: {
@@ -33,9 +35,10 @@ const initialState: MoodsState= {
         name: 'netral',
         value: 3,
         icon: 'icons/svg/emoticons/neutral.svg',
+        color: EMOTICON_COLORS.NETRAL
       },
       timestamps: {
-        date: '2021-7-7',
+        date: '2021-07-07',
         time: '12:05'
       },
       parameters: {
@@ -51,11 +54,11 @@ const initialState: MoodsState= {
   ]
 };
 
-export const userMoodsReducer= createReducer(
+export const moodsReducer= createReducer(
   initialState,
-  on(setUserMoods, (state, { userMoods }) => ({ ...state, moods: [...userMoods]})),
+  on(setUserMoods, (state, { userMoods }) => ({ ...state, moods: [...userMoods] })),
 
-  on(createMood, (state, { mood }) => ({ ...state, moods: [...state.moods, mood]})),
+  on(createMood, (state, { mood }) => ({ ...state, moods: [...state.moods, mood] })),
 
   on(updateMood, (state, { moodId, fields }) => ({
     ...state,
@@ -65,10 +68,7 @@ export const userMoodsReducer= createReducer(
           return object;
         }
 
-        return {
-          ...object,
-          ...fields,
-        };
+        return { ...object, ...fields };
       })
     ]
   })),

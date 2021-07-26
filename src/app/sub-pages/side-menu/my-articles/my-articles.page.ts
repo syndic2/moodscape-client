@@ -47,7 +47,7 @@ export class MyArticlesPage implements OnInit {
     });
   }
 
-  async onRemove(article_id: number) {
+  async onRemove(article: Article) {
     const alert= await this.alertController.create({
       message: 'Apakah anda yakin ingin menghapus artikel ini?',
       buttons: [
@@ -58,8 +58,8 @@ export class MyArticlesPage implements OnInit {
         {
           text: 'Hapus',
           handler: () => {
-            this.removeArchivedArticlesListener= this.articleService.removeArchivedArticles([article_id]).subscribe(res => {
-              this.articles= this.articles.filter(object => object.Id !== article_id);
+            this.removeArchivedArticlesListener= this.articleService.removeArchivedArticles([article.Id]).subscribe(res => {
+              this.articles= this.articles.filter(object => object.Id !== article.Id);
             });
           }
         }

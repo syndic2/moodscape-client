@@ -83,6 +83,11 @@ ngx-material-timepicker-content {
 }
 
 /* Ionic */
+
+.no-ripple {
+  --ripple-color: transparent;
+}
+
 .popover-content {
   border-radius: 1.25rem !important;
 }
@@ -199,7 +204,14 @@ ion-content {
 	--padding-start: 1rem;
 	--padding-end: 1rem;
 
-  &.flex-col-center {
+  &.flex-column {
+    &::part(scroll) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &.flex-column-center {
     &::part(scroll) {
       display: flex;
       flex-direction: column;
@@ -208,9 +220,9 @@ ion-content {
     }
   }
 
-  &.gap-col-1 {
+  &.row-gap-4 {
     &::part(scroll) {
-      column-gap: 0.25rem;
+      row-gap: 1rem;
     }
   }
 }
@@ -290,13 +302,14 @@ ion-content {
     --background: #F3F4F6 !important;
 
     ion-tab-bar {
-      --background: var(--ion-color-primary);
+      //--background: var(--ion-color-primary);
 
       ion-tab-button {
-        --background: var(--ion-color-primary);
+        //--background: var(--ion-color-primary);
+        --background: #F3F4F6;
 
         ion-label, ion-icon {
-          color: white;
+          //color: white;
         }
       }
     }

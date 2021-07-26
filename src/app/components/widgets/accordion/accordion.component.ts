@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 
-import { Animations } from 'src/app/animations/accordion';
+import { Animations } from 'src/app/animations/accordion.animation';
 
 @Component({
   selector: 'accordion',

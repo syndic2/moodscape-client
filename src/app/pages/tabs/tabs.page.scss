@@ -1,14 +1,14 @@
 ion-tab-bar {
-  border-top-left-radius: 1.5rem;
-  border-top-right-radius: 1.5rem;
+  //border-top-left-radius: 1.5rem;
+  //border-top-right-radius: 1.5rem;
 
   ion-tab-button {
     &:hover ion-icon {
-      transform: scale(1.25);
+      //transform: scale(1.25);
     }
 
     ion-icon {
-      transition: transform .1s;
+      //transition: transform .1s;
     }
   }
 }

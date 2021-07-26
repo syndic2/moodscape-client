@@ -11,7 +11,7 @@ import { updateMood } from 'src/app/store/actions/moods.actions';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Activity } from 'src/app/models/activity.model';
-import { Emoticon, Mood } from 'src/app/models/mood.model';
+import { Mood, MoodEmoticon } from 'src/app/models/mood.model';
 import { MoodService } from 'src/app/services/mood/moods.service';
 
 @Component({
@@ -69,7 +69,7 @@ export class MoodDetailPage implements OnInit {
     this.mood.timestamps.time= time;
   }
 
-  onSelectEmoticon(emoticon: Emoticon) {
+  onSelectEmoticon(emoticon: MoodEmoticon) {
     this.mood.emoticon= emoticon;
   }
 

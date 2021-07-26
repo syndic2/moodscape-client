@@ -5,7 +5,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
-import { Emoticon } from 'src/app/models/mood.model';
+import { MoodEmoticon } from 'src/app/models/mood.model';
 import { FeedbackService } from 'src/app/services/feedback/feedback.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class AppFeedbackPage implements OnInit {
     return this.feedbackForm.get('featureCategory');
   }
 
-  onSelectEmoticon(emoticon: Emoticon) {
+  onSelectEmoticon(emoticon: MoodEmoticon) {
     this.rating= emoticon.value;
   }
 

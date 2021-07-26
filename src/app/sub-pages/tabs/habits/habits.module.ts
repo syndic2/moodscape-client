@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { StoreModule } from '@ngrx/store';
+
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
+import { habitsReducer } from 'src/app/store/reducers/habits.reducer';
 
 import { HabitsPageRoutingModule } from './habits-routing.module';
 import { HabitsPage } from './habits.page';
@@ -17,6 +19,7 @@ import { HabitListLoaderModule } from 'src/app/components/pages/habits/habit-lis
     CommonModule,
     FormsModule,
     IonicModule,
+    StoreModule.forFeature(StoreFeatureKeys.HabitsState, habitsReducer),
     HabitsPageRoutingModule,
     HabitListItemModule,
     HabitListLoaderModule

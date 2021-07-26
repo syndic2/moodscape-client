@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { userMoodsReducer } from 'src/app/store/reducers/moods.reducer';
+import { moodsReducer } from 'src/app/store/reducers/moods.reducer';
 
 import { SearchResultsMoodPageRoutingModule } from './search-results-mood-routing.module';
 import { SearchResultsMoodPage } from './search-results-mood.page';
@@ -19,7 +19,7 @@ import { MoodSearchFiltersComponent } from 'src/app/components/pages/moods/mood-
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.MoodsState, userMoodsReducer),
+    StoreModule.forFeature(StoreFeatureKeys.MoodsState, moodsReducer),
     SearchResultsMoodPageRoutingModule,
     MoodListItemModule,
     MoodListLoaderModule

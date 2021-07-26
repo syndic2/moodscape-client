@@ -3,7 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 
 import { IonSearchbar } from '@ionic/angular';
 
-import { Emoticon, FilterMood } from 'src/app/models/mood.model';
+import { MoodEmoticon, FilterMood } from 'src/app/models/mood.model';
 import { Activity } from 'src/app/models/activity.model';
 
 @Component({
@@ -14,7 +14,7 @@ import { Activity } from 'src/app/models/activity.model';
 export class SearchMoodPage implements OnInit {
   @ViewChild('searchBar', { static: true }) searchBar: IonSearchbar;
 
-  private filters: FilterMood= {
+  public filters: FilterMood= {
     searchText: '',
     emoticon: null,
     parameters: { internal: false, external: false },
@@ -36,7 +36,7 @@ export class SearchMoodPage implements OnInit {
     this.filters.searchText= event.target.value;
   }
 
-  onSelectEmoticon(emoticon: Emoticon) {
+  onSelectEmoticon(emoticon: MoodEmoticon) {
     this.filters.emoticon= emoticon;
   }
 

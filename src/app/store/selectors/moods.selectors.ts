@@ -3,18 +3,18 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys  } from '../feature-keys';
 import { MoodsState } from '../states';
 
-import { Emoticon, FilterMood } from 'src/app/models/mood.model';
+import { MoodEmoticon, FilterMood } from 'src/app/models/mood.model';
 import { Activity } from 'src/app/models/activity.model';
 
-export const selectUserMoodsFeature= createFeatureSelector<MoodsState>(StoreFeatureKeys.MoodsState);
+export const selectMoodsFeature= createFeatureSelector<MoodsState>(StoreFeatureKeys.MoodsState);
 
 export const selectMoods= createSelector(
-  selectUserMoodsFeature,
+  selectMoodsFeature,
   state => state.moods
 );
 
 export const selectSearchedMoods= (props: FilterMood) => {
-  const filterEmoticon= (emoticon: Emoticon) => {
+  const filterEmoticon= (emoticon: MoodEmoticon) => {
     return props.emoticon !== null && emoticon.name === props.emoticon.name;
   };
 

@@ -34,11 +34,17 @@
                     type="radio" 
                     (change)="onSelectAnswer(answer, 0, idx)" 
                     [name]="'part-1-choices-'+(idx+1)"
-                    [checked]="answer === choice.answer" 
+                    [checked]="answer === choice.answer"
                     class="absolute invisible top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4"
                   >
-                  <div class="selection rounded-full flex justify-center items-center bg-primary w-8 h-8 p-4">
-                    <span class="text-xs text-white">{{ answer }}</span>
+                  <div 
+                    [ngClass]="{ 
+                      'bg-primary text-white font-semibold': answer === choice.answer,
+                      'bg-white text-primary font-semibold': answer !== choice.answer 
+                    }" 
+                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                  >
+                    <span class="text-xs">{{ answer }}</span>
                   </div>
                 </label>
               </div>
@@ -70,8 +76,14 @@
                     [checked]="answer === testQuestions[1].answer" 
                     class="absolute invisible top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4"
                   >
-                  <div class="selection rounded-full flex justify-center items-center bg-primary w-8 h-8 p-4">
-                    <span class="text-xs text-white">{{ answer }}</span>
+                  <div
+                    [ngClass]="{ 
+                      'bg-primary text-white font-semibold': answer === testQuestions[1].answer,
+                      'bg-white text-primary font-semibold': answer !== testQuestions[1].answer 
+                    }" 
+                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                  >
+                    <span class="text-xs">{{ answer }}</span>
                   </div>
                 </label>
               </div>
@@ -103,8 +115,14 @@
                     [checked]="answer === testQuestions[2].answer" 
                     class="absolute invisible top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4"
                   >
-                  <div class="selection rounded-full flex justify-center items-center bg-primary w-8 h-8 p-4">
-                    <span class="text-xs text-white">{{ answer }}</span>
+                  <div
+                    [ngClass]="{ 
+                      'bg-primary text-white font-semibold': answer === testQuestions[2].answer,
+                      'bg-white text-primary font-semibold': answer !== testQuestions[2].answer 
+                    }" 
+                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                  >
+                    <span class="text-xs">{{ answer }}</span>
                   </div>
                 </label>
               </div>

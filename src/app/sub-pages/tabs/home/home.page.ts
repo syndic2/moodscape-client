@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { User } from 'src/app/models/user.model';

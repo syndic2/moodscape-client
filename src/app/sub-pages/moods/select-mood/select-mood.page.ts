@@ -4,7 +4,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
-import { Emoticon } from 'src/app/models/mood.model';
+import { MoodEmoticon } from 'src/app/models/mood.model';
 
 @Component({
   selector: 'app-select-mood',
@@ -14,7 +14,7 @@ import { Emoticon } from 'src/app/models/mood.model';
 export class SelectMoodPage implements OnInit {
   public selectedDate: Date;
   public selectedTime: string;
-  public selectedEmoticon: Emoticon;
+  public selectedEmoticon: MoodEmoticon;
 
   constructor(private router: Router, private alertController: AlertController) { }
 
@@ -29,7 +29,7 @@ export class SelectMoodPage implements OnInit {
     this.selectedTime= time;
   }
 
-  onSelectEmoticon(emoticon: Emoticon) {
+  onSelectEmoticon(emoticon: MoodEmoticon) {
     this.selectedEmoticon= emoticon;
   }
 

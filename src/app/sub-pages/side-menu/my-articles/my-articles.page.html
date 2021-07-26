@@ -27,17 +27,18 @@
 
     <ng-template #showArticles>
       <ion-list lines="none" class="grid grid-flow-row gap-y-8 rounded-xl py-4">
-        <ng-container *ngFor="let article of articles">
-          <ion-item-sliding>
-            <ion-item>
-              <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
-            </ion-item>
-  
-            <ion-item-options side="end">
-              <ion-item-option (click)="onRemove(article.Id)" class="normal-case">Hapus</ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ng-container>
+        <ion-item-sliding *ngFor="let article of articles">
+          <ion-item>
+            <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <div (click)="onRemove(article)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
+              <ion-icon name="trash" size="large"></ion-icon>
+              <label class="normal-case font-semibold">Hapus</label>
+            </div>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
     </ng-template>
   </ng-template>

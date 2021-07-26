@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { PopoverController } from '@ionic/angular';
 
 import { Mood } from 'src/app/models/mood.model';
+import { poppingAnimation } from 'src/app/animations/utilities.animation';
 import { MoodPopoverComponent } from '../mood-popover/mood-popover.component';
 
 @Component({
@@ -12,8 +14,9 @@ import { MoodPopoverComponent } from '../mood-popover/mood-popover.component';
 })
 export class MoodListItemComponent implements OnInit {
   @Input() mood: Mood;
+  @ViewChild('moodItem', { static: true }) moodItem: ElementRef;
 
-  constructor(private popoverController: PopoverController) { }
+  constructor(private router: Router, private popoverController: PopoverController) { }
 
   ngOnInit() {}
 
@@ -27,5 +30,11 @@ export class MoodListItemComponent implements OnInit {
       translucent: true
     });
     popover.present();
+  }
+
+  onOpenDetail() {
+    poppingAnimation('mood-item', this.moodItem).play().finally(() => {
+      this.router.navigate(['/moods', this.mood.Id]);
+    });
   }
 }
