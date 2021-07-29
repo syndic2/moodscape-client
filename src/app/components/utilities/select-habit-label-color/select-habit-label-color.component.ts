@@ -8,9 +8,6 @@ import { HABIT_LABEL_COLOR } from 'src/app/models/habit.model';
   styleUrls: ['./select-habit-label-color.component.scss'],
 })
 export class SelectHabitLabelColorComponent implements OnInit {
-  @Input() selectedColor: string;
-  @Output() selectColorEvent: EventEmitter<string>= new EventEmitter();
-
   public labelColors: string[]= [
     HABIT_LABEL_COLOR.RED,
     HABIT_LABEL_COLOR.PINK,
@@ -19,9 +16,14 @@ export class SelectHabitLabelColorComponent implements OnInit {
     HABIT_LABEL_COLOR.GREEN
   ];
 
+  @Input() selectedColor: string= this.labelColors[0];
+  @Output() selectColorEvent: EventEmitter<string>= new EventEmitter();
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.selectColorEvent.emit(this.selectedColor);
+  }
 
   onSelectColor(color: string) {
     this.selectedColor= color;

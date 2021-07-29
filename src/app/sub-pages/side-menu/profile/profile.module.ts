@@ -15,7 +15,7 @@ import { ProfileFieldsModule } from 'src/app/components/pages/profile/profile-fi
 		ReactiveFormsModule,
 		IonicModule,
 		ProfilePageRoutingModule,
-    ProfileFieldsModule
+		ProfileFieldsModule
 	],
 	declarations: [
 		ProfilePage,

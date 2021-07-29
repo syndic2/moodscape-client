@@ -1,35 +1,36 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="primary" class="rounded-t-3xl">
-    <ion-title class="text-md text-base text-center">{{ (selectedDate | dateInBahasa).fullDate }}</ion-title>
-    <button (click)="close()" slot="start" class="flex items-center focus:outline-none">
-      <ion-icon slot="icon-only" name="close" color="light" size="large"></ion-icon>
+  <ion-toolbar>
+    <ion-title class="text-md text-base p-0">{{ (selectedDate | dateInBahasa).fullDate }}</ion-title>
+    <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
+      <ion-icon name="close" color="light"></ion-icon>
     </button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="rounded-b-3xl">
+<div class="inner-content">
   <div class="flex justify-between items-center gap-x-2">
-    <button (click)="prev()" class="flex items-center focus:outline-none">
-      <ion-icon name="chevron-back" color="primary" size="large"></ion-icon>
+    <button (click)="prev()" class="flex items-center text-xl focus:outline-none">
+      <ion-icon name="chevron-back" color="primary"></ion-icon>
     </button>
     <h2 class="text-md text-center font-semibold">{{ viewTitle }}</h2>
-    <button (click)="next()" class="flex items-center focus:outline-none">
-      <ion-icon name="chevron-forward" color="primary" size="large"></ion-icon>
+    <button (click)="next()" class="flex items-center text-xl focus:outline-none">
+      <ion-icon name="chevron-forward" color="primary"></ion-icon>
     </button>
   </div>
+
   <calendar
     [calendarMode]="mode"
+    [currentDate]="currentDate"
     [dateFormatter]="dateFormatter"
     [eventSource]="eventSource"
-    [currentDate]="currentDate"
+    [markDisabled]="markDisabled"
+    [showEventDetail]="false"
     [lockSwipes]="false"
     (onTitleChanged)="onTitleChanged($event)"
     (onTimeSelected)="onTimeSelected($event)">
   </calendar>
-  <div class="flex justify-center mt-4">
-    <button (click)="onSelectDate()" class="flex flex-col items-center text-4xl focus:outline-none">
-      <ion-icon name="checkmark-circle" color="primary"></ion-icon>
-      <span class="text-sm">Pilih</span>
-    </button>
-  </div>
-</ion-content>
+
+  <button (click)="onSelectDate()" class="flex text-4xl focus:outline-none mx-auto mt-4">
+    <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+  </button>
+</div>

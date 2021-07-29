@@ -1,3 +1,30 @@
+ion-modal {
+  &.auto-height-modal {
+    --height: auto;
+    padding: 2.5rem;
+  
+    //&.bottom {
+    //  align-items: flex-end;
+    //}
+  
+    .ion-page {
+      display: block;
+      position: relative;
+      contain: content;
+  
+      .inner-content {
+        //max-height: 80vh;
+        overflow: auto;
+        padding: 1rem;
+      }
+    }
+  }
+
+  &.rounded-modal {
+    --border-radius: 1rem;
+  }
+}
+
 .activity-edit-name-modal {
   .modal-wrapper {
     position: absolute;
@@ -6,11 +33,13 @@
   }
 }
 
-.calendar-modal {
-  .modal-wrapper {
-    position: absolute;
-    background: transparent;
-  }
-}
+//.calendar-modal {
+//  .modal-wrapper {
+//    position: absolute;
+//    background: transparent;
+//  }
+//}
+
+
 
 

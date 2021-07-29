@@ -1,12 +1,15 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
 import { collapseAnimation } from 'src/app/animations/utilities.animation';
+import { transformDateTime } from 'src/app/utilities/helpers';
 import { createHabit } from 'src/app/store/actions/habits.actions';
+import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'app-create-habit',
@@ -17,12 +20,21 @@ export class CreateHabitPage implements OnInit, AfterViewInit {
   @ViewChild('selectReminderAt') selectReminderAtElement: ElementRef;
   
   public selectedType: string= 'to do';
-  public selectedDay: string= 'all days';
-  private selectedLabelColor: string;
+  private selectedDay: number;
+  public selectedGoalTargetDate: Date;
+  public defaultReminderTime: string= transformDateTime(new Date()).toTime();
+  public createHabitForm: FormGroup;
 
-  constructor(private store: Store, private alertController: AlertController) { }
+  constructor(
+    private store: Store,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private alertController: AlertController, 
+    private modalController: ModalController
+  ) { }
 
   ngOnInit() {
+    this.initializeForm();
   }
 
   ngAfterViewInit() {
@@ -30,16 +42,47 @@ export class CreateHabitPage implements OnInit, AfterViewInit {
     this.selectReminderAtElement.nativeElement.style.overflow= 'hidden';
   }
 
+  initializeForm() {
+    this.createHabitForm= this.formBuilder.group({
+      name: this.formBuilder.control(''),
+      description: this.formBuilder.control(''),
+      type: this.formBuilder.control(''),
+      day: this.formBuilder.control(''),
+      goal: this.formBuilder.control(0),
+      completeTargetBy: this.formBuilder.control(''),
+      reminderAt: this.formBuilder.control(''),
+      labelColor: this.formBuilder.control('')
+    });
+  }
+
   onSelectType(type: string) {
     this.selectedType= type;
   }
 
   onSelectDay(day) {
-    this.selectedDay= day;
+    this.createHabitForm.controls['day'].setValue(day);
+  }
+
+  async onSelectGoalTargetDate() {
+    const modal= await this.modalController.create({
+      component: CalendarPage,
+      componentProps: {
+        enabledDate: this.selectedDay
+      },
+      cssClass: 'auto-height-modal rounded-modal'
+    });
+    modal.present(); 
+
+    const { data }= await modal.onWillDismiss();
+
+    if (data && data.selectedDate) {
+      this.selectedGoalTargetDate= data.selectedDate;
+      this.createHabitForm.controls['completeTargetBy'].setValue(data.selectedDate);
+    }
   }
 
   onSelectLabelColor(color: string) {
-    this.selectedLabelColor= color;
+    this.createHabitForm.controls['labelColor'].setValue(color);
   }
 
   onChangeReminderAt(event) {
@@ -54,7 +97,7 @@ export class CreateHabitPage implements OnInit, AfterViewInit {
     }
   }
 
-  async onSubmit(form: NgForm) {
-    
+  async onSubmit() {
+    console.log('value', this.createHabitForm.value);
   }
 }

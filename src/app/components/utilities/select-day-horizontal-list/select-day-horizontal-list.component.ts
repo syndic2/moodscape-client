@@ -6,26 +6,28 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./select-day-horizontal-list.component.scss'],
 })
 export class SelectDayHorizontalListComponent implements OnInit {
-  @Input() selectedDay: string;
-  @Output() selectDayEvent: EventEmitter<string>= new EventEmitter();
-
   public days= [
-    { name: 'all days', label: 'Setiap Hari' },
-    { name: 'monday', label: 'Senin' },
-    { name: 'tuesday', label: 'Selasa' },
-    { name: 'wednesday', label: 'Rabu' },
-    { name: 'thursday', label: 'Kamis' },
-    { name: 'friday', label: 'Jumat' },
-    { name: 'saturday', label: 'Sabtu' },
-    { name: 'sunday', label: 'Minggu' },
-  ];  
+    { id: -1, name: 'all days', label: 'Setiap Hari' },
+    { id: 1, name: 'monday', label: 'Senin' },
+    { id: 2, name: 'tuesday', label: 'Selasa' },
+    { id: 3, name: 'wednesday', label: 'Rabu' },
+    { id: 4, name: 'thursday', label: 'Kamis' },
+    { id: 5, name: 'friday', label: 'Jumat' },
+    { id: 6, name: 'saturday', label: 'Sabtu' },
+    { id: 0, name: 'sunday', label: 'Minggu' },
+  ];
+   
+  @Input() selectedDay: number= this.days[0].id;
+  @Output() selectDayEvent: EventEmitter<number>= new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.selectDayEvent.emit(this.selectedDay);
+  }
 
   onSelectDay(day) {
-    this.selectedDay= day.name;
-    this.selectDayEvent.emit(day.name);
+    this.selectedDay= day.id;
+    this.selectDayEvent.emit(day.id);
   }
 }

@@ -9,7 +9,8 @@ import { CalendarComponent } from 'ionic2-calendar';
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
-  @Input() selectedDate: Date;
+  @Input() selectedDate: Date= new Date();
+  @Input() enabledDate: number;
   @ViewChild(CalendarComponent) calendar: CalendarComponent;
 
   public viewTitle: string;
@@ -22,11 +23,18 @@ export class CalendarPage implements OnInit {
     },
   };
   public eventSource= [];
+  public markDisabled;
   public currentDate: Date;
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
+    if (this.enabledDate) {
+      this.markDisabled= (date: Date): boolean => {
+        return this.enabledDate !== -1 && date.getDay() !== this.enabledDate;
+      }
+    }
+
     this.currentDate= this.selectedDate;
   }
 
@@ -46,12 +54,18 @@ export class CalendarPage implements OnInit {
     this.viewTitle= title;
   }
   
-  onCurrentDateChanged(date: Date) {
-    this.currentDate= date;
-  }
+  //onCurrentDateChanged(date: Date) {
+  //  this.currentDate= date;
+  //}
 
   onTimeSelected(event) {
-    this.selectedDate= event.selectedTime;
+    const date: Date= event.selectedTime;
+
+    if (!this.enabledDate) {
+      this.selectedDate= date;
+    } else {
+      this.selectedDate= this.enabledDate !== -1 && this.enabledDate !== date.getDay() ? this.selectedDate : date;
+    }
   }
 
   onSelectDate() {

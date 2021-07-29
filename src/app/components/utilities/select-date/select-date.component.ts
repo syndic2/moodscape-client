@@ -35,7 +35,7 @@ export class SelectDateComponent implements OnInit {
       componentProps: {
         selectedDate: this.selectedDate
       },
-      cssClass: 'calendar-modal'
+      cssClass: 'auto-height-modal rounded-modal'
     });
     modal.present();
 
