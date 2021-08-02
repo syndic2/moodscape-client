@@ -18,7 +18,7 @@ import { SelectEmoticonModule } from 'src/app/components/utilities/select-emotic
     SelectMoodPageRoutingModule,
     SelectDateModule,
     SelectTimeModule,
-    SelectEmoticonModule,
+    SelectEmoticonModule
   ],
   declarations: [SelectMoodPage]
 })

@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+
 import { StoreModule } from '@ngrx/store';
+import { StoreFeatureKeys } from 'src/app/store/feature-keys';
+import { moodsReducer } from 'src/app/store/reducers/moods.reducer';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-//import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-//import { userMoodsReducer } from 'src/app/store/reducers/moods.reducer';
 
 import { MoodDetailPageRoutingModule } from './mood-detail-routing.module';
 import { MoodDetailPage } from './mood-detail.page';
@@ -23,7 +23,7 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    //StoreModule.forFeature(StoreFeatureKeys.MoodsState, userMoodsReducer),
+    StoreModule.forFeature(StoreFeatureKeys.MoodsState, moodsReducer),
     FontAwesomeModule,
     MoodDetailPageRoutingModule,
     SelectDateModule,

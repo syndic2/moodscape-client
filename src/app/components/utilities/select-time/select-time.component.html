@@ -1,32 +1,30 @@
-<ng-template #selectTimeTemplate>
-  <div class="flex items-center gap-x-1 bg-transparent border-b-2 border-primary px-4 pb-2">
-    <ion-icon name="time" color="primary"></ion-icon>
-    <ion-input
-      [ngxTimepicker]="timePicker"
-      [format]="24"
-      type="text"
-      inputmode="text"
-      class="input-without-padding text-center"
-      [value]="selectedTime"
-      placeholder="time"
-      readonly>
-    </ion-input>
-    <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
-  </div>
+<div class="flex items-center gap-x-1 bg-transparent border-b-2 border-primary pb-2">
+  <ion-icon name="time" color="primary"></ion-icon>
+  <ion-input
+    [ngxTimepicker]="timePicker"
+    [format]="24"
+    type="text"
+    inputmode="text"
+    class="input-without-padding text-center"
+    [value]="selectedTime"
+    placeholder="time"
+    readonly>
+  </ion-input>
+  <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
+</div>
 
-  <ngx-material-timepicker
-    #timePicker
-    [defaultTime]="selectedTime"
-    [cancelBtnTmpl]="cancelButton"
-    [confirmBtnTmpl]="confirmButton"
-    [disableAnimation]="false"
-    (timeChanged)="onTimeChanged($event)">
-  </ngx-material-timepicker>
+<ngx-material-timepicker
+  #timePicker
+  [defaultTime]="selectedTime"
+  [cancelBtnTmpl]="cancelButton"
+  [confirmBtnTmpl]="confirmButton"
+  [disableAnimation]="false"
+  (timeChanged)="onTimeChanged($event)">
+</ngx-material-timepicker>
 
-  <ng-template #cancelButton>
-    <button class="text-primary uppercase">Kembali</button>
-  </ng-template>
-  <ng-template #confirmButton>
-    <button (click)="onSelectTime()" class="text-primary uppercase">Ok</button>
-  </ng-template>
+<ng-template #cancelButton>
+  <button class="text-primary uppercase">Kembali</button>
+</ng-template>
+<ng-template #confirmButton>
+  <button (click)="onSelectTime()" class="text-primary uppercase">Ok</button>
 </ng-template>

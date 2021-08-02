@@ -18,22 +18,22 @@ export class ProfileFieldsComponent implements OnInit {
   }
 
   get firstName() {
-		return this.form.get('firstName');
-	}
+    return this.form.get('firstName');
+  }
 
-	get lastName() {
-		return this.form.get('lastName');
-	}
+  get lastName() {
+    return this.form.get('lastName');
+  }
 
-	get gender() {
-		return this.form.get('gender');
-	}
+  get gender() {
+    return this.form.get('gender');
+  }
 
-	get age() {
-		return this.form.get('age');
-	}
+  get age() {
+    return this.form.get('age');
+  }
 
-	get email() {
-		return this.form.get('email');
-	}
+  get email() {
+    return this.form.get('email');
+  }
 }

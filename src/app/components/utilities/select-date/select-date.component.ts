@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
@@ -20,12 +12,10 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 export class SelectDateComponent implements OnInit {
   @Input() selectedDate: Date= new Date();
   @Output() selectDateEvent= new EventEmitter<Date>();
-  @ViewChild('selectDateTemplate', { static: true }) template;
 
-  constructor(private viewContainerRef: ViewContainerRef, private modalController: ModalController) { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    this.viewContainerRef.createEmbeddedView(this.template);
     this.selectDateEvent.emit(this.selectedDate);
   }
 

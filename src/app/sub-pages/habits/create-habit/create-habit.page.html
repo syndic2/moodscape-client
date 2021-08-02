@@ -4,129 +4,17 @@
       <ion-back-button defaultHref="/side-menu/tabs/habits"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="onSubmit()">
-        <ion-icon slot="icon-only" name="checkmark" size="large" class="icon"></ion-icon>
+      <ion-button (click)="habitFields.onSubmit()">
+        <ion-icon slot="icon-only" name="checkmark-circle" size="large" class="icon"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="createHabitForm" (ngSubmit)="onSubmit()">
-    <ion-grid fixed>
-      <ion-row class="flex flex-col gap-y-4">
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Nama</label>
-          <input 
-            type="text" 
-            inputmode="text"
-            placeholder="Nama habit"
-            formControlName="name"
-            class="block border-b border-gray-300 bg-transparent transition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1" />
-        </ion-col>
-  
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Deskripsi</label>
-          <textarea
-            inputmode="text" 
-            rows="5"
-            placeholder="Deskripsi habit"
-            formControlName="description" 
-            class="resize-none flex border border-gray-300 rounded-md bg-transparent transition duration-200 focus:outline-none focus:border-primary w-full mt-2 p-2"></textarea>
-        </ion-col>
-  
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Lakukan / Hindari</label>
-          <div class="flex justify-center gap-x-3 mt-2">
-            <ion-button type="button" (click)="onSelectType('to do')" [color]="selectedType === 'to do' ? 'primary' : 'light'" class="normal-case w-full">
-              Lakukan
-            </ion-button>
-            <ion-button type="button" (click)="onSelectType('not to do')" [color]="selectedType === 'not to do' ? 'primary' : 'light'" class="normal-case w-full">
-              Hindari
-            </ion-button>
-          </div>
-        </ion-col>
-  
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Pilih Hari</label>
-          <select-day-horizontal-list (selectDayEvent)="onSelectDay($event)" class="block mt-2"></select-day-horizontal-list>
-        </ion-col>
-  
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Goal Frekuensi</label>
-          <input 
-            type="number" 
-            inputmode="numeric" 
-            placeholder="Frekuensi"
-            formControlName="goal"
-            class="block border-b border-gray-300 bg-transparent transition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1">
-        </ion-col>
-        
-        <ion-col size="12" class="ion-activatable">
-          <div (click)="onSelectGoalTargetDate()" class="relative flex items-center rounded-lg bg-purple-200 p-4">
-            <!--<label class="text-md text-primary font-semibold">{{ !selectedGoalTargetDate ? 'Pilih Tanggal Target' : (selectedGoalTargetDate | dateInBahasa).fullDate  }}</label>-->
-            <input 
-              type="text" 
-              inputmode="text"
-              [value]="(selectedGoalTargetDate | dateInBahasa).fullDate"
-              formControlName="completeTargetBy"
-              placeholder="Pilih Tanggal Target Selesai"
-              class="absolute top-0 left-0 text-md text-primary placeholder-primary font-semibold bg-transparent w-full h-full p-4 focus:outline-none">
-            <ion-icon name="calendar-number" color="primary" class="ml-auto"></ion-icon>
-          </div>
-          <ion-ripple-effect></ion-ripple-effect>
-        </ion-col>
-  
-        <ion-col size="12">
-          <div class="flex justify-between items-center">
-            <label class="text-md text-black text-opacity-50 font-semibold">Ingatkan Saya</label>
-            <ion-toggle (ionChange)="onChangeReminderAt($event)" color="primary"></ion-toggle>
-          </div>
-          <div #selectReminderAt class="ion-activatable mt-2">
-            <div class="relative flex items-center rounded-lg bg-purple-200 p-4">
-              <!--<label class="text-md text-primary font-semibold">{{ !selectedReminderTime ? 'Pilih Waktu Pengingat' : '' }}</label>-->
-              <ion-icon name="alarm" color="primary" class="ml-auto"></ion-icon>
-              <input
-                [ngxTimepicker]="timePicker"
-                [format]="24"
-                type="text"
-                inputmode="text"
-                formControlName="reminderAt"
-                placeholder="Pilih Waktu Pengingat"
-                class="absolute top-0 left-0 text-md text-primary placeholder-primary font-semibold bg-transparent w-full h-full p-4 focus:outline-none"
-                readonly>
-            </div>
-
-            <ngx-material-timepicker
-              #timePicker
-              [defaultTime]="defaultReminderTime"
-              [cancelBtnTmpl]="cancelButton"
-              [confirmBtnTmpl]="confirmButton"
-              [disableAnimation]="false">
-            </ngx-material-timepicker>
-
-            <ng-template #cancelButton>
-              <button class="text-primary uppercase">Kembali</button>
-            </ng-template>
-            <ng-template #confirmButton>
-              <button class="text-primary uppercase">Ok</button>
-            </ng-template>
-
-            <ion-ripple-effect></ion-ripple-effect>
-          </div>
-        </ion-col>
-  
-        <ion-col size="12">
-          <label class="text-md text-black text-opacity-50 font-semibold">Warna Label</label>
-          <select-habit-label-color (selectColorEvent)="onSelectLabelColor($event)" class="block mt-2"></select-habit-label-color>
-        </ion-col>
-  
-        <ion-col size="12" class="mt-8">
-          <button type="submit" class="flex text-5xl focus:outline-none mx-auto">
-            <ion-icon name="checkmark-circle" color="primary"></ion-icon>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+  <habit-fields #habitFields>
+    <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
+      <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+    </button>
+  </habit-fields>
 </ion-content>

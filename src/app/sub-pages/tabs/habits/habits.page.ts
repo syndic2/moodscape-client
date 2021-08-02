@@ -16,33 +16,33 @@ import { removeHabits } from 'src/app/store/actions/habits.actions';
 })
 export class HabitsPage implements OnInit {
   public habits$: Observable<Habit[]>= this.store.select(selectHabits);
-  public daySelections= [
-    { day: 'all days', label: 'Setiap Hari', selected: true },
-    { day: 'monday', label: 'Senin', selected: false },
-    { day: 'tuesday', label: 'Selasa', selected: false },
-    { day: 'wednesday', label: 'Rabu', selected: false },
-    { day: 'thursday', label: 'Kamis', selected: false },
-    { day: 'friday', label: 'Jumat', selected: false },
-    { day: 'saturday', label: 'Sabtu', selected: false },
-    { day: 'sunday', label: 'Minggu', selected: false },
-  ];
-  public sliderOptions= {
-		slidesPerView: 4,
-    spaceBetween: 10,
-    freeMode: true
-	};
-
+  private selectedDay;
+  
   constructor(private store: Store, private alertController: AlertController) { }
 
   ngOnInit() {
   }
 
-  onSelectDay(selection) {
-    this.daySelections.forEach(object => object.selected= false);
-    this.daySelections.find(object => object.day === selection.day).selected= true;
+  onSelectDay(day) {
+    this.selectedDay= day;
   }
 
-  onRemove(habit: Habit) {
-    this.store.dispatch(removeHabits({ habitIds: [habit.Id] }));
+  async onRemove(habit: Habit) {
+    const alert= await this.alertController.create({
+      message: 'Apakah anda yakin ingin menghapus Habit ini?',
+      buttons: [
+        {
+          text: 'Hapus',
+          handler: () => {
+            this.store.dispatch(removeHabits({ habitIds: [habit.Id] }));
+          }
+        },
+        {
+          text: 'Tetap Simpan',
+          role: 'cancel'
+        }
+      ]
+    });
+    alert.present();
   }
 }

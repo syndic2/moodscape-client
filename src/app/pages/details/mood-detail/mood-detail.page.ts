@@ -81,7 +81,6 @@ export class MoodDetailPage implements OnInit {
     this.store.dispatch(updateMood({ moodId: this.mood.Id, fields: this.mood }));
 
     const alert= await this.alertController.create({
-      subHeader: 'Perbarui Mood',
       message: 'Berhasil menyimpan perubahan!',
       buttons: ['OK']
     });

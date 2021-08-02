@@ -3,7 +3,7 @@
     <ion-chip 
       (click)="onSelectDay(day)" 
       [ngClass]="{ 
-        'border border-primary': selectedDay === day.id 
+        'border border-primary': selectedDay === day.name 
       }" 
       class="whitespace-nowrap bg-gray-200 w-fit-content m-0">
       <ion-label>{{ day.label }}</ion-label>

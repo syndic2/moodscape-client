@@ -54,16 +54,37 @@ export const filterObjectProps= (object) => {
   return cleanedObject;
 };
 
+export const daysBetweenDates= (start: string, end: string) => {
+  const startDate= new Date(start);
+  const endDate= new Date(end);
+
+  if (startDate > endDate) {
+    return null;
+  }
+
+  // One day in milliseconds
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  // Calculating the time difference between two dates
+  const diffInTime = endDate.getTime() - startDate.getTime();
+
+  // Calculating the no. of days between two dates
+  const diffInDays = Math.floor(diffInTime / oneDay);
+
+  return diffInDays;
+};
+
 export const transformDateTime= (dateTime: Date) => {
   const months= [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
   const days= ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  
   const transformed= {
-    date: dateTime.getDate(),
+    date: dateTime.getDate() < 10 ? `0${dateTime.getDate()}` : dateTime.getDate(),
     day: days[dateTime.getDay()],
-    month: months[dateTime.getMonth()],
+    month: dateTime.getMonth()+1 < 10 ? `0${dateTime.getMonth()+1}` : dateTime.getMonth()+1,
     year: dateTime.getFullYear(),
     hours: dateTime.getHours(),
     minutes: dateTime.getMinutes() < 10 ? `0${dateTime.getMinutes()}` : dateTime.getMinutes(),
@@ -71,12 +92,14 @@ export const transformDateTime= (dateTime: Date) => {
     milliSeconds: dateTime.getMilliseconds(),
     meridiem: dateTime.getHours() >= 12 ? 'PM' : 'AM',
     timeCategory: null,
+    'format::/': null,
     toISODate: null,
+    toVeryShortDate: null,
     toShortDate: null,
     toDate: null,
     toTime: null
   };
-  
+
   transformed.timeCategory= (): string => {
     if (transformed.hours >= 4 && transformed.hours <= 10) return 'Pagi';
     else if (transformed.hours > 10 && transformed.hours <= 14) return 'Siang';
@@ -84,16 +107,20 @@ export const transformDateTime= (dateTime: Date) => {
     else return 'Malam';
   };
 
+  transformed['format::/']= (): string => {
+    return `${transformed.date}/${transformed.month}/${transformed.year}`;
+  };
+
   transformed.toISODate= (): string => {
-    return `${transformed.year}-${dateTime.getMonth()+1}-${transformed.date}`;
+    return `${transformed.year}-${transformed.month}-${transformed.date}`;
   };
 
   transformed.toShortDate= (): string => {
-    return `${transformed.day}, ${transformed.date}/${dateTime.getMonth()+1}/${transformed.year}`;
+    return `${transformed.day}, ${transformed.date}/${transformed.month}/${transformed.year}`;
   };
 
   transformed.toDate= (): string => {
-    return `${transformed.day}, ${transformed.date} ${transformed.month} ${transformed.year}`;
+    return `${transformed.day}, ${transformed.date} ${months[dateTime.getMonth()]} ${transformed.year}`;
   };
 
   transformed.toTime= (): string => {

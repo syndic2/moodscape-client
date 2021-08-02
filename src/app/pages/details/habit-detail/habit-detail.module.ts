@@ -6,13 +6,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { HabitDetailPageRoutingModule } from './habit-detail-routing.module';
 import { HabitDetailPage } from './habit-detail.page';
+import { HabitFieldsModule } from 'src/app/components/pages/habits/habit-fields/habit-fields.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HabitDetailPageRoutingModule
+    HabitDetailPageRoutingModule,
+    HabitFieldsModule
   ],
   declarations: [HabitDetailPage]
 })

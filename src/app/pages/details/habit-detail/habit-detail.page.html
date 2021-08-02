@@ -1,9 +1,20 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>habit-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="habitFields.onSubmit()">
+        <ion-icon slot="icon-only" name="checkmark-circle" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <habit-fields #habitFields [habitId]="habitId">
+    <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
+      <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+    </button>
+  </habit-fields>
 </ion-content>

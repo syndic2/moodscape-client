@@ -3,7 +3,7 @@ export enum HABIT_LABEL_COLOR {
   PINK= '#FFC0CB',
   ORANGE= '#FF8C00',
   BLUE= '#0000FF',
-  GREEN= '#00FF00'
+  GREEN= '#358873'
 };
 
 export interface Habit {
@@ -13,8 +13,7 @@ export interface Habit {
   type: string,
   day: string,
   goal: number,
-  completeTargetBy: string,
-  reminderAt?: string,
-  labelColor: string,
-  createdAt: string
+  goalDates: { start: string, end: string },
+  reminderTime?: string,
+  labelColor: string
 };

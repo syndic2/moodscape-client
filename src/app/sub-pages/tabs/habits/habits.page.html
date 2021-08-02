@@ -15,14 +15,8 @@
 </ion-header>
 
 <ion-content class="flex-column row-gap-4">
-  <ion-slides [options]="sliderOptions">
-    <ion-slide *ngFor="let selection of daySelections" class="w-fit-content">
-      <ion-chip (click)="onSelectDay(selection)" [ngClass]="{ 'border-2 border-purple-400': selection.selected }" class="bg-gray-200">
-        <ion-label class="font-medium">{{ selection.label }}</ion-label>
-      </ion-chip>
-    </ion-slide>
-  </ion-slides>
-
+  <select-day-horizontal-list (selectDayEvent)="onSelectDay($event)"></select-day-horizontal-list>
+  
   <ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
     <ion-item-sliding *ngFor="let habit of (habits$ | async)">
       <ion-item-options side="start">

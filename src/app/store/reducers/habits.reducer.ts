@@ -11,25 +11,23 @@ const initialState: HabitsState= {
       Id: -1,
       name: 'Mengerjakan Tugas Akhir selama 3 jam per hari',
       description: 'Kerja Tugas Akhir',
-      day: 'all days',
-      type: 'good habit',
+      day: 'all day',
+      type: 'to do',
       goal: 3,
-      completeTargetBy: '2021-30-07',
-      reminderAt: '11:00',
-      labelColor: HABIT_LABEL_COLOR.ORANGE,
-      createdAt: ''
+      goalDates: { start: '2021-01-06', end: '2021-01-06' },
+      reminderTime: '11:00',
+      labelColor: HABIT_LABEL_COLOR.ORANGE
     },
     {
       Id: -2,
       name: 'Bermain DOTA 2 selama 2 jam',
       description: 'Menghilangkan penat kerja skripsi',
       day: 'saturday',
-      type: 'bad habit',
+      type: 'not to do',
       goal: 2,
-      completeTargetBy: '2021-31-07',
-      reminderAt: '11:00',
-      labelColor: HABIT_LABEL_COLOR.RED,
-      createdAt: ''
+      goalDates: { start: '2021-01-06', end: '2021-01-06' },
+      reminderTime: '11:00',
+      labelColor: HABIT_LABEL_COLOR.RED
     }
   ]
 };

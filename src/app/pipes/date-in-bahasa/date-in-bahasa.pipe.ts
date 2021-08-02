@@ -7,10 +7,13 @@ import { transformDateTime } from 'src/app/utilities/helpers';
 })
 export class DateInBahasaPipe implements PipeTransform {
   transform(date: Date | string, ...args: unknown[]) {
+    date= new Date(date);
+    
     return {
-      dateObject: new Date(date),
-      shortDate: transformDateTime(new Date(date)).toShortDate(),
-      fullDate: transformDateTime(new Date(date)).toDate()
+      dateObject: date,
+      'format::/': transformDateTime(date)['format::/'](),
+      shortDate: transformDateTime(date).toShortDate(),
+      fullDate: transformDateTime(date).toDate()
     };
   }
 }

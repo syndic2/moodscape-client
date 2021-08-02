@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
@@ -13,32 +13,41 @@ import { Activity } from 'src/app/models/activity.model';
   styleUrls: ['./create-detail-mood.page.scss'],
 })
 export class CreateDetailMoodPage implements OnInit {
-  private fields;
-  private selectedActivities: Activity[]= [];
+  public createMoodForm: FormGroup;
 
-  constructor(private store: Store, private router: Router) { }
+  constructor(private store: Store, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.initializeForm();
+
     if (this.router.getCurrentNavigation().extras.state) {
-      this.fields= this.router.getCurrentNavigation().extras.state;
+      this.createMoodForm.patchValue({ ...this.router.getCurrentNavigation().extras.state });
     }
   }
 
-  onSelectActivities(activities: Activity[]) {
-    this.selectedActivities= activities;
+  initializeForm() {
+    this.createMoodForm= this.formBuilder.group({
+      emoticon: this.formBuilder.control(null),
+      timestamps: this.formBuilder.group({
+        date: this.formBuilder.control(''),
+        time: this.formBuilder.control('')
+      }),
+      parameters: this.formBuilder.group({
+        internal: this.formBuilder.control(''),
+        external: this.formBuilder.control('')
+      }),
+      activities: this.formBuilder.control([]),
+      note: this.formBuilder.control(''),
+      imgPaths: this.formBuilder.control('')
+    });
   }
 
-  onSubmit(form: NgForm) {
-    this.fields= { Id: -3, ...this.fields, ...{
-        parameters: {
-          internal: form.value.internal,
-          external: form.value.external
-        },
-        activities: this.selectedActivities,
-        note: form.value.note
-      }
-    };
-    this.store.dispatch(createMood({ mood: this.fields }));
+  onSelectActivities(activities: Activity[]) {
+    this.createMoodForm.controls['activities'].setValue(activities);
+  }
+
+  onSubmit() {
+    this.store.dispatch(createMood({ mood: { Id: 999, ...this.createMoodForm.value } }));
     this.router.navigate(['/side-menu/tabs/moods']);
   }
 }

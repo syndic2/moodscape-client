@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-habit-detail',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./habit-detail.page.scss'],
 })
 export class HabitDetailPage implements OnInit {
+  public habitId: number;
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.habitId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
   }
-
 }
