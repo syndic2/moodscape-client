@@ -8,7 +8,7 @@
           <ion-icon name="remove-outline" color="danger"></ion-icon>
         </ng-container>
         <ng-template #showEmoticon>
-          <ion-icon [src]="'../../../../assets/'+filters?.emoticon?.icon" color="primary" size="large"></ion-icon>
+          <ion-icon [src]="'../../../../assets/'+filters?.emoticon?.iconPath" size="large" [style.color]="filters?.emoticon?.color"></ion-icon>
         </ng-template>
       </div>
     </li>

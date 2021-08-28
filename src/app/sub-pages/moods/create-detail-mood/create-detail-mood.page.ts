@@ -4,8 +4,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
-import { createMood } from 'src/app/store/actions/moods.actions';
 import { Activity } from 'src/app/models/activity.model';
+import { fetchCreateMood } from 'src/app/store/actions/mood.actions';
 
 @Component({
   selector: 'app-create-detail-mood',
@@ -28,7 +28,7 @@ export class CreateDetailMoodPage implements OnInit {
   initializeForm() {
     this.createMoodForm= this.formBuilder.group({
       emoticon: this.formBuilder.control(null),
-      timestamps: this.formBuilder.group({
+      createdAt: this.formBuilder.group({
         date: this.formBuilder.control(''),
         time: this.formBuilder.control('')
       }),
@@ -37,17 +37,16 @@ export class CreateDetailMoodPage implements OnInit {
         external: this.formBuilder.control('')
       }),
       activities: this.formBuilder.control([]),
-      note: this.formBuilder.control(''),
-      imgPaths: this.formBuilder.control('')
+      note: this.formBuilder.control('')
     });
   }
 
   onSelectActivities(activities: Activity[]) {
-    this.createMoodForm.controls['activities'].setValue(activities);
+    this.createMoodForm.controls['activities'].setValue(activities.map(activity => activity.Id));
   }
 
   onSubmit() {
-    this.store.dispatch(createMood({ mood: { Id: 999, ...this.createMoodForm.value } }));
+    this.store.dispatch(fetchCreateMood({ fields: this.createMoodForm.value }));
     this.router.navigate(['/side-menu/tabs/moods']);
   }
 }

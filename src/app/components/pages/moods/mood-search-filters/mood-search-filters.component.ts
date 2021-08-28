@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FilterMood } from 'src/app/models/mood.model';
+import { MoodFilter } from 'src/app/models/mood.model';
 
 @Component({
   selector: 'mood-search-filters',
@@ -7,7 +7,7 @@ import { FilterMood } from 'src/app/models/mood.model';
   styleUrls: ['./mood-search-filters.component.scss'],
 })
 export class MoodSearchFiltersComponent implements OnInit {
-  @Input() filters: FilterMood;
+  @Input() filters: MoodFilter;
 
   constructor() { }
 

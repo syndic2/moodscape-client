@@ -9,4 +9,11 @@ export interface Article {
   headerImg?: string,
   urlName: string,
   url: string
-}
+};
+
+export interface ArticlePagination {
+  articles: Article[],
+  offset?: number,
+  limit?: number,
+  maxPage?: number
+};

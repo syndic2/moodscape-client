@@ -16,7 +16,7 @@ const urls= {
 export const environment = {
   production: false,
   baseUrl: urls.baseUrl.development,
-  apiUrl: urls.apiUrl.production
+  apiUrl: urls.apiUrl.development
 };
 
 /*

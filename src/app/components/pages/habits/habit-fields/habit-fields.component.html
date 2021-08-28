@@ -35,7 +35,7 @@
 
       <ion-col size="12">
         <label class="text-md text-black text-opacity-50 font-semibold">Pilih Hari</label>
-        <select-day-horizontal-list [selectedDay]="day.value" (selectDayEvent)="onSelectDay($event)" class="block mt-2"></select-day-horizontal-list>
+        <select-day-horizontal-list [selectedDayName]="habit ? habit.day : ''" (selectDayEvent)="onSelectDay($event)" class="block mt-2"></select-day-horizontal-list>
       </ion-col>
 
       <ion-col size="12">
@@ -51,7 +51,7 @@
       <ion-col size="12" class="ion-activatable">
         <div formGroupName="goalDates" class="flex flex-col gap-y-4">
           <div (click)="onSelectGoalDate('startDate')" class="relative flex items-center rounded-lg bg-purple-200 p-4">
-            <input 
+            <input
               type="text" 
               inputmode="text"
               [value]="(goalStartDate?.value | dateInBahasa).fullDate"
@@ -63,7 +63,7 @@
           </div>
 
           <div (click)="onSelectGoalDate('endDate')" class="relative flex items-center rounded-lg bg-purple-200 p-4">
-            <input 
+            <input
               type="text" 
               inputmode="text"
               [value]="(goalEndDate?.value | dateInBahasa).fullDate"

@@ -6,6 +6,7 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -14,7 +15,12 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers, metaReducers } from './store/reducers';
+import { RouterEffects } from './store/effects/router.effects';
+import { ApplicationEffects } from './store/effects/application.effects';
+import { AuthenticationEffects } from './store/effects/authentication.effects';
 
 import { environment } from '../environments/environment';
 
@@ -35,7 +41,12 @@ import { AppComponent } from './app.component';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     FontAwesomeModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers, { metaReducers : metaReducers }),
+    EffectsModule.forRoot([
+      RouterEffects, 
+      ApplicationEffects, 
+      AuthenticationEffects
+    ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     AppRoutingModule
   ],
@@ -59,6 +70,7 @@ import { AppComponent } from './app.component';
       useClass: JwtInterceptor,
       multi: true
     },
+    Keyboard,
     Deeplinks
   ],
   bootstrap: [AppComponent],

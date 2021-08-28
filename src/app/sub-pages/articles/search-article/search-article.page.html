@@ -1,0 +1,31 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg sm:text-xl">Cari Artikel</ion-title>
+    <ion-buttons slot="start">
+			<ion-back-button [defaultHref]="searchOn ? 'side-menu/my-articles' : 'articles'"></ion-back-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column row-gap-2">
+  <ion-searchbar
+    (ionChange)="onSearchChanged($event)"
+    type="text"
+    inputmode="text"
+    placeholder="Cari artikel"
+    showCancelButton="never">
+  </ion-searchbar>
+  
+  <img src="../../../../assets//images/read-article.png" alt="" class="flex-1 object-contain w-72 m-auto">
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div class="flex justify-center items-center p-4">
+      <ion-button (click)="onSearch()" color="primary" class="flex-1 normal-case">
+        <ion-icon slot="start" name="search"></ion-icon>
+        Cari
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

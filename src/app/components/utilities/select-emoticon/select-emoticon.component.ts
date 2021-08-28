@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
-import { EMOTICON_COLORS, MoodEmoticon } from 'src/app/models/mood.model';
+import { MOOD_EMOTICON_COLORS, MoodEmoticon } from 'src/app/models/mood.model';
 
 @Component({
   selector: 'select-emoticon',
@@ -15,32 +15,32 @@ export class SelectEmoticonComponent implements OnInit {
     {
       name: 'gembira',
       value: 5,
-      icon: 'icons/svg/emoticons/happy.svg',
-      color: EMOTICON_COLORS.GEMBIRA
+      iconPath: 'icons/svg/emoticons/happy.svg',
+      color: MOOD_EMOTICON_COLORS.GEMBIRA
     },
     {
       name: 'senang',
       value: 4,
-      icon: 'icons/svg/emoticons/smile.svg',
-      color: EMOTICON_COLORS.SENANG
+      iconPath: 'icons/svg/emoticons/smile.svg',
+      color: MOOD_EMOTICON_COLORS.SENANG
     },
     {
       name: 'netral',
       value: 3,
-      icon: 'icons/svg/emoticons/neutral.svg',
-      color: EMOTICON_COLORS.NETRAL
+      iconPath: 'icons/svg/emoticons/neutral.svg',
+      color: MOOD_EMOTICON_COLORS.NETRAL
     },
     {
       name: 'sedih',
       value: 2,
-      icon: 'icons/svg/emoticons/sad.svg',
-      color: EMOTICON_COLORS.SEDIH
+      iconPath: 'icons/svg/emoticons/sad.svg',
+      color: MOOD_EMOTICON_COLORS.SEDIH
     },
     {
       name: 'buruk',
       value: 1,
-      icon: 'icons/svg/emoticons/awful.svg',
-      color: EMOTICON_COLORS.BURUK
+      iconPath: 'icons/svg/emoticons/awful.svg',
+      color: MOOD_EMOTICON_COLORS.BURUK
     },
   ];
 

@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-    <ion-title>Artikel</ion-title>
+    <ion-title class="text-lg sm:text-xl">Artikel</ion-title>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="side-menu"></ion-back-button>
 		</ion-buttons>
@@ -17,6 +17,17 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <a [routerLink]="['/articles/search']">
+    <ion-searchbar
+      type="text"
+      inputmode="text"
+      placeholder="Cari artikel"
+      showCancelButton="never"
+      class="opacity-100"
+      disabled>
+    </ion-searchbar>
+  </a>
+
   <ng-container *ngIf="!articles.length; else showArticles">
     <article-card-loader></article-card-loader>
     <article-list-loader></article-list-loader>
@@ -28,7 +39,7 @@
       </ion-slide>
     </ion-slides>
 
-    <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" *ngIf="articles.length" lines="none">
+    <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
       <ion-item id='{{ "article_"+idx }}' *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
       </ion-item>

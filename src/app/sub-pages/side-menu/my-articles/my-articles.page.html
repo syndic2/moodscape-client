@@ -14,14 +14,26 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ng-container *ngIf="isLoading; else finishLoading">
+  <a [routerLink]="['/articles/search']" [state]="{ searchOn: 'archived-articles' }">
+    <ion-searchbar
+      type="text"
+      inputmode="text"
+      placeholder="Cari artikel"
+      showCancelButton="never"
+      class="opacity-100"
+      disabled>
+    </ion-searchbar>
+  </a>
+
+  <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
     <article-list-loader></article-list-loader>
   </ng-container>
 
   <ng-template #finishLoading>
     <ng-container *ngIf="!articles.length; else showArticles">
-      <div class="flex flex-col justify-center items-center h-full">
-        <span>-Belum ada artikel yang tersimpan-</span>
+      <div class="flex flex-col justify-center items-center gap-y-2 h-full">
+        <img src="../../../../assets/images/open-file.png" class="object-contain w-72" alt="">
+        <span>-Tidak ada artikel-</span>
       </div>
     </ng-container>
 
@@ -31,7 +43,7 @@
           <ion-item>
             <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
           </ion-item>
-
+  
           <ion-item-options side="end">
             <div (click)="onRemove(article)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
               <ion-icon name="trash" size="large"></ion-icon>

@@ -33,11 +33,6 @@
 /* Ionic Component Custom Styles */
 @import './styles/modals.scss';
 
-/* Swiper */
-.swiper-slide, .swiper-pagination {
-  position: static !important;
-}
-
 /* Ionic2-Calendar */
 .monthview-container {
   height: fit-content !important;
@@ -89,6 +84,10 @@ ngx-material-timepicker-content {
 
 .popover-content {
   border-radius: 1.25rem !important;
+}
+
+.swiper-slide, .swiper-pagination {
+  position: static !important;
 }
 
 //.loading-spinner {
@@ -219,9 +218,21 @@ ion-content {
     }
   }
 
+  &.row-gap-2 {
+    &::part(scroll) {
+      row-gap: 0.5rem;
+    }
+  }
+
   &.row-gap-4 {
     &::part(scroll) {
       row-gap: 1rem;
+    }
+  }
+
+  &.row-gap-5 {
+    &::part(scroll) {
+      row-gap: 1.25rem;
     }
   }
 }

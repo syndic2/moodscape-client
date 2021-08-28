@@ -22,7 +22,7 @@ export class ActivityEditNamePage implements OnInit {
   }
 
   onUpdate() {
-    this.modalController.dismiss({ fields: { name: this.activityName } });
+    this.modalController.dismiss({ name: this.activityName  });
   }
 
   onCancel() {

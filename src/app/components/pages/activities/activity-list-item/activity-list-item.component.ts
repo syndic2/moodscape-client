@@ -29,8 +29,7 @@ export class ActivityListItemComponent implements OnInit {
       componentProps: {
         activity: this.activity,
         ...this.activityCategory && { activityCategory: this.activityCategory},
-      },
-      translucent: true
+      }
     });
     popover.present();
   }

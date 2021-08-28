@@ -2,14 +2,14 @@
   <ion-card class="rounded-2xl">
     <ion-card-content class="relative">
       <div (click)="onOpenDetail()" class="flex items-start gap-x-4">
-        <ion-icon [src]="'../../../../../assets/'+mood.emoticon.icon" [style.color]="mood.emoticon.color" class="emoticons"></ion-icon>
+        <ion-icon [src]="'../../../../../assets/'+mood.emoticon.iconPath" [style.color]="mood.emoticon.color" class="emoticons"></ion-icon>
         <div class="flex-1 flex flex-col gap-y-1">
           <!-- Detail -->
           <div class="flex flex-col">
-            <span>{{ (mood.timestamps.date | dateInBahasa).fullDate }}</span>
+            <span>{{ (mood.createdAt.date | dateInBahasa).fullDate }}</span>
             <div class="flex items-center gap-x-2">
               <h3 class="text-lg uppercase font-semibold">{{ mood.emoticon.name }}</h3>
-              <span>{{ mood.timestamps.time }}</span>
+              <span>{{ mood.createdAt.time }}</span>
             </div>
           </div>
   

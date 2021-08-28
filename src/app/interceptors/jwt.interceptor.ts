@@ -6,15 +6,17 @@ import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthenticationService } from '../services/authentication/authentication.service';
 import { environment } from 'src/environments/environment';
+import { UtilitiesService } from '../services/utilities/utilities.service';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
 	constructor(
 		private toastController: ToastController,
-		private authService: AuthenticationService
+    private utilitiesService: UtilitiesService,
+		private authService: AuthenticationService,
 	) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -31,6 +33,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
 	private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
 		if (res.body) {
+      this.utilitiesService.onSkeletonLoading.next(true);
+
 			const data = res.body.data;
       const resolver= data[Object.keys(data)[0]]
 			let isTokenExpired: boolean= false;
@@ -53,6 +57,7 @@ export class JwtInterceptor implements HttpInterceptor {
       }
 
 			if (isTokenExpired === false) { //CHECK IF NOT EXPIRED
+        this.utilitiesService.onSkeletonLoading.next(false);
 				console.log('token no need to be refresh', isTokenExpired);
 
 				return res;
@@ -64,7 +69,7 @@ export class JwtInterceptor implements HttpInterceptor {
 					console.log('new token', newToken);
 
 					const toast = await this.toastController.create({
-						message: 'Terjadi kendala pada server, silahkan dicoba lagi',
+						message: 'Gagal validasi otentikasi, silahkan dicoba lagi',
 						position: 'bottom',
 						duration: 2000
 					});

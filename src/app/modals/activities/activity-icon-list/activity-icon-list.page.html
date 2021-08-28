@@ -10,28 +10,35 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="!activityIcons.length; else showActivityIcons">
+  <ng-container *ngIf="!(activityIcons$ | async)?.length; else showActivityIcons">
     <div class="flex justify-center items-center h-full">
       <span>-Belum ada ikon aktivitas-</span>
     </div>
   </ng-container>
 
   <ng-template #showActivityIcons>
-    <div class="flex flex-col gap-y-2 h-full">
+    <div class="flex flex-col gap-y-2">
       <div class="flex-grow flex flex-wrap gap-2">
         <ion-chip
           class="hover:bg-primary hover:text-white"
           color="primary"
           outline="true"
-          *ngFor="let activityIcon of activityIcons"
+          *ngFor="let activityIcon of (activityIcons$ | async)"
           (click)="onSelectIcon(activityIcon)">
           <ion-label>{{ activityIcon.name }}</ion-label>
         </ion-chip>
       </div>
-      <ion-button (click)="onCreate()" class="normal-case">
-        <ion-icon slot="start" name="add-circle"></ion-icon>
-        Simpan
-      </ion-button>
     </div>
   </ng-template>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div class="flex p-4">
+      <ion-button (click)="onChoose()" class="normal-case w-1/2 mx-auto">
+        <ion-icon slot="start" name="add-circle"></ion-icon>
+        Pilih
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

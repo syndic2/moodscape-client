@@ -24,7 +24,6 @@ export class HomePage implements OnInit {
   public sliderOptions= {
 		slidesPerView: 1,
 		spaceBetween: 5,
-		centeredSlides: true,
 		loop: true,
 		autoplay: true,
     pagination: {

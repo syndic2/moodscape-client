@@ -35,7 +35,9 @@ module.exports = {
         'fit-content': 'minmax(min-content, max-content)',
       },
       brightness: {
-        25: '.25'
+        25: '.25',
+        80: '.80',
+        85: '.85'
       }
     }
   },

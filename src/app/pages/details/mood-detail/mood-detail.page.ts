@@ -1,72 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { selectMood } from 'src/app/store/selectors/moods.selectors';
-import { updateMood } from 'src/app/store/actions/moods.actions';
-
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Activity } from 'src/app/models/activity.model';
 import { Mood, MoodEmoticon } from 'src/app/models/mood.model';
-import { MoodService } from 'src/app/services/mood/moods.service';
+import { fetchMoods, fetchMood, fetchUpdateMood } from 'src/app/store/actions/mood.actions';
+import { getMood } from 'src/app/store/selectors/mood.selectors';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-mood-detail',
   templateUrl: './mood-detail.page.html',
   styleUrls: ['./mood-detail.page.scss'],
 })
 export class MoodDetailPage implements OnInit {
-  private updateMoodListener: Subscription= null;
   public mood: Mood;
+  public moodSubscription: Subscription;
   private moodId: number;
+  public isLoading: boolean= true;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private alertController: AlertController,
-    private moodService: MoodService
-  ) { }
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.moodId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.store.select(selectMood({ Id: this.moodId })).subscribe(res => {
-      this.mood= {
-        ...res,
-        timestamps: { ...res.timestamps },
-        parameters: { ...res.parameters },
-        activities: [...res.activities]
-      };
-    });
   }
 
-  ionViewWillLeave() {
-    this.updateMoodListener && this.updateMoodListener.unsubscribe();
+  ionViewWillEnter() {
+    this.store.dispatch(fetchMood({ moodId: this.moodId }));
+    this.moodSubscription= this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
+      if (res) {
+        this.mood= {
+          ...res,
+          createdAt: { ...res?.createdAt },
+          parameters: { ...res?.parameters }
+        };
+        this.isLoading= false;
+      }
+    });
   }
 
   pullRefresh(event) {
-    this.store.select(selectMood({ Id: this.moodId })).subscribe(res => {
-      this.mood= {
-        ...res,
-        timestamps: { ...res.timestamps },
-        parameters: { ...res.parameters },
-        activities: [...res.activities]
-      };
-
-      event && event.target.complete();
-    });
+    this.store.dispatch(fetchMoods());
+    this.store.dispatch(fetchMood({ moodId: this.moodId }));
+    event.target.complete();
   }
 
   onSelectDate(date: Date) {
-    this.mood.timestamps.date= transformDateTime(new Date(date)).toISODate();
+    this.mood.createdAt.date= transformDateTime(new Date(date)).toISODate();
   }
 
   onSelectTime(time: string) {
-    this.mood.timestamps.time= time;
+    this.mood.createdAt.time= time;
   }
 
   onSelectEmoticon(emoticon: MoodEmoticon) {
@@ -77,15 +66,11 @@ export class MoodDetailPage implements OnInit {
     this.mood.activities= activities;
   }
 
-  async onUpdate() {
-    this.store.dispatch(updateMood({ moodId: this.mood.Id, fields: this.mood }));
-
-    const alert= await this.alertController.create({
-      message: 'Berhasil menyimpan perubahan!',
-      buttons: ['OK']
-    });
-    alert.present();
-    
-    //this.router.navigate(['/side-menu/tabs/moods']);
+  onUpdate() {
+    delete this.mood.Id;
+    this.store.dispatch(fetchUpdateMood({ 
+      moodId: this.moodId, 
+      fields:  { ...this.mood, activities: this.mood.activities.map(activity => activity.Id) }
+    }));
   }
 }

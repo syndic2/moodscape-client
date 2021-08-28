@@ -1,62 +1,88 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
-import { createActivityCategory } from 'src/app/store/actions/activities.actions';
-
+import { navigateGo } from 'src/app/store/actions/router.actions';
+import { showAlert } from 'src/app/store/actions/application.actions';
+import { fetchCreateActivityCategory } from 'src/app/store/actions/activity.actions';
+import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors';
 import { ActivityListPage } from 'src/app/modals/activities/activity-list/activity-list.page';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-create-activity-category',
   templateUrl: './create-activity-category.page.html',
   styleUrls: ['./create-activity-category.page.scss'],
 })
 export class CreateActivityCategoryPage implements OnInit {
-  private fields;
+  public categoryName: string;
+  private keepedActivitiesLength: number;
+  private keepedActivitiesSubscription: Subscription;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private alertController: AlertController,
-    private modalController: ModalController
-  ) { }
+  constructor(private store: Store, private modalController: ModalController) { }
 
   ngOnInit() {
   }
 
-  async onSubmit(form: NgForm) {
-    this.fields= { Id: 999, ...form.value, activities: [] };
-
-    const alert= await this.alertController.create({
-      message: 'Apakah anda ingin memindahkan aktivitas ke dalam kategori ini?',
-      buttons: [
-        {
-          text: 'Ya, pindahkan',
-          handler: async () => {
-            const modal= await this.modalController.create({
-              component: ActivityListPage,
-              componentProps: {
-                activityCategory:  { ...this.fields }
-              }
-            });
-
-            modal.present();
-          }
-        },
-        {
-          text: 'Tidak',
-          handler: () => {
-            this.store.dispatch(createActivityCategory({ activityCategory: this.fields }));
-            this.router.navigate(['settings/activities']);
-          }
-        }
-      ]
+  ionViewWillEnter() {
+    this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
+      this.keepedActivitiesLength= res.length;
     });
+  }
 
-    alert.present();
+  onSubmit() {
+    if (!this.categoryName || !this.categoryName.trim()) {
+      this.store.dispatch(
+        showAlert({
+          options: {
+            message: 'Nama kategori tidak boleh kosong!',
+            buttons: ['OK']
+          }
+        })
+      );
+    } else {
+      if (this.keepedActivitiesLength === 0) {
+        this.store.dispatch(fetchCreateActivityCategory({ fields: { category: this.categoryName } }));
+        this.store.dispatch(navigateGo({ path: ['settings/activities'] }));
+        this.categoryName= '';
+      } else {
+        this.store.dispatch(
+          showAlert({
+            options: {
+              message: 'Apakah anda ingin memindahkan aktivitas ke dalam kategori ini?',
+              buttons: [
+                {
+                  text: 'Ya, pindahkan',
+                  handler: async () => {
+                    const modal= await this.modalController.create({ component: ActivityListPage });
+                    modal.present();
+      
+                    const { data }= await modal.onWillDismiss();
+                    if (data && data.activities) {
+                      this.store.dispatch(fetchCreateActivityCategory({ fields: { category: this.categoryName, activities: data.activities } }));
+                      this.store.dispatch(navigateGo({ path: ['settings/activities'] }));
+                      this.categoryName= '';
+                    }
+                  }
+                },
+                {
+                text: 'Tidak',
+                  handler: () => {
+                    this.store.dispatch(fetchCreateActivityCategory({ fields: { category: this.categoryName } }));
+                    this.store.dispatch(navigateGo({ path: ['settings/activities'] }));
+                    this.categoryName= '';
+                  }
+                }
+              ]
+            }
+          })
+        );
+      }
+    }
   }
 }

@@ -4,10 +4,13 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StoreModule } from '@ngrx/store';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { habitsReducer } from 'src/app/store/reducers/habits.reducer';
+import { habitReducer } from 'src/app/store/reducers/habit.reducer';
+import { HabitEffects } from 'src/app/store/effects/habit.effects';
 
 import { HabitsPageRoutingModule } from './habits-routing.module';
 import { HabitsPage } from './habits.page';
@@ -20,7 +23,9 @@ import { SelectDayHorizontalListModule } from 'src/app/components/utilities/sele
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.HabitsState, habitsReducer),
+    FontAwesomeModule,
+    StoreModule.forFeature(StoreFeatureKeys.HABIT, habitReducer),
+    EffectsModule.forFeature([HabitEffects]),
     HabitsPageRoutingModule,
     HabitListItemModule,
     HabitListLoaderModule,

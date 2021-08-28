@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
+import gqlCompress from 'graphql-query-compress';
 
-import { singleLineString, filterObjectProps } from 'src/app/utilities/helpers';
+import { filterObjectProps } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,10 +16,10 @@ import { environment } from 'src/environments/environment';
 export class FeedbackService {
   constructor(private http: HttpClient) { }
 
-  sendAppFeedback(data): Observable<any> {
-    const query= singleLineString`
+  sendAppFeedback(fields: {}): Observable<any> {
+    const query= gqlCompress(`
       mutation {
-        createAppFeedback(fields: ${StringifyObject(filterObjectProps(data), { singleQuotes: false })}) {
+        createAppFeedback(fields: ${StringifyObject(filterObjectProps(fields), { singleQuotes: false })}) {
           createdFeedback {
             __typename
             ... on AuthInfoField {
@@ -36,7 +37,7 @@ export class FeedbackService {
           }
         }
       }
-    `;
+    `);
 
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any)  => res.data.createAppFeedback)

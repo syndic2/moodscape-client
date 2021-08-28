@@ -13,12 +13,12 @@
       <img src="../../../../../assets/images/manage-folder.png" alt="">
     </div>
 
-    <form #createActivityCategoryFrom="ngForm" (ngSubmit)="onSubmit(createActivityCategoryFrom)" class="flex-1 flex flex-col gap-y-2">
+    <form class="flex-1 flex flex-col gap-y-2">
       <ion-item lines="none" class="flex-grow rounded-xl">
         <ion-label>Nama</ion-label>
-        <ion-input type="text" inputmode="text" name="category" placeholder="Nama kategori aktivitas" ngModel></ion-input>
+        <ion-input [(ngModel)]="categoryName" type="text" inputmode="text" name="category" placeholder="Nama kategori aktivitas"></ion-input>
       </ion-item>
-      <ion-button type="submit" expand="block" shape="round" class="normal-case w-1/2 mx-auto ">
+      <ion-button (click)="onSubmit()" expand="block" shape="round" class="normal-case w-1/2 mx-auto ">
         <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
         Lanjut
       </ion-button>

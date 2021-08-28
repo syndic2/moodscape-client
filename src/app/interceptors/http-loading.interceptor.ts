@@ -42,7 +42,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 	}
 
 	private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
-    const toast= await this.toastController.create({ position: 'bottom', duration: 2000 });
+    const toast= await this.toastController.create({ position: 'bottom', duration: 1500 });
 
     switch (error.status) {
       case 400:

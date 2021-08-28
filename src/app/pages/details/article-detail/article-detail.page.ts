@@ -1,58 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ToastController } from '@ionic/angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
-import { ArticleService } from 'src/app/services/article/article.service';
+import { fetchArticleByUrlName, fetchArchiveArticles } from 'src/app/store/actions/article.actions';
+import { getArticleByUrlName } from 'src/app/store/selectors/article.selectors';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
 	selector: 'app-article-detail',
 	templateUrl: './article-detail.page.html',
 	styleUrls: ['./article-detail.page.scss'],
 })
 export class ArticleDetailPage implements OnInit {
-	public article: Article;
+  public article: Article;
+  private articleSubscription: Subscription;
   private urlName: string;
-	private getArticleListener: Subscription= null;
 
-	constructor(
-    private activatedRoute: ActivatedRoute,
-    private toastController: ToastController,
-    private articleService: ArticleService
-  ) { }
+	constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
 	ngOnInit() {
     this.urlName= this.activatedRoute.snapshot.paramMap.get('urlName');
   }
 
-	ionViewWillEnter() {
-    this.getArticleListener= this.articleService.getArticleByUrlName(this.urlName).subscribe((res: Article) => this.article = res);
-	}
-
-	ionViewWillLeave() {
-		this.getArticleListener.unsubscribe();
-	}
-
-  pullRefresh(event) {
-    this.getArticleListener= this.articleService.getArticleByUrlName(this.urlName).subscribe((res: Article) => {
-      this.article = res;
-
-      event && event.target.complete();
+  ionViewWillEnter() {
+    this.articleSubscription= this.store.select(getArticleByUrlName(this.urlName)).subscribe(res => {
+      this.article= res;
     });
   }
 
-  onArchive() {
-    this.articleService.archiveArticles([this.article.Id]).subscribe(async res => {
-      const toast= await this.toastController.create({
-        message: res.response.text,
-        position: 'bottom',
-        duration: 2000
-      });
+  pullRefresh(event) {
+    this.store.dispatch(fetchArticleByUrlName({ urlName: this.urlName }));
+    event.target.complete();
+  }
 
-      toast.present();
-    });
+  onArchive() {
+    this.store.dispatch(fetchArchiveArticles({ articleIds: [this.article.Id] }));
   }
 }

@@ -5,7 +5,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './select-day-horizontal-list.component.html',
   styleUrls: ['./select-day-horizontal-list.component.scss'],
 })
-export class SelectDayHorizontalListComponent implements OnInit {
+export class SelectDayHorizontalListComponent implements OnInit {   
+  @Input() selectedDayName:string= '';
+  @Output() selectDayEvent: EventEmitter<any>= new EventEmitter();
+
   public days= [
     { id: -1, name: 'all day', label: 'Setiap Hari' },
     { id: 1, name: 'monday', label: 'Senin' },
@@ -16,18 +19,20 @@ export class SelectDayHorizontalListComponent implements OnInit {
     { id: 6, name: 'saturday', label: 'Sabtu' },
     { id: 0, name: 'sunday', label: 'Minggu' },
   ];
-   
-  @Input() selectedDay:string = this.days[0].name;
-  @Output() selectDayEvent: EventEmitter<any>= new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
-    this.selectDayEvent.emit(this.days[0]);
+    if (this.selectedDayName === '') {
+      this.selectedDayName= this.days[0].name;
+      this.selectDayEvent.emit(this.days[0]);
+    } else {
+      this.selectDayEvent.emit(this.days.find(day => this.selectedDayName === day.name));
+    }
   }
 
   onSelectDay(day) {
-    this.selectedDay= day.name;
+    this.selectedDayName= day.name;
     this.selectDayEvent.emit(day);
   }
 }

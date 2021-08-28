@@ -1,46 +1,37 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
-import { Store } from '@ngrx/store';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { createActivityCategory } from 'src/app/store/actions/activities.actions';
-import { selectKeepedActivities } from 'src/app/store/selectors/activities.selectors';
+import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors';
 
-import { ActivityCategory } from 'src/app/models/activity.model';
-
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-list',
   templateUrl: './activity-list.page.html',
   styleUrls: ['./activity-list.page.scss'],
 })
 export class ActivityListPage implements OnInit {
-  @Input() activityCategory: ActivityCategory;
-
   public activities: any[]= [];
-  private createActivityCategoryListener: Subscription= null;
+  private activitiesSubscription: Subscription;
   public selectAll: boolean= false;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private modalController: ModalController
-  ) { }
+  constructor(private store: Store, private modalController: ModalController) { }
     
   ngOnInit() {
-    this.store.select(selectKeepedActivities).pipe(
-      map(res => res.map((object, index) => ({ ...object, isChecked: false }))
+  }
+
+  ionViewWillEnter() {
+    this.activitiesSubscription= this.store.select(getKeepedActivities).pipe(
+      map(res => res.map((activity, index) => ({ ...activity, isChecked: false }))
     )).subscribe(res => {
       this.activities= res;
     });
-  }
-
-  ionViewWillLeave() {
-    this.createActivityCategoryListener && this.createActivityCategoryListener.unsubscribe();
   }
 
   onClose() {
@@ -52,9 +43,6 @@ export class ActivityListPage implements OnInit {
   }
 
   onCreate() {
-    this.modalController.dismiss();
-    this.activityCategory.activities= this.activities.filter(object => object.isChecked);
-    this.store.dispatch(createActivityCategory({ activityCategory: this.activityCategory }));
-    this.router.navigate(['/settings/activities/activity-category', this.activityCategory.Id]);
+    this.modalController.dismiss({ activities: this.activities.filter(activity => activity.isChecked).map(activity => activity.Id) });
   }
 }

@@ -24,7 +24,7 @@
   </ng-container>
   <ng-template #showActivityCategories>
     <ion-reorder-group (ionItemReorder)="reorderCategory($event)" disabled="false">
-      <ion-item lines="full" *ngFor="let activityCategory of (activityCategories$ | async)">
+      <ion-item lines="none" *ngFor="let activityCategory of (activityCategories$ | async)">
         <activity-category-list-item [activityCategory]="activityCategory" [forReorder]="true"></activity-category-list-item>
       </ion-item>
     </ion-reorder-group>
@@ -40,7 +40,7 @@
       </ion-button>
       <ion-button [routerLink]="['/settings/activities/create-activity-category']" shape="round" class="normal-case w-3/4 mx-auto">
         <ion-icon slot="start" name="folder-open"></ion-icon>
-        Tambah Kategory Aktivitas
+        Tambah Kategori Aktivitas
       </ion-button>
     </div>
   </ion-toolbar>

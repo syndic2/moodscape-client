@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlertController } from '@ionic/angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
-import { ArticleService } from 'src/app/services/article/article.service';
+import { fetchArchivedArticles, removeArchivedArticlesConfirmation } from 'src/app/store/actions/article.actions';
+import { getArchivedArticles } from 'src/app/store/selectors/article.selectors';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-my-articles',
   templateUrl: './my-articles.page.html',
@@ -14,58 +18,27 @@ import { ArticleService } from 'src/app/services/article/article.service';
 })
 export class MyArticlesPage implements OnInit {
   public articles: Article[]= [];
-  public isLoading: boolean= true;
-  private getArchivedArticlesListener: Subscription= null;
-  private removeArchivedArticlesListener: Subscription= null;
+  private articlesSubscription: Subscription;
 
-  constructor(private alertController: AlertController, private articleService: ArticleService) { }
+  constructor(private store: Store, public utilitiesService: UtilitiesService) { }
 
-  ngOnInit() {}
-
-  ionViewWillEnter() {
-    if (this.getArchivedArticlesListener === null) {
-      this.getArchivedArticlesListener= this.articleService.getArchivedArticles().subscribe(res => {
-        this.articles= res.articles;
-        this.isLoading= false;
-      });
-    }
+  ngOnInit() {
   }
 
-  ionViewWillLeave() {
-    this.getArchivedArticlesListener && this.getArchivedArticlesListener.unsubscribe();
-    this.removeArchivedArticlesListener && this.removeArchivedArticlesListener.unsubscribe();
+  ionViewWillEnter() {
+    this.store.dispatch(fetchArchivedArticles());
+    this.articlesSubscription= this.store.select(getArchivedArticles).subscribe(res => {
+      this.articles= res;
+      this.utilitiesService.resetSkeletonLoading();
+    });
   }
 
   pullRefresh(event) {
-    this.isLoading= true;
-
-    this.getArchivedArticlesListener= this.articleService.getArchivedArticles().subscribe(res => {
-      this.articles= res.articles;
-      this.isLoading= false;
-
-      event && event.target.complete();
-    });
+    this.store.dispatch(fetchArchivedArticles());
+    event.target.complete();
   }
 
-  async onRemove(article: Article) {
-    const alert= await this.alertController.create({
-      message: 'Apakah anda yakin ingin menghapus artikel ini?',
-      buttons: [
-        {
-          text: 'Tetap simpan',
-          role: 'cancel'
-        },
-        {
-          text: 'Hapus',
-          handler: () => {
-            this.removeArchivedArticlesListener= this.articleService.removeArchivedArticles([article.Id]).subscribe(res => {
-              this.articles= this.articles.filter(object => object.Id !== article.Id);
-            });
-          }
-        }
-      ]
-    });
-    
-    alert.present();
+  onRemove(article: Article) {
+    this.store.dispatch(removeArchivedArticlesConfirmation({ articleIds: [article.Id] }));
   }
 }

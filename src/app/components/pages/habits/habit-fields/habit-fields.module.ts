@@ -5,8 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreFeatureKeys } from 'src/app/store/feature-keys'
-import { habitsReducer } from 'src/app/store/reducers/habits.reducer';
+import { habitReducer } from 'src/app/store/reducers/habit.reducer';
+import { HabitEffects } from 'src/app/store/effects/habit.effects';
 
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
@@ -22,7 +24,8 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.HabitsState, habitsReducer),
+    StoreModule.forFeature(StoreFeatureKeys.HABIT, habitReducer),
+    EffectsModule.forFeature([HabitEffects]),
     NgxMaterialTimepickerModule,
     SelectDayHorizontalListModule,
     SelectHabitLabelColorModule,

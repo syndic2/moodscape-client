@@ -9,6 +9,14 @@ const routes: Routes = [
     component: ArticlesPage,
   },
   {
+    path: 'search',
+    loadChildren: () => import('../../sub-pages/articles/search-article/search-article.module').then(m => m.SearchArticlePageModule),
+  },
+  {
+    path: 'search-results',
+    loadChildren: () => import('../../sub-pages/articles/search-results-article/search-results-article.module').then(m => m.SearchResultsArticlePageModule)
+  },
+  {
     path: ':urlName',
     loadChildren: () => import('../details/article-detail/article-detail.module').then(m => m.ArticleDetailPageModule)
   }

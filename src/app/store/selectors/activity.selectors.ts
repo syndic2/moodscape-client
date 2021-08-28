@@ -1,12 +1,12 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { StoreFeatureKeys } from '../feature-keys';
-import { ActivitiesState } from '../states';
+import { ActivityState } from '../states';
 
-export const selectActivitiesFeature= createFeatureSelector<ActivitiesState>(StoreFeatureKeys.ActivitiesState);
+export const selectActivityFeature= createFeatureSelector<ActivityState>(StoreFeatureKeys.ACTIVITY);
 
-export const selectActivityCategoryList= createSelector(
-  selectActivitiesFeature,
+export const gettActivityCategoryList= createSelector(
+  selectActivityFeature,
   state => state.activityCategories.map((object, index) => ({
     Id: object.Id,
     category: object.category,
@@ -14,43 +14,51 @@ export const selectActivityCategoryList= createSelector(
   }))
 );
 
-export const selectUnkeepedActivities= createSelector(
-  selectActivitiesFeature,
+export const getActivityIcons= createSelector(
+  selectActivityFeature,
+  state => state.activityIcons
+);
+
+export const getActivityCategories= createSelector(
+  selectActivityFeature,
   state => state.activityCategories
 );
 
-export const selectKeepedActivities= createSelector(
-  selectActivitiesFeature,
+export const getKeepedActivities= createSelector(
+  selectActivityFeature,
   state => state.keepedActivties
 );
 
-export const selectAllActivity= createSelector(
-  selectUnkeepedActivities,
-  selectKeepedActivities,
+export const getReorderedActivityCategories= createSelector(
+  selectActivityFeature,
+  state => state.reorderedActivityCategories
+);
+
+export const gettAllActivity= createSelector(
+  getActivityCategories,
+  getKeepedActivities,
   (activityCategories, keepedActivities) => {
     let activities= [];
 
     activityCategories.forEach((activityCategory, index) => {
       activities= [...activities , ...activityCategory.activities.map((activity, index) => ({
-          Id: activity.Id,
-          name: activity.name,
-          icon: activity.icon,
+          ...activity,
           activityCategory: activityCategory
         }))
       ];
     });
 
-    keepedActivities.forEach((object, index) => {
-      activities= [...activities, object];
+    keepedActivities.forEach((activity, index) => {
+      activities= [...activities, activity];
     });
 
     return activities;
   }
 );
 
-export const selectCheckedUnkeepedActivities= (props) => {
+export const getCheckedUnkeepedActivities= (props) => {
   return createSelector(
-    selectUnkeepedActivities,
+    getActivityCategories,
     state => state.map(activityCategory => {
       return {
         ...activityCategory,
@@ -73,9 +81,9 @@ export const selectCheckedUnkeepedActivities= (props) => {
   );
 };
 
-export const selectCheckedKeepedActivities= (props) => {
+export const getCheckedKeepedActivities= (props) => {
   return createSelector(
-    selectKeepedActivities,
+    getKeepedActivities,
     state => state.map(keeped => {
       const activity= props.selectedActivities.find(selected => selected.Id === keeped.Id);
 
@@ -91,16 +99,16 @@ export const selectCheckedKeepedActivities= (props) => {
   );
 };
 
-export const selectActivity= (props) => {
+export const getActivity= (props) => {
   return createSelector(
-    selectAllActivity,
-    state => state.find(object => object.Id === props.Id)
+    gettAllActivity,
+    state => state.find(activity => activity.Id === props.Id)
   );
 };
 
-export const selectActivityCategory= (props) => {
+export const getActivityCategory= (props) => {
   return createSelector(
-    selectUnkeepedActivities,
-    state => state.find(object => object.Id === props.Id)
+    getActivityCategories,
+    state => state.find(activityCategory => activityCategory.Id === props.Id)
   );
 };

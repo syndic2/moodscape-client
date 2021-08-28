@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { StoreModule } from '@ngrx/store';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { activitiesReducer } from 'src/app/store/reducers/activities.reducer';
+import { activityReducer } from 'src/app/store/reducers/activity.reducer';
+import { ActivityEffects } from 'src/app/store/effects/activity.effects';
 
 import { ActivitiesPageRoutingModule } from './activities-routing.module';
 import { ActivitiesPage } from './activities.page';
@@ -18,7 +20,8 @@ import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activi
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.ActivitiesState, activitiesReducer),
+    StoreModule.forFeature(StoreFeatureKeys.ACTIVITY, activityReducer),
+    EffectsModule.forFeature([ActivityEffects]),
     ActivitiesPageRoutingModule,
     ActivityCategoryListItemModule,
     ActivityCategoryListPageModule

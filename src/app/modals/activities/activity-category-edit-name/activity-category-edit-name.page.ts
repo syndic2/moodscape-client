@@ -8,7 +8,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./activity-category-edit-name.page.scss'],
 })
 export class ActivityCategoryEditNamePage implements OnInit {
-  @Input() activityCategoryName: string;
+  @Input() categoryName: string;
 
   constructor(private modalController: ModalController) { }
 
@@ -16,13 +16,11 @@ export class ActivityCategoryEditNamePage implements OnInit {
   }
 
   onChangeName(event) {
-    this.activityCategoryName= event.target.value;
+    this.categoryName= event.target.value;
   }
 
   onUpdate() {
-    this.modalController.dismiss({
-      fields: { category: this.activityCategoryName }
-    });
+    this.modalController.dismiss({ fields: { category: this.categoryName } });
   }
 
   onCancel() {

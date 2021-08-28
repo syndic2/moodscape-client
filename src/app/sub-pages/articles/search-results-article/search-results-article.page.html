@@ -1,0 +1,36 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg sm:text-xl">Hasil Pencarian</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="articles/search"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column row-gap-4">
+  <div>
+    <span class="text-md font-semibold">Pencarian bedasarkan: </span>
+    <span class="italic">{{ searchText !== '' ? searchText : '-' }}</span>
+  </div>
+
+  <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
+    <article-list-loader></article-list-loader>
+  </ng-container>
+
+  <ng-template #finishLoading>
+    <ng-container *ngIf="!articles.length; else showArticles">
+      <div class="flex-1 flex flex-col justify-center items-center gap-y-2">
+        <img src="../../../../assets/images/no-data-found-v2.png" alt="" class="object-contain w-60">
+        <label class="font-semibold">-Artikel tidak ditemukan-</label>
+      </div>
+    </ng-container>
+
+    <ng-template #showArticles>
+      <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
+        <ion-item *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
+          <article-list-item [article]="article"></article-list-item>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ng-template>
+</ion-content>

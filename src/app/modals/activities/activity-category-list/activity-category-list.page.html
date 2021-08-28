@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Pilih Kategori Aktivitas</ion-title>
+    <ion-title class="text-lg sm:text-xl">Pilih Kategori Aktivitas</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onClose()">
-        <ion-icon name="close-circle" class="icon" style="font-size: 35px !important;"></ion-icon>
+        <ion-icon slot="icon-only" name="close" size="large" class="icon"></ion-icon>
       </ion-button>
     </ion-buttons>
 	</ion-toolbar>
@@ -16,9 +16,9 @@
     </div>
   </ng-container>
   <ng-template #showActivityCategories>
-    <ion-list>
+    <ion-list lines="none" class="rounded-2xl">
       <ion-item *ngFor="let activityCategory of (activityCategoryList$ | async)" button (click)="onSelectCategory(activityCategory)">
-        <ion-icon class="mr-2" name="folder-open-outline" color="primary"></ion-icon>
+        <ion-icon class="mr-4" name="folder-open-outline" color="primary"></ion-icon>
         <ion-label>
           {{ activityCategory.category }}
           <span class="text-black text-opacity-25">({{ activityCategory.activitiesCount }}x)</span>
