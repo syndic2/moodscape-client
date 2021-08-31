@@ -1,14 +1,18 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">{{ activityCategory.category }}</ion-title>
+    <ion-title class="text-lg sm:text-xl">{{ activityCategory?.category }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="settings/activities"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="flex flex-col gap-y-2 h-full">
+<ion-content class="flex-colum row-gap-2">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="activityCategory">
     <div class="flex items-center gap-x-3" (click)="onUpdate()">
       <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
       <div class="flex flex-col">
@@ -23,7 +27,7 @@
       <div class="flex items-center justify-between">
         <ion-label class="font-semibold">Aktivitas</ion-label>
         <button (click)="onCreateActivity()" class="flex focus:outline-none">
-          <ion-icon name="add-circle-outline" color="primary" size="large"></ion-icon>
+          <ion-icon slot="icon-only" name="add-circle-outline" color="primary" size="large"></ion-icon>
         </button>
       </div>
 
@@ -40,18 +44,20 @@
         </ion-list>
       </ng-template>
     </div>
-  </div>
+  </ng-container>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <ion-toolbar class="p-2">
-    <!--<ion-button (click)="onCreateActivity()" expand="block" shape="round" color="primary" class="normal-case w-3/4 mx-auto">
-      <ion-icon slot="start" name="add-circle"></ion-icon>
-      Tambah Aktivitas Baru
-    </ion-button>-->
-    <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
-      <ion-icon slot="start" name="trash"></ion-icon>
-      Hapus
-    </ion-button>
+    <ng-container *ngIf="activityCategory">
+      <!--<ion-button (click)="onCreateActivity()" expand="block" shape="round" color="primary" class="normal-case w-3/4 mx-auto">
+        <ion-icon slot="start" name="add-circle"></ion-icon>
+        Tambah Aktivitas Baru
+      </ion-button>-->
+      <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Hapus
+      </ion-button>
+    </ng-container>
   </ion-toolbar>
 </ion-footer>

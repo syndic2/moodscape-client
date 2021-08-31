@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateActivityCategoryPageRoutingModule } from './create-activity-category-routing.module';
-
 import { CreateActivityCategoryPage } from './create-activity-category.page';
 import { ActivityListPageModule } from 'src/app/modals/activities/activity-list/activity-list.module';
 

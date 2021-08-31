@@ -1,50 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
 
-import { selectActivity } from 'src/app/store/selectors/activities.selectors';
-import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/activities.actions';
-
 import { ActivityCategory } from 'src/app/models/activity.model';
+import { 
+  fetchActivity, 
+  fetchActivityCategories,
+  fetchUpdateActivity, 
+  removeActivitiesConfirmation,
+  fetchMoveActivitiesIntoCategory
+} from 'src/app/store/actions/activity.actions';
+import { getActivity } from 'src/app/store/selectors/activity.selectors';
 import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-name/activity-edit-name.page';
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
+import { ActivityIconListPage } from 'src/app/modals/activities/activity-icon-list/activity-icon-list.page';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.page.html',
   styleUrls: ['./activity-detail.page.scss'],
 })
 export class ActivityDetailPage implements OnInit {
-  public activity;
+  public activity: any;
   public activityCategory: ActivityCategory;
-  private getActivityListener: Subscription= null;
-  private getActivityCategoryListener: Subscription= null;
+  private activitySubscription: Subscription;
   private activityId: number;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private alertController: AlertController,
-    private modalController: ModalController
-  ) { }
+  constructor(private store: Store, private activatedRoute: ActivatedRoute, private modalController: ModalController) { }
 
   ngOnInit() {
     this.activityId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.getActivityCategoryListener= this.store.select(selectActivity({ Id: this.activityId })).subscribe(res => {
+  }
+
+  ionViewWillEnter() {
+    this.store.dispatch(fetchActivityCategories());
+    this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
+    this.activitySubscription= this.store.select(getActivity({ Id: this.activityId })).subscribe(res => {
       this.activity= res;
-      this.activityCategory= res.activityCategory;
+      this.activityCategory= res?.activityCategory;
     });
   }
 
-  ionViewWillLeave() {
-    this.getActivityListener && this.getActivityListener.unsubscribe();
-    this.getActivityCategoryListener && this.getActivityCategoryListener.unsubscribe();
+  pullRefresh(event) {
+    this.store.dispatch(fetchActivityCategories());
+    this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
+    event.target.complete();
   }
 
   async onUpdateName() {
@@ -56,13 +63,8 @@ export class ActivityDetailPage implements OnInit {
     modal.present();
 
     const { data }= await modal.onWillDismiss();
-
-    if (data) {
-      this.store.dispatch(updateActivity({
-        activityId: this.activity.Id,
-        fields: data.fields,
-        ...(this.activityCategory) && { activityCategoryId: this.activityCategory.Id }
-      }));
+    if (data && data.name) {
+      this.store.dispatch(fetchUpdateActivity({ activityId: this.activity.Id, fields: data, activityCategoryId: this.activityCategory?.Id }));
     }
   }
 
@@ -74,43 +76,22 @@ export class ActivityDetailPage implements OnInit {
     modal.present();
 
     const { data }= await modal.onWillDismiss();
-
-    if (data) {
-      this.store.dispatch(moveActivitiesIntoCategory({
-        activities: [this.activity],
-        ...this.activityCategory && { fromCategoryId: this.activityCategory.Id },
-        toCategoryId: data.toCategoryId
-      }));
+    if (data && data.toCategoryId) {
+      this.store.dispatch(fetchMoveActivitiesIntoCategory({ activityIds: [this.activity.Id], fromCategoryId: this.activityCategory?.Id, toCategoryId: data.toCategoryId }));
     }
   }
 
-  async onRemove() {
-    const alert= await this.alertController.create({
-      subHeader: 'Anda akan menghapus aktivitas ini',
-      message: 'Apakah anda yakin ingin menghapus aktivitas ini?',
-      buttons: [
-        {
-          text: 'Tetap simpan',
-          role: 'cancel'
-        },
-        {
-          text: 'Hapus',
-          handler: () => {
-            this.store.dispatch(removeActivities({
-              activityIds: [this.activityId],
-              ...this.activityCategory && { activityCategoryId: this.activityCategory.Id }
-            }));
-            this.router.navigate(
-              this.activityCategory ?
-                ['/settings/activities/activity-category', this.activityCategory.Id]
-              :
-                ['/settings/activities/keeped']
-            );
-          }
-        }
-      ]
-    });
+  async onChangeIcon() {
+    const modal= await this.modalController.create({ component: ActivityIconListPage });
+    modal.present();
 
-    alert.present();
+    const { data }= await modal.onWillDismiss();
+    if (data && data.icon) {
+      this.store.dispatch(fetchUpdateActivity({ activityId: this.activityId, fields: { icon: data.icon }, activityCategoryId: this.activityCategory?.Id }));
+    }
+  }
+
+  onRemove() {
+    this.store.dispatch(removeActivitiesConfirmation({ activityIds: [this.activityId], activityCategoryId: this.activityCategory?.Id }));
   }
 }

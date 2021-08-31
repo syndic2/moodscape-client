@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { Store } from '@ngrx/store';
+
+import { fetchLogout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
 	selector: 'app-side-menu',
@@ -32,11 +33,11 @@ export class SideMenuPage implements OnInit {
 		}
 	];
 
-	constructor(private router: Router, private authService: AuthenticationService) { }
+	constructor(private store: Store) { }
 
 	ngOnInit() { }
 
 	onLogout() {
-		this.authService.logout().subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
+    this.store.dispatch(fetchLogout());
 	}
 }

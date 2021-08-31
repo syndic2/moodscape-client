@@ -1,28 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';;
-import { Observable } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
-import { selectSearchedMoods } from 'src/app/store/selectors/moods.selectors';
-import { Mood, FilterMood } from 'src/app/models/mood.model'
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { sortDescObjectKeys } from 'src/app/utilities/helpers';
+import { MoodFilter } from 'src/app/models/mood.model';
+import { getMoodSearchResults, getGroupedMoodsByDate } from 'src/app/store/selectors/mood.selectors';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
+
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-search-results-mood',
   templateUrl: './search-results-mood.page.html',
   styleUrls: ['./search-results-mood.page.scss'],
 })
 export class SearchResultsMoodPage implements OnInit {
-  public searchResults$: Observable<Mood[]>= null;
-  public filters: FilterMood;
-  public isLoading: boolean= false;
+  public groupedSearchResults: {}= {};
+  public searchResultsCount: Observable<number>= this.store.select(getMoodSearchResults).pipe(map(res => res.length));
+  private searchResultsSubscription: Subscription;
+  public filters: MoodFilter;
+  public sortDescObjectKeys= sortDescObjectKeys;
 
-  constructor(private store: Store, private router: Router) { }
+  constructor(private store: Store, private router: Router, public utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state) {
-      this.filters= <FilterMood>this.router.getCurrentNavigation().extras.state;
-      this.searchResults$= this.store.select(selectSearchedMoods({ ...this.filters }));
+      this.filters= <MoodFilter>this.router.getCurrentNavigation().extras.state;
     }
+  }
+
+  ionViewWillEnter() {
+    this.searchResultsSubscription= this.store.select(getGroupedMoodsByDate('mood-search-results')).subscribe(res => {
+      this.groupedSearchResults= res;
+    });
   }
 }

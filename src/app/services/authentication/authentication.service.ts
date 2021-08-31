@@ -10,8 +10,8 @@ import { Observable, BehaviorSubject, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
+import gqlCompress from 'graphql-query-compress';
 
-import { singleLineString } from 'src/app/utilities/helpers';
 import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
@@ -26,10 +26,7 @@ export class AuthenticationService {
 	public authenticate: Observable<any>;
 	public userData: BehaviorSubject<string> = new BehaviorSubject(null);
 
-	constructor(
-		private http: HttpClient,
-		private storage: Storage,
-		private platform: Platform) {
+	constructor(private http: HttpClient, private storage: Storage, private platform: Platform) {
 		this.checkStoredToken();
 	}
 
@@ -60,7 +57,7 @@ export class AuthenticationService {
 				else return originalResult;
 			}
 		});
-		const query = singleLineString`
+		const query = gqlCompress(`
 			mutation {
 				login(
 					emailOrUsername: "${withGoogle ? data.email : data.emailOrUsername}",
@@ -83,7 +80,7 @@ export class AuthenticationService {
 					}
 				}
 			}
-    `;
+    `);
 
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => {
@@ -105,13 +102,13 @@ export class AuthenticationService {
 	refreshToken(): Observable<any> {
 		return from(this.storage.get(REFRESH_TOKEN_KEY)).pipe(
 			switchMap(refreshToken => {
-				const query = singleLineString`
+				const query = gqlCompress(`
 					mutation {
 						refreshAuth(refreshToken: "${refreshToken}") {
 							newToken
 						}
 					}
-				`;
+				`);
 
 				return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 					map((res: any) => {
@@ -128,7 +125,7 @@ export class AuthenticationService {
 	}
 
 	requestResetPassword(email: string): Observable<any> {
-		const query= singleLineString`
+		const query= gqlCompress(`
 			mutation {
 				requestResetPassword(email: "${email}") {
 					resetUrl,
@@ -138,7 +135,7 @@ export class AuthenticationService {
 					}
 				}
 			}
-		`;
+		`);
 
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => res.data.requestResetPassword)
@@ -146,7 +143,7 @@ export class AuthenticationService {
 	}
 
   resetPassword(resetToken: string, newPassword: string): Observable<any> {
-    const query= singleLineString`
+    const query= gqlCompress(`
       mutation {
         resetPassword(resetToken: "${resetToken}", newPassword: "${newPassword}") {
           userWithNewPassword {
@@ -158,7 +155,7 @@ export class AuthenticationService {
           }
         }
       }
-    `;
+    `);
 
     return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
       map((res: any) => res.data.resetPassword)

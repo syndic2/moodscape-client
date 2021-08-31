@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateActivityPageRoutingModule } from './create-activity-routing.module';
-
 import { CreateActivityPage } from './create-activity.page';
 import { ActivityIconListPageModule } from 'src/app/modals/activities/activity-icon-list/activity-icon-list.module';
+import { ActivityCategoryListPageModule } from 'src/app/modals/activities/activity-category-list/activity-category-list.module';
 
 @NgModule({
   imports: [
@@ -15,7 +15,8 @@ import { ActivityIconListPageModule } from 'src/app/modals/activities/activity-i
     FormsModule,
     IonicModule,
     CreateActivityPageRoutingModule,
-    ActivityIconListPageModule
+    ActivityIconListPageModule,
+    ActivityCategoryListPageModule
   ],
   declarations: [CreateActivityPage]
 })

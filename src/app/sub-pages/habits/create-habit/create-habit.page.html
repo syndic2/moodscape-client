@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/side-menu/tabs/habits"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="habitFields.onSubmit()">
+      <ion-button>
         <ion-icon slot="icon-only" name="checkmark-circle" size="large" class="icon"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content>
-  <habit-fields #habitFields>
+  <habit-fields #habitFields (onSubmitEvent)="onSubmit($event)">
     <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
       <ion-icon name="checkmark-circle" color="primary"></ion-icon>
     </button>

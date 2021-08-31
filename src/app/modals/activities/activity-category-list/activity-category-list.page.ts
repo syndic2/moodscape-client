@@ -2,13 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
-import { select ,Store } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-import { selectActivityCategoryList } from 'src/app/store/selectors/activities.selectors';
+import { gettActivityCategoryList } from 'src/app/store/selectors/activity.selectors';
 
 @Component({
   selector: 'app-activity-category-list',
@@ -19,7 +18,7 @@ export class ActivityCategoryListPage implements OnInit {
   @Input() currentActivityCategory: ActivityCategory;
 
   public activityCategoryList$: Observable<any[]>= this.store.pipe(
-    select(selectActivityCategoryList),
+    select(gettActivityCategoryList),
     map(res => this.currentActivityCategory ? res.filter(object => object.Id !== this.currentActivityCategory.Id) : res)
   );
 

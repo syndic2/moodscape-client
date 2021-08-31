@@ -1,10 +1,8 @@
 <div id="select-day-wrapper" class="grid grid-flow-col gap-x-4 overflow-x-scroll overflow-y-hidden">
-  <ng-container *ngFor="let day of days">
+  <ng-container *ngFor="let day of days; let i= index">
     <ion-chip 
       (click)="onSelectDay(day)" 
-      [ngClass]="{ 
-        'border border-primary': selectedDay === day.name 
-      }" 
+      [ngClass]="{ 'border border-primary': selectedDayName === day.name }" 
       class="whitespace-nowrap bg-gray-200 w-fit-content m-0">
       <ion-label>{{ day.label }}</ion-label>
     </ion-chip>

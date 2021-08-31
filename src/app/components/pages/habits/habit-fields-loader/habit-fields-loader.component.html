@@ -1,0 +1,63 @@
+<form>
+  <ion-grid fixed>
+    <ion-row class="flex flex-col gap-y-4">
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Nama</label>
+        <ion-skeleton-text animated class="rounded-xl w-full h-8 mt-2"></ion-skeleton-text>
+      </ion-col>
+      
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Deskripsi</label>
+        <ion-skeleton-text animated class="rounded-xl w-full h-28 mt-2 p-2"></ion-skeleton-text>
+      </ion-col>
+
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Lakukan / Hindari</label>
+        <div class="flex justify-center gap-x-3 mt-2">
+          <ion-skeleton-text animated class="rounded-lg h-7"></ion-skeleton-text>
+          <ion-skeleton-text animated class="rounded-lg h-7"></ion-skeleton-text>
+        </div>
+      </ion-col>
+
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Pilih Hari</label>
+        <div class="grid grid-flow-col gap-x-4 overflow-x-scroll overflow-y-hidden">
+          <ion-skeleton-text *ngFor="let number of [].constructor(7)" animated class="rounded-2xl w-16 h-5"></ion-skeleton-text>
+        </div>
+      </ion-col>
+      
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Goal Frekuensi</label>
+        <ion-skeleton-text animated class="rounded-xl w-full h-8 mt-2"></ion-skeleton-text>
+      </ion-col>
+
+      <ion-col size="12" class="ion-activatable">
+        <label class="text-md text-black text-opacity-50 font-semibold">Tanggal Mulai dan Selesai</label>
+        <div class="flex flex-col gap-y-4 mt-2">
+          <ion-skeleton-text animated class="rounded-xl h-8"></ion-skeleton-text>
+          <ion-skeleton-text animated class="rounded-xl h-8"></ion-skeleton-text>
+        </div>
+      </ion-col>
+      
+      <ion-col size="12">
+        <div class="flex justify-between items-center">
+          <label class="text-md text-black text-opacity-50 font-semibold">Ingatkan Saya</label>
+          <ion-toggle color="primary"></ion-toggle>
+        </div>
+      </ion-col>
+
+      <ion-col size="12">
+        <label class="text-md text-black text-opacity-50 font-semibold">Warna Label</label>
+        <div class="grid grid-flow-col gap-x-5 justify-items-center mt-2">
+          <ion-skeleton-text *ngFor="let number of [].constructor(5)" animated class="rounded-full w-10 h-10"></ion-skeleton-text>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" class="mt-8">
+        <button class="flex text-5xl focus:outline-none mx-auto">
+          <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

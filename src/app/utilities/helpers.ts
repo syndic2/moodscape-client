@@ -10,7 +10,15 @@ export const singleLineString= (strings, ...values) => {
 
   return lines.map((line) => {
     return line.replace(/^\s+/gm, '');
-  }).join(' ').trim();
+  }).join('').trim();
+};
+
+export const sortAscObjectKeys= (a, b) => {
+  return a.key > b.key ? 1 : -1;
+};
+
+export const sortDescObjectKeys= (a, b) => {
+  return a.key > b.key ? -1 : 1;
 };
 
 export const filterArrayByAnotherArray= (

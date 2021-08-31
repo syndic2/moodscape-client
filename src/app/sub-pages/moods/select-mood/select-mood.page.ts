@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { MoodEmoticon } from 'src/app/models/mood.model';
+import { navigateGo } from 'src/app/store/actions/router.actions';
+import { showAlert } from 'src/app/store/actions/application.actions';
 
 @Component({
   selector: 'app-select-mood',
@@ -16,7 +18,7 @@ export class SelectMoodPage implements OnInit {
   public selectedTime: string;
   public selectedEmoticon: MoodEmoticon;
 
-  constructor(private router: Router, private alertController: AlertController) { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
   }
@@ -33,24 +35,22 @@ export class SelectMoodPage implements OnInit {
     this.selectedEmoticon= emoticon;
   }
 
-  async onNext() {
+  onNext() {
     if (!this.selectedDate || !this.selectedTime || !this.selectedEmoticon) {
-      const alert= await this.alertController.create({
-        message: 'Data tidak boleh ada yang kosong!',
-        buttons: ['OK']
-      });
-      alert.present();
+      this.store.dispatch(showAlert({
+        options: { message: 'Data tidak boleh ada yang kosong!', buttons: ['OK'] }
+      }));
     } else {
       const navigationExtras: NavigationExtras= {
         state: {
           emoticon: this.selectedEmoticon,
-          timestamps: {
+          createdAt: {
             date: transformDateTime(this.selectedDate).toISODate(),
             time: this.selectedTime
           }
         }
       };
-      this.router.navigate(['/moods/create/step-2'], navigationExtras);
+      this.store.dispatch(navigateGo({ path: ['/moods/create/step-2'], extras: navigationExtras }))
     }
   }
 }

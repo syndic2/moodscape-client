@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="habitFields.onSubmit()">
+      <ion-button (click)="onUpdate($event)">
         <ion-icon slot="icon-only" name="checkmark-circle" size="large"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,9 +12,19 @@
 </ion-header>
 
 <ion-content>
-  <habit-fields #habitFields [habitId]="habitId">
-    <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
-      <ion-icon name="checkmark-circle" color="primary"></ion-icon>
-    </button>
-  </habit-fields>
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="!habit; else showHabit">
+    <habit-fields-loader></habit-fields-loader>
+  </ng-container>
+
+  <ng-template #showHabit>
+    <habit-fields #habitFields [habit]="habit" (onSubmitEvent)="onUpdate($event)">
+      <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
+        <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+      </button>
+    </habit-fields>
+  </ng-template>
 </ion-content>

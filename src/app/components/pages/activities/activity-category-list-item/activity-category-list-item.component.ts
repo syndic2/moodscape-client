@@ -25,8 +25,7 @@ export class ActivityCategoryListItemComponent implements OnInit {
     const popover= await this.popoverController.create({
       event: event,
       component: ActivityCategoryPopoverComponent,
-      componentProps: { activityCategory: this.activityCategory },
-      translucent: true
+      componentProps: { activityCategory: this.activityCategory }
     });
     
     popover.present();

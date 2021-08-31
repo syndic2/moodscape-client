@@ -13,11 +13,7 @@ import { ActivityCategory } from 'src/app/models/activity.model';
 export class ActivityCategoryOptionsPopoverComponent implements OnInit {
   @Input() activityCategory: ActivityCategory;
 
-  private extrasData: NavigationExtras= {
-    state: {
-      redirectTo: this.router.url
-    }
-  }
+  private extrasData: NavigationExtras= { state: { redirectTo: this.router.url } };
 
   constructor(private router: Router, private popoverController: PopoverController) { }
 

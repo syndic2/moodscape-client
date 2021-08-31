@@ -1,6 +1,6 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
-import { AuthenticationGuard } from "../guards/authentication/authentication.guard";
+import { AuthenticationGuard } from '../guards/authentication/authentication.guard';
 
 export const routes: Routes= [
   {
@@ -8,8 +8,19 @@ export const routes: Routes= [
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/side-menu/side-menu.module').then(m => m.SideMenuModule)
   },
+  {
+    path: 'articles',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../pages/articles/articles.module').then(m => m.ArticlesPageModule)
+  },
+  {
+    path: 'chat-with-bot',
+    loadChildren: () => import('../pages/chat-with-bot/chat-with-bot.module').then(m => m.ChatWithBotPageModule)
+  },
 
-  /* Moods */
+  /**
+   * Moods
+   */
   {
     path: 'moods/search',
     canLoad: [AuthenticationGuard],
@@ -36,7 +47,9 @@ export const routes: Routes= [
     loadChildren: () => import('../pages/details/mood-detail/mood-detail.module').then(m => m.MoodDetailPageModule)
   },
 
-  /*Habits */
+  /**
+   * Habits
+   */
   {
     path: 'habits/search',
     canLoad: [AuthenticationGuard],
@@ -56,5 +69,34 @@ export const routes: Routes= [
     path: 'habits/:id',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/details/habit-detail/habit-detail.module').then(m => m.HabitDetailPageModule)
+  },
+
+  /**
+   * Settings
+   */
+  {
+    path: 'settings/activities',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/settings/activities/activities.module').then(m => m.ActivitiesPageModule)
+  },
+  {
+    path: 'settings/notifications',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/settings/notifications/notifications.module').then(m => m.NotificationsPageModule),
+  },
+  {
+    path: 'settings/themes',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/settings/themes/themes.module').then(m => m.ThemesPageModule)
+  },
+  {
+    path: 'settings/change-password',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/settings/change-password/change-password.module').then(m => m.ChangePasswordPageModule)
+  },
+  {
+    path: 'settings/feedback',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/settings/app-feedback/app-feedback.module').then(m => m.AppFeedbackPageModule)
   }
 ];

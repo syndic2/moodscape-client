@@ -5,12 +5,13 @@ import { PopoverController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { fetchActivityCategories, fetchActivitiesNoneCategory } from 'src/app/store/actions/activity.actions';
 import {
-  selectUnkeepedActivities,
-  selectKeepedActivities,
-  selectCheckedUnkeepedActivities,
-  selectCheckedKeepedActivities
-} from 'src/app/store/selectors/activities.selectors';
+  getActivityCategories,
+  getKeepedActivities,
+  getCheckedUnkeepedActivities,
+  getCheckedKeepedActivities
+} from 'src/app/store/selectors/activity.selectors';
 import { Activity, ActivityCategory } from 'src/app/models/activity.model';
 import { ActivityCategoryOptionsPopoverComponent } from '../../pages/moods/activity-category-options-popover/activity-category-options-popover.component';
 
@@ -24,15 +25,18 @@ export class SelectActivitiesComponent implements OnInit {
   @Input() selectedActivities: Activity[]= [];
   @Output() selectActivitiesEvent= new EventEmitter<Activity[]>();
 
-  public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(selectUnkeepedActivities);
-  public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(selectKeepedActivities);
+  public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(getActivityCategories);
+  public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(getKeepedActivities);
 
   constructor(private store: Store, private popoverController: PopoverController) { }
 
   ngOnInit() {
+    this.store.dispatch(fetchActivityCategories());
+    this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
+
     if (this.selectedActivities.length) {
-      this.activityCategories$= this.store.select(selectCheckedUnkeepedActivities({ selectedActivities: this.selectedActivities }));
-      this.keepedActivities$= this.store.select(selectCheckedKeepedActivities({ selectedActivities: this.selectedActivities }));
+      this.activityCategories$= this.store.select(getCheckedUnkeepedActivities({ selectedActivities: this.selectedActivities }));
+      this.keepedActivities$= this.store.select(getCheckedKeepedActivities({ selectedActivities: this.selectedActivities }));
     }
   }
 
@@ -42,10 +46,8 @@ export class SelectActivitiesComponent implements OnInit {
       component: ActivityCategoryOptionsPopoverComponent,
       componentProps: {
         ...activityCategory && { activityCategory: activityCategory }
-      },
-      translucent: true
+      }
     });
-
     popover.present();
   }
 

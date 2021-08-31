@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { PopoverController, AlertController, ModalController } from '@ionic/angular';
+import { PopoverController, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 
-import { moveActivitiesIntoCategory, updateActivity, removeActivities } from 'src/app/store/actions/activities.actions';
+import { fetchUpdateActivity, removeActivitiesConfirmation, fetchMoveActivitiesIntoCategory } from 'src/app/store/actions/activity.actions';
 
 import { Activity, ActivityCategory } from 'src/app/models/activity.model';
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
@@ -19,12 +19,7 @@ export class ActivityPopoverComponent implements OnInit {
   @Input() activity: Activity;
   @Input() activityCategory: ActivityCategory;
 
-  constructor(
-    private store: Store,
-    private popoverController: PopoverController,
-    private alertController: AlertController,
-    private modalController: ModalController
-  ) { }
+  constructor(private store: Store, private popoverController: PopoverController, private modalController: ModalController) { }
 
   ngOnInit() {}
 
@@ -39,13 +34,8 @@ export class ActivityPopoverComponent implements OnInit {
     modal.present();
 
     const { data }= await modal.onWillDismiss();
-
-    if (data) {
-      this.store.dispatch(moveActivitiesIntoCategory({
-        activities: [this.activity],
-        ...this.activityCategory && { fromCategoryId: this.activityCategory.Id },
-        toCategoryId: data.toCategoryId
-      }));
+    if (data && data.toCategoryId) {
+      this.store.dispatch(fetchMoveActivitiesIntoCategory({ activityIds: this.activity.Id, fromCategoryId: this.activityCategory?.Id, toCategoryId: data.toCategoryId }));
     }
   }
 
@@ -60,38 +50,13 @@ export class ActivityPopoverComponent implements OnInit {
     modal.present();
 
     const { data }= await modal.onWillDismiss();
-
-    if (data) {
-      this.store.dispatch(updateActivity({
-        activityId: this.activity.Id,
-        fields: data.fields,
-        ...(this.activityCategory) && { activityCategoryId: this.activityCategory.Id }
-      }));
+    if (data && data.name) {
+      this.store.dispatch(fetchUpdateActivity({ activityId: this.activity.Id, fields: data, activityCategoryId: this.activityCategory?.Id }));
     }
   }
 
-  async onRemove() {
+  onRemove() {
     this.popoverController.dismiss();
-
-    const alert= await this.alertController.create({
-      subHeader: 'Anda akan menghapus aktivitas ini',
-      message: 'Apakah anda yakin ingin menghapus aktivitas ini?',
-      buttons: [
-        {
-          text: 'Tetap simpan',
-          role: 'cancel'
-        },
-        {
-          text: 'Hapus',
-          handler: () => {
-            this.store.dispatch(removeActivities({
-              activityIds: [this.activity.Id],
-              ...this.activityCategory && { activityCategoryId: this.activityCategory.Id }
-            }));
-          }
-        }
-      ]
-    });
-    alert.present();
+    this.store.dispatch(removeActivitiesConfirmation({ activityIds: [this.activity.Id], activityCategoryId: this.activityCategory?.Id }));
   }
 }

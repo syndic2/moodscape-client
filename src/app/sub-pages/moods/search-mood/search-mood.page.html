@@ -27,21 +27,21 @@
       <select-emoticon (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-4/5"></select-emoticon>
 
       <div class="flex flex-wrap justify-center gap-2 w-full">
-        <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-75': filters.parameters.internal }" expand="block" color="warning" shape="round" class="flex-1 normal-case">
+        <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-85': filters.parameters.internal }" expand="block" color="warning" shape="round" class="flex-1 normal-case">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Internal
         </ion-button>
-        <ion-button (click)="onText('external')" [ngClass]="{ 'filter brightness-75': filters.parameters.external }" expand="block" color="danger" shape="round" class="flex-1 normal-case">
+        <ion-button (click)="onText('external')" [ngClass]="{ 'filter brightness-85': filters.parameters.external }" expand="block" color="danger" shape="round" class="flex-1 normal-case">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           External
         </ion-button>
-        <ion-button (click)="onText('note')" [ngClass]="{ 'filter brightness-75': filters.note }" expand="block" color="success" shape="round" class="normal-case w-1/2">
+        <ion-button (click)="onText('note')" [ngClass]="{ 'filter brightness-85': filters.note }" expand="block" color="success" shape="round" class="normal-case w-1/2">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Catatan
         </ion-button>
       </div>
 
-      <select-activities [extraButtons]="false" (selectActivitiesEvent)="onSelectActivities($event)"></select-activities>
+      <select-activities [extraButtons]="false" (selectActivitiesEvent)="onSelectActivities($event)" class="block w-full"></select-activities>
     </div>
 
     <div class="flex-1 flex justify-center items-center">

@@ -1,45 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 
+import { UntilDestroy } from '@ngneat/until-destroy';
+
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { setUserMoods } from 'src/app/store/actions/moods.actions';
-import { selectMoods } from 'src/app/store/selectors/moods.selectors';
+import { sortDescObjectKeys } from 'src/app/utilities/helpers';
+import { fetchMoods } from 'src/app/store/actions/mood.actions';
+import { getGroupedMoodsByDate } from 'src/app/store/selectors/mood.selectors';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
-import { Mood } from 'src/app/models/mood.model';
-import { MoodService } from 'src/app/services/mood/moods.service';
-
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-moods',
   templateUrl: './moods.page.html',
-  styleUrls: ['./moods.page.scss'],
-  providers: [
-    MoodService,
-    { provide: 'skipLoading', useValue: 'true' }
-  ]
+  styleUrls: ['./moods.page.scss']
 })
 export class MoodsPage implements OnInit {
-  public moods$: Observable<Mood[]>= this.store.select(selectMoods);
-  private getUserMoodsListener: Subscription= null;
-  public isLoading: boolean= false;
+  public groupedMoods: {}= {};
+  private moodSubscription: Subscription;
+  public sortDescObjectKeys= sortDescObjectKeys;
 
-  constructor(private store: Store, private mood: MoodService) { }
+  constructor(private store: Store, public utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    /*this.getUserMoodsListener= this.userMoodsService.getMoods().subscribe(res => {
-      console.log('res', res);
-      //setUserMoods({ userMoods: res });
-    });*/
-  }
-
-  ionViewWillLeave() {
-    this.getUserMoodsListener && this.getUserMoodsListener.unsubscribe();
+    this.store.dispatch(fetchMoods());
+    this.moodSubscription= this.store.select(getGroupedMoodsByDate('moods')).subscribe(res => {
+      if (JSON.stringify(res) !== '{}') {
+        this.groupedMoods= res;
+        this.utilitiesService.resetSkeletonLoading();
+      }
+    });
   }
 
   pullRefresh(event) {
-    event && event.target.complete();
+    this.store.dispatch(fetchMoods());
+    event.target.complete();
   }
 }

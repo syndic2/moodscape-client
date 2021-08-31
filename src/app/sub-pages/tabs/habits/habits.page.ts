@@ -1,48 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlertController } from '@ionic/angular';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { Habit } from 'src/app/models/habit.model';
-import { selectHabits } from 'src/app/store/selectors/habits.selectors';
-import { removeHabits } from 'src/app/store/actions/habits.actions';
+import { fetchHabits, removeHabitsConfirmation } from 'src/app/store/actions/habit.actions';
+import { getHabits } from 'src/app/store/selectors/habit.selectors';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-habits',
   templateUrl: './habits.page.html',
   styleUrls: ['./habits.page.scss'],
 })
 export class HabitsPage implements OnInit {
-  public habits$: Observable<Habit[]>= this.store.select(selectHabits);
-  private selectedDay;
+  public habits: Habit[]= [];
+  private habitsSubscription: Subscription;
+  public selectedDay: BehaviorSubject<string>= new BehaviorSubject<string>('all day');
+  private selectedDaySubscription: Subscription;
   
-  constructor(private store: Store, private alertController: AlertController) { }
+  constructor(private store: Store, public utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
   }
 
-  onSelectDay(day) {
-    this.selectedDay= day;
+  ionViewWillEnter() {
+    this.store.dispatch(fetchHabits({}));
+    this.selectedDaySubscription= this.selectedDay.subscribe(day => {
+      this.habitsSubscription= this.store.select(getHabits(day)).subscribe(res => {
+        this.habits= res;
+      });
+    });
   }
 
-  async onRemove(habit: Habit) {
-    const alert= await this.alertController.create({
-      message: 'Apakah anda yakin ingin menghapus Habit ini?',
-      buttons: [
-        {
-          text: 'Hapus',
-          handler: () => {
-            this.store.dispatch(removeHabits({ habitIds: [habit.Id] }));
-          }
-        },
-        {
-          text: 'Tetap Simpan',
-          role: 'cancel'
-        }
-      ]
-    });
-    alert.present();
+  pullRefresh(event) {
+    this.store.dispatch(fetchHabits({}));
+    event.target.complete();
+  }
+
+  onSelectDay(day) {
+    this.selectedDay.next(day.name); 
+  }
+
+  onRemove(habit: Habit) {
+    this.store.dispatch(removeHabitsConfirmation({ habitIds: [habit.Id] }));
   }
 }

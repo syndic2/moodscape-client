@@ -3,7 +3,10 @@ import { NavigationExtras, Router } from '@angular/router';
 
 import { IonSearchbar } from '@ionic/angular';
 
-import { MoodEmoticon, FilterMood } from 'src/app/models/mood.model';
+import { Store } from '@ngrx/store';
+
+import { MoodEmoticon, MoodFilter } from 'src/app/models/mood.model';
+import { fetchSearchMood } from 'src/app/store/actions/mood.actions';
 import { Activity } from 'src/app/models/activity.model';
 
 @Component({
@@ -14,7 +17,7 @@ import { Activity } from 'src/app/models/activity.model';
 export class SearchMoodPage implements OnInit {
   @ViewChild('searchBar', { static: true }) searchBar: IonSearchbar;
 
-  public filters: FilterMood= {
+  public filters: MoodFilter= {
     searchText: '',
     emoticon: null,
     parameters: { internal: false, external: false },
@@ -22,15 +25,9 @@ export class SearchMoodPage implements OnInit {
     note: true
   };
 
-  constructor(private router: Router) { }
+  constructor(private store: Store, private router: Router) { }
 
   ngOnInit() {}
-
-  ionViewDidEnter() {
-    /*setTimeout(() => {
-      this.searchBar.setFocus();
-    }, 500);*/
-  }
 
   onSearchChanged(event) {
     this.filters.searchText= event.target.value;
@@ -41,9 +38,8 @@ export class SearchMoodPage implements OnInit {
   }
 
   onText(filter: string) {
-    if (filter === 'internal')
-      this.filters.parameters.internal= !this.filters.parameters.internal;
-    else if (filter === 'external') this.filters.parameters.external= !this.filters.parameters.external;
+    if (filter === 'internal') this.filters.parameters= { ...this.filters.parameters, internal: !this.filters.parameters.internal };
+    else if (filter === 'external') this.filters.parameters= { ...this.filters.parameters, external: !this.filters.parameters.external };
     else if (filter === 'note') this.filters.note= !this.filters.note;
   }
 
@@ -52,10 +48,9 @@ export class SearchMoodPage implements OnInit {
   }
 
   onSearch() {
-    const navigationExtras: NavigationExtras= {
-      state: { ...this.filters }
-    };
+    const extrasData: NavigationExtras= { state: this.filters };
 
-    this.router.navigate(['/moods/search-results'], navigationExtras);
+    this.store.dispatch(fetchSearchMood({ filters: { ...this.filters } }));
+    this.router.navigate(['/moods/search-results'], extrasData);
   }
 }

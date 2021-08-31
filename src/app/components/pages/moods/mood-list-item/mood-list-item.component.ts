@@ -26,8 +26,7 @@ export class MoodListItemComponent implements OnInit {
       component: MoodPopoverComponent,
       componentProps: {
         mood: this.mood
-      },
-      translucent: true
+      }
     });
     popover.present();
   }

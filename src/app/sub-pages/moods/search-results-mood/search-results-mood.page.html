@@ -7,8 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ng-container *ngIf="isLoading; else finishLoading">
+<ion-content>  
+  <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
     <mood-list-loader></mood-list-loader>
   </ng-container>
 
@@ -16,7 +16,7 @@
     <div class="flex flex-col gap-y-2 h-full">
       <mood-search-filters [filters]="filters"></mood-search-filters>
 
-      <ng-container *ngIf="!(searchResults$ | async)?.length; else showSearchResults">
+      <ng-container *ngIf="(groupedSearchResults | json) === '{}'; else showSearchResults">
         <div class="flex-1 flex flex-col items-center justify-center gap-y-2">
           <img src="../../../../../assets/images/no-data-found.png" class="object-contain w-72" alt="">
           <label class="font-semibold">-Data tidak ditemukan-</label>
@@ -25,11 +25,20 @@
 
       <ng-template #showSearchResults>
         <div class="flex flex-col gap-y-1 mt-8">
-          <span class="font-semibold">Data yang ditemukan: {{ (searchResults$ | async)?.length }} data</span>
-          <ion-list lines="none" class="grid grid-flow-row bg-transparent p-0">
-            <ion-item *ngFor="let mood of (searchResults$ | async)">
+          <span class="font-semibold">Data yang ditemukan: {{ (searchResultsCount | async) }} data</span>
+          <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0">
+            <div *ngFor="let item of groupedSearchResults | keyvalue:sortDescObjectKeys">
+              <ion-list-header class="pl-0">
+                <ion-label class="text-lg text-semibold text-center">{{ (item.key | dateInBahasa).fullDate }}</ion-label>
+              </ion-list-header>
+              <ion-item *ngFor="let mood of item.value">
+                <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
+              </ion-item>
+            </div>
+
+            <!--<ion-item *ngFor="let mood of searchResults">
               <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
-            </ion-item>
+            </ion-item>-->
           </ion-list>
         </div>
       </ng-template>

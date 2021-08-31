@@ -1,3 +1,44 @@
-<p>
-  habit-list-loader works!
-</p>
+<ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
+  <ion-card *ngFor="let number of [].constructor(5)" class="rounded-lg">
+    <ion-card-content class="flex flex-col p-0">
+      <!-- TOP CONTENT -->
+      <div class="grid grid-cols-2 grid-flow-row items-center gap-x-5 gap-y-2 p-4">
+        <label class="text-md font-semibold">Tanggal dimulai</label>
+        
+        <span class="text-sm font-medium whitespace-nowrap">
+          <ion-skeleton-text animated class="rounded-xl w-1/2 ml-auto"></ion-skeleton-text>
+        </span>
+  
+        <label class="text-md font-medium">
+          <div class="flex flex-col gap-y-1">
+            <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+            <ion-skeleton-text animated class="rounded-xl w-3/4"></ion-skeleton-text>
+            <ion-skeleton-text animated class="rounded-xl w-1/2"></ion-skeleton-text>
+          </div>
+        </label>
+        
+        <h3 class="text-3xl text-right font-bold">
+          <div class="inline-flex space-x-3 w-3/4">
+            <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text> <span>/</span> <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+          </div>
+        </h3>
+      </div>
+  
+      <!-- BOTTOM CONTENT -->
+      <div class="grid grid-cols-3 justify-items-center font-semibold py-5">
+        <div class="flex flex-col items-center">
+          <span>Pengingat</span>
+          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+        </div>
+        <div class="flex flex-col items-center">
+          <span>Sisa Hari</span>
+          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+        </div>
+        <div class="flex flex-col items-center">
+          <span>Streaks</span>
+          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-list>

@@ -3,24 +3,14 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { routes as AutoLoginRoutes } from './routes/auto-login.route';
 import { routes as AuthenticatedRoutes } from './routes/authenticated.route';
-import { routes as SettingsRoutes } from './routes/settings.route';
 
 const routes: Routes = [
   ...AutoLoginRoutes,
   ...AuthenticatedRoutes,
-  ...SettingsRoutes,
   {
     path: '',
     pathMatch: 'full',
     redirectTo: 'sign-in'
-  },
-  {
-    path: 'articles',
-    loadChildren: () => import('./pages/articles/articles.module').then(m => m.ArticlesPageModule)
-  },
-  {
-    path: 'chat-with-bot',
-    loadChildren: () => import('./pages/chat-with-bot/chat-with-bot.module').then(m => m.ChatWithBotPageModule)
   },
   {
     path: 'mdq-test',
@@ -28,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'request-reset-password',
-    loadChildren: () => import('./pages/finishes/request-reset-password/request-reset-password.module').then( m => m.RequestResetPasswordPageModule)
+    loadChildren: () => import('./pages/finishes/request-reset-password/request-reset-password.module').then(m => m.RequestResetPasswordPageModule)
   },
   {
     path: 'reset-password/:resetToken',
