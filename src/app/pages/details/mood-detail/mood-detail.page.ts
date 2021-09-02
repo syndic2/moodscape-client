@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+<<<<<<< HEAD
+=======
+
+import { UntilDestroy } from '@ngneat/until-destroy';
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -7,9 +12,14 @@ import { Subscription } from 'rxjs';
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Activity } from 'src/app/models/activity.model';
 import { Mood, MoodEmoticon } from 'src/app/models/mood.model';
+<<<<<<< HEAD
 import { fetchMood, fetchUpdateMood } from 'src/app/store/actions/mood.actions';
+=======
+import { fetchMoods, fetchMood, fetchUpdateMood } from 'src/app/store/actions/mood.actions';
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { getMood } from 'src/app/store/selectors/mood.selectors';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-mood-detail',
   templateUrl: './mood-detail.page.html',
@@ -19,11 +29,13 @@ export class MoodDetailPage implements OnInit {
   public mood: Mood;
   public moodSubscription: Subscription;
   private moodId: number;
+  public isLoading: boolean= true;
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.moodId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+<<<<<<< HEAD
   }
 
   ionViewWillEnter() {
@@ -43,6 +55,26 @@ export class MoodDetailPage implements OnInit {
   }
 
   pullRefresh(event) {
+=======
+  }
+
+  ionViewWillEnter() {
+    this.store.dispatch(fetchMood({ moodId: this.moodId }));
+    this.moodSubscription= this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
+      if (res) {
+        this.mood= {
+          ...res,
+          createdAt: { ...res?.createdAt },
+          parameters: { ...res?.parameters }
+        };
+        this.isLoading= false;
+      }
+    });
+  }
+
+  pullRefresh(event) {
+    this.store.dispatch(fetchMoods());
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     this.store.dispatch(fetchMood({ moodId: this.moodId }));
     event.target.complete();
   }

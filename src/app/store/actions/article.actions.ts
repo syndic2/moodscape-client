@@ -8,8 +8,11 @@ export const fetchArticles= createAction(
   props<{ offset?: number, limit?: number }>()
 );
 
+<<<<<<< HEAD
 export const fetchFeaturedArticles= createAction('[Article/API] Get featured articles');
 
+=======
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 export const fetchMoreArticles= createAction(
   '[Article/API] Get for load more articles',
   props<{ offset?: number, limit?: number }>()
@@ -53,11 +56,14 @@ export const setArticles= createAction(
   props<{ articlePagination: ArticlePagination }>()
 );
 
+<<<<<<< HEAD
 export const setFeaturedArticles= createAction(
   '[Article/STORE] Set featured articles',
   props<{ articles: Article[] }>()
 );
 
+=======
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 export const setMoreArticles= createAction(
   '[Article/STORE] Set more articles',
   props<{ articlePagination: ArticlePagination }>()

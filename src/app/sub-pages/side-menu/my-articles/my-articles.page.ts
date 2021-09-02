@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+<<<<<<< HEAD
+=======
+import { UntilDestroy } from '@ngneat/until-destroy';
+
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -8,6 +13,7 @@ import { fetchArchivedArticles, removeArchivedArticlesConfirmation } from 'src/a
 import { getArchivedArticles } from 'src/app/store/selectors/article.selectors';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-my-articles',
   templateUrl: './my-articles.page.html',
@@ -20,6 +26,7 @@ export class MyArticlesPage implements OnInit {
   constructor(private store: Store, public utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
+<<<<<<< HEAD
   }
 
   ionViewWillEnter() {
@@ -34,6 +41,16 @@ export class MyArticlesPage implements OnInit {
 
   ionViewWillLeave() {
     this.articlesSubscription && this.articlesSubscription.unsubscribe();
+=======
+  }
+
+  ionViewWillEnter() {
+    this.store.dispatch(fetchArchivedArticles());
+    this.articlesSubscription= this.store.select(getArchivedArticles).subscribe(res => {
+      this.articles= res;
+      this.utilitiesService.resetSkeletonLoading();
+    });
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   }
 
   pullRefresh(event) {

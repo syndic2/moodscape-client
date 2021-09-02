@@ -2,15 +2,24 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
+<<<<<<< HEAD
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
+=======
+import { UntilDestroy } from '@ngneat/until-destroy';
+
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { navigateGo } from 'src/app/store/actions/router.actions';
 import { showAlert } from 'src/app/store/actions/application.actions';
 import { fetchCreateActivityCategory } from 'src/app/store/actions/activity.actions';
 import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors';
 import { ActivityListPage } from 'src/app/modals/activities/activity-list/activity-list.page';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-create-activity-category',
   templateUrl: './create-activity-category.page.html',
@@ -32,10 +41,13 @@ export class CreateActivityCategoryPage implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   ionViewWillLeave() {
     this.keepedActivitiesSubscription && this.keepedActivitiesSubscription.unsubscribe();
   }
 
+=======
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   onSubmit() {
     if (!this.categoryName || !this.categoryName.trim()) {
       this.store.dispatch(

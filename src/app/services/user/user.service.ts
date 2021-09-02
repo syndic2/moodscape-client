@@ -48,10 +48,15 @@ export class UserService {
 	}
 
 	createUser(fields: {}): Observable<any> {
+<<<<<<< HEAD
     fields= { ...fields };
 
     delete fields['confirmPassword'];
 
+=======
+		delete fields['confirmPassword'];
+
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 		const args = StringifyObject(fields, {
 			singleQuotes: false,
 			transform: (object, property, originalResult) => {

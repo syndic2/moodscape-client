@@ -12,14 +12,22 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+<<<<<<< HEAD
   <ng-container *ngIf="!keepedActivities.length; else showKeepedActivities">
+=======
+  <ng-container *ngIf="!(keepedActivities$ | async)?.length; else showKeepedActivities">
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     <div class="flex flex-col justify-center items-center h-full">
       <span>-Belum ada aktivitas yang tersimpan-</span>
     </div>
   </ng-container>
   <ng-template #showKeepedActivities>
     <ion-list lines="none" class="rounded-2xl">
+<<<<<<< HEAD
       <ion-item *ngFor="let activity of keepedActivities">
+=======
+      <ion-item *ngFor="let activity of (keepedActivities$ | async)">
+>>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
         <activity-list-item [activity]="activity"></activity-list-item>
       </ion-item>
     </ion-list>
