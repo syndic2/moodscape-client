@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 
 //import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { Observable, BehaviorSubject, from } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
@@ -23,7 +23,8 @@ const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 })
 export class AuthenticationService {
 	public authenticate: Observable<any>;
-	public userData: BehaviorSubject<string> = new BehaviorSubject(null);
+	public isLoggedIn: Subject<void>= new Subject();
+	public userData: BehaviorSubject<string> = new BehaviorSubject(null); //TOKEN
 
 	constructor(private http: HttpClient, private storage: Storage, private platform: Platform) {
 		this.checkStoredToken();
@@ -76,7 +77,7 @@ export class AuthenticationService {
 				}
 			}
     `);
-
+		
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => {
 				this.userData.next(res.data.login.accessToken);
@@ -158,8 +159,10 @@ export class AuthenticationService {
   }
 
 	logout(): Observable<any> {
+		this.isLoggedIn.next();
+		this.userData.next(null);
+
 		return from(Promise.all([
-      this.userData.next(null),
 			this.storage.remove(TOKEN_KEY),
 			this.storage.remove(REFRESH_TOKEN_KEY),
 		]));

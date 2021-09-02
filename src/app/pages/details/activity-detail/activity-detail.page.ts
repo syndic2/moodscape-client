@@ -3,21 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ModalController } from '@ionic/angular';
 
-<<<<<<< HEAD
-=======
-import { UntilDestroy } from '@ngneat/until-destroy';
-
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
 import { 
   fetchActivity, 
-<<<<<<< HEAD
-=======
-  fetchActivityCategories,
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   fetchUpdateActivity, 
   removeActivitiesConfirmation,
   fetchMoveActivitiesIntoCategory
@@ -27,7 +18,6 @@ import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-na
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
 import { ActivityIconListPage } from 'src/app/modals/activities/activity-icon-list/activity-icon-list.page';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.page.html',
@@ -46,7 +36,6 @@ export class ActivityDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-<<<<<<< HEAD
     this.activitySubscription= this.store.select(getActivity({ Id: this.activityId })).subscribe(res => {
       if (res !== null) {
         this.activity= res;
@@ -60,18 +49,6 @@ export class ActivityDetailPage implements OnInit {
   }
 
   pullRefresh(event) {
-=======
-    this.store.dispatch(fetchActivityCategories());
-    this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
-    this.activitySubscription= this.store.select(getActivity({ Id: this.activityId })).subscribe(res => {
-      this.activity= res;
-      this.activityCategory= res?.activityCategory;
-    });
-  }
-
-  pullRefresh(event) {
-    this.store.dispatch(fetchActivityCategories());
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
     event.target.complete();
   }

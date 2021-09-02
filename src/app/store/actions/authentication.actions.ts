@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-<<<<<<< HEAD
 import { User } from 'src/app/models/user.model';
 
 //Fetch API
@@ -40,18 +39,3 @@ export const updateAuth= createAction(
  * logout on logoutMetaReducer
  */
 export const logout= createAction('[Auth/STORE] Auth logout');
-=======
-
-//Fetch API
-export const fetchLogin= createAction(
-  '[Auth/API] Login',
-  props<{ emailOrUsername: string, password: string }>()
-);
-
-export const fetchLogout= createAction('[Auth/API] Logout');
-
-//STORE
-export const login= createAction('[Auth/STORE] Login')
-
-export const logout= createAction('[Auth/STORE] Logout');
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795

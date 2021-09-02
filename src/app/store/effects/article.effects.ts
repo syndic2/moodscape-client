@@ -9,10 +9,7 @@ import { ArticleService } from 'src/app/services/article/article.service';
 import { showToast, showAlert } from '../actions/application.actions';
 import { 
   fetchArticles,
-<<<<<<< HEAD
   fetchFeaturedArticles,
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   fetchMoreArticles, 
   fetchArchivedArticles, 
   fetchArticleByUrlName,
@@ -22,10 +19,7 @@ import {
   fetchRemoveArchivedArticles,
 
   setArticles,
-<<<<<<< HEAD
   setFeaturedArticles,
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   setArchivedArticles,
   setMoreArticles,
   setArticleSearchResults,
@@ -43,7 +37,6 @@ export class ArticleEffects {
       map(res => setArticles({ articlePagination: res }))
     ))
   ));
-<<<<<<< HEAD
   
   getFeaturedArticles$= createEffect(() => this.actions$.pipe(
     ofType(fetchFeaturedArticles),
@@ -52,9 +45,6 @@ export class ArticleEffects {
     ))
   ));
   
-=======
-      
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   getMoreArticles$= createEffect(() => this.actions$.pipe(
     ofType(fetchMoreArticles),
     exhaustMap(({ offset, limit }) => this.articleService.getArticles(offset, limit).pipe(

@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { User } from 'src/app/models/user.model';
 import { Article } from 'src/app/models/article.model';
 import { fetchFeaturedArticles } from 'src/app/store/actions/article.actions';
 import { getFeaturedArticles } from 'src/app/store/selectors/article.selectors';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -31,13 +33,16 @@ export class HomePage implements OnInit {
 	};
   private featuredArticlesSubscription: Subscription;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.featuredArticlesSubscription= this.store.select(getFeaturedArticles).subscribe(res => {
+    this.featuredArticlesSubscription= this.store
+      .select(getFeaturedArticles)
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchFeaturedArticles());
       } else {

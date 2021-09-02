@@ -27,16 +27,12 @@ export class SelectActivitiesComponent implements OnInit, OnDestroy {
 
   public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(getActivityCategories);
   public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(getKeepedActivities);
-<<<<<<< HEAD
   private activityCategoriesSubscription: Subscription;
   private keepedActivitiesSubscription: Subscription;
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 
   constructor(private store: Store, private popoverController: PopoverController) { }
 
   ngOnInit() {
-<<<<<<< HEAD
     this.activityCategoriesSubscription= this.store.select(getActivityCategories).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchActivityCategories());
@@ -47,11 +43,6 @@ export class SelectActivitiesComponent implements OnInit, OnDestroy {
         this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
       }
     });
-
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
-    this.store.dispatch(fetchActivityCategories());
-    this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
 
     if (this.selectedActivities.length) {
       this.activityCategories$= this.store.select(getCheckedUnkeepedActivities({ selectedActivities: this.selectedActivities }));

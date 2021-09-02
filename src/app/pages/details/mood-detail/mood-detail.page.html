@@ -1,21 +1,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-toolbar>
-<<<<<<< HEAD
       <ion-title class="text-lg sm:text-xl">{{ mood ? (mood.createdAt.date | dateInBahasa).fullDate : '' }}</ion-title>
-=======
-      <ion-title class="text-lg sm:text-xl">{{ !isLoading ? (mood.createdAt.date | dateInBahasa).fullDate : '' }}</ion-title>
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     </ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-<<<<<<< HEAD
       <ion-button (click)="mood && onUpdate()">
-=======
-      <ion-button (click)="!isLoading && onUpdate()">
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
         <ion-icon slot="icon-only" name="checkmark-circle" size="large"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -27,11 +19,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-<<<<<<< HEAD
   <ng-container *ngIf="!mood; else showMood">
-=======
-  <ng-container *ngIf="isLoading; else showMood">
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     <mood-fields-loader></mood-fields-loader>
   </ng-container>
 

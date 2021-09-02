@@ -2,18 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
-<<<<<<< HEAD
-=======
-import { UntilDestroy } from '@ngneat/until-destroy';
-
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-list',
   templateUrl: './activity-list.page.html',
@@ -37,13 +31,10 @@ export class ActivityListPage implements OnInit {
     });
   }
 
-<<<<<<< HEAD
   ionViewWillLeave() {
     this.activitiesSubscription && this.activitiesSubscription.unsubscribe();
   }
 
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   onClose() {
     this.modalController.dismiss();
   }

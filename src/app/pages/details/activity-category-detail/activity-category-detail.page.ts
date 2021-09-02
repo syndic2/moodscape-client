@@ -3,29 +3,14 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 import { ModalController } from '@ionic/angular';
 
-<<<<<<< HEAD
-=======
-import { UntilDestroy } from '@ngneat/until-destroy';
-
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
-<<<<<<< HEAD
-import {  fetchActivityCategory,  fetchUpdateActivityCategory, removeActivityCategoriesConfirmation } from 'src/app/store/actions/activity.actions';
-=======
-import { 
-  fetchActivityCategories, 
-  fetchActivityCategory, 
-  fetchUpdateActivityCategory,
-  removeActivityCategoriesConfirmation
-} from 'src/app/store/actions/activity.actions';
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
+import { fetchActivityCategory, fetchUpdateActivityCategory, removeActivityCategoriesConfirmation } from 'src/app/store/actions/activity.actions';
 import { getActivityCategory } from 'src/app/store/selectors/activity.selectors';
 import { ActivityCategoryEditNamePage } from 'src/app/modals/activities/activity-category-edit-name/activity-category-edit-name.page';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-category-detail',
   templateUrl: './activity-category-detail.page.html',
@@ -48,7 +33,6 @@ export class ActivityCategoryDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-<<<<<<< HEAD
     this.activityCategorySubscription= this.store.select(getActivityCategory({ Id: this.activityCategoryId })).subscribe(res => {
       if (res !== null) {
         this.activityCategory= res;
@@ -61,16 +45,6 @@ export class ActivityCategoryDetailPage implements OnInit {
   }
 
   pullRefresh(event) {
-=======
-    this.store.dispatch(fetchActivityCategory({ activityCategoryId: this.activityCategoryId }));
-    this.activityCategorySubscription= this.store.select(getActivityCategory({ Id: this.activityCategoryId })).subscribe(res => {
-      this.activityCategory= res;
-    });
-  }
-
-  pullRefresh(event) {
-    this.store.dispatch(fetchActivityCategories());
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
     this.store.dispatch(fetchActivityCategory({ activityCategoryId: this.activityCategoryId }));
     event.target.complete();
   }

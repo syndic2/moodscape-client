@@ -24,11 +24,7 @@
   </ng-container>
   <ng-template #showActivityCategories>
     <ion-reorder-group (ionItemReorder)="reorderCategory($event)" disabled="false">
-<<<<<<< HEAD
       <ion-item lines="none" *ngFor="let activityCategory of activityCategories">
-=======
-      <ion-item lines="none" *ngFor="let activityCategory of (activityCategories$ | async)">
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
         <activity-category-list-item [activityCategory]="activityCategory" [forReorder]="true"></activity-category-list-item>
       </ion-item>
     </ion-reorder-group>

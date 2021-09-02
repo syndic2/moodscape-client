@@ -6,21 +6,12 @@
         <div #habitGoalProgressBar [style.background-color]="habit.labelColor" [style.width.%]="goalProgress" id="habit-goal-progress-bar" class="absolute opacity-25 h-full"></div>
         
         <!-- TOP CONTENT -->
-<<<<<<< HEAD
         <div class="flex items-center gap-x-5 p-4">
           <label class="flex-1 text-md font-medium">{{ habit.name }}</label>
           <div class="flex flex-col gap-y-2">
             <span class="text-sm text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start | dateInBahasa).shortDate }}</span>
             <h3 class="text-3xl text-right font-bold">{{ habit.trackDetails !== null ? habit.trackDetails?.currentGoal : 0 }}/{{ habit.goal }}</h3>
           </div>
-=======
-        <div class="grid grid-cols-2 grid-flow-row items-center gap-x-5 gap-y-2 p-4">
-          <label class="text-md font-semibold">Tanggal dimulai</label>
-          <span class="text-sm text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start | dateInBahasa).fullDate }}</span>
-
-          <label class="text-md font-medium">{{ habit.name }}</label>
-          <h3 class="text-3xl text-right font-bold">{{ habit.trackDetails !== null ? habit.trackDetails?.currentGoal : 0 }}/{{ habit.goal }}</h3>
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
         </div>
       </div>
   

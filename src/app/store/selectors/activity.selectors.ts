@@ -3,11 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys } from '../feature-keys';
 import { ActivityState } from '../states';
 
-<<<<<<< HEAD:src/app/store/selectors/activity.selectors.ts
 const selectActivityFeature= createFeatureSelector<ActivityState>(StoreFeatureKeys.ACTIVITY);
-=======
-export const selectActivityFeature= createFeatureSelector<ActivityState>(StoreFeatureKeys.ACTIVITY);
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795:src/app/store/selectors/activities.selectors.ts
 
 export const gettActivityCategoryList= createSelector(
   selectActivityFeature,

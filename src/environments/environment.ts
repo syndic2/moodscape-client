@@ -15,12 +15,8 @@ const urls= {
 
 export const environment = {
   production: false,
-<<<<<<< HEAD
   baseUrl: urls.baseUrl.production,
-=======
-  baseUrl: urls.baseUrl.development,
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
-  apiUrl: urls.apiUrl.development
+  apiUrl: urls.apiUrl.production
 };
 
 /*

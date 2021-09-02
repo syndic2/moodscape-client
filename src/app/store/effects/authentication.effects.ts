@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-<<<<<<< HEAD
 import { Store } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { map, switchMap, exhaustMap } from 'rxjs/operators';
+import { map, tap, switchMap, exhaustMap } from 'rxjs/operators';
 
 import { navigateGo } from '../actions/router.actions';
 import { showAlert } from '../actions/application.actions';
@@ -17,18 +16,10 @@ import {
   setAuth, 
   logout 
 } from '../actions/authentication.actions';
-=======
-import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, concatMap } from 'rxjs/operators';
-
-import { navigateGo } from '../actions/router.actions';
-import { fetchLogin, fetchLogout, login, logout } from '../actions/authentication.actions';
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Injectable()
 export class AuthenticationEffects {
-<<<<<<< HEAD
   requestLogin$= createEffect(() => this.actions$.pipe(
     ofType(requestLogin),
     map(({ credentials, withGoogle, isInvalid }) => {
@@ -84,31 +75,12 @@ export class AuthenticationEffects {
   logout$= createEffect(() => this.actions$.pipe(
     ofType(fetchLogout),
     exhaustMap(() => this.authenticationService.logout().pipe(
-      map(() => navigateGo({ path: ['/'], extras: { state: { onLogout: true }, replaceUrl: true } }))
-    ))
-  ));
-  
-  clearStateLogout$= createEffect(() => this.actions$.pipe(
-    ofType(navigateGo),
-    map(({ extras }) => {
-      if (extras?.state?.onLogout) {
-        this.store.dispatch(logout());
-      }
-    })
-  ), { dispatch: false });
-
-  constructor(private store: Store, private actions$: Actions, private authenticationService: AuthenticationService) {}
-=======
-  logout$= createEffect(() => this.actions$.pipe(
-    ofType(fetchLogout),
-    concatMap(() => this.authenticationService.logout().pipe(
       switchMap(() => [
-        logout(),
-        navigateGo({ path: ['/'], extras: { replaceUrl: true } })
+        navigateGo({ path: ['/'], extras: { state: { onLogout: true }, replaceUrl: true } }),
+        logout()
       ])
     ))
   ));
-  
-  constructor(private actions$: Actions, private authenticationService: AuthenticationService) {}
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
+
+  constructor(private store: Store, private actions$: Actions, private authenticationService: AuthenticationService) {}
 }

@@ -15,11 +15,8 @@ import { environment } from 'src/environments/environment';
 export class ArticleService {
   private skipLoading: string= 'true';
 
-<<<<<<< HEAD
 	constructor(private http: HttpClient) { }
 
-=======
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 	getArticles(offset: number = 0, limit: number = 10): Observable<any> {
 		const query = gqlCompress(`
 			query {

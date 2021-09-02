@@ -2,23 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { IonContent, IonInfiniteScroll } from '@ionic/angular';
 
-<<<<<<< HEAD
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { Article } from 'src/app/models/article.model';
-=======
-import { UntilDestroy } from '@ngneat/until-destroy';
-
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-
-import { Article, ArticlePagination } from 'src/app/models/article.model';
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 import { fetchArticles, fetchMoreArticles } from 'src/app/store/actions/article.actions';
 import { getArticlePagination } from 'src/app/store/selectors/article.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
 	selector: 'app-articles',
 	templateUrl: './articles.page.html',
@@ -49,7 +39,6 @@ export class ArticlesPage implements OnInit {
 	}
 
 	ionViewWillEnter() {
-<<<<<<< HEAD
     this.articlePaginationSubscription= this.store.select(getArticlePagination).subscribe(res => {
       if (res === null) {
         this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
@@ -65,25 +54,11 @@ export class ArticlesPage implements OnInit {
   ionViewWillLeave() {
     this.articlePaginationSubscription && this.articlePaginationSubscription.unsubscribe();
   }
-=======
-    this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
-    this.articlePaginationSubscription= this.store.select(getArticlePagination).subscribe(res => {
-      this.offset= res.offset;
-      this.limit= res.limit;
-      this.maxPage= res.maxPage;
-      this.articles= res.articles;
-    });
-	}
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
 
   pullRefresh(event) {
     this.resetLoadPage();
     this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
-<<<<<<< HEAD
     event.target.complete();
-=======
-    event && event.target.complete();
->>>>>>> acf069cbc11c51661d5f1d42c038b318fd528795
   }
 
 	resetLoadPage() {
