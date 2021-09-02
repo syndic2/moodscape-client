@@ -3,7 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys  } from '../feature-keys';
 import { MoodState } from '../states';
 
-export const selectMoodsFeature= createFeatureSelector<MoodState>(StoreFeatureKeys.MOOD);
+const selectMoodsFeature= createFeatureSelector<MoodState>(StoreFeatureKeys.MOOD);
 
 export const getMoods= createSelector(
   selectMoodsFeature,

@@ -3,15 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ModalController } from '@ionic/angular';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
 import { 
   fetchActivity, 
-  fetchActivityCategories,
   fetchUpdateActivity, 
   removeActivitiesConfirmation,
   fetchMoveActivitiesIntoCategory
@@ -21,7 +18,6 @@ import { ActivityEditNamePage } from 'src/app/modals/activities/activity-edit-na
 import { ActivityCategoryListPage } from 'src/app/modals/activities/activity-category-list/activity-category-list.page';
 import { ActivityIconListPage } from 'src/app/modals/activities/activity-icon-list/activity-icon-list.page';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.page.html',
@@ -40,16 +36,19 @@ export class ActivityDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchActivityCategories());
-    this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
     this.activitySubscription= this.store.select(getActivity({ Id: this.activityId })).subscribe(res => {
-      this.activity= res;
-      this.activityCategory= res?.activityCategory;
+      if (res !== null) {
+        this.activity= res;
+        this.activityCategory= res?.activityCategory;
+      }
     });
   }
 
+  ionViewWillLeave() {
+    this.activitySubscription && this.activitySubscription.unsubscribe();
+  }
+
   pullRefresh(event) {
-    this.store.dispatch(fetchActivityCategories());
     this.store.dispatch(fetchActivity({ activityId: this.activityId, activityCategoryId: this.activityCategory?.Id }));
     event.target.complete();
   }

@@ -4,8 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChangePasswordPageRoutingModule } from './change-password-routing.module';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from 'src/app/store/effects/user.effects';
 
+import { ChangePasswordPageRoutingModule } from './change-password-routing.module';
 import { ChangePasswordPage } from './change-password.page';
 
 @NgModule({
@@ -13,6 +15,7 @@ import { ChangePasswordPage } from './change-password.page';
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
+    EffectsModule.forFeature([UserEffects]),
     ChangePasswordPageRoutingModule
   ],
   declarations: [ChangePasswordPage]

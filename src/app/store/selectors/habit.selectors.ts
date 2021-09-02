@@ -3,7 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys } from '../feature-keys';
 import { HabitState } from '../states';
 
-export const selectHabitFeature= createFeatureSelector<HabitState>(StoreFeatureKeys.HABIT);
+const selectHabitFeature= createFeatureSelector<HabitState>(StoreFeatureKeys.HABIT);
 
 export const getHabits= (day: string= '') => {
   return createSelector(

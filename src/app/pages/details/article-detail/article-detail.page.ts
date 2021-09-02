@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +8,6 @@ import { Article } from 'src/app/models/article.model';
 import { fetchArticleByUrlName, fetchArchiveArticles } from 'src/app/store/actions/article.actions';
 import { getArticleByUrlName } from 'src/app/store/selectors/article.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
 	selector: 'app-article-detail',
 	templateUrl: './article-detail.page.html',
@@ -29,8 +26,14 @@ export class ArticleDetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.articleSubscription= this.store.select(getArticleByUrlName(this.urlName)).subscribe(res => {
-      this.article= res;
+      if (res !== null) {
+        this.article= res;
+      }
     });
+  }
+
+  ionViewWillLeave() {
+    this.articleSubscription && this.articleSubscription.unsubscribe();
   }
 
   pullRefresh(event) {

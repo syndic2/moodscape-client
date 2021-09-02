@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +8,6 @@ import { fetchArchivedArticles, removeArchivedArticlesConfirmation } from 'src/a
 import { getArchivedArticles } from 'src/app/store/selectors/article.selectors';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-my-articles',
   templateUrl: './my-articles.page.html',
@@ -26,11 +23,17 @@ export class MyArticlesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchArchivedArticles());
     this.articlesSubscription= this.store.select(getArchivedArticles).subscribe(res => {
-      this.articles= res;
-      this.utilitiesService.resetSkeletonLoading();
+      if (!res.length) {
+        this.store.dispatch(fetchArchivedArticles());
+      } else {
+        this.articles= res;
+      }
     });
+  }
+
+  ionViewWillLeave() {
+    this.articlesSubscription && this.articlesSubscription.unsubscribe();
   }
 
   pullRefresh(event) {

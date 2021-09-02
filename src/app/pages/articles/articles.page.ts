@@ -2,16 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { IonContent, IonInfiniteScroll } from '@ionic/angular';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { Article, ArticlePagination } from 'src/app/models/article.model';
+import { Article } from 'src/app/models/article.model';
 import { fetchArticles, fetchMoreArticles } from 'src/app/store/actions/article.actions';
 import { getArticlePagination } from 'src/app/store/selectors/article.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
 	selector: 'app-articles',
 	templateUrl: './articles.page.html',
@@ -42,19 +39,26 @@ export class ArticlesPage implements OnInit {
 	}
 
 	ionViewWillEnter() {
-    this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
     this.articlePaginationSubscription= this.store.select(getArticlePagination).subscribe(res => {
-      this.offset= res.offset;
-      this.limit= res.limit;
-      this.maxPage= res.maxPage;
-      this.articles= res.articles;
+      if (res === null) {
+        this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
+      } else {
+        this.offset= res.offset;
+        this.limit= res.limit;
+        this.maxPage= res.maxPage;
+        this.articles= res.articles;
+      }
     });
 	}
+
+  ionViewWillLeave() {
+    this.articlePaginationSubscription && this.articlePaginationSubscription.unsubscribe();
+  }
 
   pullRefresh(event) {
     this.resetLoadPage();
     this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
-    event && event.target.complete();
+    event.target.complete();
   }
 
 	resetLoadPage() {

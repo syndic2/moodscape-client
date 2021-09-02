@@ -15,7 +15,6 @@ import gqlCompress from 'graphql-query-compress';
 import { environment } from 'src/environments/environment';
 
 //const jwt_helper= new JwtHelperService();
-const AUTHENTICATED_USER= 'authenticated-user';
 const TOKEN_KEY = 'auth-token';
 const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
@@ -45,12 +44,8 @@ export class AuthenticationService {
 		);
 	}
 
-  getAuthenticatedUser(): Observable<any> {
-    return from(this.storage.get(AUTHENTICATED_USER));
-  }
-
-	login(data, withGoogle: boolean = false): Observable<any> {
-		const args = StringifyObject(data, {
+	login(credentials, withGoogle: boolean = false): Observable<any> {
+		const args = StringifyObject(credentials, {
 			singleQuotes: false,
 			transform: (object, property, originalResult) => {
 				if (property === 'age') return object[property] === '' ? 0 : originalResult;
@@ -60,8 +55,8 @@ export class AuthenticationService {
 		const query = gqlCompress(`
 			mutation {
 				login(
-					emailOrUsername: "${withGoogle ? data.email : data.emailOrUsername}",
-					password: "${data.password}",
+					emailOrUsername: "${withGoogle ? credentials.email : credentials.emailOrUsername}",
+					password: "${credentials.password}",
 					withGoogle: ${withGoogle ? args : "{}"}
 				) {
           authenticatedUser {
@@ -85,13 +80,12 @@ export class AuthenticationService {
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => {
 				this.userData.next(res.data.login.accessToken);
-
+				
 				return res.data.login;
 			}),
 			switchMap((res: any) => {
 				return from(Promise.all([
-					res.response,
-          this.storage.set(AUTHENTICATED_USER, res.authenticatedUser),
+					res,
 					this.storage.set(TOKEN_KEY, res.accessToken),
 					this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken)
 				]));
@@ -112,6 +106,7 @@ export class AuthenticationService {
 
 				return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 					map((res: any) => {
+            console.log('res', res);
 						this.userData.next(res.data.refreshAuth.newToken);
 
 						return res.data.refreshAuth.newToken;
@@ -162,14 +157,11 @@ export class AuthenticationService {
     );
   }
 
-	logout() {
-		this.userData.next(null);
-
+	logout(): Observable<any> {
 		return from(Promise.all([
+      this.userData.next(null),
 			this.storage.remove(TOKEN_KEY),
 			this.storage.remove(REFRESH_TOKEN_KEY),
-      this.storage.remove(AUTHENTICATED_USER),
-			this.storage.remove('user-profile')
 		]));
 	}
 }

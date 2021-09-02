@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user/user.service';
+import { fetchProfile, validateUpdateProfile } from 'src/app/store/actions/user.actions';
+import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 
 @Component({
 	selector: 'app-profile',
@@ -34,46 +34,35 @@ export class ProfilePage implements OnInit {
 		]
 	};
 	public user: User;
-	private getProfileListener: Subscription= null;
+	private userSubscription: Subscription;
 
-	constructor(
-		private formBuilder: FormBuilder,
-		private alertController: AlertController,
-		private toastController: ToastController,
-		private userService: UserService
-	) { }
+	constructor(private store: Store, private formBuilder: FormBuilder) { }
 
 	ngOnInit() {
     this.initializeForm();
 	}
 
 	ionViewWillEnter() {
-		if (this.getProfileListener === null) {
-      this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
-        this.user = Object.assign({}, res);
+		this.userSubscription= this.store.select(getAuthenticated).subscribe(res => {
+			if (res === null) {
+        this.store.dispatch(fetchProfile());
+			} else {
+        this.user= { ...res };
 
-        delete res['__typename'];
-        delete res['imgUrl'];
-
-        this.updateProfileForm.setValue(res);
-      });
-    }
-	}
-
-	ionViewWillLeave() {
-		this.getProfileListener && this.getProfileListener.unsubscribe();
-	}
-
-	pullRefresh(event?: any) {
-		this.getProfileListener = this.userService.getProfile().subscribe((res: User) => {
-			this.user = Object.assign({}, res);
-
-			delete res['__typename'];
-			delete res['imgUrl'];
-
-			this.updateProfileForm.setValue(res);
-			event && event.target.complete();
+				delete this.user['__typename'];
+				
+				this.updateProfileForm.setValue(this.user);
+      }
 		});
+	}
+
+  ionViewWillLeave() {
+    this.userSubscription && this.userSubscription.unsubscribe();
+  }
+
+	pullRefresh(event) {
+		this.store.dispatch(fetchProfile());
+		event.target.complete();
 	}
 
 	initializeForm() {
@@ -88,26 +77,12 @@ export class ProfilePage implements OnInit {
 					Validators.required,
 					Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
 				]
-			]
+			],
+			imgUrl: [''],
 		});
 	}
 
-	async onSubmit() {
-		if (this.updateProfileForm.invalid) {
-			const alert = await this.alertController.create({
-				message: 'Informasi pengguna ada yang kosong atau tidak valid!',
-				buttons: ['OK']
-			});
-			alert.present();
-		} else {
-			this.userService.updateUser(this.updateProfileForm.value).subscribe(async res => {
-				const toast = await this.toastController.create({
-					message: res.response.text,
-					position: 'top',
-					duration: 2000
-				});
-				toast.present();
-			});
-		}
+	onSubmit() {
+		this.store.dispatch(validateUpdateProfile({ fields: this.updateProfileForm.value, isInvalid: this.updateProfileForm.invalid }))
 	}
 }

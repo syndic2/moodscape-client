@@ -9,6 +9,7 @@ import { ArticleService } from 'src/app/services/article/article.service';
 import { showToast, showAlert } from '../actions/application.actions';
 import { 
   fetchArticles,
+  fetchFeaturedArticles,
   fetchMoreArticles, 
   fetchArchivedArticles, 
   fetchArticleByUrlName,
@@ -18,6 +19,7 @@ import {
   fetchRemoveArchivedArticles,
 
   setArticles,
+  setFeaturedArticles,
   setArchivedArticles,
   setMoreArticles,
   setArticleSearchResults,
@@ -35,7 +37,14 @@ export class ArticleEffects {
       map(res => setArticles({ articlePagination: res }))
     ))
   ));
-      
+  
+  getFeaturedArticles$= createEffect(() => this.actions$.pipe(
+    ofType(fetchFeaturedArticles),
+    exhaustMap(() => this.articleService.getArticles().pipe(
+      map(res => setFeaturedArticles({ articles: res.articles }))
+    ))
+  ));
+  
   getMoreArticles$= createEffect(() => this.actions$.pipe(
     ofType(fetchMoreArticles),
     exhaustMap(({ offset, limit }) => this.articleService.getArticles(offset, limit).pipe(

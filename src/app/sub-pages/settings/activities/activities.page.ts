@@ -3,9 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { fetchActivityCategories, fetchActivitiesNoneCategory, fetchReOrderActivityCategory, reorderActivityCategory } from 'src/app/store/actions/activity.actions';
+import { fetchActivityCategories, fetchReOrderActivityCategory, reorderActivityCategory } from 'src/app/store/actions/activity.actions';
 import { getActivityCategories } from 'src/app/store/selectors/activity.selectors';
 
 import { ActivityCategory } from 'src/app/models/activity.model';
@@ -18,8 +18,9 @@ import { ActivityCategory } from 'src/app/models/activity.model';
 })
 export class ActivitiesPage implements OnInit {
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
-  
-  public activityCategories$: Observable<ActivityCategory[]>= this.store.select(getActivityCategories);
+
+  public activityCategories: ActivityCategory[]= [];
+  private activityCategoriesSubscription: Subscription;
   private reordering: boolean= false;
 
   constructor(private store: Store) { }
@@ -28,25 +29,30 @@ export class ActivitiesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchActivityCategories());
-    this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
+    this.activityCategoriesSubscription= this.store.select(getActivityCategories).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchActivityCategories());
+      } else {
+        this.activityCategories= res;
+      }
+    });
   }
 
   ionViewWillLeave() {
-    if (this.reordering) {
-      this.store.dispatch(fetchReOrderActivityCategory());
-    }
+    this.activityCategoriesSubscription && this.activityCategoriesSubscription.unsubscribe();
+    //if (this.reordering) {
+    //  this.store.dispatch(fetchReOrderActivityCategory());
+    //}
   }
 
   pullRefresh(event) {
     this.store.dispatch(fetchActivityCategories());
-    this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
-    event && event.target.complete();
+    event.target.complete();
   }
-
+  
   reorderCategory(event) {
-    this.reordering= true;
-    this.store.dispatch(reorderActivityCategory({ from: event.detail.from, to: event.detail.to }));
+    //this.reordering= true;
+    //this.store.dispatch(reorderActivityCategory({ from: event.detail.from, to: event.detail.to }));
     event.detail.complete();
   }
 }

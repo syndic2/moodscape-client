@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { EffectsModule } from '@ngrx/effects';
+import { ArticleEffects } from 'src/app/store/effects/article.effects';
+
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { ClockLoaderComponent } from 'src/app/components/utilities/clock-loader/clock-loader.component';
@@ -15,6 +18,7 @@ import { ArticleFeaturedLoaderComponent } from 'src/app/components/pages/article
     CommonModule,
     FormsModule,
     IonicModule,
+    EffectsModule.forFeature([ArticleEffects]),
     HomePageRoutingModule
   ],
   declarations: [

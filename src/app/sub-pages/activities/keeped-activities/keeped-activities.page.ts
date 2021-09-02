@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { Activity } from 'src/app/models/activity.model';
 import { fetchActivitiesNoneCategory } from 'src/app/store/actions/activity.actions';
@@ -13,7 +13,8 @@ import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors'
   styleUrls: ['./keeped-activities.page.scss'],
 })
 export class KeepedActivitiesPage implements OnInit {
-  public keepedActivities$: Observable<Activity[]>= this.store.select(getKeepedActivities);
+  public keepedActivities: Activity[]= [];
+  private keepedActivitiesSubscription: Subscription;
 
   constructor(private store: Store) { }
 
@@ -21,7 +22,17 @@ export class KeepedActivitiesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
+    this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
+      } else {
+        this.keepedActivities= res;
+      }
+    });
+  }
+
+  ionViewWillLeave() {
+    this.keepedActivitiesSubscription && this.keepedActivitiesSubscription.unsubscribe();
   }
 
   pullRefresh(event) {

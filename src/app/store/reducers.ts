@@ -2,12 +2,16 @@ import { ActionReducer, ActionReducerMap, INIT, MetaReducer } from '@ngrx/store'
 
 import { StoreFeatureKeys } from './feature-keys';
 import { logout } from './actions/authentication.actions';
+import { applicationReducer } from './reducers/application.reducer';
+import { authenticationReducer } from './reducers/authentication.reducer';
 import { moodReducer } from './reducers/mood.reducer';
 import { habitReducer } from './reducers/habit.reducer';
 import { activityReducer } from './reducers/activity.reducer';
 import { articleReducer } from './reducers/article.reducer';
 
 export const reducers: ActionReducerMap<any>= {
+  [StoreFeatureKeys.APPLICATION]: applicationReducer,
+  [StoreFeatureKeys.AUTHENTIACTION]: authenticationReducer,
   [StoreFeatureKeys.MOOD]: moodReducer,
   [StoreFeatureKeys.HABIT]: habitReducer,
   [StoreFeatureKeys.ACTIVITY]: activityReducer,

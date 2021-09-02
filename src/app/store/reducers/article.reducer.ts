@@ -4,6 +4,7 @@ import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { ArticleState } from '../states';
 import { 
   setArticles, 
+  setFeaturedArticles,
   setMoreArticles,
   setArchivedArticles, 
   setArticleSearchResults,
@@ -13,6 +14,7 @@ import {
 } from '../actions/article.actions';
 
 const initialState: ArticleState= {
+  featuredArticles: [],
   articlePagination: {
     articles: []
   },
@@ -30,6 +32,8 @@ export const articleReducer= createReducer(
     }
   })),
   
+  on(setFeaturedArticles, (state, { articles }) => ({ ...state, featuredArticles: [...articles] })),
+
   on(setMoreArticles, (state, { articlePagination }) => ({ 
     ...state,
     articlePagination: {

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
-
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
 
-import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { requestLogin } from 'src/app/store/actions/authentication.actions';
 
 @Component({
 	selector: 'app-sign-in',
@@ -26,15 +23,8 @@ export class SignInPage implements OnInit {
 			{ type: 'required', message: 'Kata sandi tidak boleh kosong.' }
 		]
 	};
-	private signInListener: Subscription;
 
-	constructor(
-		private router: Router,
-		private formBuilder: FormBuilder,
-		private alertController: AlertController,
-		private toastController: ToastController,
-		private authService: AuthenticationService
-	) {
+	constructor(private store: Store, private formBuilder: FormBuilder) {
 		this.initializeForm();
 	}
 
@@ -43,7 +33,6 @@ export class SignInPage implements OnInit {
 
 	ionViewDidLeave() {
 		this.signInForm.reset();
-		this.signInListener && this.signInListener.unsubscribe();
 	}
 
 	get emailOrUsername() {
@@ -61,29 +50,8 @@ export class SignInPage implements OnInit {
 		});
 	}
 
-	async onSubmit() {
-		if (this.signInForm.invalid) {
-			const alert = await this.alertController.create({
-				message: 'Kolom input ada yang kosong atau inputan tidak valid!',
-				buttons: ['OK']
-			});
-			alert.present();
-		} else {
-			this.signInListener= this.authService.login(this.signInForm.value).subscribe(async res => {
-				const response = res[0];
-
-				if (!response.status) {
-					const toast = await this.toastController.create({
-						message: response.text,
-						position: 'top',
-						duration: 2000
-					});
-					toast.present();
-				} else {
-					this.router.navigate(['/side-menu']);
-				}
-			});
-		}
+	onSubmit() {
+		this.store.dispatch(requestLogin({ credentials: this.signInForm.value, isInvalid: this.signInForm.invalid }));
 	}
 
 	async onGoogleSignIn() {
@@ -96,19 +64,6 @@ export class SignInPage implements OnInit {
 			imgUrl: accountInfo.imageUrl
 		};
 
-		this.signInListener= this.authService.login(data, true).subscribe(async res => {
-			const response = res[0];
-
-			if (!response.status) {
-				const toast = await this.toastController.create({
-					message: response.text,
-					position: 'top',
-					duration: 2000
-				});
-				toast.present();
-			} else {
-				this.router.navigate(['/side-menu']);
-			}
-		});
+		this.store.dispatch(requestLogin({ credentials: data, withGoogle: true }));
 	}
 }

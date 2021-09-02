@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs'
 
@@ -10,7 +8,6 @@ import { Article } from 'src/app/models/article.model';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 import { getArticleSearchResults } from 'src/app/store/selectors/article.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-search-results-article',
   templateUrl: './search-results-article.page.html',
@@ -33,5 +30,9 @@ export class SearchResultsArticlePage implements OnInit {
     this.searchResultsSubscription= this.store.select(getArticleSearchResults).subscribe(res => {
       this.articles= res;
     });
+  }
+
+  ionViewWillLeave() {
+    this.searchResultsSubscription && this.searchResultsSubscription.unsubscribe();
   }
 }

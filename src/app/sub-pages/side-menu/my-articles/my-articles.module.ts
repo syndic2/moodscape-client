@@ -6,10 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { articleReducer } from 'src/app/store/reducers/article.reducer';
 import { ArticleEffects } from 'src/app/store/effects/article.effects';
 
 import { ArticleListItemModule } from 'src/app/components/pages/articles/article-list-item/article-list-item.module';
@@ -23,7 +20,6 @@ import { MyArticlesPage } from './my-articles.page';
     FormsModule,
     IonicModule,
     FontAwesomeModule,
-    StoreModule.forFeature(StoreFeatureKeys.ARTICLE, articleReducer),
     EffectsModule.forFeature([ArticleEffects]),
     ArticleListItemModule,
     ArticleListLoaderModule,

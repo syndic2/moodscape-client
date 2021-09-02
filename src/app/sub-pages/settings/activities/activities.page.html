@@ -17,14 +17,14 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ng-container *ngIf="!(activityCategories$ | async)?.length; else showActivityCategories">
+  <ng-container *ngIf="!activityCategories.length; else showActivityCategories">
     <div class="flex justify-center items-center h-full">
       <span>-Belum ada aktivitas yang tersimpan-</span>
     </div>
   </ng-container>
   <ng-template #showActivityCategories>
     <ion-reorder-group (ionItemReorder)="reorderCategory($event)" disabled="false">
-      <ion-item lines="none" *ngFor="let activityCategory of (activityCategories$ | async)">
+      <ion-item lines="none" *ngFor="let activityCategory of activityCategories">
         <activity-category-list-item [activityCategory]="activityCategory" [forReorder]="true"></activity-category-list-item>
       </ion-item>
     </ion-reorder-group>

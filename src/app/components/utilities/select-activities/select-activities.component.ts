@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 
 import { PopoverController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { fetchActivityCategories, fetchActivitiesNoneCategory } from 'src/app/store/actions/activity.actions';
 import {
@@ -20,17 +20,30 @@ import { ActivityCategoryOptionsPopoverComponent } from '../../pages/moods/activ
   templateUrl: './select-activities.component.html',
   styleUrls: ['./select-activities.component.scss'],
 })
-export class SelectActivitiesComponent implements OnInit {
+export class SelectActivitiesComponent implements OnInit, OnDestroy {
   @Input() extraButtons: boolean= true;
   @Input() selectedActivities: Activity[]= [];
   @Output() selectActivitiesEvent= new EventEmitter<Activity[]>();
 
   public activityCategories$: Observable<ActivityCategory[] | any[]>= this.store.select(getActivityCategories);
   public keepedActivities$: Observable<Activity[] | any[]>= this.store.select(getKeepedActivities);
+  private activityCategoriesSubscription: Subscription;
+  private keepedActivitiesSubscription: Subscription;
 
   constructor(private store: Store, private popoverController: PopoverController) { }
 
   ngOnInit() {
+    this.activityCategoriesSubscription= this.store.select(getActivityCategories).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchActivityCategories());
+      }
+    });
+    this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
+      }
+    });
+
     this.store.dispatch(fetchActivityCategories());
     this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
 
@@ -38,6 +51,11 @@ export class SelectActivitiesComponent implements OnInit {
       this.activityCategories$= this.store.select(getCheckedUnkeepedActivities({ selectedActivities: this.selectedActivities }));
       this.keepedActivities$= this.store.select(getCheckedKeepedActivities({ selectedActivities: this.selectedActivities }));
     }
+  }
+
+  ngOnDestroy() {
+    this.activityCategoriesSubscription && this.activityCategoriesSubscription.unsubscribe();
+    this.keepedActivitiesSubscription && this.keepedActivitiesSubscription.unsubscribe();
   }
 
   async openPopover(event, activityCategory?: ActivityCategory) {

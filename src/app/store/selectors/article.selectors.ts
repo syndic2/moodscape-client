@@ -3,11 +3,16 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys } from '../feature-keys';
 import { ArticleState } from '../states';
 
-export const selectArticleFeature= createFeatureSelector<ArticleState>(StoreFeatureKeys.ARTICLE);
+const selectArticleFeature= createFeatureSelector<ArticleState>(StoreFeatureKeys.ARTICLE);
 
 export const getArticlePagination= createSelector(
   selectArticleFeature,
   state => state.articlePagination
+);
+
+export const getFeaturedArticles= createSelector(
+  selectArticleFeature,
+  state => state.featuredArticles
 );
 
 export const getArchivedArticles= createSelector(

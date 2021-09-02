@@ -47,25 +47,13 @@
 			</ion-button>
 		</div>
 
-    <ion-grid class="flex-none h-auto mt-4" fixed>
-      <ion-row>
-        <ion-col size="6">
-          <div class="text-sm sm:text-base text-center">
-            Belum memiliki akun?
-            <span class="block">
-              Daftar <a class="font-semibold text-purple-800 underline" [routerLink]="'/sign-up'">sekarang!</a>
-            </span>
-          </div>
-        </ion-col>
-        <ion-col size="6">
-          <div class="text-sm sm:text-base text-center">
-            Lupa kata sandi?
-            <span class="block">
-              Ubah <a class="font-semibold text-purple-800 underline" [routerLink]="'/forgot-password'">disini!</a>
-            </span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <div class="grid grid-cols-2 justify-items-center items-center gap-x-10 mt-6">
+      <span class="text-sm sm:text-base">
+        Daftar <a class="font-semibold text-purple-800 underline" [routerLink]="'/sign-up'">sekarang</a>!
+      </span>
+      <span class="text-sm sm:text-base">
+        Lupa <a class="font-semibold text-purple-800 underline" [routerLink]="'/forgot-password'">kata sandi</a>? 
+      </span>
+    </div>
 	</div>
 </ion-content>

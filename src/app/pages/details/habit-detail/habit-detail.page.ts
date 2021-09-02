@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { Habit } from 'src/app/models/habit.model';
-import { fetchHabit, fetchHabits, fetchUpdateHabit } from 'src/app/store/actions/habit.actions';
+import { fetchHabit, fetchUpdateHabit } from 'src/app/store/actions/habit.actions';
 import { getHabit } from 'src/app/store/selectors/habit.selectors';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-habit-detail',
   templateUrl: './habit-detail.page.html',
@@ -28,14 +25,18 @@ export class HabitDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchHabit({ habitId: this.habitId }));
     this.habitSubscription= this.store.select(getHabit(this.habitId)).subscribe(res => {
-      this.habit= res;
+      if (res !== null) {
+        this.habit= res;
+      }
     }); 
   }
 
+  ionViewWillLeave() {
+    this.habitSubscription && this.habitSubscription.unsubscribe();
+  }
+
   pullRefresh(event) {
-    this.store.dispatch(fetchHabits({}));
     this.store.dispatch(fetchHabit({ habitId: this.habitId }));
     event.target.complete();
   }

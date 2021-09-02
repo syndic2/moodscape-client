@@ -4,10 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { habitReducer } from 'src/app/store/reducers/habit.reducer';
 import { HabitEffects } from 'src/app/store/effects/habit.effects';
 
 import { HabitDetailPageRoutingModule } from './habit-detail-routing.module';
@@ -20,7 +17,6 @@ import { HabitFieldsLoaderComponent } from 'src/app/components/pages/habits/habi
     CommonModule,
     FormsModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.HABIT, habitReducer),
     EffectsModule.forFeature([HabitEffects]),
     HabitDetailPageRoutingModule,
     HabitFieldsModule

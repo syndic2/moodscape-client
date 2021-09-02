@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { UserService } from 'src/app/services/user/user.service';
 import { MatchValidator } from 'src/app/validators/match.validator';
+import { validateChangePassword } from 'src/app/store/actions/user.actions';
+import { getIsResetForm } from 'src/app/store/selectors/application.selectors';
 
 @Component({
   selector: 'app-change-password',
@@ -27,14 +26,9 @@ export class ChangePasswordPage implements OnInit {
       { type: 'required', message: 'Konfirmasi kata sandi baru tidak boleh kosong.' }
     ]
 	};
-  private changePasswordListener: Subscription;
+  private isResetFormSubscription: Subscription;
 
-  constructor(
-		private formBuilder: FormBuilder,
-		private alertController: AlertController,
-		private toastController: ToastController,
-    private userService: UserService
-  ) { }
+  constructor(private store: Store, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.changePasswordForm= this.formBuilder.group({
@@ -46,8 +40,16 @@ export class ChangePasswordPage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.isResetFormSubscription= this.store.select(getIsResetForm).subscribe(res => {
+      if (res) {
+        this.changePasswordForm.reset();
+      }
+    });
+  }
+
   ionViewWillLeave() {
-    this.changePasswordListener && this.changePasswordListener.unsubscribe();
+    this.isResetFormSubscription && this.isResetFormSubscription.unsubscribe();
   }
 
   get oldPassword() {
@@ -62,27 +64,11 @@ export class ChangePasswordPage implements OnInit {
     return this.changePasswordForm.get('confirmNewPassword');
   }
 
-  async onSubmit() {
-    const alert= await this.alertController.create({ buttons: ['OK'] });
-
-    if (this.changePasswordForm.invalid) {
-      alert.message= 'Kolom input ada yang kosong atau inputan tidak valid!';
-      alert.present();
-    } else {
-      this.changePasswordListener= this.userService.changePassword(this.oldPassword.value, this.newPassword.value).subscribe(async res => {
-        if (!res.response.status) {
-          const toast= await this.toastController.create({
-            message: res.response.text,
-						position: 'top',
-						duration: 2000
-          });
-          toast.present();
-        } else {
-          alert.message= res.response.text;
-          alert.present();
-          this.changePasswordForm.reset();
-        }
-      });
-    }
+  onSubmit() {
+    this.store.dispatch(validateChangePassword({ 
+      oldPassword: this.oldPassword.value, 
+      newPassword: this.newPassword.value, 
+      isInvalid: this.changePasswordForm.invalid 
+    }));
   }
 }

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -10,7 +8,6 @@ import { fetchHabits, removeHabitsConfirmation } from 'src/app/store/actions/hab
 import { getHabits } from 'src/app/store/selectors/habit.selectors';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-habits',
   templateUrl: './habits.page.html',
@@ -19,6 +16,7 @@ import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 export class HabitsPage implements OnInit {
   public habits: Habit[]= [];
   private habitsSubscription: Subscription;
+  private habitsDaySubscription: Subscription;
   public selectedDay: BehaviorSubject<string>= new BehaviorSubject<string>('all day');
   private selectedDaySubscription: Subscription;
   
@@ -28,12 +26,24 @@ export class HabitsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(fetchHabits({}));
+    this.habitsSubscription= this.store.select(getHabits()).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchHabits({}));
+      }
+    });
     this.selectedDaySubscription= this.selectedDay.subscribe(day => {
-      this.habitsSubscription= this.store.select(getHabits(day)).subscribe(res => {
-        this.habits= res;
+      this.habitsDaySubscription= this.store.select(getHabits(day)).subscribe(res => {
+        if (res.length) {
+          this.habits= res;
+        }
       });
     });
+  }
+
+  ionViewWillLeave() {
+    this.habitsSubscription && this.habitsSubscription.unsubscribe();
+    this.habitsDaySubscription && this.habitsDaySubscription.unsubscribe();
+    this.selectedDaySubscription && this.selectedDaySubscription.unsubscribe();
   }
 
   pullRefresh(event) {

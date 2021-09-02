@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +11,6 @@ import { fetchCreateActivityCategory } from 'src/app/store/actions/activity.acti
 import { getKeepedActivities } from 'src/app/store/selectors/activity.selectors';
 import { ActivityListPage } from 'src/app/modals/activities/activity-list/activity-list.page';
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-create-activity-category',
   templateUrl: './create-activity-category.page.html',
@@ -33,6 +30,10 @@ export class CreateActivityCategoryPage implements OnInit {
     this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
       this.keepedActivitiesLength= res.length;
     });
+  }
+
+  ionViewWillLeave() {
+    this.keepedActivitiesSubscription && this.keepedActivitiesSubscription.unsubscribe();
   }
 
   onSubmit() {

@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -13,7 +13,9 @@ import { environment } from 'src/environments/environment';
 	providedIn: 'root'
 })
 export class ArticleService {
-	constructor(private http: HttpClient, @Inject('skipLoading') @Optional() private skipLoading: string) { }
+  private skipLoading: string= 'true';
+
+	constructor(private http: HttpClient) { }
 
 	getArticles(offset: number = 0, limit: number = 10): Observable<any> {
 		const query = gqlCompress(`
@@ -39,9 +41,7 @@ export class ArticleService {
 		`);
 
 		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
+      headers: { skipLoading: this.skipLoading }
     }).pipe(
 			map((res: any) => res.data.getArticles)
 		);

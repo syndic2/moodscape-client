@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { activityReducer } from 'src/app/store/reducers/activity.reducer';
 import { ActivityEffects } from 'src/app/store/effects/activity.effects';
 
 import { SelectActivitiesComponent } from './select-activities.component';
@@ -18,7 +15,6 @@ import { AccordionModule } from '../../widgets/accordion/accordion.module';
   imports: [
     CommonModule,
     IonicModule,
-    StoreModule.forFeature(StoreFeatureKeys.ACTIVITY, activityReducer),
     EffectsModule.forFeature([ActivityEffects]),
     ActivityCategoryOptionsPopoverModule,
     AccordionModule

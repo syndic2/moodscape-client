@@ -6,10 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreFeatureKeys } from 'src/app/store/feature-keys';
-import { moodReducer } from 'src/app/store/reducers/mood.reducer';
 import { MoodEffects } from 'src/app/store/effects/mood.effects';
 
 import { MoodDetailPageRoutingModule } from './mood-detail-routing.module';
@@ -27,7 +24,6 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     FormsModule,
     IonicModule,
     FontAwesomeModule,
-    StoreModule.forFeature(StoreFeatureKeys.MOOD, moodReducer),
     EffectsModule.forFeature([MoodEffects]),
     MoodDetailPageRoutingModule,
     SelectDateModule,

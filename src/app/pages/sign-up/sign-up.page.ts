@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { MatchValidator } from 'src/app/validators/match.validator';
-import { UserService } from 'src/app/services/user/user.service';
+import { validateCreateUser } from 'src/app/store/actions/user.actions';
+import { getIsResetForm } from 'src/app/store/selectors/application.selectors';
 
 @Component({
   selector: 'app-sign-up',
@@ -42,21 +42,24 @@ export class SignUpPage implements OnInit {
       { type: 'required', message: 'Konfirmasi kata sandi tidak boleh kosong.' }
     ]
   };
-  private signUpListener: Subscription;
+  private isResetFormSubscription: Subscription;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private alertController: AlertController,
-    private toastController: ToastController,
-    private userService: UserService
-  ) { }
+  constructor(private store: Store, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.initializeForm();
   }
 
+  ionViewWillEnter() {
+    this.isResetFormSubscription= this.store.select(getIsResetForm).subscribe(res => {
+      if (res) {
+        this.signUpForm.reset();
+      }
+    });
+  }
+
   ionViewWillLeave() {
-	  this.signUpListener && this.signUpListener.unsubscribe();
+    this.isResetFormSubscription && this.isResetFormSubscription.unsubscribe();
   }
 
   get username() {
@@ -92,27 +95,7 @@ export class SignUpPage implements OnInit {
     });
   }
 
-  async onSubmit() {
-    const alert= await this.alertController.create({ buttons: ['OK'] });
-
-    if (this.signUpForm.invalid) {
-      alert.message= 'Informasi pengguna ada yang kosong atau tidak valid!';
-      alert.present();
-    } else {
-      this.signUpListener= this.userService.createUser(this.signUpForm.value).subscribe(async res => {
-        if (!res.response.status) {
-          const toast= await this.toastController.create({
-            message: res.response.text,
-            position: 'top',
-            duration: 2000
-          });
-          toast.present();
-        } else {
-          alert.message= res.response.text;
-          alert.present();
-          this.signUpForm.reset();
-        }
-      });
-    }
+  onSubmit() {
+    this.store.dispatch(validateCreateUser({ fields: this.signUpForm.value, isInvalid: this.signUpForm.invalid }));
   }
 }

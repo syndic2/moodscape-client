@@ -8,6 +8,8 @@ export const fetchArticles= createAction(
   props<{ offset?: number, limit?: number }>()
 );
 
+export const fetchFeaturedArticles= createAction('[Article/API] Get featured articles');
+
 export const fetchMoreArticles= createAction(
   '[Article/API] Get for load more articles',
   props<{ offset?: number, limit?: number }>()
@@ -49,6 +51,11 @@ export const fetchRemoveArchivedArticles= createAction(
 export const setArticles= createAction(
   '[Article/STORE] Set articles with pagination',
   props<{ articlePagination: ArticlePagination }>()
+);
+
+export const setFeaturedArticles= createAction(
+  '[Article/STORE] Set featured articles',
+  props<{ articles: Article[] }>()
 );
 
 export const setMoreArticles= createAction(

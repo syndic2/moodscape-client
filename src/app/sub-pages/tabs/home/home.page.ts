@@ -1,26 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { User } from 'src/app/models/user.model';
 import { Article } from 'src/app/models/article.model';
-import { ArticleService } from 'src/app/services/article/article.service';
+import { fetchFeaturedArticles } from 'src/app/store/actions/article.actions';
+import { getFeaturedArticles } from 'src/app/store/selectors/article.selectors';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
-  providers: [
-    ArticleService,
-    { provide: 'skipLoading', useValue: 'true' }
-  ]
+  styleUrls: ['./home.page.scss']
 })
 export class HomePage implements OnInit {
   public user: User;
   public articles: Article[]= [];
-  public clock;
-  private clockInterval;
+  public clock= transformDateTime(new Date());
   public sliderOptions= {
 		slidesPerView: 1,
 		spaceBetween: 5,
@@ -32,24 +29,24 @@ export class HomePage implements OnInit {
       clickable: true
     }
 	};
-  private getArticlesListener: Subscription= null;
+  private featuredArticlesSubscription: Subscription;
 
-  constructor(private articleService: ArticleService) { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
-    this.clockInterval= setInterval(() => {
-      this.clock= transformDateTime(new Date());
-    }, 1000);
   }
 
   ionViewWillEnter() {
-    this.getArticlesListener= this.articleService.getArticles().subscribe(res => {
-      this.articles= res.articles;
+    this.featuredArticlesSubscription= this.store.select(getFeaturedArticles).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchFeaturedArticles());
+      } else {
+        this.articles= res;
+      }
     });
   }
 
   ionViewWillLeave() {
-    clearInterval(this.clockInterval);
-    this.getArticlesListener && this.getArticlesListener.unsubscribe();
+    this.featuredArticlesSubscription && this.featuredArticlesSubscription.unsubscribe();
   }
 }
