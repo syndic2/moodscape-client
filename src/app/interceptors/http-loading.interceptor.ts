@@ -6,6 +6,8 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
+
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
 
@@ -19,7 +21,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 			translucent: true
 		});
 
-    if (!request.headers.has('skipLoading')) {
+    if (!request.headers.has('skipLoading') && !request.url.includes(`${environment.rasaChatbot}`)) {
       console.log('loading not skipped');
 
       this.loadingController.getTop().then(hasLoading => {

@@ -19,8 +19,12 @@
 </ion-content>-->
 
 <ion-content scrollEvents (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="flex flex-col gap-y-3">
-    <ng-container *ngFor="let message of dummyMessages">
+    <ng-container *ngFor="let message of messages">
       <bubble-chat [message]="message"></bubble-chat>
     </ng-container>
   </div>

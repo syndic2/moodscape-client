@@ -7,11 +7,11 @@ import { map, switchMap, exhaustMap, concatMap, mergeMap } from 'rxjs/operators'
 
 import { ArticleService } from 'src/app/services/article/article.service';
 import { showToast, showAlert } from '../actions/application.actions';
-import { 
+import {
   fetchArticles,
   fetchFeaturedArticles,
-  fetchMoreArticles, 
-  fetchArchivedArticles, 
+  fetchMoreArticles,
+  fetchArchivedArticles,
   fetchArticleByUrlName,
   fetchSearchArticle,
   fetchArchiveArticles,
@@ -26,7 +26,7 @@ import {
   setArticle,
   archiveArticles,
   removeArchivedArticlesConfirmation,
-  removeArchivedArticles 
+  removeArchivedArticles
 } from '../actions/article.actions';
 
 @Injectable()
@@ -37,14 +37,14 @@ export class ArticleEffects {
       map(res => setArticles({ articlePagination: res }))
     ))
   ));
-  
+
   getFeaturedArticles$= createEffect(() => this.actions$.pipe(
     ofType(fetchFeaturedArticles),
     exhaustMap(() => this.articleService.getArticles().pipe(
       map(res => setFeaturedArticles({ articles: res.articles }))
     ))
   ));
-  
+
   getMoreArticles$= createEffect(() => this.actions$.pipe(
     ofType(fetchMoreArticles),
     exhaustMap(({ offset, limit }) => this.articleService.getArticles(offset, limit).pipe(
@@ -85,7 +85,7 @@ export class ArticleEffects {
     concatMap(({ articleIds }) => this.articleService.archiveArticles(articleIds).pipe(
       switchMap(res => [
         archiveArticles({ articles: res.archivedArticles }),
-        showToast({ 
+        showToast({
           options: {
             message: res.response.text,
             position: 'top',
@@ -98,9 +98,9 @@ export class ArticleEffects {
 
   removeArchivedArticlesConfirmation$= createEffect(() => this.actions$.pipe(
     ofType(removeArchivedArticlesConfirmation),
-    map(({ articleIds }) => showAlert({ 
+    map(({ articleIds }) => showAlert({
       options: {
-        message: 'Apakah anda ingin menghapus artikel ini?', 
+        message: 'Apakah anda ingin menghapus artikel ini?',
         buttons: [
           {
             text: 'Tetap Simpan',
@@ -112,8 +112,8 @@ export class ArticleEffects {
               this.store.dispatch(fetchRemoveArchivedArticles({ articleIds: articleIds }))
             }
           }
-        ] 
-        } 
+        ]
+        }
     }))
   ));
 

@@ -30,7 +30,7 @@ import {
   removeActivityCategoriesConfirmation,
   fetchRemoveActivityCategories,
   fetchReOrderActivityCategory,
-  setActivityCategories, 
+  setActivityCategories,
   setActivitiesNonetCategory,
   setActivityCategory,
   createActivityCategory,
@@ -48,7 +48,7 @@ export class ActivityEffects {
   getActivityIcons$= createEffect(() => this.actions$.pipe(
     ofType(fetchActivityIcons),
     exhaustMap(() => this.activityService.getActivityIcons().pipe(
-      map(res => setActivityIcons({ activityIcons: res }))  
+      map(res => setActivityIcons({ activityIcons: res }))
     ))
   ));
 
@@ -58,7 +58,7 @@ export class ActivityEffects {
       map(res => setActivity({ activity: res.activity, activityCategoryId: activityCategoryId }))
     ))
   ));
-  
+
   createActivity$= createEffect(() => this.actions$.pipe(
     ofType(fetchCreateActivity),
     concatMap(({ fields, activityCategoryId }) => this.activityService.createActivity(fields, activityCategoryId).pipe(
@@ -75,7 +75,7 @@ export class ActivityEffects {
 
   removeActivitiesConfirmation$= createEffect(() => this.actions$.pipe(
     ofType(removeActivitiesConfirmation),
-    map(({ activityIds, activityCategoryId }) => showAlert({ 
+    map(({ activityIds, activityCategoryId }) => showAlert({
       options: {
         message: 'Apakah anda yakin ingin menghapus aktivitas ini?',
         buttons: [
@@ -114,7 +114,7 @@ export class ActivityEffects {
     ))
   ));
 
-  /** 
+  /**
    * Activity Category
   */
   getActivityCategories$= createEffect(() => this.actions$.pipe(
@@ -123,11 +123,11 @@ export class ActivityEffects {
       map(res => setActivityCategories({ activityCategories: res.activityCategories }))
     ))
   ));
-  
+
   getActivitiesNoneCategory$= createEffect(() => this.actions$.pipe(
     ofType(fetchActivitiesNoneCategory),
     exhaustMap(({ fields }) => this.activityService.getActivityCategories(fields).pipe(
-      map(res => setActivitiesNonetCategory({ activities: res.activityCategories.length ? res.activityCategories[0].activities : [] }))   
+      map(res => setActivitiesNonetCategory({ activities: res.activityCategories.length ? res.activityCategories[0].activities : [] }))
     ))
   ));
 
@@ -137,7 +137,7 @@ export class ActivityEffects {
       map(res => setActivityCategory({ activityCategory: res.activityCategory }))
     ))
   ));
-    
+
   createActivityCategory$= createEffect(() => this.actions$.pipe(
     ofType(fetchCreateActivityCategory),
     concatMap(({ fields }) => this.activityService.createActivityCategory(fields).pipe(
@@ -151,7 +151,7 @@ export class ActivityEffects {
       map(res => updateActivityCategory({ activityCategoryId: res.updatedActivityCategory.Id, fields: res.updatedActivityCategory }))
     ))
   ));
-  
+
   removeActivityCategoriesConfrimation$= createEffect(() => this.actions$.pipe(
     ofType(removeActivityCategoriesConfirmation),
     //mergeMap(({ activityCategoryIds, keepActivities }) => of({ activityCategoryIds, keepActivities }).pipe(
@@ -167,7 +167,7 @@ export class ActivityEffects {
             role: 'cancel',
           },
           {
-            text: 'Hapus',  
+            text: 'Hapus',
             handler: () => {
               if (activityCategory.activities.length > 0) {
                 this.store.dispatch(showAlert({

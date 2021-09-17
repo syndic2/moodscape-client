@@ -6,15 +6,15 @@ import { map, tap, switchMap, exhaustMap } from 'rxjs/operators';
 
 import { navigateGo } from '../actions/router.actions';
 import { showAlert } from '../actions/application.actions';
-import { 
-  requestLogin, 
-  fetchLogin, 
+import {
+  requestLogin,
+  fetchLogin,
   requestResetPassword,
   fetchResetPassword,
-  fetchLogout, 
-  
-  setAuth, 
-  logout 
+  fetchLogout,
+
+  setAuth,
+  logout
 } from '../actions/authentication.actions';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
@@ -63,7 +63,7 @@ export class AuthenticationEffects {
       })
     ))
   ));
-  
+
   requestResetPassword$= createEffect(() => this.actions$.pipe(
     ofType(requestResetPassword)
   ));

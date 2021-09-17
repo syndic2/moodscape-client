@@ -5,18 +5,23 @@
 const urls= {
   baseUrl: {
     development: 'http://localhost:8100',
-    production: 'https://moodscape.netlify.app'
+    production: 'https://moodscape.netlify.app',
   },
   apiUrl: {
     development: 'http://127.0.0.1:5000/api',
-    production: 'https://moodscape-api.herokuapp.com/api'
+    production: 'https://moodscape-api.herokuapp.com/api',
+  },
+  rasaChatbot: {
+    development: 'http://localhost:5005',
+    production: ''
   }
 };
 
 export const environment = {
   production: false,
   baseUrl: urls.baseUrl.production,
-  apiUrl: urls.apiUrl.production
+  apiUrl: urls.apiUrl.production,
+  rasaChatbot: urls.rasaChatbot.development
 };
 
 /*

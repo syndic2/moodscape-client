@@ -16,15 +16,15 @@ export class ApplicationEffects {
       return toast.present();
     })
   ), { dispatch: false });
-  
+
   showAlert$= createEffect(() => this.actions$.pipe(
     ofType(showAlert),
     tap(async ({ options }) => {
-      const alert= await this.alertController.create(options); 
+      const alert= await this.alertController.create(options);
       return alert.present();
     })
   ), { dispatch: false });
-  
+
   showModal$= createEffect(() => this.actions$.pipe(
     ofType(showModal),
     tap(async ({ options }) => {
@@ -32,7 +32,7 @@ export class ApplicationEffects {
       return modal.present();
     })
   ), { dispatch: false });
-  
+
   showPopover$= createEffect(() => this.actions$.pipe(
     ofType(showPopover),
     tap(async ({ options }) => {
@@ -42,8 +42,8 @@ export class ApplicationEffects {
   ), { dispatch: false });
 
   constructor(
-    private actions$: Actions, 
-    private toastController: ToastController, 
+    private actions$: Actions,
+    private toastController: ToastController,
     private alertController: AlertController,
     private modalController: ModalController,
     private popoverController: PopoverController

@@ -5,8 +5,8 @@ import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators';
 
 import { showAlert } from '../actions/application.actions';
-import { 
-  fetchMoods, 
+import {
+  fetchMoods,
   fetchMood,
   fetchSearchMood,
   fetchCreateMood,
@@ -14,12 +14,12 @@ import {
   removeMoodsConfirmation,
   fetchRemoveMoods,
 
-  setMoods, 
+  setMoods,
   setMood,
   setMoodSearchResults,
   createMood,
   updateMood,
-  removeMoods 
+  removeMoods
 } from '../actions/mood.actions';
 import { MoodService } from 'src/app/services/mood/moods.service';
 
@@ -45,7 +45,7 @@ export class MoodEffects {
       map(res => setMoodSearchResults({ moods: res.moods }))
     ))
   ));
-  
+
   createMood$= createEffect(() => this.actions$.pipe(
     ofType(fetchCreateMood),
     concatMap(({ fields }) => this.moodService.createMood(fields).pipe(
@@ -88,7 +88,7 @@ export class MoodEffects {
       }
     }))
   ));
-  
+
   removeMoods$= createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveMoods),
     mergeMap(({ moodIds }) => this.moodService.removeMoods(moodIds).pipe(

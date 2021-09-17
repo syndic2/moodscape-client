@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://base-url-production',
-  apiUrl: 'https://moodscape-api.herokuapp.com/api'
+  baseUrl: 'https://moodscape.netlify.app',
+  apiUrl: 'https://moodscape-api.herokuapp.com/api',
+  rasaChatbot: ''
 };

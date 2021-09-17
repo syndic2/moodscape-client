@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
 	) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (req.url === `${environment.apiUrl}/auth`) {
+		if (req.url === `${environment.apiUrl}/auth` || req.url.includes(`${environment.rasaChatbot}`)) {
 			return next.handle(req);
 		} else {
 			return next.handle(this.attachToken(req)).pipe(

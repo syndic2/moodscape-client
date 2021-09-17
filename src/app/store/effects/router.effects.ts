@@ -13,7 +13,7 @@ export class RouterEffects {
     ofType(navigateGo),
     tap(({ path, query, extras }) => this.router.navigate(path, { ...query, ...extras }))
   ), { dispatch: false });
-  
+
   navigateBack$= createEffect(() => this.actions$.pipe(
     ofType(navigateBack),
     tap(() => this.location.back())

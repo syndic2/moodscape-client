@@ -26,6 +26,7 @@ export class UserService {
 					},
 					... on UserResponse {
 						user {
+              Id,
 							firstName,
 							lastName,
 							gender,

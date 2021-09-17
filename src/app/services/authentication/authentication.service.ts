@@ -61,6 +61,7 @@ export class AuthenticationService {
 					withGoogle: ${withGoogle ? args : "{}"}
 				) {
           authenticatedUser {
+            Id,
             firstName,
 						lastName,
 						gender,
@@ -77,11 +78,11 @@ export class AuthenticationService {
 				}
 			}
     `);
-		
+
 		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 			map((res: any) => {
 				this.userData.next(res.data.login.accessToken);
-				
+
 				return res.data.login;
 			}),
 			switchMap((res: any) => {
