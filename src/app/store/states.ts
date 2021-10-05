@@ -1,5 +1,5 @@
 import { User } from '../models/user.model';
-import { Mood } from '../models/mood.model';
+import { Mood, MoodsAverageGroupByMonth } from '../models/mood.model';
 import { Habit } from '../models/habit.model';
 import { ActivityIcon, Activity, ActivityCategory } from '../models/activity.model';
 import { Article, ArticlePagination } from '../models/article.model';
@@ -15,6 +15,7 @@ export interface AuthenticationState {
 export interface MoodState {
   readonly moods: Mood[],
   readonly moodSearchResults: Mood[],
+  readonly moodsChart: MoodsAverageGroupByMonth[]
 };
 
 export interface HabitState {
@@ -26,7 +27,7 @@ export interface ActivityState {
   readonly activityIcons: ActivityIcon[],
   readonly activityCategories: ActivityCategory[],
   readonly keepedActivties: Activity[],
-  readonly reorderedActivityCategories?: number[]
+  //readonly reorderedActivityCategories?: number[]
 };
 
 export interface ArticleState {

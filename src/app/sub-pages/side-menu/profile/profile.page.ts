@@ -25,8 +25,8 @@ export class ProfilePage implements OnInit {
 		gender: [
 			{ type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
 		],
-		age: [
-			{ type: 'required', message: 'Umur tidak boleh kosong.' }
+		dateOfBirth: [
+			{ type: 'required', message: 'Tanggal lahir tidak boleh kosong.' }
 		],
 		email: [
 			{ type: 'required', message: 'Alamat surel tidak boleh kosong.' },
@@ -48,10 +48,9 @@ export class ProfilePage implements OnInit {
         this.store.dispatch(fetchProfile());
 			} else {
         this.user= { ...res };
-
-				delete this.user['__typename'];
-				
-				this.updateProfileForm.setValue(this.user);
+				this.updateProfileForm.patchValue({ ...res });
+        this.updateProfileForm.updateValueAndValidity();
+        delete this.user['__typename'];
       }
 		});
 	}
@@ -70,7 +69,7 @@ export class ProfilePage implements OnInit {
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
 			gender: ['', Validators.required],
-			age: ['', Validators.required],
+			dateOfBirth: ['', Validators.required],
 			email: [
 				'',
 				[

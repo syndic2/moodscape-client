@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-md text-base p-0">Pilih bulan</ion-title>
+    <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
+      <ion-icon name="close" color="light"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<div class="inner-content">
+  <div class="flex flex-wrap gap-2">
+    <ng-container *ngFor="let month of months; let i= index;">
+      <ion-chip (click)="onSelectMonthChange(month)" [ngClass]="{ 'text-white bg-primary': selectedMonth === i }">
+        <ion-label class="text-sm">{{ month }}</ion-label>
+      </ion-chip>
+    </ng-container>
+  </div>
+
+  <button (click)="onSelectMonth()" class="flex text-4xl focus:outline-none mx-auto mt-4">
+    <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+  </button>
+</div>

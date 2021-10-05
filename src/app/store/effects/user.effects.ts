@@ -92,9 +92,9 @@ export class UserEffects {
 
 	updateProfile$= createEffect(() => this.actions$.pipe(
 		ofType(fetchUpdateProfile),
-		concatMap(({ fields }) => this.userService.updateUser(fields).pipe(
+		concatMap(({ fields }) => this.userService.updateProfile(fields).pipe(
 			switchMap(res => [
-				updateAuth({ fields: res.updatedUser }), 
+				updateAuth({ fields: res.updatedProfile }), 
 				showAlert({ 
 					options: {
 						message: res.response.text,

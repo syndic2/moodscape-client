@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Mood, MoodFilter } from 'src/app/models/mood.model';
+import { Mood, MoodFilter, MoodsAverageGroupByMonth } from 'src/app/models/mood.model';
 
 //Fetch API
 export const fetchMoods= createAction('[Mood/API] Get moods');
@@ -9,6 +9,8 @@ export const fetchMood= createAction(
   '[Mood/API] Get mood',
   props<{ moodId: number }>()
 );
+
+export const fetchMoodsChart= createAction('[Mood/API] Get moods chart');
 
 export const fetchSearchMood= createAction(
   '[Mood/API] Get mood search',
@@ -39,6 +41,11 @@ export const fetchRemoveMoods= createAction(
 export const setMoods= createAction(
   '[Mood/STORE] Set moods',
   props<{ moods: Mood[] }>()
+);
+
+export const setMoodsChart= createAction(
+  '[Mood/STORE] Set moods chart',
+  props<{ moodsChart: MoodsAverageGroupByMonth[] }>()
 );
 
 export const setMood= createAction(

@@ -1,0 +1,10 @@
+<ng-container *ngIf="moods.length">
+  <div class="grid grid-cols-5">
+    <ng-container *ngFor="let mood of moods">
+      <div class="flex flex-col items-center gap-y-2">
+        <ion-icon [src]="'/assets/'+mood.iconPath" [style.color]="mood.emoticonColor" class="text-3xl"></ion-icon>
+        <span class="text-sm text-opacity-50 font-medium">{{ mood.count }}</span>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

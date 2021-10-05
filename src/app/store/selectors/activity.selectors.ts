@@ -29,10 +29,10 @@ export const getKeepedActivities= createSelector(
   state => state.keepedActivties
 );
 
-export const getReorderedActivityCategories= createSelector(
-  selectActivityFeature,
-  state => state.reorderedActivityCategories
-);
+//export const getReorderedActivityCategories= createSelector(
+//  selectActivityFeature,
+//  state => state.reorderedActivityCategories
+//);
 
 export const gettAllActivity= createSelector(
   getActivityCategories,

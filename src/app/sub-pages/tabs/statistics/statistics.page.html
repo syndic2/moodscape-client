@@ -9,6 +9,27 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-	Statistik
+<ion-content class="flex-column row-gap-5">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="flex justify-center items-center gap-x-6">
+    <ion-button (click)="onSelectMode('mood')" [color]="selectedMode === 'mood' ? 'primary' : 'light'" class="normal-case">
+      Mood
+    </ion-button>
+    <ion-button (click)="onSelectMode('habit')" [color]="selectedMode === 'habit' ? 'primary' : 'light'" class="normal-case">
+      Habit
+    </ion-button>
+  </div>
+
+  <div class="flex-1">
+    <ng-container *ngIf="selectedMode === 'mood'">
+      <mood-statistics></mood-statistics>
+    </ng-container>
+
+    <ng-container *ngIf="selectedMode === 'habit'">
+      <habit-statistics></habit-statistics>
+    </ng-container>
+  </div>
 </ion-content>

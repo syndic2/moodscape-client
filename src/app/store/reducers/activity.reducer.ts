@@ -4,6 +4,9 @@ import { filterArrayByAnotherArray } from '../../utilities/helpers';
 import { Activity, ActivityCategory } from '../../models/activity.model';
 import { ActivityState } from '../states';
 import {
+  /**
+   * Activity
+   */
   setActivityIcons,
   setActivity,
   createActivity,
@@ -11,7 +14,10 @@ import {
   removeActivities,
   moveActivitiesIntoCategory,
 
-  setActivityCategories,
+  /**
+   * Activity categories
+   */
+  setActivityCategories,  
   setActivitiesNonetCategory,
   setActivityCategory,
   createActivityCategory,
@@ -24,7 +30,7 @@ const initialState: ActivityState= {
   activityIcons: [],
   activityCategories: [],
   keepedActivties: [],
-  reorderedActivityCategories: []
+  //reorderedActivityCategories: []
 };
 
 export const activityReducer= createReducer(
@@ -320,14 +326,14 @@ export const activityReducer= createReducer(
     let itemToMove1= activityCategories.splice(from, 1)[0];
     activityCategories.splice(to, 0, itemToMove1);
 
-    const reorderedActivityCategories= [...state.reorderedActivityCategories];
-    let itemToMove2= reorderedActivityCategories.splice(from, 1)[0];
-    reorderedActivityCategories.splice(to, 0, itemToMove2)
+    //const reorderedActivityCategories= [...state.reorderedActivityCategories];
+    //let itemToMove2= reorderedActivityCategories.splice(from, 1)[0];
+    //reorderedActivityCategories.splice(to, 0, itemToMove2)
 
     return {
       ...state,
       activityCategories: activityCategories,
-      reorderedActivityCategories: reorderedActivityCategories
+      //reorderedActivityCategories: reorderedActivityCategories
     };
   })
 );

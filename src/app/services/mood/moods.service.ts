@@ -69,6 +69,112 @@ export class MoodService {
     );
   }
 
+  getMoodsChart(): Observable<any> {
+    const query= gqlCompress(`
+      query {
+        getUserMoodsChart {
+          __typename
+          ... on AuthInfoField {
+            message
+          },
+          ... on UserMoodsChart {
+            userId,
+            moodsChart {
+              group,
+              moodAverageGroupByYear {
+                year,
+                moodAverageByRangeDate {
+                  startDate,
+                  endDate,
+                  moods {
+                    Id,
+                    createdAt {
+                      date,
+                      time
+                    },
+                    emoticon {
+                      value
+                    }
+                  },
+                  average
+                }
+              }
+            }
+          }
+        }
+      }
+    `);
+    
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      ...this.skipLoading && {
+        headers: { skipLoading: this.skipLoading }
+      }
+    }).pipe(
+      map((res: any) => res.data.getUserMoodsChart)
+    );
+  }
+
+  /*getMoodsByMonth(month: number): Observable<any> {
+    const query= gqlCompress(`
+      query {
+        getUserMoodsByMonth(month: ${month}) {
+          __typename, 
+          ... on AuthInfoField {
+            message
+          }, 
+          ... on MoodsInMonth {
+            moods {
+              Id,
+              emoticon {
+                name
+              }
+            },
+            moodsCount {
+              happy {
+                Id,
+                emoticon {
+                  name
+                }
+              },
+              smile {
+                Id,
+                emoticon {
+                  name
+                }
+              },
+              neutral {
+                Id,
+                emoticon {
+                  name
+                }
+              },
+              sad {
+                Id,
+                emoticon {
+                  name
+                }
+              },
+              awful {
+                Id,
+                emoticon {
+                  name
+                }
+              }
+            } 
+          }
+        }
+      }
+    `);
+
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      ...this.skipLoading && {
+        headers: { skipLoading: this.skipLoading }
+      }
+    }).pipe(
+      map((res: any) => res.data.getUserMoodsByMonth)
+    ); 
+  }*/
+
   getMood(moodId: number): Observable<any> {
     const query= gqlCompress(`
       query {

@@ -45,9 +45,7 @@ export class HabitsPage implements OnInit {
         .select(getHabits(day))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-        if (res.length) {
-          this.habits= res;
-        }
+        this.habits= res;
       });
     });
   }

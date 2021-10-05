@@ -7,8 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { NgCalendarModule } from 'ionic2-calendar';
 
 import { CalendarPage } from './calendar.page';
+import { SelectCalendarMonthPageModule } from '../select-calendar-month/select-calendar-month.module';
+import { SelectCalendarYearPageModule } from '../select-calendar-year/select-calendar-year.module';
 import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
-
 registerLocaleData(localeId);
 
 @NgModule({
@@ -17,13 +18,14 @@ registerLocaleData(localeId);
     FormsModule,
     IonicModule,
     NgCalendarModule,
+    SelectCalendarMonthPageModule,
+    SelectCalendarYearPageModule,
     SharedPipeModule
   ],
+  exports: [CalendarPage],
   declarations: [CalendarPage],
   providers: [
     { provide: LOCALE_ID, useValue: 'id-ID' }
-  ],
-  exports: [
   ]
 })
 export class CalendarPageModule {}

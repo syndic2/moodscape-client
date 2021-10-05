@@ -15,11 +15,6 @@ export class SettingsPage implements OnInit {
 			icon: 'accessibility'
     },
     {
-      title: 'Notifikasi',
-			url: '/settings/notifications',
-			icon: 'notifications'
-    },
-    {
       title: 'Tema',
 			url: '/settings/themes',
 			icon: 'color-palette'

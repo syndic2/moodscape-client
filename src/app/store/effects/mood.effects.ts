@@ -7,6 +7,7 @@ import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators'
 import { showAlert } from '../actions/application.actions';
 import {
   fetchMoods,
+  fetchMoodsChart,
   fetchMood,
   fetchSearchMood,
   fetchCreateMood,
@@ -15,6 +16,7 @@ import {
   fetchRemoveMoods,
 
   setMoods,
+  setMoodsChart,
   setMood,
   setMoodSearchResults,
   createMood,
@@ -29,6 +31,13 @@ export class MoodEffects {
     ofType(fetchMoods),
     exhaustMap(() => this.moodService.getMoods().pipe(
       map(res => setMoods({ moods: res.moods }))
+    ))
+  ));
+  
+  getMoodsChart$= createEffect(() => this.actions$.pipe(
+    ofType(fetchMoodsChart),
+    exhaustMap(() => this.moodService.getMoodsChart().pipe(
+      map(res => setMoodsChart({ moodsChart: res.moodsChart }))
     ))
   ));
 

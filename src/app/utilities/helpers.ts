@@ -62,6 +62,22 @@ export const filterObjectProps= (object) => {
   return cleanedObject;
 };
 
+export const monthNames= (month: number) => {
+  const months= [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  ];
+
+  return months[month];
+};
+
+export const calculateAge= (dateOfBirth: string) => {
+  const currentDate= new Date();
+  const dobDate= new Date(dateOfBirth);
+
+  return Math.floor(((currentDate as any) - dobDate.getTime()) / 3.15576e+10);
+};
+
 export const daysBetweenDates= (start: string, end: string) => {
   const startDate= new Date(start);
   const endDate= new Date(end);
@@ -83,10 +99,6 @@ export const daysBetweenDates= (start: string, end: string) => {
 };
 
 export const transformDateTime= (dateTime: Date) => {
-  const months= [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-  ];
   const days= ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   
   const transformed= {
@@ -128,7 +140,7 @@ export const transformDateTime= (dateTime: Date) => {
   };
 
   transformed.toDate= (): string => {
-    return `${transformed.day}, ${transformed.date} ${months[dateTime.getMonth()]} ${transformed.year}`;
+    return `${transformed.day}, ${transformed.date} ${monthNames(dateTime.getMonth())} ${transformed.year}`;
   };
 
   transformed.toTime= (): string => {

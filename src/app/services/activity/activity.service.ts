@@ -328,10 +328,10 @@ export class ActivityService {
     );
   }
 
-  reorderActivityCategory(reorderedIndexes: number[]): Observable<any> {
+  reorderActivityCategory(categoryIds: number[]): Observable<any> {
     const query= gqlCompress(`
       mutation {
-        reorderActivityCategory(reorderedIndexes: [${reorderedIndexes}]) {
+        reorderActivityCategory(categoryIds: [${categoryIds}]) {
           reorderedActivityCategories {
             Id,
             category,

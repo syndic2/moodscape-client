@@ -45,9 +45,9 @@ export class ActivitiesPage implements OnInit {
 
   ionViewWillLeave() {
     this.activityCategoriesSubscription && this.activityCategoriesSubscription.unsubscribe();
-    //if (this.reordering) {
-    //  this.store.dispatch(fetchReOrderActivityCategory());
-    //}
+    if (this.reordering) {
+      this.store.dispatch(fetchReOrderActivityCategory());
+    }
   }
 
   pullRefresh(event) {
@@ -56,8 +56,8 @@ export class ActivitiesPage implements OnInit {
   }
   
   reorderCategory(event) {
-    //this.reordering= true;
-    //this.store.dispatch(reorderActivityCategory({ from: event.detail.from, to: event.detail.to }));
+    this.reordering= true;
+    this.store.dispatch(reorderActivityCategory({ from: event.detail.from, to: event.detail.to }));
     event.detail.complete();
   }
 }

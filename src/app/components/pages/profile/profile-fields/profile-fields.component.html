@@ -34,8 +34,8 @@
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Jenis kelamin</ion-label>
         <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender">
-          <ion-select-option value="Male">Lelaki</ion-select-option>
-          <ion-select-option value="Female">Perempuan</ion-select-option>
+          <ion-select-option value="M">Lelaki</ion-select-option>
+          <ion-select-option value="F">Perempuan</ion-select-option>
         </ion-select>
         <ion-icon slot="end" name="male-female" color="primary" class="text-base my-auto"></ion-icon>
       </ion-item>
@@ -50,14 +50,14 @@
     </ion-col>
 
     <ion-col size="12">
-      <ion-item class="rounded-xl">
-        <ion-label position="stacked">Umur</ion-label>
-        <ion-input type="number" inputmode="numeric" formControlName="age" placeholder="Umur anda"></ion-input>
+      <ion-item (click)="onSelectDateOfBirth()" class="rounded-xl">
+        <ion-label position="stacked">Tanggal Lahir</ion-label>
+        <ion-input type="text" inputmode="text" formControlName="dateOfBirth" placeholder="Tanggal lahir anda" readonly></ion-input>
         <ion-icon slot="end" name="calendar" color="primary" class="text-base my-auto"></ion-icon>
       </ion-item>
-      <ng-container *ngIf="errorMessages?.age.length">
+      <ng-container *ngIf="errorMessages?.dateOfBirth.length">
         <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.age">
-          <ng-container *ngIf="age.hasError(error.type) && (age.dirty || age.touched)">
+          <ng-container *ngIf="dateOfBirth.hasError(error.type) && (dateOfBirth.dirty || dateOfBirth.touched)">
             <small class="text-red-600">{{ error.message }}</small>
             <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
           </ng-container>

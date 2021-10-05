@@ -30,7 +30,7 @@ export class UserService {
 							firstName,
 							lastName,
 							gender,
-							age,
+							dateOfBirth,
 							email,
 							imgUrl
 						}
@@ -76,22 +76,17 @@ export class UserService {
 		);
 	}
 
-	updateUser(fields: {}): Observable<any> {
-		const args = StringifyObject(filterObjectProps(fields), {
-			singleQuotes: false,
-			transform: (object, property, originalResult) => {
-				if (property === 'age') return object[property] === '' ? 0 : originalResult;
-				else return originalResult;
-			}
-		});
+	updateProfile(fields: {}): Observable<any> {
+		const args = StringifyObject(filterObjectProps(fields), { singleQuotes: false });
 		const query = gqlCompress(`
 			mutation {
-				updateUser(fields: ${args}) {
-					updatedUser {
+				updateProfile(fields: ${args}) {
+					updatedProfile {
+            Id,
 						firstName,
 						lastName,
 						gender,
-						age,
+						dateOfBirth,
 						email,
 						imgUrl
 					},
@@ -104,7 +99,7 @@ export class UserService {
     `);
 
 		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
-			map((res: any) => res.data.updateUser)
+			map((res: any) => res.data.updateProfile)
 		);
 	}
 

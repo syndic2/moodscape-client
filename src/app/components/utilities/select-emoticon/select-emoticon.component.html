@@ -8,7 +8,7 @@
       [checked]="selectedEmoticon?.name === emoticon.name"
     >
     <!--<img [src]="'../../../../assets/'+emoticon.icon" class="emoticons w-full" alt="">-->
-    <ion-icon [src]="'../../../../assets/'+emoticon.iconPath" [style.color]="emoticon.color"></ion-icon>
+    <ion-icon [src]="'/assets/'+emoticon.iconPath" [style.color]="emoticon.color"></ion-icon>
     <span class="block text-xs mt-2">{{ emoticon.name }}</span>
   </label>
 </div>

@@ -8,6 +8,9 @@ import { map, switchMap, exhaustMap, concatMap, mergeMap, withLatestFrom } from 
 import { navigateGo } from '../actions/router.actions';
 import { showAlert } from '../actions/application.actions';
 import {
+  /**
+   * Activity
+   */
   fetchActivityIcons,
   fetchActivity,
   fetchCreateActivity,
@@ -15,6 +18,7 @@ import {
   removeActivitiesConfirmation,
   fetchRemoveActivities,
   fetchMoveActivitiesIntoCategory,
+
   setActivityIcons,
   setActivity,
   createActivity,
@@ -22,6 +26,9 @@ import {
   removeActivities,
   moveActivitiesIntoCategory,
 
+  /**
+   * Activity categories
+   */
   fetchActivityCategories,
   fetchActivitiesNoneCategory,
   fetchActivityCategory,
@@ -30,6 +37,7 @@ import {
   removeActivityCategoriesConfirmation,
   fetchRemoveActivityCategories,
   fetchReOrderActivityCategory,
+  
   setActivityCategories,
   setActivitiesNonetCategory,
   setActivityCategory,
@@ -37,7 +45,7 @@ import {
   updateActivityCategory,
   removeActivityCategories
 } from '../actions/activity.actions';
-import { getReorderedActivityCategories/*, getActivityCategory*/ } from '../selectors/activity.selectors';
+import { getActivityCategories, /*getReorderedActivityCategories, getActivityCategory*/ } from '../selectors/activity.selectors';
 import { ActivityService } from 'src/app/services/activity/activity.service';
 
 @Injectable()
@@ -212,8 +220,8 @@ export class ActivityEffects {
 
   reorderActivityCategory$= createEffect(() => this.actions$.pipe(
     ofType(fetchReOrderActivityCategory),
-    withLatestFrom(this.store.select(getReorderedActivityCategories)),
-    mergeMap(([props, indexes]) => this.activityService.reorderActivityCategory(indexes))
+    withLatestFrom(this.store.select(getActivityCategories)),
+    mergeMap(([props, activityCategories]) => this.activityService.reorderActivityCategory([...activityCategories].map((activityCategory, index) => activityCategory.Id )))
   ), { dispatch: false });
 
   constructor(private store: Store, private actions$: Actions, private activityService: ActivityService) { }

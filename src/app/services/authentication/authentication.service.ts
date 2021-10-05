@@ -65,7 +65,7 @@ export class AuthenticationService {
             firstName,
 						lastName,
 						gender,
-						age,
+						dateOfBirth,
 						email,
 						imgUrl
           },
@@ -160,7 +160,7 @@ export class AuthenticationService {
   }
 
 	logout(): Observable<any> {
-		this.isLoggedIn.next();
+		this.isLoggedIn.next(null);
 		this.userData.next(null);
 
 		return from(Promise.all([

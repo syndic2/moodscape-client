@@ -34,6 +34,8 @@ export class HabitListItemComponent implements OnInit {
     const endDate= new Date(this.habit.goalDates.end);
     if (this.currentDate >= startDate && this.currentDate <= endDate) {
       this.daysLeft= daysBetweenDates(transformDateTime(this.currentDate).toISODate(), transformDateTime(endDate).toISODate());
+    } else {
+      this.daysLeft= -1;
     }
   }
 

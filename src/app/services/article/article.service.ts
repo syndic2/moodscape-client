@@ -20,7 +20,7 @@ export class ArticleService {
 	getArticles(offset: number = 0, limit: number = 10): Observable<any> {
 		const query = gqlCompress(`
 			query {
-				getArticles(offset: ${offset}, limit: ${limit}) {
+				getArticlePagination(offset: ${offset}, limit: ${limit}) {
           offset,
           limit,
           maxPage,
@@ -43,7 +43,7 @@ export class ArticleService {
 		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
       headers: { skipLoading: this.skipLoading }
     }).pipe(
-			map((res: any) => res.data.getArticles)
+			map((res: any) => res.data.getArticlePagination)
 		);
 	}
 

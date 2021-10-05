@@ -41,7 +41,7 @@ export class SelectEmoticonComponent implements OnInit {
       value: 1,
       iconPath: 'icons/svg/emoticons/awful.svg',
       color: MOOD_EMOTICON_COLORS.BURUK
-    },
+    }
   ];
 
   constructor() { }

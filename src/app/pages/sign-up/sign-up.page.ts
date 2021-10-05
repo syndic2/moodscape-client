@@ -25,8 +25,8 @@ export class SignUpPage implements OnInit {
     gender: [
       { type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
     ],
-    age: [
-      { type: 'required', message: 'Umur tidak boleh kosong.' }
+    dateOfBirth: [
+      { type: 'required', message: 'Tanggal lahir tidak boleh kosong.' }
     ],
     email: [
       { type: 'required', message: 'Alamat surel tidak boleh kosong.' },
@@ -79,7 +79,7 @@ export class SignUpPage implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       gender: ['', Validators.required],
-      age: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
       email: [
         '',
         [

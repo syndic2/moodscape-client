@@ -42,6 +42,11 @@ export const routes: Routes= [
     loadChildren: () => import('../sub-pages/moods/create-detail-mood/create-detail-mood.module').then(m => m.CreateDetailMoodPageModule)
   },
   {
+    path: 'moods/list-by-date',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/moods/mood-list-by-date/mood-list-by-date.module').then(m => m.MoodListByDatePageModule)
+  },
+  {
     path: 'moods/:id',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/details/mood-detail/mood-detail.module').then(m => m.MoodDetailPageModule)
@@ -78,11 +83,6 @@ export const routes: Routes= [
     path: 'settings/activities',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../sub-pages/settings/activities/activities.module').then(m => m.ActivitiesPageModule)
-  },
-  {
-    path: 'settings/notifications',
-    canLoad: [AuthenticationGuard],
-    loadChildren: () => import('../sub-pages/settings/notifications/notifications.module').then(m => m.NotificationsPageModule),
   },
   {
     path: 'settings/themes',

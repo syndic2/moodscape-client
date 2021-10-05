@@ -2,16 +2,19 @@ import { on, createReducer } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { MoodState } from '../states';
-import { setMoods, setMood, setMoodSearchResults, createMood, updateMood, removeMoods } from '../actions/mood.actions';
+import { setMoods, setMoodsChart, setMood, setMoodSearchResults, createMood, updateMood, removeMoods } from '../actions/mood.actions';
 
 const initialState: MoodState= {
   moods: [],
-  moodSearchResults: []
+  moodSearchResults: [],
+  moodsChart: []
 };
 
 export const moodReducer= createReducer(
   initialState,
   on(setMoods, (state, { moods }) => ({ ...state, moods: [...moods] })),
+
+  on(setMoodsChart, (state, { moodsChart }) => ({ ...state, moodsChart: [...moodsChart] })),
 
   on(setMood, (state, { mood }) => ({
     ...state,

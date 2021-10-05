@@ -20,7 +20,7 @@ const urls= {
 export const environment = {
   production: false,
   baseUrl: urls.baseUrl.production,
-  apiUrl: urls.apiUrl.production,
+  apiUrl: urls.apiUrl.development,
   rasaChatbot: urls.rasaChatbot.development
 };
 
