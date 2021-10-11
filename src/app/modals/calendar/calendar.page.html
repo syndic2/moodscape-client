@@ -38,6 +38,8 @@
       (onCurrentDateChanged)="onCurrentDateChanged($event)"
       (onTimeSelected)="onTimeSelected($event)"
       [monthviewDisplayEventTemplate]="monthViewTemplate"
+      [style.--month-view-current-text-color]="monthViewCurrentColor.text"
+      [style.--month-view-current-bg-color]="monthViewCurrentColor.background"
       [style.--month-view-selected-text-color]="monthViewSelectedColor.text"
       [style.--month-view-selected-bg-color]="monthViewSelectedColor.background">
     </calendar>

@@ -11,6 +11,7 @@ import { HabitDetailPageRoutingModule } from './habit-detail-routing.module';
 import { HabitDetailPage } from './habit-detail.page';
 import { HabitFieldsModule } from 'src/app/components/pages/habits/habit-fields/habit-fields.module';
 import { HabitFieldsLoaderComponent } from 'src/app/components/pages/habits/habit-fields-loader/habit-fields-loader.component';
+import { CalendarPageModule } from 'src/app/modals/calendar/calendar.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { HabitFieldsLoaderComponent } from 'src/app/components/pages/habits/habi
     IonicModule,
     EffectsModule.forFeature([HabitEffects]),
     HabitDetailPageRoutingModule,
-    HabitFieldsModule
+    HabitFieldsModule,
+    CalendarPageModule
   ],
   declarations: [
     HabitDetailPage, 

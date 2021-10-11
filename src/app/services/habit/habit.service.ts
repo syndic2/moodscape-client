@@ -17,10 +17,10 @@ export class HabitService {
 
   constructor(private http: HttpClient) { }
 
-  getHabits(day: string= ''): Observable<any> {
+  getHabits(): Observable<any> {
     const query= gqlCompress(`
       query {
-        getUserHabits(day: "${day}") {
+        getUserHabits {
           __typename
           ... on AuthInfoField {
             message
@@ -45,10 +45,18 @@ export class HabitService {
               },
               reminderTime,
               labelColor,
-              trackDetails {
-                currentGoal,
-                streaks,
-                lastMarkedAt
+              track {
+                totalCompleted,
+                totalStreaks,
+                streakLogs {
+                  startDate,
+                  endDate,
+                  currentGoal,
+                  targetGoal,
+                  lastMarkedAt,
+                  isComplete,
+                  markedAt
+                }
               }
             },
             response {
@@ -109,10 +117,18 @@ export class HabitService {
               },
               reminderTime,
               labelColor,
-              trackDetails {
-                currentGoal,
-                streaks,
-                lastMarkedAt
+              track {
+                totalCompleted,
+                totalStreaks,
+                streakLogs {
+                  startDate,
+                  endDate,
+                  currentGoal,
+                  targetGoal,
+                  lastMarkedAt,
+                  isComplete,
+                  markedAt
+                }
               }
             },
             response {
@@ -155,10 +171,18 @@ export class HabitService {
             },
             reminderTime,
             labelColor,
-            trackDetails {
-              currentGoal,
-              streaks,
-              lastMarkedAt
+            track {
+              totalCompleted,
+              totalStreaks,
+              streakLogs {
+                startDate,
+                endDate,
+                currentGoal,
+                targetGoal,
+                lastMarkedAt,
+                isComplete,
+                markedAt
+              }
             }
           },
           response {
@@ -200,10 +224,18 @@ export class HabitService {
             },
             reminderTime,
             labelColor,
-            trackDetails {
-              currentGoal,
-              streaks,
-              lastMarkedAt
+            track {
+              totalCompleted,
+              totalStreaks,
+              streakLogs {
+                startDate,
+                endDate,
+                currentGoal,
+                targetGoal,
+                lastMarkedAt,
+                isComplete,
+                markedAt
+              }
             }
           },
           response {
@@ -266,10 +298,18 @@ export class HabitService {
             },
             reminderTime,
             labelColor,
-            trackDetails {
-              currentGoal,
-              streaks,
-              lastMarkedAt
+            track {
+              totalCompleted,
+              totalStreaks,
+              streakLogs {
+                startDate,
+                endDate,
+                currentGoal,
+                targetGoal,
+                lastMarkedAt,
+                isComplete,
+                markedAt
+              }
             }
           },
           response {

@@ -20,14 +20,13 @@ export interface MoodState {
 
 export interface HabitState {
   readonly habits: Habit[],
-  readonly habitSearchResults: Habit[],
+  readonly habitSearchResults: Habit[]
 };
 
 export interface ActivityState {
   readonly activityIcons: ActivityIcon[],
   readonly activityCategories: ActivityCategory[],
-  readonly keepedActivties: Activity[],
-  //readonly reorderedActivityCategories?: number[]
+  readonly keepedActivties: Activity[]
 };
 
 export interface ArticleState {

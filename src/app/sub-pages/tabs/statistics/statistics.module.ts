@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { MoodEffects } from 'src/app/store/effects/mood.effects';
+import { HabitEffects } from 'src/app/store/effects/habit.effects';
 
 import { StatisticsPageRoutingModule } from './statistics-routing.module';
 import { StatisticsPage } from './statistics.page';
@@ -16,7 +17,7 @@ import { HabitStatisticsModule } from 'src/app/components/pages/statistics/habit
     CommonModule,
     FormsModule,
     IonicModule,
-    EffectsModule.forFeature([MoodEffects]),
+    EffectsModule.forFeature([MoodEffects, HabitEffects]),
     StatisticsPageRoutingModule,
     MoodStatisticsModule,
     HabitStatisticsModule

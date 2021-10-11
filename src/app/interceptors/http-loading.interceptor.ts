@@ -7,14 +7,18 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
+import { ModalService } from '../services/modal/modal.service';
 
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
 
-	constructor(private loadingController: LoadingController, private toastController: ToastController) { }
+	constructor(
+    private loadingController: LoadingController, 
+    private modalService: ModalService
+  ) { }
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('skip loading', request.headers.has('skipLoading'));
+    //console.log('skip loading', request.headers.has('skipLoading'));
 
     const loading = this.loadingController.create({
 			message: 'Mohon tunggu... :)',
@@ -22,7 +26,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 		});
 
     if (!request.headers.has('skipLoading') && !request.url.includes(`${environment.rasaChatbot}`)) {
-      console.log('loading not skipped');
+      //console.log('loading not skipped');
 
       this.loadingController.getTop().then(hasLoading => {
         if (!hasLoading) {
@@ -44,21 +48,17 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 	}
 
 	private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
-    const toast= await this.toastController.create({ position: 'bottom', duration: 1500 });
-
     switch (error.status) {
       case 400:
-        toast.message= 'Terjadi kesalahan saat melakukan request, silahkan coba kembali'
+        this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
         break;
 
       case 404:
-        toast.message= 'Terjadi kesalahan pada URL API, silahkan coba kembali';
+        this.modalService.requestError('Terjadi kesalahan pada URL API, silahkan coba kembali');
         break;
 
       default:
         return throwError(error);
     }
-
-    toast.present();
 	}
 }

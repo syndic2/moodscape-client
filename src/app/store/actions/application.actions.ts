@@ -3,13 +3,9 @@ import { createAction, props } from '@ngrx/store';
 import { ToastOptions, AlertOptions, ModalOptions, PopoverOptions } from '@ionic/angular';
 
 /**
+ * Ionic
  * showModal and showPopvoer not working, because due to the Ionic attach component policy
  */
-
-export const setIsResetForm= createAction(
-  '[App UI/FORM] Set is reset form',
-  props<{ isReset: boolean }>()
-);
 
 export const showToast= createAction(
   '[App UI/TOAST] Show toast from Ionic',
@@ -29,4 +25,17 @@ export const showModal= createAction(
 export const showPopover= createAction(
   '[App UI/POPOVER] Show popover from Ionic',
   props<{ options: PopoverOptions }>()
+);
+
+/**
+ * Application
+ */
+ export const setIsResetForm= createAction(
+  '[App UI/FORM] Set is reset form',
+  props<{ isReset: boolean }>()
+);
+
+export const showRequestErrorModal= createAction(
+  '[App UI/MODAL] Show request error modal', 
+  props<{ message: string }>()
 );

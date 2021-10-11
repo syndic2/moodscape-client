@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
 
-import { ToastController } from '@ionic/angular';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { UtilitiesService } from '../services/utilities/utilities.service';
+import { ModalService } from '../services/modal/modal.service';
 import { AuthenticationService } from '../services/authentication/authentication.service';
+import { RequestErrorPage } from '../modals/errors/request-error/request-error.page';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
 	constructor(
-		private toastController: ToastController,
     private utilitiesService: UtilitiesService,
+    private modalService: ModalService,
 		private authService: AuthenticationService,
 	) { }
 
@@ -40,7 +40,7 @@ export class JwtInterceptor implements HttpInterceptor {
 			let isTokenExpired: boolean= false;
 
       console.log('body', res.body);
-      console.log('resolver', resolver);
+      //console.log('resolver', resolver);
 
       if (resolver === undefined || resolver === null) {
         isTokenExpired= true;
@@ -58,29 +58,24 @@ export class JwtInterceptor implements HttpInterceptor {
 
 			if (isTokenExpired === false) { //CHECK IF NOT EXPIRED
         this.utilitiesService.onSkeletonLoading.next(false);
-				console.log('token no need to be refresh', isTokenExpired);
+				//console.log('token no need to be refresh', isTokenExpired);
 
 				return res;
 			} else {
-				console.log('token need to be refresh', isTokenExpired);
+				//console.log('token need to be refresh', isTokenExpired);
 
 				return this.authService.refreshToken().subscribe(async newToken => {
-					console.log('finish refreshing token');
-					console.log('new token', newToken);
-
-					const toast = await this.toastController.create({
-						message: 'Gagal validasi otentikasi, silahkan dicoba lagi',
-						position: 'bottom',
-						duration: 2000
-					});
-					toast.present();
+					//console.log('finish refreshing token');
+					//console.log('new token', newToken);
+          
+          this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
 				});
 			}
 		}
 	}
 
 	private attachToken(req: HttpRequest<any>) {
-		console.log('user already setted token', this.authService.userData.getValue());
+		//console.log('user already setted token', this.authService.userData.getValue());
 
 		if (!this.authService.userData.getValue()) {
 			return req;

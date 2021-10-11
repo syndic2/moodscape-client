@@ -3,7 +3,6 @@
     <app-calendar 
       [isStatistics]="true" 
       [eventSource]="moodsByMonth.moods"
-      [monthViewSelectedColor]="{ text: 'black', background: 'transparent' }"
       [monthViewTemplate]="monthViewTemplate"
       (selectDateChangedEvent)="onSelectCalendarDateChanged($event)">
     </app-calendar>
@@ -16,7 +15,8 @@
     <moods-count *ngIf="moodsByMonth.moodsCount" [moodsCount]="moodsByMonth.moodsCount"></moods-count>
   </div>
 
-  <div class="flex flex-col gap-y-4 border border-primary rounded-lg p-4">
+  <div class="flex flex-col items-center gap-y-4 border border-primary rounded-lg p-4">
+    <h2 class="font-medium">Grafik Mood Bulanan</h2>
     <div class="flex justify-center gap-x-4 text-xs text-white">
       <button (click)="onSelectLineChartMonth()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
       <button (click)="onSelectLineChartYear()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
@@ -24,5 +24,8 @@
     <canvas #lineChartCanvas></canvas>
   </div>
 
-  <div class="border-primary rounded-lg p-4"></div>
+  <div class="flex flex-col gap-y-4 border border-primary rounded-lg p-4">
+    <h2 class="text-center font-medium">Total Keseluruhan Mood</h2>
+    <canvas #doughnutChartCanvas></canvas>
+  </div>
 </div>

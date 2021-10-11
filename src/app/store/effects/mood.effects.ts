@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators';
 
-import { showAlert } from '../actions/application.actions';
+import { showAlert, showRequestErrorModal } from '../actions/application.actions';
 import {
   fetchMoods,
   fetchMoodsChart,
@@ -44,7 +44,7 @@ export class MoodEffects {
   getMood$= createEffect(() => this.actions$.pipe(
     ofType(fetchMood),
     exhaustMap(({ moodId }) => this.moodService.getMood(moodId).pipe(
-      map(res => setMood({ mood: res.mood }))
+      map(res => !res.mood ? setMood({ mood: res.mood }) : showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }))
     ))
   ));
 
@@ -58,22 +58,28 @@ export class MoodEffects {
   createMood$= createEffect(() => this.actions$.pipe(
     ofType(fetchCreateMood),
     concatMap(({ fields }) => this.moodService.createMood(fields).pipe(
-      map(res => createMood({ mood: res.createdMood }))
+      map(res => !res.createdMood ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : createMood({ mood: res.createdMood }))
     ))
   ));
 
   updateMood$= createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateMood),
     concatMap(({ moodId, fields }) => this.moodService.updateMood(moodId, fields).pipe(
-      switchMap(res => [
-        updateMood({ moodId: res.updatedMood.Id, fields: res.updatedMood }),
-        showAlert({
-          options: {
-            message: 'Berhasil menyimpan perubahan',
-            buttons: ['OK']
-          }
-        })
-      ])
+      switchMap(res => {
+        if (!res.updatedMood) {
+          return [showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' })]
+        }
+
+        return [
+          updateMood({ moodId: res.updatedMood.Id, fields: res.updatedMood }),
+          showAlert({
+            options: {
+              message: 'Berhasil menyimpan perubahan',
+              buttons: ['OK']
+            }
+          })
+        ]
+      })
     ))
   ));
 
@@ -101,7 +107,7 @@ export class MoodEffects {
   removeMoods$= createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveMoods),
     mergeMap(({ moodIds }) => this.moodService.removeMoods(moodIds).pipe(
-      map(res => removeMoods({ moodIds: res.removedMoods }))
+      map(res => !res.removedMoods.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : removeMoods({ moodIds: res.removedMoods }))
     ))
   ));
 

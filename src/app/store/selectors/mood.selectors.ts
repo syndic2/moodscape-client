@@ -80,7 +80,7 @@ export const getMoodsByMonth= (month: number, year: number) => {
 
 export const getMoodsByDate= (date: string) => {
   return createSelector(
-    selectMoodFeature,
+    getMoodsByMonth(new Date(date).getMonth(), new Date(date).getFullYear()),
     state => {
       const moods= state.moods.filter(mood => mood.createdAt.date === date);
 
@@ -98,3 +98,8 @@ export const getMood= (props) => {
     state => state.find(object => object.Id === props.Id)
   );
 };
+
+export const getMoodsTotalCount= createSelector(
+  selectMoodFeature,
+  state => getMoodsCount(state.moods)
+);

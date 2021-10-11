@@ -46,13 +46,7 @@ export class AuthenticationService {
 	}
 
 	login(credentials, withGoogle: boolean = false): Observable<any> {
-		const args = StringifyObject(credentials, {
-			singleQuotes: false,
-			transform: (object, property, originalResult) => {
-				if (property === 'age') return object[property] === '' ? 0 : originalResult;
-				else return originalResult;
-			}
-		});
+		const args = StringifyObject(credentials, { singleQuotes: false });
 		const query = gqlCompress(`
 			mutation {
 				login(
@@ -108,7 +102,6 @@ export class AuthenticationService {
 
 				return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
 					map((res: any) => {
-            console.log('res', res);
 						this.userData.next(res.data.refreshAuth.newToken);
 
 						return res.data.refreshAuth.newToken;

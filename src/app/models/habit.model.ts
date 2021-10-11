@@ -6,11 +6,27 @@ export enum HABIT_LABEL_COLORS {
   GREEN= '#358873'
 };
 
-export interface HabitTrackDetails {
+export interface HabitStreakLog {
+  startDate: string,
+  endDate: string,
   currentGoal: number,
-  streaks: number,
-  lastMarkedAt: string
+  targetGoal: number,
+  lastMarkedAt: string,
+  isComplete: boolean,
+  markedAt: string[]
 };
+
+export interface HabitTrack {
+  totalCompleted: number,
+  totalStreaks: number,
+  streakLogs: HabitStreakLog[]
+};
+
+//export interface HabitTrackDetails {
+//  currentGoal: number,
+//  streaks: number,
+//  lastMarkedAt: string
+//};
 
 export interface Habit {
   Id: number,
@@ -23,5 +39,6 @@ export interface Habit {
   goalDates: { start: string, end: string },
   reminderTime: string,
   labelColor: string,
-  trackDetails?: HabitTrackDetails
+  //trackDetails?: HabitTrackDetails,
+  track: HabitTrack
 };

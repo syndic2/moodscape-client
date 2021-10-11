@@ -1,11 +1,14 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
-import { Habit } from 'src/app/models/habit.model';
+import { Store } from '@ngrx/store';
+
 import { collapseAnimation } from 'src/app/animations/utilities.animation';
 import { daysBetweenDates, transformDateTime } from 'src/app/utilities/helpers';
+import { Habit } from 'src/app/models/habit.model';
+import { showAlert } from 'src/app/store/actions/application.actions';
 import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
@@ -26,7 +29,7 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
   public formGroup: FormGroup;
 
   constructor(
-    private alertController: AlertController, 
+    private store: Store,
     private modalController: ModalController,
     private formBuilder: FormBuilder
   ) { }
@@ -42,9 +45,33 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
     }
 
     this.validateGoalDates();
-    this.formGroup.controls['goalDates'].valueChanges.subscribe(value => {
+    
+    this.goalDates.valueChanges.subscribe(value => {
       this.validateGoalDates();
     });
+
+    this.goalStartDate.valueChanges.subscribe(value => {
+      if (this.habit && value !== this.habit.goalDates.start) {
+        this.store.dispatch(
+          showAlert({
+            options: {
+              message: 'Apabila anda mengubah tanggal dimulai, maka progres habit akan tereset dari awal lagi, apaka anda yakin ingin mengubah?', 
+              buttons: [
+                {
+                  text: 'Ya'
+                },
+                {
+                  text: 'Tidak',
+                  handler: () => {
+                    this.goalStartDate.setValue(this.habit.goalDates.start);
+                  }
+                }
+              ]
+            }
+          })
+        );
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -74,6 +101,10 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
 
   get goal() {
     return this.formGroup.get('goal');
+  }
+
+  get goalDates() {
+    return this.formGroup.get('goalDates');
   }
 
   get goalStartDate() {
@@ -106,37 +137,44 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
       reminderTime: this.formBuilder.control(''),
       labelColor: this.formBuilder.control('')
     });
+    this.goal.disable();
+    this.goalStartDate.disable();
+    this.goalEndDate.disable();
   }
 
   validateGoalDates() {
-    const days= daysBetweenDates(this.formGroup.get('goalDates.start').value, this.formGroup.get('goalDates.end').value);
+    const days= daysBetweenDates(this.goalStartDate.value, this.goalEndDate.value);
 
-    if (!days && (this.formGroup.get('goalDates.start').value !== '' && this.formGroup.get('goalDates.end').value !== '')) {
+    if (!days && (this.goalStartDate.value !== '' && this.goalEndDate.value !== '')) {
       this.validGoalDates= false;
-      (async () => {
-        const alert= await this.alertController.create({ message: 'Tanggal dimulai dan selesai tidak valid!', buttons: ['OK'] });
-        alert.present(); 
-      })();
+      this.store.dispatch(
+        showAlert({
+          options: {
+            message: 'Tanggal dimulai dan selesai tidak valid!', 
+            buttons: ['OK'] 
+          }
+        })
+      );
     } else {
       this.validGoalDates= true;
-      this.formGroup.controls['goal'].setValue(days);
+      this.goal.setValue(days+1);
     }
   }
 
   onSelectType(type: string) {
     this.selectedType= type;
-    this.formGroup.controls['type'].setValue(this.selectedType);
+    this.type.setValue(this.selectedType);
   }
 
   onSelectDay(day) {
-    if (day.id === -1) {
-      this.formGroup.controls['goal'].enable();
-    } else {  
-      this.formGroup.controls['goal'].disable();
-    }
+    //if (day.id === -1) {
+    //  this.formGroup.controls['goal'].enable();
+    //} else {  
+    //  this.formGroup.controls['goal'].disable();
+    //}
 
     this.selectedDay= day;
-    this.formGroup.controls['day'].setValue(day.name);
+    this.day.setValue(day.name);
   }
 
   async onSelectGoalDate(field: string) {
@@ -144,7 +182,7 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
       component: CalendarPage,
       componentProps: {
         ...this.habit && { 
-          selectedDate: field === 'startDate' ? this.formGroup.get('goalDates.start').value : this.formGroup.get('goalDates.end').value
+          selectedDate: field === 'startDate' ? this.goalStartDate.value : this.goalEndDate.value
         },
         enabledDate: this.selectedDay.id
       },
@@ -155,20 +193,20 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
     const { data }= await modal.onWillDismiss();
     if (data && data.selectedDate) {
       if (field === 'startDate') {
-        this.formGroup.get('goalDates.start').setValue(transformDateTime(data.selectedDate).toISODate());
+        this.goalStartDate.setValue(transformDateTime(data.selectedDate).toISODate());
       } else {
-        this.formGroup.get('goalDates.end').setValue(transformDateTime(data.selectedDate).toISODate());
+        this.goalEndDate.setValue(transformDateTime(data.selectedDate).toISODate());
       }
     }
   }
 
   onSelectLabelColor(color: string) {
-    this.formGroup.controls['labelColor'].setValue(color);
+    this.labelColor.setValue(color);
   }
 
   onChangeReminderTime(event) {
     if (!event.target.checked) {
-      this.formGroup.controls['reminderTime'].setValue('');   
+      this.reminderTime.setValue('');   
       collapseAnimation('select-reminder-time', this.selectReminderTimeElement)
         .direction('reverse')
         .play();
@@ -179,21 +217,29 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async onSubmit() {
-    const alert= await this.alertController.create({ buttons: ['OK'] });
-
+  onSubmit() {
     if (this.formGroup.invalid) {
-       alert.message= 'Nama, Goal Frekuensi dan Tanggal wajib diisi!';
-    } else {
-      if (!this.validGoalDates) {
-        alert.message= 'Tanggal dimulai dan selesai tidak valid!';
-      } else {
-        this.onSubmitEvent.emit(this.formGroup.getRawValue()); 
-      }
+      return this.store.dispatch(
+        showAlert({
+          options: {
+            message: 'Nama, Goal Frekuensi dan Tanggal wajib diisi!',
+            buttons: ['OK']
+          }
+        })
+      );
     }
 
-    if (alert.message) {
-      alert.present();
+    if (!this.validGoalDates) {
+      return this.store.dispatch(
+        showAlert({
+          options: {
+            message: 'Tanggal dimulai dan selesai tidak valid!',
+            buttons: ['OK']
+          }
+        })
+      );
     }
+    
+    this.onSubmitEvent.emit(this.formGroup.getRawValue()); 
   }
 }

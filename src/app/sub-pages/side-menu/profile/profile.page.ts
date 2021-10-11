@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { User } from 'src/app/models/user.model';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { fetchProfile, validateUpdateProfile } from 'src/app/store/actions/user.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 
@@ -36,14 +38,17 @@ export class ProfilePage implements OnInit {
 	public user: User;
 	private userSubscription: Subscription;
 
-	constructor(private store: Store, private formBuilder: FormBuilder) { }
+	constructor(private store: Store, private formBuilder: FormBuilder, private authenticattionService: AuthenticationService) { }
 
 	ngOnInit() {
     this.initializeForm();
 	}
 
 	ionViewWillEnter() {
-		this.userSubscription= this.store.select(getAuthenticated).subscribe(res => {
+		this.userSubscription= this.store
+      .select(getAuthenticated)
+      .pipe(takeUntil(this.authenticattionService.isLoggedIn))
+      .subscribe(res => {
 			if (res === null) {
         this.store.dispatch(fetchProfile());
 			} else {

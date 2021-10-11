@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg">Riwayat Habit Tracking</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="habit" [defaultHref]="'/habits/'+habit.Id"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column row-gap-4">
+  <h1 class="text-xl font-semibold">{{ habit ? habit.name : 'Habit name' }}</h1>
+  <div class="flex flex-col gap-y-8">
+    <ng-container *ngFor="let track of tracksHistory">
+      <div class="flex flex-col gap-y-4">
+        <!-- HEADER -->
+        <div class="flex items-center gap-x-4">
+          <div class="border-l-2 border-black border-opacity-50 w-0 h-full ml-4"></div>
+          <div class="flex flex-col gap-y-1 py-1">
+            <div class="inline-flex gap-x-2">
+              <span class="font-semibold">Tanggal dimulai:</span>
+              <span>{{ (track.startDate | dateInBahasa).shortDate }}</span>
+            </div>
+            <div class="inline-flex gap-x-2">
+              <span class="font-semibold">Tanggal selesai:</span>
+              <span>{{ (track.endDate | dateInBahasa).shortDate }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- HEADER -->
+        
+        <!-- LOG -->
+        <div class="flex flex-col gap-y-2 border rounded-lg border-primary p-4">
+          <h2 class="font-semibold">Log ditandai</h2>
+          <ng-container *ngIf="!track.markedAt.length; else showMarkedAt">
+            <div class="mx-auto">-Belum ada log-</div>
+          </ng-container>
+          <ng-template #showMarkedAt>
+            <ul class="list-disc list-inside">
+              <ng-container *ngFor="let marked of track.markedAt">
+                <li>{{ (marked | dateInBahasa).shortDate }}</li>
+              </ng-container>
+            </ul>
+          </ng-template>
+        </div>
+        <!-- LOG -->
+      </div>
+    </ng-container>
+  </div>
+  <span class="italic">*Menampilkan riwayat pergantian tanggal tracking (apabila ada)</span>
+</ion-content>

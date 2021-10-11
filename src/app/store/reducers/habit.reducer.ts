@@ -54,7 +54,7 @@ export const habitReducer= createReducer(
     ]
   })),
 
-  on(markHabitGoal, (state, { habitId, trackDetails }) => ({
+  on(markHabitGoal, (state, { habitId }) => ({
     ...state,
     habits: [
       ...state.habits.map((habit, index) => {
@@ -62,7 +62,7 @@ export const habitReducer= createReducer(
           return habit;
         }
         
-        return { ...habit, trackDetails: trackDetails }
+        return { ...habit }
       })
     ]
   }))

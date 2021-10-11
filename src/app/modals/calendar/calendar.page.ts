@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar';
@@ -12,13 +12,14 @@ import { SelectCalendarYearPage } from '../select-calendar-year/select-calendar-
   templateUrl: './calendar.page.html',
   styleUrls: ['./calendar.page.scss'],
 })
-export class CalendarPage implements OnInit {
+export class CalendarPage implements OnInit, AfterViewInit {
   @Input() isStatistics: boolean= false;
   @Input() selectedDate: Date= new Date();
   @Input() enabledDate: number;
-  @Input() eventSource= [];
+  @Input() eventSource: any= [];
   @Input() monthViewTemplate: TemplateRef<any>;
-  @Input() monthViewSelectedColor= { text: 'white', background: '#5b21b6' };
+  @Input() monthViewCurrentColor= { text: 'white', background: '#00FF00' };
+  @Input() monthViewSelectedColor= { text: 'white', background: '#5B21B6' };
   @Output() selectDateChangedEvent: EventEmitter<Date>= new EventEmitter();
   @ViewChild(CalendarComponent) calendar: CalendarComponent;
 
@@ -38,7 +39,7 @@ export class CalendarPage implements OnInit {
   public monthNames: (month: number) => string = monthNames;
   public hideModal: boolean= false;
 
-  constructor(private modalController: ModalController) { }
+  constructor(private elementRef: ElementRef, private modalController: ModalController) { }
 
   ngOnInit() {
     if (this.enabledDate) {
@@ -48,6 +49,13 @@ export class CalendarPage implements OnInit {
     }
 
     this.currentDate= this.selectedDate;
+  }
+
+  ngAfterViewInit() {
+    if (this.isStatistics) {
+      const monthViewCurrent: HTMLElement= this.elementRef.nativeElement.querySelector('.monthview-current');
+      monthViewCurrent.classList.remove('monthview-current');
+    }
   }
 
   close() {
@@ -123,6 +131,11 @@ export class CalendarPage implements OnInit {
       this.selectedDate= date;
     } else {
       this.selectedDate= this.enabledDate !== -1 && this.enabledDate !== date.getDay() ? this.selectedDate : date;
+    }
+
+    if (this.isStatistics) {
+      const monthViewCurrent: HTMLElement= this.elementRef.nativeElement.querySelector('.monthview-current');
+      monthViewCurrent?.classList?.remove('monthview-current');
     }
   }
 

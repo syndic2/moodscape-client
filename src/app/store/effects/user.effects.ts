@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { map, switchMap, exhaustMap, concatMap } from 'rxjs/operators';
 
-import { setIsResetForm, showAlert } from '../actions/application.actions';
+import { setIsResetForm, showAlert, showRequestErrorModal } from '../actions/application.actions';
 import { 
 	fetchProfile, 
 	validateCreateUser,
@@ -93,15 +93,23 @@ export class UserEffects {
 	updateProfile$= createEffect(() => this.actions$.pipe(
 		ofType(fetchUpdateProfile),
 		concatMap(({ fields }) => this.userService.updateProfile(fields).pipe(
-			switchMap(res => [
-				updateAuth({ fields: res.updatedProfile }), 
-				showAlert({ 
-					options: {
-						message: res.response.text,
-						buttons: ['OK']
-					}
-				})
-			])
+			switchMap(res => {
+        if (!res.updatedProfile) {
+          return [
+            showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' })
+          ]
+        }
+
+        return [
+          updateAuth({ fields: res.updatedProfile }), 
+          showAlert({ 
+            options: {
+              message: res.response.text,
+              buttons: ['OK']
+            }
+          })
+        ];
+      })
 		))
 	));
 

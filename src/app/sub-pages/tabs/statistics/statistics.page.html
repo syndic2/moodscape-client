@@ -14,11 +14,19 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="flex justify-center items-center gap-x-6">
-    <ion-button (click)="onSelectMode('mood')" [color]="selectedMode === 'mood' ? 'primary' : 'light'" class="normal-case">
+  <div class="flex justify-center items-center gap-x-4">
+    <ion-button
+      [routerLink]="['/side-menu/tabs/statistics']"
+      [queryParams]="{ mode: 'mood' }"
+      [color]="selectedMode === 'mood' ? 'primary' : 'light'" 
+      class="normal-case">
       Mood
     </ion-button>
-    <ion-button (click)="onSelectMode('habit')" [color]="selectedMode === 'habit' ? 'primary' : 'light'" class="normal-case">
+    <ion-button
+      [routerLink]="['/side-menu/tabs/statistics']"
+      [queryParams]="{ mode: 'habit' }" 
+      [color]="selectedMode === 'habit' ? 'primary' : 'light'" 
+      class="normal-case">
       Habit
     </ion-button>
   </div>

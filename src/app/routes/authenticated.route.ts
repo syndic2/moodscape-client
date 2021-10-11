@@ -69,11 +69,21 @@ export const routes: Routes= [
     path: 'habits/create',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../sub-pages/habits/create-habit/create-habit.module').then(m => m.CreateHabitPageModule)
-  }, 
+  },
+  {
+    path: 'habits/list-by-date',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/habits/habit-list-by-date/habit-list-by-date.module').then(m => m.HabitListByDatePageModule)
+  },
   {
     path: 'habits/:id',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../pages/details/habit-detail/habit-detail.module').then(m => m.HabitDetailPageModule)
+  },
+  {
+    path: 'habits/:id/tracks-history',
+    canLoad: [AuthenticationGuard],
+    loadChildren: () => import('../sub-pages/habits/habit-tracks-history/habit-tracks-history.module').then(m => m.HabitTracksHistoryPageModule)
   },
 
   /**

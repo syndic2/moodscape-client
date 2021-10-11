@@ -1,15 +1,18 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import Chart from 'chart.js/auto';
 
 import { monthNames, transformDateTime } from 'src/app/utilities/helpers';
 import { navigateGo } from 'src/app/store/actions/router.actions';
-import { getMoodsByMonth, getMoodsByDate, getMoodsChartByMonthYear } from 'src/app/store/selectors/mood.selectors';
+import { fetchMoods, fetchMoodsChart } from 'src/app/store/actions/mood.actions';
+import { getMoods, getMoodsByMonth, getMoodsByDate, getMoodsChartByMonthYear, getMoodsTotalCount } from 'src/app/store/selectors/mood.selectors';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { SelectCalendarMonthPage } from 'src/app/modals/select-calendar-month/select-calendar-month.page';
 import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/select-calendar-year.page';
 
@@ -20,53 +23,107 @@ import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/sele
 })
 export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('lineChartCanvas', { static: false }) lineChartCanvas: ElementRef;
+  @ViewChild('doughnutChartCanvas', { static: false }) doughnutChartCanvas: ElementRef;
 
   public monthNames: (month: number) => string = monthNames;
-  public moodsByMonth: any= { moods: [], moodsCount: null };
-  private lineChart: any;
+  public moodsByMonth= { moods: [], moodsCount: null };
+  private lineChart;
+  private doughnutChart;
+  private calendarDateClicked: boolean= false;
 
+  private calendarPrevNextSubject: BehaviorSubject<Date>= new BehaviorSubject(new Date());
   private selectedMonthYearSubject: BehaviorSubject<{ month, year }>= new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
 
+  private calendarPrevNextSubscription: Subscription;
   private selectedMonthYearSubscription: Subscription;
+  private getMoodsSubscription: Subscription;
   private getMoodsByMonthSubscription: Subscription;
   private getMoodsByDate: Subscription;
   private getMoodsChartSubscription: Subscription;
+  private getMoodsTotalCountSubscription: Subscription;
 
-  constructor(private store: Store, private modalController: ModalController) { }
+  constructor(
+    private store: Store, 
+    private modalController: ModalController, 
+    private cdRef: ChangeDetectorRef,
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
-    this.selectedMonthYearSubscription= this.selectedMonthYearSubject.subscribe(res => {
-      this.getMoodsChartSubscription= this.store.select(getMoodsChartByMonthYear(res.month, res.year)).subscribe(res => {
-        if (this.lineChart) {
-          if (!res) {
-            this.lineChart.data.labels= [];
-            this.lineChart.data.datasets[0].data= [];
-            this.lineChart.update();
-          } else {
-            this.lineChart.data.labels= [];
-            this.lineChart.data.datasets[0].data= [];
-  
-            res.moodAverageByRangeDate.forEach(mood => {
-              this.lineChart.data.labels.push(mood.startDate);
-              this.lineChart.data.datasets[0].data.push(mood.average);
-            });
-  
-            this.lineChart.update();
-          }
-        }
-      });
+    this.getMoodsSubscription= this.store
+      .select(getMoods)
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchMoods());
+      }
     });
   }
 
   ngAfterViewInit() {
     this.initializeCharts();
+
+    this.calendarPrevNextSubscription= this.calendarPrevNextSubject.subscribe(value => {
+      this.getMoodsByMonthSubscription= this.store.select(getMoodsByMonth(value.getMonth(), value.getFullYear())).subscribe(res => {           
+        this.moodsByMonth.moods= [...res.moods].map((mood, index) => ({
+          title: mood.createdAt.date,
+          startTime: new Date(mood.createdAt.date),
+          endTime: new Date(mood.createdAt.date),
+          allDay: false
+        }));
+        this.moodsByMonth.moodsCount= { ...res.moodsCount };
+        this.cdRef.detectChanges();
+      });
+    });
+
+    this.selectedMonthYearSubscription= this.selectedMonthYearSubject.subscribe(res => {
+      this.getMoodsChartSubscription= this.store
+        .select(getMoodsChartByMonthYear(res.month, res.year))
+        .pipe(takeUntil(this.authenticationService.isLoggedIn))
+        .subscribe(res => {
+        if (!res) {
+          this.store.dispatch(fetchMoodsChart());
+          this.lineChart.data.labels= [];
+          this.lineChart.data.datasets[0].data= [];
+          this.lineChart.update();
+        } else {
+          this.lineChart.data.labels= [];
+          this.lineChart.data.datasets[0].data= [];
+
+          res.moodAverageByRangeDate.forEach(mood => {
+            this.lineChart.data.labels.push(mood.startDate);
+            this.lineChart.data.datasets[0].data.push(mood.average);
+          });
+
+          this.lineChart.update();
+        }
+      });
+    });
+
+    this.getMoodsTotalCountSubscription= this.store.select(getMoodsTotalCount).subscribe(res => {
+      if (!res) {
+        this.doughnutChart.data.datasets[0].data= [];
+        this.doughnutChart.update();
+      } else {
+        this.doughnutChart.data.datasets[0].data= [];
+
+        Object.entries(res).forEach(([key, value]) => {
+          this.doughnutChart.data.datasets[0].data.push(value);
+        });
+
+        this.doughnutChart.update();
+      }
+    });
   }
 
   ngOnDestroy() {
+    this.calendarPrevNextSubscription && this.calendarPrevNextSubscription.unsubscribe();
     this.selectedMonthYearSubscription && this.selectedMonthYearSubscription.unsubscribe();
+    this.getMoodsSubscription && this.getMoodsSubscription.unsubscribe();
     this.getMoodsByMonthSubscription && this.getMoodsByMonthSubscription.unsubscribe();
     this.getMoodsByDate && this.getMoodsByDate.unsubscribe();
     this.getMoodsChartSubscription && this.getMoodsChartSubscription.unsubscribe();
+    this.getMoodsTotalCountSubscription && this.getMoodsTotalCountSubscription.unsubscribe();
   }
 
   get selectedMonth() {
@@ -101,18 +158,16 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         plugins: {
           legend: {
             display: false
-          },
+          }
         },
         scales: {
           x: {
             grid: {
-              display: false,
               drawBorder: false
             }
           },
           y: {
             grid: {
-              display: false,
               drawBorder: false
             },
             suggestedMin: 0,
@@ -121,23 +176,35 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         }
       }
     });
-  }
 
-  onSelectCalendarDateChanged(date: Date) {
-    this.getMoodsByMonthSubscription= this.store.select(getMoodsByMonth(date.getMonth(), date.getFullYear())).subscribe(res => {      
-      this.moodsByMonth.moods= [...res.moods].map((mood, index) => ({
-        title: mood.createdAt.date,
-        startTime: new Date(mood.createdAt.date),
-        endTime: new Date(mood.createdAt.date),
-        allDay: false
-      }));
-      this.moodsByMonth.moodsCount= { ...res.moodsCount };
+    this.doughnutChart= new Chart(this.doughnutChartCanvas.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: ['Bahagia', 'Senang', 'Netral', 'Sedih', 'Buruk'], 
+        datasets: [
+          {
+            data: [],
+            backgroundColor: [
+              '#3CB403',
+              '#B4CC4E',
+              '#FFD300',
+              '#FFC30B',
+              '#D0312D'
+            ]
+          }
+        ]
+      }
     });
   }
 
+  onSelectCalendarDateChanged(date: Date) {
+    this.calendarPrevNextSubject.next(date);
+  }
+
   onViewMoodsByDate(date: Date) {
+    this.calendarDateClicked= true;
     this.getMoodsByDate= this.store.select(getMoodsByDate(transformDateTime(date).toISODate())).subscribe(res => {
-      if (res.moods.length) {
+      if (this.calendarDateClicked && res.moods.length) {
         this.store.dispatch(navigateGo({ 
           path: ['/moods/list-by-date'], 
           extras: { 
@@ -149,6 +216,8 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
           } 
         }));
       }
+
+      this.calendarDateClicked= false;
     });
   }
 

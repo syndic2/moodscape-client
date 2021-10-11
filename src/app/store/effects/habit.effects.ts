@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators';
 
-import { showAlert } from '../actions/application.actions';
+import { showAlert, showRequestErrorModal } from '../actions/application.actions';
 import { 
   fetchHabits,
   fetchHabitSearchResults,
@@ -29,7 +29,7 @@ import { HabitService } from 'src/app/services/habit/habit.service';
 export class HabitEffects {
   getHabits$= createEffect(() => this.actions$.pipe(
     ofType(fetchHabits),
-    exhaustMap(({ day }) => this.habitService.getHabits(day).pipe(
+    exhaustMap(() => this.habitService.getHabits().pipe(
       map(res => setHabits({ habits: res.habits }))
     ))
   ));
@@ -37,29 +37,35 @@ export class HabitEffects {
   getHabit$= createEffect(() => this.actions$.pipe(
     ofType(fetchHabit),
     exhaustMap(({ habitId }) => this.habitService.getHabit(habitId).pipe(
-      map(res => setHabit({ habit: res.habit }))
+      map(res => !res.habit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : setHabit({ habit: res.habit }))
     ))
   ));
   
   createHabit$= createEffect(() => this.actions$.pipe(
     ofType(fetchCreateHabit),
     concatMap(({ fields }) => this.habitService.createHabit(fields).pipe(
-      map(res => createHabit({ habit: res.createdHabit }))
+      map(res => !res.createdHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : createHabit({ habit: res.createdHabit }))
     ))
   ));
 
   updateHabit$= createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateHabit),
     concatMap(({ habitId, fields }) => this.habitService.updateHabit(habitId, fields).pipe(
-      switchMap(res => [
-        updateHabit({ habitId: res.updatedHabit.Id, fields: res.updatedHabit }),
-        showAlert({
-          options: {
-            message: 'Berhasil menyimpan perubahan!',
-            buttons: ['OK']
-          }
-        })
-      ])
+      switchMap(res => {
+        if (!res.updatedHabit) {
+          return [showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' })]
+        }
+
+        return [
+          updateHabit({ habitId: res.updatedHabit.Id, fields: res.updatedHabit }),
+          showAlert({
+            options: {
+              message: 'Berhasil menyimpan perubahan!',
+              buttons: ['OK']
+            }
+          })
+        ]
+      })
     ))
   ));
 
@@ -87,14 +93,14 @@ export class HabitEffects {
   removeHabits$= createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveHabits),
     mergeMap(({ habitIds }) => this.habitService.removeHabits(habitIds).pipe(
-      map(res => removeHabits({ habitIds: res.removedHabits }))
+      map(res => !res.removedHabits.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : removeHabits({ habitIds: res.removedHabits }))
     ))
   ));
   
   markHabitGoal$= createEffect(() => this.actions$.pipe(
     ofType(fetchMarkHabitGoal),
     concatMap(({ habitId, markedAt }) => this.habitService.markHabitGoal(habitId, markedAt).pipe(
-      map(res => markHabitGoal({ habitId: res?.markedHabit?.Id, trackDetails: res?.markedHabit?.trackDetails }))
+      map(res => !res.markedHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : markHabitGoal({ habitId: res.markedHabit.Id }))
     ))
   ));
 

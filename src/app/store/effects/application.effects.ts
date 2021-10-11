@@ -3,12 +3,16 @@ import { Injectable } from '@angular/core';
 import { ToastController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { showToast, showAlert, showModal, showPopover } from '../actions/application.actions';
+import { showRequestErrorModal, showToast, showAlert, showModal, showPopover } from '../actions/application.actions';
+import { ModalService } from 'src/app/services/modal/modal.service';
 
 @Injectable()
-export class ApplicationEffects {
+export class ApplicationEffects {  
+  /**
+   * Ionic
+   */
   showToast$= createEffect(() => this.actions$.pipe(
     ofType(showToast),
     tap(async ({ options }) => {
@@ -40,12 +44,21 @@ export class ApplicationEffects {
       return popover.present();
     })
   ), { dispatch: false });
+  
+  /**
+   * Application
+   */
+    showRequestErrorModal$= createEffect(() => this.actions$.pipe(
+    ofType(showRequestErrorModal),
+    tap(({ message }) => this.modalService.requestError(message))
+  ), { dispatch: false });
 
   constructor(
     private actions$: Actions,
     private toastController: ToastController,
     private alertController: AlertController,
     private modalController: ModalController,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private modalService: ModalService
   ) {}
 };

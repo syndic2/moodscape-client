@@ -3,15 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="onUpdate($event)">
-        <ion-icon slot="icon-only" name="checkmark-circle" size="large"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="flex-column row-gap-4">
   <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -21,6 +16,43 @@
   </ng-container>
 
   <ng-template #showHabit>
+    <div class="flex flex-col gap-y-4 border rounded-lg border-primary p-4">
+      <app-calendar 
+        [isStatistics]="true" 
+        [eventSource]="habitTracks.events"
+        [monthViewTemplate]="monthViewTemplate">
+      </app-calendar>
+      <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
+        <ng-container *ngIf="view.dates[row*7+col].events.length && habitTracks.streaks.includes(transformDateTime(view.dates[row*7+col].date).toISODate()); else showUnmarkedDate">
+          <div class="rounded-full bg-blue-300">
+            {{ view.dates[row*7+col].label }}
+          </div>
+        </ng-container>
+        <ng-template #showUnmarkedDate>
+          {{ view.dates[row*7+col].label }}
+        </ng-template>
+      </ng-template>
+
+      <div class="flex flex-col gap-y-2">
+        <div class="inline-flex items-center gap-x-2">
+          <h3 class="font-semibold">Streaks:</h3>
+          <span>{{ habitTracks.streaks.length }} hari</span>
+        </div>
+        <div class="inline-flex items-center gap-x-2">
+          <h3 class="font-semibold">Total streaks: </h3>
+          <span>{{ habit.track.totalStreaks }} hari (total dari semua progress yang pernah dilakukan)</span>
+        </div>
+        <div class="inline-flex items-center gap-x-2">
+          <h3 class="font-semibold">Total diselesaikan:</h3>
+          <span>{{ habit.track.totalCompleted }} kali</span>
+        </div>
+        <div (click)="onViewHistory()" class="inline-flex justufy-between items-center gap-x-2 text-yellow-500">
+          <span class="font-medium">Riwayat</span>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </div>
+      </div>
+    </div>
+
     <habit-fields #habitFields [habit]="habit" (onSubmitEvent)="onUpdate($event)">
       <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
         <ion-icon name="checkmark-circle" color="primary"></ion-icon>

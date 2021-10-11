@@ -10,7 +10,7 @@
           <label class="flex-1 text-md font-medium line-clamp-3">{{ habit.name }}</label>
           <div class="flex flex-col gap-y-2">
             <span class="text-sm text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start | dateInBahasa).shortDate }}</span>
-            <h3 class="text-3xl text-right font-bold">{{ habit.trackDetails !== null ? habit.trackDetails?.currentGoal : 0 }}/{{ habit.goal }}</h3>
+            <h3 class="text-3xl text-right font-bold">{{ currentGoal }}/{{ currentLog.targetGoal }}</h3>
           </div>
         </div>
       </div>
@@ -23,15 +23,11 @@
         </div>
         <div class="flex flex-col items-center gap-y-1">
           <span>Sisa Hari</span>
-          <span class="text-xs text-center">{{ daysLeft === 0 ? '-SELESAI-' : (daysLeft === -1 ? '-BELUM DIMULAI-' : daysLeft ) }}</span>
+          <span class="text-xs text-center">{{ daysLeft === 0 ? '-SELESAI-' : (daysLeft === -1 ? 'BELUM DIMULAI' : daysLeft ) }}</span>
         </div>
-        <!--<div class="flex flex-col items-center gap-y-1">
+        <div class="flex flex-col items-center gap-y-1">
           <span>Streaks</span>
-          <span>{{ habit.trackDetails !== null ? habit.trackDetails?.streaks : 0 }}</span>
-        </div>-->
-        <div class="text-lg">
-          <ion-icon *ngIf="habit.type === 'to do'" name="thumbs-up"></ion-icon>
-          <ion-icon *ngIf="habit.type === 'not to do'" name="thumbs-down"></ion-icon>
+          <span>{{ currentLog.markedAt.length }}</span>
         </div>
       </div>
     </ion-card-content>

@@ -1,12 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Habit, HabitTrackDetails } from 'src/app/models/habit.model';
+import { Habit } from 'src/app/models/habit.model';
 
 //Fetch API
-export const fetchHabits= createAction(
-  '[Habit/API] Get habits',
-  props<{ day?: string }>()
-);
+export const fetchHabits= createAction('[Habit/API] Get habits');
 
 export const fetchHabitSearchResults= createAction(
   '[Habit/API] Get habit search results',
@@ -76,5 +73,5 @@ export const removeHabits= createAction(
 
 export const markHabitGoal= createAction(
   '[Habit/STORE] Mark habits goal',
-  props<{ habitId: number, trackDetails: HabitTrackDetails }>()
+  props<{ habitId: number }>()
 );

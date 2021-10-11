@@ -49,24 +49,11 @@ export interface MoodAverageByRangeDate {
 };
 
 export interface MoodAverageGroupByYear {
-    year: number,
-    moodAverageByRangeDate: MoodAverageByRangeDate[]
+  year: number,
+  moodAverageByRangeDate: MoodAverageByRangeDate[]
 };
 
 export interface MoodsAverageGroupByMonth {
   group: string,
   moodAverageGroupByYear: MoodAverageGroupByYear[]
 };
-
-//export interface MoodsCount {
-//  happy: { count: 0, iconPath: MOOD_ICON_PATHS.GEMBIRA, emoticonColor: MOOD_EMOTICON_COLORS.GEMBIRA },
-//  smile: { count: 0, iconPath: MOOD_ICON_PATHS.SENANG, emoticonColor: MOOD_EMOTICON_COLORS.SENANG },
-//  neutral: { count: 0, iconPath: MOOD_ICON_PATHS.NETRAL, emoticonColor: MOOD_EMOTICON_COLORS.NETRAL },
-//  sad: { count: 0, iconPath: MOOD_ICON_PATHS.SEDIH, emoticonColor: MOOD_EMOTICON_COLORS.SEDIH },
-//  awful: { count: 0, iconPath: MOOD_ICON_PATHS.BURUK, emoticonColor: MOOD_EMOTICON_COLORS.BURUK }
-//};
-//
-//export interface MoodsByMonth {
-//  moods: Mood[],
-//  moodsCount: MoodsCount
-//};

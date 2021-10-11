@@ -23,6 +23,12 @@ ion-modal {
   &.rounded-modal {
     --border-radius: 1rem;
   }
+
+  &.wrapper-fit-content {
+    .modal-wrapper {
+      width: fit-content !important;
+    }
+  }
 }
 
 .activity-edit-name-modal {

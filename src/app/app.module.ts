@@ -30,6 +30,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { RequestErrorPageModule } from './modals/errors/request-error/request-error.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,7 +49,8 @@ import { AppComponent } from './app.component';
       AuthenticationEffects
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    AppRoutingModule
+    AppRoutingModule,
+    RequestErrorPageModule
   ],
   providers: [
     {

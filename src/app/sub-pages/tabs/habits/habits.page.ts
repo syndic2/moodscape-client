@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { IonList } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -16,14 +19,21 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./habits.page.scss'],
 })
 export class HabitsPage implements OnInit {
+  @ViewChild('slidingList', { static: false }) slidingList: IonList;
+
   public habits: Habit[]= [];
+  public selectedDay: BehaviorSubject<string>= new BehaviorSubject<string>('all day');
+  public selectedMode: string= 'all';
+
+  private getQueryParamsSubscription: Subscription;
+  private selectedDaySubscription: Subscription;
   private habitsSubscription: Subscription;
   private habitsDaySubscription: Subscription;
-  public selectedDay: BehaviorSubject<string>= new BehaviorSubject<string>('all day');
-  private selectedDaySubscription: Subscription;
   
   constructor(
-    private store: Store, 
+    private store: Store,
+    private router: Router,
+    private activatedRoute: ActivatedRoute, 
     public utilitiesService: UtilitiesService,
     private authenticationService: AuthenticationService
   ) { }
@@ -37,12 +47,25 @@ export class HabitsPage implements OnInit {
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
       if (!res.length) {
-        this.store.dispatch(fetchHabits({}));
+        this.store.dispatch(fetchHabits());
       }
     });
+
+    this.getQueryParamsSubscription= this.activatedRoute.queryParams.subscribe(params => {
+      if (JSON.stringify(params) !== '{}') {
+        this.selectedMode= params['mode'];
+          this.habitsDaySubscription= this.store
+          .select(getHabits(this.selectedDay.value, this.selectedMode))
+          .pipe(takeUntil(this.authenticationService.isLoggedIn))
+          .subscribe(res => {
+          this.habits= res;
+        });
+      }
+    });
+
     this.selectedDaySubscription= this.selectedDay.subscribe(day => {
       this.habitsDaySubscription= this.store
-        .select(getHabits(day))
+        .select(getHabits(day, this.selectedMode))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
         this.habits= res;
@@ -51,18 +74,24 @@ export class HabitsPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.getQueryParamsSubscription && this.getQueryParamsSubscription.unsubscribe();
+    this.selectedDaySubscription && this.selectedDaySubscription.unsubscribe();
     this.habitsSubscription && this.habitsSubscription.unsubscribe();
     this.habitsDaySubscription && this.habitsDaySubscription.unsubscribe();
-    this.selectedDaySubscription && this.selectedDaySubscription.unsubscribe();
   }
 
   pullRefresh(event) {
-    this.store.dispatch(fetchHabits({}));
+    this.store.dispatch(fetchHabits());
     event.target.complete();
   }
 
   onSelectDay(day) {
     this.selectedDay.next(day.name); 
+  }
+
+  onEdit(habit: Habit) {
+    this.router.navigate(['/habits', habit.Id]);
+    this.slidingList.closeSlidingItems();
   }
 
   onRemove(habit: Habit) {

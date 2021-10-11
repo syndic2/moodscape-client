@@ -1,3 +1,16 @@
-<p>
-  habit-statistics works!
-</p>
+<div class="flex flex-col gap-y-6">
+  <div class="border rounded-lg border-primary p-4">
+    <app-calendar 
+      [isStatistics]="true" 
+      [eventSource]="habitsByMonth"
+      [monthViewTemplate]="monthViewTemplate"
+      (selectDateChangedEvent)="onSelectCalendarDateChanged($event)">
+    </app-calendar>
+
+    <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
+      <div (click)="onViewHabitsByDate(view.dates[row*7+col].date)">
+        {{ view.dates[row*7+col].label }}
+      </div>
+    </ng-template>
+  </div>
+</div>

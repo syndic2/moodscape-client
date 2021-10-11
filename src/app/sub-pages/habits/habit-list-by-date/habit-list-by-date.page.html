@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="side-menu/tabs/statistics?mode=habit"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column row-gap-4">
+  <ng-container *ngIf="habits.length">
+    <div class="flex flex-col items-center gap-y-2">
+      <h2 class="font-semibold">Tanggal dimulai</h2>
+      <span class="font-medium">{{ (startDate | dateInBahasa).fullDate }}</span>
+    </div>
+
+    <div class="inline-flex gap-x-2 text-sm mt-2">
+      <span class="font-semibold">Total Habit:</span>
+      <span>{{ habits.length }}</span>
+    </div>
+
+    <ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
+      <ion-item-sliding *ngFor="let habit of habits">
+        <ion-item-options side="start">
+          <ion-item-option class="bg-transparent">
+            <div [routerLink]="['/habits', habit.Id]" class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-4">
+              <ion-icon slot="icon-only" name="create" size="large"></ion-icon>
+              <label class="normal-case font-semibold">Ubah</label>
+            </div>
+          </ion-item-option>
+        </ion-item-options>
+    
+        <ion-item>
+          <habit-list-item [habit]="habit" class="flex-1"></habit-list-item>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option class="bg-transparent">
+            <div (click)="onRemove(habit)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
+              <ion-icon slot="icon-only" name="trash" size="large"></ion-icon>
+              <label class="normal-case font-semibold">Hapus</label>
+            </div>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding> 
+    </ion-list>
+  </ng-container>
+</ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
 import { MOOD_EMOTICON_COLORS, MOOD_ICON_PATHS } from 'src/app/models/mood.model';
 
@@ -23,7 +23,7 @@ export class MoodsCountComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     Object.entries(this.moodsCount).forEach(([key, value], index) => {
       this.moods[index].count= value;
     });

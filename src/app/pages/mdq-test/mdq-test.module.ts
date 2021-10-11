@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MDQTestPageRoutingModule } from './mdq-test-routing.module';
-
 import { MDQTestPage } from './mdq-test.page';
 
 @NgModule({

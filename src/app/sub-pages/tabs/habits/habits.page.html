@@ -14,13 +14,37 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content class="flex-column row-gap-2">
+<ion-content class="flex-column row-gap-4">
   <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <select-day-horizontal-list (selectDayEvent)="onSelectDay($event)"></select-day-horizontal-list>
-  
+
+  <div class="flex justify-center items-center gap-x-2">
+    <ion-button
+      [routerLink]="['/side-menu/tabs/habits']"
+      [queryParams]="{ mode: 'all' }"
+      [color]="selectedMode === 'all' ? 'primary' : 'light'" 
+      class="normal-case">
+      <ion-icon name="list"></ion-icon>
+    </ion-button>
+    <ion-button
+      [routerLink]="['/side-menu/tabs/habits']"
+      [queryParams]="{ mode: 'marked' }" 
+      [color]="selectedMode === 'marked' ? 'primary' : 'light'" 
+      class="normal-case">
+      <ion-icon name="checkmark-done"></ion-icon>
+    </ion-button>
+    <ion-button
+      [routerLink]="['/side-menu/tabs/habits']"
+      [queryParams]="{ mode: 'unmarked' }" 
+      [color]="selectedMode === 'unmarked' ? 'primary' : 'light'" 
+      class="normal-case">
+    <ion-icon name="alert"></ion-icon>
+  </ion-button>
+  </div>
+
   <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
     <habit-list-loader></habit-list-loader>
   </ng-container>
@@ -34,11 +58,11 @@
     </ng-container>
 
     <ng-template #showHabits>
-      <ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
+      <ion-list #slidingList lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
         <ion-item-sliding *ngFor="let habit of habits">
           <ion-item-options side="start">
             <ion-item-option class="bg-transparent">
-              <div [routerLink]="['/habits', habit.Id]" class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-4">
+              <div (click)="onEdit(habit)" class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-4">
                 <ion-icon slot="icon-only" name="create" size="large"></ion-icon>
                 <label class="normal-case font-semibold">Ubah</label>
               </div>

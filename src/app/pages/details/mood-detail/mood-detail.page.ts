@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { Activity } from 'src/app/models/activity.model';
 import { Mood, MoodEmoticon } from 'src/app/models/mood.model';
-import { fetchMood, fetchUpdateMood } from 'src/app/store/actions/mood.actions';
-import { getMood } from 'src/app/store/selectors/mood.selectors';
+import { fetchMoods, fetchMood, fetchUpdateMood } from 'src/app/store/actions/mood.actions';
+import { getMoods, getMood } from 'src/app/store/selectors/mood.selectors';
 
 @Component({
   selector: 'app-mood-detail',
@@ -17,9 +17,9 @@ import { getMood } from 'src/app/store/selectors/mood.selectors';
 })
 export class MoodDetailPage implements OnInit {
   public mood: Mood;
-  public moodSubscription: Subscription;
   private moodId: number;
-  public isLoading: boolean= true;
+  private getMoodsSubscription: Subscription;
+  private getMoodSubscription: Subscription;
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
@@ -28,8 +28,10 @@ export class MoodDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.moodSubscription= this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
-      if (res !== null) {
+    this.getMoodSubscription= this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
+      if (!res) {
+        this.store.dispatch(fetchMood({ moodId: this.moodId }));
+      } else {
         this.mood= {
           ...res,
           createdAt: { ...res?.createdAt },
@@ -40,10 +42,17 @@ export class MoodDetailPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.moodSubscription && this.moodSubscription.unsubscribe();
+    this.getMoodsSubscription && this.getMoodsSubscription.unsubscribe();
+    this.getMoodSubscription && this.getMoodSubscription.unsubscribe();
   }
 
   pullRefresh(event) {
+    this.getMoodsSubscription= this.store.select(getMoods).subscribe(res => {
+      if (!res.length) {
+        this.store.dispatch(fetchMoods());
+      }
+    });
+
     this.store.dispatch(fetchMood({ moodId: this.moodId }));
     event.target.complete();
   }
