@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="text-lg sm:text-xl">My Chat Emotions</ion-title>
+    <ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/tabs/home" [routerLink]="['/side-menu/tabs/home']"></ion-back-button>
+		</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column row-gap-4">
+  <ng-container *ngIf="!isTelegramAuthorized; else showAuthorized">
+    <button (click)="onConnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-green-500 rounded-lg w-3/4 mx-auto p-3">
+      Masuk Telegram
+      <ion-icon name="log-in" class="text-2xl"></ion-icon>
+    </button>
+  </ng-container>
+  <ng-template #showAuthorized>
+    <button (click)="onDisconnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-red-500 rounded-lg w-3/4 mx-auto p-3">
+      Keluar Telegram
+      <ion-icon name="log-out" class="text-2xl"></ion-icon>
+    </button>
+  </ng-template>
+
+  <div>
+    <ion-card class="flex flex-col gap-y-2 rounded-lg p-4">
+      <h3 class="text-lg font-medium text-center">Emosi Keseluruhan</h3>
+      <canvas #pieChartCanvas></canvas>
+    </ion-card>
+  </div>
+
+  <div class="grid grid-cols-2 gap-x-2 gap-y-4">
+    <ng-container *ngFor="let emotion of [
+      { name: 'senang', image: 'happy.png' },
+      { name: 'marah', image: 'angry.png' },
+      { name: 'sedih', image: 'sad.png' },
+      { name: 'takut', image: 'fear.jpg' } 
+    ]; let idx= index">
+      <div #emotionCard (click)="onSelectEmotion(idx)" class="flex flex-col items-center gap-y-1">
+        <ion-card class="rounded-lg p-4">
+          <img [src]="'/assets/images/'+emotion.image" alt="" class="object-contain h-28">
+        </ion-card>
+        <span class="capitalize font-medium">{{ emotion.name }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <ion-card class="round-lg p-4"></ion-card>
+</ion-content>

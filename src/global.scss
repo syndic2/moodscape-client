@@ -235,6 +235,12 @@ ion-content {
       row-gap: 1.25rem;
     }
   }
+
+  &.row-gap-6 {
+    &::part(scroll) {
+      row-gap: 1.5rem;
+    }
+  }
 }
 
 /* Custom theme */
@@ -267,7 +273,7 @@ ion-content {
       --color: white;
     }
 
-    &.side-menu-header {
+    /*&.side-menu-header {
       ion-toolbar {
         --background: var(--ion-color-primary);
 
@@ -275,7 +281,7 @@ ion-content {
           --color: var(--ion-color-primary-contrast);
         }
       }
-    }
+    }*/
 	}
 
   ion-footer {
@@ -291,7 +297,7 @@ ion-content {
 	ion-content {
     --background: #F3F4F6 !important;
 
-    &.side-menu-content {
+    /*&.side-menu-content {
       --background: var(--ion-color-primary) !important;
 
       ion-list {
@@ -305,7 +311,7 @@ ion-content {
           }
         }
       }
-    }
+    }*/
 	}
 
   ion-tabs {

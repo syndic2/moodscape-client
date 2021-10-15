@@ -52,9 +52,17 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
       case 400:
         this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
         break;
+      
+      case 401:
+        this.modalService.requestError('Pengguna tidak terotorisasi, sialhkan coba kembali');
+        break;
 
       case 404:
         this.modalService.requestError('Terjadi kesalahan pada URL API, silahkan coba kembali');
+        break;
+      
+      case 500:
+        this.modalService.requestError('Terjadi kesalahan pada server, silahkan coba kembali');
         break;
 
       default:

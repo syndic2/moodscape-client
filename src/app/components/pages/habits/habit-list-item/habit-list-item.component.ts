@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -13,10 +13,10 @@ import { fetchMarkHabitGoal } from 'src/app/store/actions/habit.actions';
   templateUrl: './habit-list-item.component.html',
   styleUrls: ['./habit-list-item.component.scss'],
 })
-export class HabitListItemComponent implements OnInit {
+export class HabitListItemComponent implements OnInit, OnChanges {
   @Input() habit: Habit;
-  @ViewChild('habitItem', { static: true }) habitItem: ElementRef;
-  @ViewChild('habitGoalProgressBar', { static: true }) habitProgressBar: ElementRef;
+  @ViewChild('habitItem', { static: false }) habitItem: ElementRef;
+  @ViewChild('habitGoalProgressBar', { static: false }) habitProgressBar: ElementRef;
   
   public currentLog: HabitStreakLog;
   public daysLeft: number= 0;
@@ -27,6 +27,9 @@ export class HabitListItemComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
     this.currentLog= this.habit.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start);
     this.currentGoal= this.currentLog.currentGoal;
     this.calculateProgress();

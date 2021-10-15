@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
+      <ion-icon name="close" color="primary"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column-center justify-center items-center row-gap-4">
+  <img src="/assets/icons/svg/app-installation.svg" alt="" class="object-contain w-72 mx-auto">
+  <ion-card class="flex flex-col gap-y-4 rounded-lg p-6">
+    <h3 class="text-lg font-semibold">Masukkan nomor HP anda (Telegram)</h3>
+    <div class="inline-flex items-center gap-x-2">
+      <label class="text-lg font-medium">+62</label>
+      <ion-input [(ngModel)]="phone" type="number" inputmode="number" class="text-lg" placeholder="Nomor HP anda"></ion-input>
+    </div>
+    <ion-button (click)="onSubmitPhone()" color="primary" class="normal-case">
+      <ion-icon name="send" slot="end"></ion-icon>
+      <span class="text-lg">Kirim</span>
+    </ion-button>
+  </ion-card>
+</ion-content>

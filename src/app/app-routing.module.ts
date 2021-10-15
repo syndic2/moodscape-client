@@ -13,6 +13,10 @@ const routes: Routes = [
     redirectTo: 'sign-in'
   },
   {
+    path: 'my-chat-emotions',
+    loadChildren: () => import('./pages/my-chat-emotions/my-chat-emotions.module').then(m => m.MyChatEmotionsPageModule)
+  },
+  {
     path: 'mdq-test',
     loadChildren: () => import('./pages/mdq-test/mdq-test.module').then(m => m.MDQTestPageModule)
   },

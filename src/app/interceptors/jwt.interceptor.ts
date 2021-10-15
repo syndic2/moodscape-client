@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 import { UtilitiesService } from '../services/utilities/utilities.service';
 import { ModalService } from '../services/modal/modal.service';
 import { AuthenticationService } from '../services/authentication/authentication.service';
-import { RequestErrorPage } from '../modals/errors/request-error/request-error.page';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -20,7 +19,11 @@ export class JwtInterceptor implements HttpInterceptor {
 	) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (req.url === `${environment.apiUrl}/auth` || req.url.includes(`${environment.rasaChatbot}`)) {
+
+		if (req.url === `${environment.apiUrl}/auth` || 
+        req.url.includes(`${environment.apiUrl.replace('/api', '')}/telegram`) ||
+        req.url.includes(`${environment.rasaChatbot}`)
+    ) {
 			return next.handle(req);
 		} else {
 			return next.handle(this.attachToken(req)).pipe(
@@ -32,7 +35,8 @@ export class JwtInterceptor implements HttpInterceptor {
 	}
 
 	private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
-		if (res.body) {
+	
+    if (res.body) {
       this.utilitiesService.onSkeletonLoading.next(true);
 
 			const data = res.body.data;

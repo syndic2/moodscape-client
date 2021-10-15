@@ -1,22 +1,22 @@
 <ion-split-pane contentId="main">
   <ion-menu side="start" menuId="side-menu" contentId="main">
-    <ion-header class="side-menu-header ion-no-border">
+    <!--<ion-header class="side-menu-header ion-no-border">
       <ion-toolbar class="rounded-none">
         <ion-title>Menu</ion-title>
       </ion-toolbar>
-    </ion-header>
+    </ion-header>-->
     
     <ion-content class="side-menu-content">
-      <ion-list class="p-0" lines="none">
+      <ion-list class="" lines="none">
         <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
           <ion-item class="px-2" [routerLink]="page.url">
-            <ion-icon class="icon" slot="start" [name]="page.icon"></ion-icon>
+            <ion-icon slot="start" [name]="page.icon" color="primary"></ion-icon>
             <ion-label>{{ page.title }}</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle auto-hide="false">
           <ion-item class="px-2" lines="none" button (click)="onLogout()">
-            <ion-icon class="icon" slot="start" name="exit-outline"></ion-icon>
+            <ion-icon slot="start" name="exit-outline" color="primary"></ion-icon>
             <ion-label>Keluar</ion-label>
           </ion-item>
         </ion-menu-toggle>

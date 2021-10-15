@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
+      <ion-icon name="close" color="primary"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="flex-column-center row-gap-6">
+  <img src="/assets/icons/svg/my-password.svg" alt="" class="object-contain w-72 mx-auto">
+  <h3 class="font-semibold text-center">Berhasil mengirimkan kode OTP ke {{ phone }}</h3>
+  
+  <div class="flex jusitify-center items-center gap-x-5 my-4">
+    <ng-container *ngFor="let code of [].constructor(5); let idx= index">
+      <div class="flex justify-center items-center border rounded-lg border-primary w-12 h-14 p-4">
+        <span class="text-lg font-semibold">{{ OTPcodeSubject.value[idx] }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="flex flex-col gap-y-3">
+    <div (click)="onResendOTP()" class="inline-flex justify-center items-center gap-x-2">
+      <span class="font-medium">Tidak menerima kode OTP?</span>
+      <span class="font-semibold border-b border-primary pb-1">Kirim ulang OTP</span>
+    </div>
+    <div class="grid grid-cols-3">
+      <ng-container *ngFor="let number of [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0]; let idx= index">
+        <div #numberButton>
+          <ion-card (click)="onPressNumber(number, idx)" class="flex justify-center items-center rounded-lg font-medium text-center w-20 h-14 mx-auto">
+            <span class="text-lg font-semibold">{{ number }}</span>
+           </ion-card>
+        </div>
+      </ng-container>
+      <div #deleteInputButton>
+        <ion-card (click)="onDeleteNumberInput()" class="rounded-lg flex justify-center items-center w-20 h-14 mx-auto">
+          <ion-icon name="close" color="primary" class="text-2xl"></ion-icon>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>
