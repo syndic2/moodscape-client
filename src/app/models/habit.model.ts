@@ -22,12 +22,6 @@ export interface HabitTrack {
   streakLogs: HabitStreakLog[]
 };
 
-//export interface HabitTrackDetails {
-//  currentGoal: number,
-//  streaks: number,
-//  lastMarkedAt: string
-//};
-
 export interface Habit {
   Id: number,
   name: string,
@@ -39,6 +33,16 @@ export interface Habit {
   goalDates: { start: string, end: string },
   reminderTime: string,
   labelColor: string,
-  //trackDetails?: HabitTrackDetails,
   track: HabitTrack
+};
+
+export interface HabitAverageGroupByYear {
+  year: number,
+  habits: Habit[],
+  average: number
+};
+
+export interface HabitsAverageGroupByMonth {
+  group: string, 
+  habitAverageGroupByYear: HabitAverageGroupByYear[]
 };

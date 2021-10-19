@@ -1,9 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Habit } from 'src/app/models/habit.model';
+import { Habit, HabitsAverageGroupByMonth } from 'src/app/models/habit.model';
 
 //Fetch API
 export const fetchHabits= createAction('[Habit/API] Get habits');
+
+export const fetchHabitsChart= createAction('[Habit/API] Get habits chart');
 
 export const fetchHabitSearchResults= createAction(
   '[Habit/API] Get habit search results',
@@ -46,6 +48,11 @@ export const setHabits= createAction(
   props<{ habits: Habit[] }>()
 );
 
+export const setHabitsChart= createAction(
+  '[Habit/STORE] Set habits chart',
+  props<{ habitsChart: HabitsAverageGroupByMonth[] }>()
+);
+
 export const setHabitSearchResults= createAction(
   '[Habit/STORE] Set habit search results',
   props<{ habits: Habit[] }>()
@@ -73,5 +80,5 @@ export const removeHabits= createAction(
 
 export const markHabitGoal= createAction(
   '[Habit/STORE] Mark habits goal',
-  props<{ habitId: number }>()
+  props<{ habitId: number, fields: {} }>()
 );

@@ -27,10 +27,10 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
 
   public monthNames: (month: number) => string = monthNames;
   public moodsByMonth= { moods: [], moodsCount: null };
-  private lineChart;
-  private doughnutChart;
-  private calendarDateClicked: boolean= false;
+  public lineChart;
+  public doughnutChart;
 
+  private calendarDateClicked: boolean= false;
   private calendarPrevNextSubject: BehaviorSubject<Date>= new BehaviorSubject(new Date());
   private selectedMonthYearSubject: BehaviorSubject<{ month, year }>= new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
 
@@ -58,13 +58,12 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         this.store.dispatch(fetchMoods());
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.initializeCharts();
 
     this.calendarPrevNextSubscription= this.calendarPrevNextSubject.subscribe(value => {
-      this.getMoodsByMonthSubscription= this.store.select(getMoodsByMonth(value.getMonth(), value.getFullYear())).subscribe(res => {           
+      this.getMoodsByMonthSubscription= this.store
+        .select(getMoodsByMonth(value.getMonth(), value.getFullYear()))
+        .pipe(takeUntil(this.authenticationService.isLoggedIn))
+        .subscribe(res => {           
         this.moodsByMonth.moods= [...res.moods].map((mood, index) => ({
           title: mood.createdAt.date,
           startTime: new Date(mood.createdAt.date),
@@ -72,9 +71,12 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
           allDay: false
         }));
         this.moodsByMonth.moodsCount= { ...res.moodsCount };
-        this.cdRef.detectChanges();
       });
     });
+  }
+
+  ngAfterViewInit() {
+    this.initializeCharts();
 
     this.selectedMonthYearSubscription= this.selectedMonthYearSubject.subscribe(res => {
       this.getMoodsChartSubscription= this.store
@@ -100,8 +102,11 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
       });
     });
 
-    this.getMoodsTotalCountSubscription= this.store.select(getMoodsTotalCount).subscribe(res => {
-      if (!res) {
+    this.getMoodsTotalCountSubscription= this.store
+      .select(getMoodsTotalCount)
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
+      if (res.gembira === 0 && res.senang === 0 && res.netral === 0 && res.sedih === 0 && res.buruk === 0) {
         this.doughnutChart.data.datasets[0].data= [];
         this.doughnutChart.update();
       } else {
@@ -114,6 +119,8 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         this.doughnutChart.update();
       }
     });
+
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy() {
@@ -146,9 +153,9 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
             borderDashOffset: 0.0,
             borderCapStyle: 'butt',
             borderJoinStyle: 'miter',
-            borderColor: '#5b21b6',
+            borderColor: '#5B21B6',
             backgroundColor: 'transparent',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: '#FFF',
             data: []
           }
         ]
@@ -193,6 +200,9 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
             ]
           }
         ]
+      },
+      options: {
+        responsive: true
       }
     });
   }
@@ -203,7 +213,10 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
 
   onViewMoodsByDate(date: Date) {
     this.calendarDateClicked= true;
-    this.getMoodsByDate= this.store.select(getMoodsByDate(transformDateTime(date).toISODate())).subscribe(res => {
+    this.getMoodsByDate= this.store
+      .select(getMoodsByDate(transformDateTime(date).toISODate()))
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
       if (this.calendarDateClicked && res.moods.length) {
         this.store.dispatch(navigateGo({ 
           path: ['/moods/list-by-date'], 

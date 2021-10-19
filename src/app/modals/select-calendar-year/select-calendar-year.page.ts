@@ -8,7 +8,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./select-calendar-year.page.scss'],
 })
 export class SelectCalendarYearPage implements OnInit {
-  @Input() selectedYear: number= 2021;
+  @Input() selectedYear: number= new Date().getFullYear();
 
   public years: number[]= [];
 

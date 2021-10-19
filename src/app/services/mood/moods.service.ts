@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -14,8 +14,9 @@ import { MoodFilter } from 'src/app/models/mood.model';
   providedIn: 'root'
 })
 export class MoodService {
+  private skipLoading: string= 'false';
 
-  constructor(private http: HttpClient, @Inject('skipLoading') @Optional() private skipLoading: string) { }
+  constructor(private http: HttpClient) { }
 
   getMoods(): Observable<any> {
     const query= gqlCompress(`

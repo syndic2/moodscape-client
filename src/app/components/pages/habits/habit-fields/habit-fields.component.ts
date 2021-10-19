@@ -128,8 +128,8 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
       name: this.formBuilder.control('', [Validators.required]),
       description: this.formBuilder.control(''),
       type: this.formBuilder.control(this.selectedType),
-      day: this.formBuilder.control(''),
-      goal: this.formBuilder.control(null, [Validators.required]),
+      day: this.formBuilder.control('all day'),
+      goal: this.formBuilder.control(0, [Validators.required]),
       goalDates: this.formBuilder.group({
         start: this.formBuilder.control('', [Validators.required]),
         end: this.formBuilder.control('', [Validators.required]),
@@ -166,16 +166,16 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
     this.type.setValue(this.selectedType);
   }
 
-  onSelectDay(day) {
-    //if (day.id === -1) {
-    //  this.formGroup.controls['goal'].enable();
-    //} else {  
-    //  this.formGroup.controls['goal'].disable();
-    //}
+  //onSelectDay(day) {
+  //  //if (day.id === -1) {
+  //  //  this.formGroup.controls['goal'].enable();
+  //  //} else {  
+  //  //  this.formGroup.controls['goal'].disable();
+  //  //}
 
-    this.selectedDay= day;
-    this.day.setValue(day.name);
-  }
+  //  this.selectedDay= day;
+  //  this.day.setValue(day.name);
+  //}
 
   async onSelectGoalDate(field: string) {
     const modal= await this.modalController.create({
@@ -184,7 +184,7 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
         ...this.habit && { 
           selectedDate: field === 'startDate' ? this.goalStartDate.value : this.goalEndDate.value
         },
-        enabledDate: this.selectedDay.id
+        //enabledDate: this.selectedDay.id
       },
       cssClass: 'auto-height-modal rounded-modal'
     });

@@ -26,7 +26,7 @@ export class HabitsPage implements OnInit {
   public selectedMode: string= 'all';
 
   private getQueryParamsSubscription: Subscription;
-  private selectedDaySubscription: Subscription;
+  //private selectedDaySubscription: Subscription;
   private habitsSubscription: Subscription;
   private habitsDaySubscription: Subscription;
   
@@ -54,7 +54,7 @@ export class HabitsPage implements OnInit {
     this.getQueryParamsSubscription= this.activatedRoute.queryParams.subscribe(params => {
       if (JSON.stringify(params) !== '{}') {
         this.selectedMode= params['mode'];
-          this.habitsDaySubscription= this.store
+        this.habitsDaySubscription= this.store
           .select(getHabits(this.selectedDay.value, this.selectedMode))
           .pipe(takeUntil(this.authenticationService.isLoggedIn))
           .subscribe(res => {
@@ -63,19 +63,19 @@ export class HabitsPage implements OnInit {
       }
     });
 
-    this.selectedDaySubscription= this.selectedDay.subscribe(day => {
-      this.habitsDaySubscription= this.store
-        .select(getHabits(day, this.selectedMode))
-        .pipe(takeUntil(this.authenticationService.isLoggedIn))
-        .subscribe(res => {
-        this.habits= res;
-      });
-    });
+    //this.selectedDaySubscription= this.selectedDay.subscribe(day => {
+    //  this.habitsDaySubscription= this.store
+    //    .select(getHabits(day, this.selectedMode))
+    //    .pipe(takeUntil(this.authenticationService.isLoggedIn))
+    //    .subscribe(res => {
+    //    this.habits= res;
+    //  });
+    //});
   }
 
   ionViewWillLeave() {
     this.getQueryParamsSubscription && this.getQueryParamsSubscription.unsubscribe();
-    this.selectedDaySubscription && this.selectedDaySubscription.unsubscribe();
+    //this.selectedDaySubscription && this.selectedDaySubscription.unsubscribe();
     this.habitsSubscription && this.habitsSubscription.unsubscribe();
     this.habitsDaySubscription && this.habitsDaySubscription.unsubscribe();
   }
@@ -85,9 +85,9 @@ export class HabitsPage implements OnInit {
     event.target.complete();
   }
 
-  onSelectDay(day) {
-    this.selectedDay.next(day.name); 
-  }
+  //onSelectDay(day) {
+  //  this.selectedDay.next(day.name); 
+  //}
 
   onEdit(habit: Habit) {
     this.router.navigate(['/habits', habit.Id]);

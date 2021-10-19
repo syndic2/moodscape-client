@@ -49,6 +49,10 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 
 	private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
     switch (error.status) {
+      case 0:
+        this.modalService.requestError(error.statusText)
+        break;
+      
       case 400:
         this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
         break;

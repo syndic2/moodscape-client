@@ -1,5 +1,5 @@
-<div class="flex flex-col gap-y-6">
-  <ion-card class="rounded-lg p-4">
+<div class="flex flex-col gap-y-5">
+  <ion-card class="rounded-lg p-5">
     <app-calendar 
       [isStatistics]="true" 
       [eventSource]="habitsByMonth"
@@ -12,5 +12,44 @@
         {{ view.dates[row*7+col].label }}
       </div>
     </ng-template>
+  </ion-card>
+
+  <ion-card class="flex flex-col gap-y-4 rounded-lg p-5">
+    <div class="flex justify-center items-center gap-x-2">
+      <h2 class="text-lg font-semibold">Top Habit Total Streaks Score</h2>
+      <fa-icon icon="trophy" class="text-yellow-500"></fa-icon>
+    </div>
+    <ng-container *ngIf="!habitsByBestStreaks.length; else showTopStreaks">
+      <span class="font-medium text-center">Belum ada data habit</span>
+    </ng-container>
+    <ng-template #showTopStreaks>
+      <ol class="list-decimal list-inside flex flex-col gap-y-2">
+        <li *ngFor="let habit of habitsByBestStreaks">
+          <div class="inline-flex flex-col">
+            <span class="font-semibold">{{ habit.name }}</span>
+            <span>
+              {{ (habit.goalDates.start | dateInBahasa).shortDate }} - {{ (habit.goalDates.end | dateInBahasa).shortDate }} ({{ habit.totalStreaks }} hari)
+            </span>
+          </div>
+        </li>
+      </ol>
+    </ng-template>
+  </ion-card>
+
+  <ion-card class="relative flex flex-col justify-center items-center gap-y-2 rounded-lg p-5"> 
+    <div *ngIf="!barChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+      <span class="text-lg font-semibold">Belum ada data habit</span>
+    </div>
+    <h2 class="text-lg font-semibold text-center">Grafik Keberhasilan Tahunan</h2>
+    <button (click)="onSelectBarChartYear()" class="border rounded-lg text-white bg-primary w-fit-content p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
+    <canvas #barChartCanvas></canvas>
+  </ion-card>
+
+  <ion-card class="relative flex flex-col justify-center items-center gap-y-2 rounded-lg p-5">
+    <div *ngIf="!pieChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+      <span class="text-lg font-semibold">Belum ada data habit</span>
+    </div>
+    <h2 class="text-lg font-semibold text-center">Total Presentase Keberhasilan</h2>
+    <canvas #pieChartCanvas></canvas>
   </ion-card>
 </div>

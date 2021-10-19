@@ -2,16 +2,28 @@ import { createReducer, on } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { HabitState } from '../states';
-import { setHabits, setHabitSearchResults, setHabit, createHabit, updateHabit, removeHabits, markHabitGoal } from '../actions/habit.actions';
+import { 
+  setHabits, 
+  setHabitsChart,
+  setHabitSearchResults, 
+  setHabit, 
+  createHabit, 
+  updateHabit, 
+  removeHabits, 
+  markHabitGoal 
+} from '../actions/habit.actions';
 
 const initialState: HabitState= {
   habits: [],
-  habitSearchResults: []
+  habitSearchResults: [], 
+  habitsChart: []
 };
 
 export const habitReducer= createReducer(
   initialState,
   on(setHabits, (state, { habits }) => ({ ...state, habits: [...habits] })),
+
+  on(setHabitsChart, (state, { habitsChart }) => ({ ...state, habitsChart: [...habitsChart] })),
 
   on(setHabitSearchResults, (state, { habits }) => ({ ...state, habitSearchResults: [...habits] })),
 
@@ -54,7 +66,7 @@ export const habitReducer= createReducer(
     ]
   })),
 
-  on(markHabitGoal, (state, { habitId }) => ({
+  on(markHabitGoal, (state, { habitId, fields }) => ({
     ...state,
     habits: [
       ...state.habits.map((habit, index) => {
@@ -62,7 +74,7 @@ export const habitReducer= createReducer(
           return habit;
         }
         
-        return { ...habit }
+        return { ...habit, ...fields }
       })
     ]
   }))

@@ -29,6 +29,18 @@ export const getHabits= (day: string= '', groupBy: string= 'all') => {
   );
 };  
 
+export const getHabitsChartByYear= (year: number= new Date().getFullYear()) => {
+  return createSelector(
+    selectHabitFeature,
+    state => state.habitsChart.map(monthGroup => {
+      return {
+        group: monthGroup.group,
+        habitAverageGroupByYear: monthGroup.habitAverageGroupByYear.find(yearGroup => yearGroup.year === year)
+      }
+    })
+  );
+};  
+
 export const getHabitsByMonth= (month: number, year: number) => {
   return createSelector(
     getHabits(),
@@ -46,6 +58,24 @@ export const getHabitsByDate= (date: string) => {
     state => state.filter(habit => habit.goalDates.start === date)
   );
 };
+
+export const getHabitsByBestStreaks= (topLength: number= 5) => {
+  return createSelector(
+    getHabits(),
+    state => [...state]
+      .sort((a, b) => b.track.totalStreaks - a.track.totalStreaks)
+      .slice(0, topLength)
+      .map(habit => ({ name: habit.name, goalDates: habit.goalDates, totalStreaks: habit.track.totalStreaks }))
+  );
+};
+
+export const getHabitsByTotalCompleted= createSelector(
+  getHabits(),
+  state => ({
+    completes: state.filter(habit => habit.track.totalCompleted > 0),
+    notCompletes: state.filter(habit => habit.track.totalCompleted === 0)
+  })
+);
 
 export const getHabit= (habitId: number) => {
   return createSelector(

@@ -37,6 +37,7 @@ export class ActivitiesPage implements OnInit {
       .subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchActivityCategories());
+        this.activityCategories= [];
       } else {
         this.activityCategories= res;
       }

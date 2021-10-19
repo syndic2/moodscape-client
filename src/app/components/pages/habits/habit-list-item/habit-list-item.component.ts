@@ -41,11 +41,16 @@ export class HabitListItemComponent implements OnInit, OnChanges {
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
-    if (this.currentDate >= startDate && this.currentDate <= endDate) {
-      this.daysLeft= daysBetweenDates(transformDateTime(this.currentDate).toISODate(), transformDateTime(endDate).toISODate());
-      this.daysLeft= this.goalProgress === 100 ? 0 : this.daysLeft;
-    } else {
+    if (this.currentDate > startDate && this.currentDate > endDate) {
+      this.daysLeft= 0;
+    } else if (this.currentDate < startDate && this.currentDate < endDate) {
       this.daysLeft= -1;
+    } else if (this.currentDate >= startDate && this.currentDate <= endDate) {
+      this.daysLeft= daysBetweenDates(transformDateTime(this.currentDate).toISODate(), transformDateTime(endDate).toISODate());
+    }
+
+    if (this.goalProgress === 100) {
+      this.daysLeft= 0;
     }
   }
 

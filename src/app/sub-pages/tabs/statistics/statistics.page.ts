@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { fetchMoods, fetchMoodsChart } from 'src/app/store/actions/mood.actions';
-import { fetchHabits } from 'src/app/store/actions/habit.actions';
+import { fetchHabits, fetchHabitsChart } from 'src/app/store/actions/habit.actions';
 
 @Component({
   selector: 'app-statistics',
@@ -37,6 +37,7 @@ export class StatisticsPage implements OnInit {
     this.store.dispatch(fetchMoods());
     this.store.dispatch(fetchMoodsChart());
     this.store.dispatch(fetchHabits());
+    this.store.dispatch(fetchHabitsChart());
     event.target.complete();
   }
 }

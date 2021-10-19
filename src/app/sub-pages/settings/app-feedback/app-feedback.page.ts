@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { MoodEmoticon } from 'src/app/models/mood.model';
+import { showAlert, showRequestErrorModal } from 'src/app/store/actions/application.actions';
 import { FeedbackService } from 'src/app/services/feedback/feedback.service';
 
 @Component({
@@ -15,14 +15,10 @@ import { FeedbackService } from 'src/app/services/feedback/feedback.service';
 })
 export class AppFeedbackPage implements OnInit {
   public feedbackForm: FormGroup;
-  private submitFeedbackListener: Subscription;
+  private sendFeedbackSubscription: Subscription;
   private rating: number= 0;
 
-  constructor(
-		private alertController: AlertController,
-		private toastController: ToastController,
-    private feedbackService: FeedbackService
-  ) { }
+  constructor(private store: Store, private feedbackService: FeedbackService) { }
 
   ngOnInit() {
     this.feedbackForm= new FormGroup({
@@ -32,7 +28,7 @@ export class AppFeedbackPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.submitFeedbackListener && this.submitFeedbackListener.unsubscribe();
+    this.sendFeedbackSubscription && this.sendFeedbackSubscription.unsubscribe();
   }
   
   get review() {
@@ -48,23 +44,24 @@ export class AppFeedbackPage implements OnInit {
   }
 
   async onSubmit() {
-    const alert= await this.alertController.create({ buttons: ['OK'] });
-
     if (this.rating === 0) {
-      alert.message= 'Nilai rating tidak boleh kosong!';
-      alert.present();
+      this.store.dispatch(showAlert({
+        options: {
+          message: 'Nilai rating tidak boleh kosong!',
+          buttons: ['OK']
+        } 
+      }));
     } else {
-      this.feedbackService.sendAppFeedback({ rating: this.rating, ...this.feedbackForm.value }).subscribe(async res => {
+      this.sendFeedbackSubscription= this.feedbackService.sendAppFeedback({ rating: this.rating, ...this.feedbackForm.value }).subscribe(async res => {
         if (!res.response.status) {
-          const toast= await this.toastController.create({
-            message: res.response.text,
-            position: 'top',
-            duration: 2000
-          });
-          toast.present();
+          this.store.dispatch(showRequestErrorModal({ message: res.response.text }));
         } else {
-          alert.message= 'Ulasan anda berhasil terkirim. Terima kasih telah memberikan ulasan!';
-          alert.present();
+          this.store.dispatch(showAlert({
+            options: {
+              message: 'Ulasan anda berhasil terkirim. Terima kasih telah memberikan ulasan!',
+              buttons: ['OK']
+            } 
+          }));
         }
       });
     }

@@ -21,14 +21,14 @@ export class FeedbackService {
       mutation {
         createAppFeedback(fields: ${StringifyObject(filterObjectProps(fields), { singleQuotes: false })}) {
           createdFeedback {
-            __typename
-            ... on AuthInfoField {
-							message
-						},
-            ... on AppFeedback {
+            Id,
+            user {
               Id,
-              userId
-              createdAt
+              email
+            }
+            createdAt {
+              date,
+              time
             }
           },
           response {

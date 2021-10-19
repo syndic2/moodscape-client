@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HabitService {
-  private skipLoading: string= 'true';
+  private skipLoading: string= 'false';
 
   constructor(private http: HttpClient) { }
 
@@ -74,6 +74,40 @@ export class HabitService {
       }
     }).pipe(
       map((res: any) => res.data.getUserHabits)
+    );
+  }
+
+  getHabitsChart(): Observable<any> {
+    const query= gqlCompress(`
+      query {
+        getUserHabitsChart {
+          __typename
+            ... on AuthInfoField {
+            message
+          },
+          ... on UserHabitsChart {
+            userId,
+            habitsChart {
+              group,
+              habitAverageGroupByYear {
+                year,
+                habits {
+                  Id
+                }
+                average
+              }
+            }
+          }
+        }
+      }
+    `);
+
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      ...this.skipLoading && {
+        headers: { skipLoading: this.skipLoading }
+      }
+    }).pipe(
+      map((res: any) => res.data.getUserHabitsChart)
     );
   }
 

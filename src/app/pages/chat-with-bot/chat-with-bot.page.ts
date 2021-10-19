@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fetchProfile } from 'src/app/store/actions/user.actions';
@@ -19,10 +20,15 @@ export class ChatWithBotPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
   public messages: any[]= [];
-  private sender: string | number;
   public messageText: string= '';
+  private sender: string | number;
+  private sendMessageSubscription: Subscription;
 
-  constructor(private store: Store, private authenticationService: AuthenticationService, private chatbotService: ChatbotService) { }
+  constructor(
+    private store: Store, 
+    private authenticationService: AuthenticationService, 
+    private chatbotService: ChatbotService
+  ) { }
 
   ngOnInit() {
   }
@@ -32,10 +38,16 @@ export class ChatWithBotPage implements OnInit {
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (res) {
+      if (!res) {
+        this.store.dispatch(fetchProfile());
+      } else {
         this.sender= res.Id;
       }
     });
+  }
+
+  ionViewWillLeave() {
+    this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
   }
 
   pullRefresh(event) {
@@ -51,7 +63,10 @@ export class ChatWithBotPage implements OnInit {
       this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: this.messageText });
       this.messages.push({ isLoading: true });
 
-      this.chatbotService.sendMessage(this.sender, this.messageText).subscribe((res: any[]) => {
+      this.sendMessageSubscription= this.chatbotService
+        .sendMessage(this.sender, this.messageText)
+        .pipe(takeUntil(this.authenticationService.isLoggedIn))
+        .subscribe((res: any[]) => {
         if (res.length) {
           this.messages.pop();
           this.messages= [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];

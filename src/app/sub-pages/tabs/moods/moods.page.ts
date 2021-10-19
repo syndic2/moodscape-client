@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { sortDescObjectKeys } from 'src/app/utilities/helpers';
 import { fetchMoods } from 'src/app/store/actions/mood.actions';
-import { getMoods, getGroupedMoodsByDate } from 'src/app/store/selectors/mood.selectors';
+import { getGroupedMoodsByDate } from 'src/app/store/selectors/mood.selectors';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
@@ -17,8 +17,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class MoodsPage implements OnInit {
   public groupedMoods: {}= {};
-  private moodsSubscription: Subscription= null;
-  private groupedMoodsSubscription: Subscription= null;
+  private groupedMoodsSubscription: Subscription;
   public sortDescObjectKeys= sortDescObjectKeys;
 
   constructor(
@@ -30,27 +29,20 @@ export class MoodsPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewWillEnter() {
-    this.moodsSubscription= this.store
-      .select(getMoods)
-      .pipe(takeUntil(this.authenticationService.isLoggedIn))
-      .subscribe(res => {
-      if (!res.length) {
-        this.store.dispatch(fetchMoods());
-      }
-    });
+  ionViewWillEnter() {    
     this.groupedMoodsSubscription= this.store
       .select(getGroupedMoodsByDate('moods'))
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (JSON.stringify(res) !== '{}') {
-        this.groupedMoods= res;
+      if (!res) {
+        this.store.dispatch(fetchMoods());
       }
+
+      this.groupedMoods= res;
     });
   }
 
   ionViewWillLeave() {
-    this.moodsSubscription && this.moodsSubscription.unsubscribe();
     this.groupedMoodsSubscription && this.groupedMoodsSubscription.unsubscribe();
   }
 

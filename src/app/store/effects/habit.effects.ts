@@ -7,6 +7,7 @@ import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators'
 import { showAlert, showRequestErrorModal } from '../actions/application.actions';
 import { 
   fetchHabits,
+  fetchHabitsChart,
   fetchHabitSearchResults,
   fetchHabit,
   fetchCreateHabit,
@@ -16,6 +17,7 @@ import {
   fetchMarkHabitGoal,
   
   setHabits,
+  setHabitsChart,
   setHabitSearchResults,
   setHabit,
   createHabit,
@@ -34,6 +36,13 @@ export class HabitEffects {
     ))
   ));
   
+  getHabitsChart$= createEffect(() => this.actions$.pipe(
+    ofType(fetchHabitsChart),
+    exhaustMap(() => this.habitService.getHabitsChart().pipe(
+      map(res => setHabitsChart({ habitsChart: res.habitsChart }))
+    ))
+  ));
+
   getHabit$= createEffect(() => this.actions$.pipe(
     ofType(fetchHabit),
     exhaustMap(({ habitId }) => this.habitService.getHabit(habitId).pipe(
@@ -100,7 +109,7 @@ export class HabitEffects {
   markHabitGoal$= createEffect(() => this.actions$.pipe(
     ofType(fetchMarkHabitGoal),
     concatMap(({ habitId, markedAt }) => this.habitService.markHabitGoal(habitId, markedAt).pipe(
-      map(res => !res.markedHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : markHabitGoal({ habitId: res.markedHabit.Id }))
+      map(res => !res.markedHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : markHabitGoal({ habitId: res.markedHabit.Id, fields: res.markedHabit }))
     ))
   ));
 
