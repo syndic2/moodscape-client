@@ -19,6 +19,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
   @ViewChild('habitGoalProgressBar', { static: false }) habitProgressBar: ElementRef;
   
   public currentLog: HabitStreakLog;
+  public lastMarkedAt: Date;
   public daysLeft: number= 0;
   public currentGoal: number= 0;
   public goalProgress: number= 0;
@@ -31,6 +32,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.currentLog= this.habit.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start);
+    this.lastMarkedAt= this.currentLog.lastMarkedAt ? new Date(this.currentLog.lastMarkedAt) : null;
     this.currentGoal= this.currentLog.currentGoal;
     this.calculateProgress();
     
@@ -46,7 +48,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
     } else if (this.currentDate < startDate && this.currentDate < endDate) {
       this.daysLeft= -1;
     } else if (this.currentDate >= startDate && this.currentDate <= endDate) {
-      this.daysLeft= daysBetweenDates(transformDateTime(this.currentDate).toISODate(), transformDateTime(endDate).toISODate());
+      this.daysLeft= daysBetweenDates(transformDateTime(this.currentDate).toISODate(), transformDateTime(endDate).toISODate())+1;
     }
 
     if (this.goalProgress === 100) {

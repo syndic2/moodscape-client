@@ -38,6 +38,7 @@ export class SelectActivitiesComponent implements OnInit, OnDestroy {
         this.store.dispatch(fetchActivityCategories());
       }
     });
+    
     this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));

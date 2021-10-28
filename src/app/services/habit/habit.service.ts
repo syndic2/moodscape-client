@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HabitService {
-  private skipLoading: string= 'false';
+  private skipLoading: string= 'skip';
 
   constructor(private http: HttpClient) { }
 
@@ -68,11 +68,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserHabits)
     );
   }
@@ -102,11 +98,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserHabitsChart)
     );
   }
@@ -116,11 +108,7 @@ export class HabitService {
 
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => console.log('res', res))
     );
   }
@@ -174,11 +162,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserHabit)
     );
   }
@@ -227,11 +211,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createHabit)
     );
   }
@@ -280,11 +260,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateHabit)
     );
   }
@@ -302,11 +278,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.removeHabits)
     );
   }
@@ -354,11 +326,7 @@ export class HabitService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.markHabitGoal)
     );
   }

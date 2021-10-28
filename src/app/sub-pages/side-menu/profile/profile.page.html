@@ -14,17 +14,19 @@
 		<ion-refresher-content></ion-refresher-content>
 	</ion-refresher>
 
+	<ion-icon src="/assets/icons/svg/joyride.svg" color="primary" class="block mx-auto" style="font-size: 10rem;"></ion-icon>
+
 	<ng-container *ngIf="!user; else showProfile">
 		<profile-fields-loader></profile-fields-loader>
 	</ng-container>
 	<ng-template #showProfile>
-		<ion-avatar class="mx-auto" *ngIf="user">
+		<!--<ion-avatar class="mx-auto" *ngIf="user">
 			<img [src]="user.imgUrl" />
-		</ion-avatar>
-		<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()" class="mt-2">
+		</ion-avatar>-->
+		<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
 			<ion-grid fixed>
         <ion-row>
-          <profile-fields [form]="updateProfileForm" [errorMessages]="errorMessages"></profile-fields>
+          <profile-fields [user]="user" [form]="updateProfileForm" [errorMessages]="errorMessages"></profile-fields>
           <ion-col class="text-center" size="12">
             <ion-button type="submit" shape="round" class="normal-case">Simpan</ion-button>
           </ion-col>

@@ -91,6 +91,6 @@ export class ActivityDetailPage implements OnInit {
   }
 
   onRemove() {
-    this.store.dispatch(removeActivitiesConfirmation({ activityIds: [this.activityId], activityCategoryId: this.activityCategory?.Id }));
+    this.store.dispatch(removeActivitiesConfirmation({ activityIds: [this.activityId], activityCategoryId: this.activityCategory?.Id }))
   }
 }

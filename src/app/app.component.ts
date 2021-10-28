@@ -1,48 +1,62 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { Platform } from '@ionic/angular';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { Capacitor, Network } from '@capacitor/core';
 
-import { AuthenticationService } from './services/authentication/authentication.service';
+import { FirebaseCloudMessagingService } from './services/firebase-cloud-messaging/firebase-cloud-messaging.service';
+import { ModalService } from './services/modal/modal.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
     private location: Location,
     private zone: NgZone,
-    private deepLinks: Deeplinks,
-    private navController: NavController,
     private platform: Platform,
-    private authService: AuthenticationService
-  ) {
-    this.initializeApp();
+    private deepLinks: Deeplinks,
+    private fcmService: FirebaseCloudMessagingService,
+    private modalService: ModalService
+  ) { }
+
+  ngOnInit() {
+    this.checkNetworkConnection();
+
+    if (Capacitor.platform !== 'web') {
+      this.platform.ready().then(() => {
+        this.setupDeepLinks();
+        this.hardwareBackButton();
+        this.fcmService.initPush();
+      });
+    } else {
+      console.log('Ionic platform: web version');
+    }
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.setupDeepLinks();
-      this.hardwareBackButton();
+  checkNetworkConnection() {
+    Network.addListener('networkStatusChange', status => {
+      if (!status.connected) {
+        this.modalService.internetConnectionError('Tidak ada koneksi internet');
+      }
     });
   }
 
   setupDeepLinks() {
     this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
       const internalPath= `${match.$link.path}`;
-      //alert(`matching a deeplink: ${internalPath}`);
       this.zone.run(() => {
         this.router.navigateByUrl(internalPath);
       });
     }, nomatch => {
       //alert(`not matching a deeplink: ${JSON.stringify(nomatch)}`);
-      console.error('not matching a deeplink', nomatch);
+      //console.error('not matching a deeplink', nomatch);
     });
   }
 

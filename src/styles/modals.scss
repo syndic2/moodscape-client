@@ -1,12 +1,12 @@
 ion-modal {
   &.auto-height-modal {
     --height: auto;
-    padding: 2.5rem;
+    padding: 10vw;
   
     //&.bottom {
     //  align-items: flex-end;
     //}
-  
+
     .ion-page {
       display: block;
       position: relative;
@@ -17,6 +17,10 @@ ion-modal {
         overflow: auto;
         padding: 1rem;
       }
+    }
+
+    @media screen and (max-width: 400px) {
+      padding: 3vw;
     }
   }
 

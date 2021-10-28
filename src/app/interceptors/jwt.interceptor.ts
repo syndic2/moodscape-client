@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { UtilitiesService } from '../services/utilities/utilities.service';
@@ -19,23 +19,25 @@ export class JwtInterceptor implements HttpInterceptor {
 	) { }
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
 		if (req.url === `${environment.apiUrl}/auth` || 
         req.url.includes(`${environment.apiUrl.replace('/api', '')}/telegram`) ||
         req.url.includes(`${environment.rasaChatbot}`)
     ) {
 			return next.handle(req);
 		} else {
-			return next.handle(this.attachToken(req)).pipe(
-				map((res: any) => {
-					return this.reAuthenticate(req, res, next);
-				})
-			);
+      return this.authService.getToken().pipe(
+        switchMap(token => {
+          return next.handle(this.attachToken(req, token)).pipe(
+            map((res: any) => {
+              return this.reAuthenticate(req, res, next);
+            })
+          );
+        })
+      )
 		}
 	}
 
 	private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
-	
     if (res.body) {
       this.utilitiesService.onSkeletonLoading.next(true);
 
@@ -43,9 +45,9 @@ export class JwtInterceptor implements HttpInterceptor {
       const resolver= data[Object.keys(data)[0]]
 			let isTokenExpired: boolean= false;
 
-      console.log('body', res.body);
+      //console.log('body', res.body);
       //console.log('resolver', resolver);
-
+      
       if (resolver === undefined || resolver === null) {
         isTokenExpired= true;
       } else {
@@ -68,25 +70,27 @@ export class JwtInterceptor implements HttpInterceptor {
 			} else {
 				//console.log('token need to be refresh', isTokenExpired);
 
-				return this.authService.refreshToken().subscribe(async newToken => {
-					//console.log('finish refreshing token');
-					//console.log('new token', newToken);
-          
-          this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
-				});
+				//return this.authService.refreshToken().subscribe(async newToken => {
+				//	//console.log('finish refreshing token');
+				//	//console.log('new token', newToken);
+        //  
+        //  this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
+				//});
+
+        this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
+
+        return this.authService.refreshToken();
 			}
 		}
 	}
 
-	private attachToken(req: HttpRequest<any>) {
-		//console.log('user already setted token', this.authService.userData.getValue());
-
-		if (!this.authService.userData.getValue()) {
+	private attachToken(req: HttpRequest<any>, token: string) {
+		if (!token) {
 			return req;
 		}
 
 		return req.clone({
-			headers: req.headers.set('Authorization', `Bearer ${this.authService.userData.getValue()}`)
+			headers: req.headers.set('Authorization', `Bearer ${token}`)
 		});
 	}
 }

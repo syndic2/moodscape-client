@@ -13,12 +13,33 @@ export class ChatbotService {
 
   constructor(private http: HttpClient) {}
 
+  BOTGreetFirst(userId: string) {
+    return this.http.post(`${environment.rasaChatbot}/conversations/${userId}/trigger_intent`, 
+      { name: 'greet' }, {
+        ...this.skipLoading && {
+          headers: { skipLoading: this.skipLoading }
+        }  
+      }
+    );
+  }
+
+  setAuthId(userId: string): Observable<any> {
+    return this.http.post(`${environment.rasaChatbot}/conversations/jonathan/tracker/events`,
+      { event: 'slot', name: 'auth_id', value: userId }, {
+        ...this.skipLoading && {
+          headers: { skipLoading: this.skipLoading }
+        }    
+      }
+    );
+  }
+
   sendMessage(sender: string | number, messageText: string): Observable<any> {
     return this.http.post(`${environment.rasaChatbot}/webhooks/rest/webhook`, 
       { sender: sender, message: messageText }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
+        ...this.skipLoading && {
+          headers: { skipLoading: this.skipLoading }
+        }
       }
-    });
+    );
   }
 }

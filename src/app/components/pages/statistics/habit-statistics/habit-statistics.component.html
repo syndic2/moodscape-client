@@ -36,20 +36,24 @@
     </ng-template>
   </ion-card>
 
-  <ion-card class="relative flex flex-col justify-center items-center gap-y-2 rounded-lg p-5"> 
-    <div *ngIf="!barChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
-      <span class="text-lg font-semibold">Belum ada data habit</span>
-    </div>
+  <ion-card class="flex flex-col justify-center items-center gap-y-2 rounded-lg p-5"> 
     <h2 class="text-lg font-semibold text-center">Grafik Keberhasilan Tahunan</h2>
     <button (click)="onSelectBarChartYear()" class="border rounded-lg text-white bg-primary w-fit-content p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
-    <canvas #barChartCanvas></canvas>
+    <div class="relative w-full h-full">
+      <div *ngIf="!barChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+        <span class="text-lg font-semibold">Belum ada data habit</span>
+      </div>
+      <canvas #barChartCanvas></canvas>
+    </div>
   </ion-card>
 
-  <ion-card class="relative flex flex-col justify-center items-center gap-y-2 rounded-lg p-5">
-    <div *ngIf="!pieChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
-      <span class="text-lg font-semibold">Belum ada data habit</span>
-    </div>
+  <ion-card class="flex flex-col justify-center items-center gap-y-2 rounded-lg p-5">
     <h2 class="text-lg font-semibold text-center">Total Presentase Keberhasilan</h2>
-    <canvas #pieChartCanvas></canvas>
+    <div class="relative w-full h-full">
+      <div *ngIf="!pieChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+        <span class="text-lg font-semibold">Belum ada data habit</span>
+      </div>
+      <canvas #pieChartCanvas></canvas>
+    </div>
   </ion-card>
 </div>

@@ -22,6 +22,8 @@ export class ChatWithBotPage implements OnInit {
   public messages: any[]= [];
   public messageText: string= '';
   private sender: string | number;
+  private BOTGreetFirstSubscription: Subscription;
+  private setAuthIdSubscription: Subscription;
   private sendMessageSubscription: Subscription;
 
   constructor(
@@ -42,11 +44,18 @@ export class ChatWithBotPage implements OnInit {
         this.store.dispatch(fetchProfile());
       } else {
         this.sender= res.Id;
+        //this.BOTGreetFirstSubscription= this.chatbotService.BOTGreetFirst(this.sender).subscribe((res: any) => {
+        //  console.log('res', res.messages);
+        //});
+        this.setAuthIdSubscription= this.chatbotService.setAuthId(this.sender).subscribe(res => {
+          console.log('res', res);
+        });
       }
     });
   }
 
   ionViewWillLeave() {
+    this.setAuthIdSubscription && this.setAuthIdSubscription.unsubscribe();
     this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
   }
 

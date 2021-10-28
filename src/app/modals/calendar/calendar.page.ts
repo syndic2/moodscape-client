@@ -16,10 +16,11 @@ export class CalendarPage implements OnInit, AfterViewInit {
   @Input() isStatistics: boolean= false;
   @Input() selectedDate: Date= new Date();
   @Input() enabledDate: number;
+  @Input() disablePastDate: boolean= false;
   @Input() eventSource: any= [];
   @Input() monthViewTemplate: TemplateRef<any>;
-  @Input() monthViewCurrentColor= { text: 'white', background: '#00FF00' };
-  @Input() monthViewSelectedColor= { text: 'white', background: '#5B21B6' };
+  //@Input() monthViewCurrentColor= { text: 'white', background: '#00FF00' };
+  //@Input() monthViewSelectedColor= { text: 'white', background: '#5B21B6' };
   @Output() selectDateChangedEvent: EventEmitter<Date>= new EventEmitter();
   @ViewChild(CalendarComponent) calendar: CalendarComponent;
 
@@ -42,13 +43,19 @@ export class CalendarPage implements OnInit, AfterViewInit {
   constructor(private elementRef: ElementRef, private modalController: ModalController) { }
 
   ngOnInit() {
-    if (this.enabledDate) {
+    this.currentDate= this.selectedDate;
+
+    //if (this.enabledDate) {
+    //  this.markDisabled= (date: Date): boolean => {
+    //    return this.enabledDate !== -1 && date.getDay() !== this.enabledDate;
+    //  }
+    //}
+
+    if (this.disablePastDate) {
       this.markDisabled= (date: Date): boolean => {
-        return this.enabledDate !== -1 && date.getDay() !== this.enabledDate;
+        return date < new Date();
       }
     }
-
-    this.currentDate= this.selectedDate;
   }
 
   ngAfterViewInit() {
@@ -127,10 +134,16 @@ export class CalendarPage implements OnInit, AfterViewInit {
   onTimeSelected(event) {
     const date: Date= event.selectedTime;
 
-    if (!this.enabledDate) {
+    //if (!this.enabledDate) {
+    //  this.selectedDate= date;
+    //} else {
+    //  this.selectedDate= this.enabledDate !== -1 && this.enabledDate !== date.getDay() ? this.selectedDate : date;
+    //}
+
+    if (!this.disablePastDate) {
       this.selectedDate= date;
     } else {
-      this.selectedDate= this.enabledDate !== -1 && this.enabledDate !== date.getDay() ? this.selectedDate : date;
+      this.selectedDate= date > new Date() ? date : this.selectedDate;
     }
 
     if (this.isStatistics) {

@@ -18,7 +18,7 @@
         placeholder="Ketik sesuatu bedasarkan..."
         showCancelButton="never">
       </ion-searchbar>
-      <span class="text-sm italic font-semibold ml-2">*default: Catatan</span>
+      <!--<span class="text-sm italic font-semibold ml-2">*default: Catatan</span>-->
     </div>
 
     <div class="flex flex-col items-center gap-y-5 w-full">
@@ -27,15 +27,15 @@
       <select-emoticon (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-4/5"></select-emoticon>
 
       <div class="flex flex-wrap justify-center gap-2 w-full">
-        <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-85': filters.parameters.internal }" expand="block" color="warning" shape="round" class="flex-1 normal-case">
+        <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-75': filters.parameters.internal }" expand="block" color="warning" shape="round" class="flex-1 normal-case">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Internal
         </ion-button>
-        <ion-button (click)="onText('external')" [ngClass]="{ 'filter brightness-85': filters.parameters.external }" expand="block" color="danger" shape="round" class="flex-1 normal-case">
+        <ion-button (click)="onText('external')" [ngClass]="{ 'filter brightness-75': filters.parameters.external }" expand="block" color="danger" shape="round" class="flex-1 normal-case">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           External
         </ion-button>
-        <ion-button (click)="onText('note')" [ngClass]="{ 'filter brightness-85': filters.note }" expand="block" color="success" shape="round" class="normal-case w-1/2">
+        <ion-button (click)="onText('note')" [ngClass]="{ 'filter brightness-75': filters.note }" expand="block" color="success" shape="round" class="normal-case w-1/2">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Catatan
         </ion-button>

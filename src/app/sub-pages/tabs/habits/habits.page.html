@@ -6,11 +6,11 @@
 				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
-    <ion-buttons slot="end">
+    <!--<ion-buttons slot="end">
       <ion-button [routerLink]="['/habits/search']">
         <ion-icon slot="icon-only" name="search" size="large" class="icon"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons>-->
 	</ion-toolbar>
 </ion-header>
 
@@ -32,14 +32,14 @@
     <ion-button
       [routerLink]="['/side-menu/tabs/habits']"
       [queryParams]="{ mode: 'marked' }" 
-      [color]="selectedMode === 'marked' ? 'primary' : 'light'" 
+      [color]="selectedMode === 'marked' ? 'success' : 'light'" 
       class="normal-case">
       <ion-icon name="checkmark-done"></ion-icon>
     </ion-button>
     <ion-button
       [routerLink]="['/side-menu/tabs/habits']"
       [queryParams]="{ mode: 'unmarked' }" 
-      [color]="selectedMode === 'unmarked' ? 'primary' : 'light'" 
+      [color]="selectedMode === 'unmarked' ? 'danger' : 'light'" 
       class="normal-case">
     <ion-icon name="alert"></ion-icon>
   </ion-button>

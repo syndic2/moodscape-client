@@ -29,12 +29,12 @@ export const fetchUpdateMood= createAction(
 
 export const removeMoodsConfirmation= createAction(
   '[Mood/API] Remove moods confirmation',
-  props<{ moodIds: number[] }>()
+  props<{ moodIds: number[], removeFromSearchResults?: boolean }>()
 );
 
 export const fetchRemoveMoods= createAction(
   '[Mood/API] Remove moods',
-  props<{ moodIds: number[] }>()
+  props<{ moodIds: number[], removeFromSearchResults?: boolean }>()
 );
 
 //STORE
@@ -70,6 +70,6 @@ export const updateMood= createAction(
 
 export const removeMoods= createAction(
   '[Mood/STORE] Remove moods',
-  props<{ moodIds: number[] }>()
+  props<{ moodIds: number[], removeFromSearchResults?: boolean }>()
 );
 

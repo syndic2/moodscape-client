@@ -37,7 +37,7 @@ export class InputOTPCodePage implements OnInit {
   ionViewWillEnter() {
     this.getOTPcodeSubscription= this.OTPcodeSubject.subscribe(code => {
       if (code.length === 5) {
-        this.chatEmotionsService.telegramOTPVerification(this.userId, this.OTPcodeSubject.value, this.phoneCodeHash)
+        this.verifyOTPSubscription= this.chatEmotionsService.telegramOTPVerification(this.userId, this.phone, this.phoneCodeHash, this.OTPcodeSubject.value)
           .pipe(takeUntil(this.authenticationService.isLoggedIn))
           .subscribe(res => {
           if (res.verify_success === true) {

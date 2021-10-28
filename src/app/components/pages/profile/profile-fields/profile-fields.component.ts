@@ -5,6 +5,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
 
+import { User } from 'src/app/models/user.model';
 import { calculateAge, transformDateTime } from 'src/app/utilities/helpers';
 import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
@@ -14,6 +15,7 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
   styleUrls: ['./profile-fields.component.scss'],
 })
 export class ProfileFieldsComponent implements OnInit, OnDestroy {
+  @Input() user: User;
   @Input() form: FormGroup;
   @Input() errorMessages;
   @ViewChild('profileFields', { static: true }) template;
@@ -65,7 +67,7 @@ export class ProfileFieldsComponent implements OnInit, OnDestroy {
       componentProps: {
         ...this.dateOfBirth.value && { selectedDate: this.dateOfBirth.value }, 
       },
-      cssClass: 'auto-height-modal rounded-modal' 
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content' 
     });
     modal.present();
 

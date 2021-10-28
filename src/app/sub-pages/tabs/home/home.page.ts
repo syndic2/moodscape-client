@@ -9,6 +9,7 @@ import { transformDateTime } from 'src/app/utilities/helpers';
 import { User } from 'src/app/models/user.model';
 import { Article } from 'src/app/models/article.model';
 import { navigateGo } from 'src/app/store/actions/router.actions';
+import { fetchProfile } from 'src/app/store/actions/user.actions';
 import { fetchFeaturedArticles } from 'src/app/store/actions/article.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 import { getFeaturedArticles } from 'src/app/store/selectors/article.selectors';
@@ -46,11 +47,15 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    setInterval(() => this.clock= transformDateTime(new Date()), 1000);
+
     this.getAuthenticatedSubscription= this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (res) {
+      if (!res) {
+        this.store.dispatch(fetchProfile());
+      } else {
         this.user= { ...res };
       }
     });
@@ -68,6 +73,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.getAuthenticatedSubscription && this.getAuthenticatedSubscription.unsubscribe();
     this.featuredArticlesSubscription && this.featuredArticlesSubscription.unsubscribe();
   }
 

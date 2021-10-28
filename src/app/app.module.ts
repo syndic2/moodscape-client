@@ -30,6 +30,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { InternetConnectionErrorPageModule } from './modals/errors/internet-connection-error/internet-connection-error.module';
 import { RequestErrorPageModule } from './modals/errors/request-error/request-error.module';
 
 @NgModule({
@@ -40,7 +41,9 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
     BrowserAnimationsModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql']
+    }),
     FontAwesomeModule,
     StoreModule.forRoot(reducers, { metaReducers : metaReducers }),
     EffectsModule.forRoot([
@@ -50,6 +53,7 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     AppRoutingModule,
+    InternetConnectionErrorPageModule,
     RequestErrorPageModule
   ],
   providers: [
@@ -64,12 +68,12 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpLoadingInterceptor,
+      useClass: JwtInterceptor,
       multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
+      useClass: HttpLoadingInterceptor,
       multi: true
     },
     Keyboard,

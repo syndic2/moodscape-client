@@ -22,7 +22,7 @@ export class SearchMoodPage implements OnInit {
     emoticon: null,
     parameters: { internal: false, external: false },
     activities: [],
-    note: true
+    note: false
   };
 
   constructor(private store: Store, private router: Router) { }

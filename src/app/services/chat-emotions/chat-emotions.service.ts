@@ -21,8 +21,8 @@ export class ChatEmotionsService {
     return this.httpClient.post(`${this.apiUrl}/telegram/auth`, JSON.stringify({ user_id: userId, phone: phone }));
   }
 
-  telegramOTPVerification(userId: string, OTPcode: string, phoneCodeHash: string): Observable<any> {
-    return this.httpClient.post(`${this.apiUrl}/telegram/otp-verification`, JSON.stringify({ user_id: userId, otp_code: OTPcode, phone_code_hash: phoneCodeHash }));
+  telegramOTPVerification(userId: string, phone: string, phoneCodeHash: string, OTPcode: string): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/telegram/otp-verification`, JSON.stringify({ user_id: userId, phone: phone, phone_code_hash: phoneCodeHash, otp_code: OTPcode }));
   }
 
   disconnectTelegram(userId: string): Observable<any> {

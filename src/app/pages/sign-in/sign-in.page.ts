@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
-
 import { Plugins } from '@capacitor/core';
 import '@codetrix-studio/capacitor-google-auth';
+
+import { Store } from '@ngrx/store';
 
 import { requestLogin } from 'src/app/store/actions/authentication.actions';
 

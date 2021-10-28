@@ -14,6 +14,7 @@ import { User } from 'src/app/models/user.model';
 import { fetchProfile } from 'src/app/store/actions/user.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 import { ChatEmotionsService } from 'src/app/services/chat-emotions/chat-emotions.service';
+import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { InputPhoneNumberPage } from 'src/app/modals/one-time-password/input-phone-number/input-phone-number.page';
 import { InputOTPCodePage } from 'src/app/modals/one-time-password/input-otp-code/input-otp-code.page';
@@ -31,7 +32,7 @@ export class MyChatEmotionsPage implements OnInit {
   private user: User;
   public selectedChatEmotionLog: ChatEmotionLog[];
   public isTelegramAuthorized: boolean= false;
-  private pieChart;
+  public pieChart;
 
   private getAuthenticatedSubscription: Subscription;
   private getChatEmotionsSubscription: Subscription;
@@ -40,7 +41,8 @@ export class MyChatEmotionsPage implements OnInit {
 
   constructor(
     private store: Store,
-    private modalController: ModalController, 
+    private modalController: ModalController,
+    public utilitiesService: UtilitiesService, 
     private authenticationService: AuthenticationService, 
     private chatEmotionsService: ChatEmotionsService
   ) { }
@@ -69,6 +71,8 @@ export class MyChatEmotionsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.utilitiesService.onSkeletonLoading.next(true);
+
     this.getAuthenticatedSubscription= this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
@@ -83,8 +87,11 @@ export class MyChatEmotionsPage implements OnInit {
           if (res?.is_authorized === false) {
             this.isTelegramAuthorized= false;
           } else {
+            this.isTelegramAuthorized= true;
             //get emotions data
           }
+
+          this.utilitiesService.onSkeletonLoading.next(false);
         });
       }
     });

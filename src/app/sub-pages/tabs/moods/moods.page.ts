@@ -34,7 +34,7 @@ export class MoodsPage implements OnInit {
       .select(getGroupedMoodsByDate('moods'))
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res) {
+      if (JSON.stringify(res) === '{}') {
         this.store.dispatch(fetchMoods());
       }
 

@@ -3,16 +3,16 @@
     <ion-buttons slot="start">
 			<ion-back-button defaultHref="moods/create/step-1"></ion-back-button>
 		</ion-buttons>
-    <ion-buttons slot="end">
+    <!--<ion-buttons slot="end">
       <ion-button (click)="onSubmit()">
         <ion-icon slot="icon-only" name="checkmark-circle" size="large" class="icon"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons>-->
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h1 class="text-lg text-center font-semibold">Apa yang telah anda lakukan? :)</h1>
+  <!--<h1 class="text-lg text-center font-medium">Apa yang telah anda lakukan? :)</h1>-->
   <form [formGroup]="createMoodForm" (ngSubmit)="onSubmit()" class="mt-2">
     <ion-grid fixed>
       <ion-row class="gap-y-3">

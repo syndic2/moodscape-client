@@ -13,8 +13,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ActivityService {
+  private skipLoading: string= 'skip';
 
-  constructor(private http: HttpClient, @Inject('skipLoading') @Optional() private skipLoading: string) { }
+  constructor(private http: HttpClient) { }
 
   /**
    * Activity
@@ -57,11 +58,7 @@ export class ActivityService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getActivity)
     )
   }
@@ -84,11 +81,7 @@ export class ActivityService {
       }
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createActivity)
     );
   }
@@ -111,11 +104,7 @@ export class ActivityService {
       }
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateActivity)
     );
   }
@@ -133,11 +122,7 @@ export class ActivityService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.removeActivities)
     );
   } 
@@ -159,11 +144,7 @@ export class ActivityService {
       }
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.moveActivitiesIntoCategory)
     );
   }
@@ -199,11 +180,7 @@ export class ActivityService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getActivityCategories)
     );
   }
@@ -235,11 +212,7 @@ export class ActivityService {
       }
     `);
     
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getActivityCategory)
     )
   }
@@ -266,11 +239,7 @@ export class ActivityService {
       }    
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createActivityCategory)
     );
   }
@@ -297,11 +266,7 @@ export class ActivityService {
       }
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateActivityCategory)
     );
   }
@@ -319,11 +284,7 @@ export class ActivityService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.removeActivityCategories)
     );
   }
@@ -349,10 +310,6 @@ export class ActivityService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    });
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query });
   }
 }

@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { ActivityIcon } from 'src/app/models/activity.model';
+import { showAlert } from 'src/app/store/actions/application.actions';
 import { fetchActivityIcons } from 'src/app/store/actions/activity.actions';
 import { getActivityIcons } from 'src/app/store/selectors/activity.selectors';
 
@@ -36,6 +37,15 @@ export class ActivityIconListPage implements OnInit {
   }
 
   onChoose() {
-    this.modalController.dismiss({ icon: this.selectedIcon });
+    if (!this.selectedIcon) {
+      this.store.dispatch(showAlert({
+        options: {
+          message: 'Pilih ikon terlebih dahulu',
+          buttons: ['OK']
+        }
+      }));
+    } else {
+      this.modalController.dismiss({ icon: this.selectedIcon });
+    }
   }
 }

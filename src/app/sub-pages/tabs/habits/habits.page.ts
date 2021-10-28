@@ -52,15 +52,13 @@ export class HabitsPage implements OnInit {
     });
 
     this.getQueryParamsSubscription= this.activatedRoute.queryParams.subscribe(params => {
-      if (JSON.stringify(params) !== '{}') {
-        this.selectedMode= params['mode'];
-        this.habitsDaySubscription= this.store
-          .select(getHabits(this.selectedDay.value, this.selectedMode))
-          .pipe(takeUntil(this.authenticationService.isLoggedIn))
-          .subscribe(res => {
-          this.habits= res;
-        });
-      }
+      this.selectedMode= params['mode'];
+      this.habitsDaySubscription= this.store
+        .select(getHabits(this.selectedDay.value, this.selectedMode))
+        .pipe(takeUntil(this.authenticationService.isLoggedIn))
+        .subscribe(res => {
+        this.habits= res;
+      });
     });
 
     //this.selectedDaySubscription= this.selectedDay.subscribe(day => {

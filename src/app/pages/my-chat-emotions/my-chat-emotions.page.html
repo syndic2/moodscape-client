@@ -8,17 +8,24 @@
 </ion-header>
 
 <ion-content class="flex-column row-gap-4">
-  <ng-container *ngIf="!isTelegramAuthorized; else showAuthorized">
-    <button (click)="onConnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-green-500 rounded-lg w-3/4 mx-auto p-3">
-      Masuk Telegram
-      <ion-icon name="log-in" class="text-2xl"></ion-icon>
-    </button>
+  <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else showAuthButton">
+    <div class="h-10">
+      <ion-skeleton-text animated class="rounded-lg w-3/4 mx-auto"></ion-skeleton-text>
+    </div>
   </ng-container>
-  <ng-template #showAuthorized>
-    <button (click)="onDisconnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-red-500 rounded-lg w-3/4 mx-auto p-3">
-      Keluar Telegram
-      <ion-icon name="log-out" class="text-2xl"></ion-icon>
-    </button>
+  <ng-template #showAuthButton>
+    <ng-container *ngIf="!isTelegramAuthorized; else showAuthorized">
+      <button (click)="onConnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-green-500 rounded-lg w-3/4 mx-auto p-3">
+        Masuk Telegram
+        <ion-icon name="log-in" class="text-2xl"></ion-icon>
+      </button>
+    </ng-container>
+    <ng-template #showAuthorized>
+      <button (click)="onDisconnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-red-500 rounded-lg w-3/4 mx-auto p-3">
+        Keluar Telegram
+        <ion-icon name="log-out" class="text-2xl"></ion-icon>
+      </button>
+    </ng-template>
   </ng-template>
 
   <div>
@@ -44,5 +51,5 @@
     </ng-container>
   </div>
 
-  <ion-card class="round-lg p-4"></ion-card>
+  <!--<ion-card class="round-lg p-4"></ion-card>-->
 </ion-content>

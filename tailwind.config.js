@@ -1,8 +1,14 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   purge: ['./src/**/*.{html,ts}'],
   darkMode: false, // or 'media' or 'class'
   important: true,
   theme: {
+    //screens: {
+    //  'xs': '475px',
+    //  ...defaultTheme.screens,
+    //},
     extend: {
       colors: {
         primary: 'var(--ion-color-primary)'

@@ -50,6 +50,8 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   ) { }
 
   ngOnInit() {
+    this.store.dispatch(fetchMoodsChart());
+    
     this.getMoodsSubscription= this.store
       .select(getMoods)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
@@ -84,7 +86,6 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
         if (!res) {
-          this.store.dispatch(fetchMoodsChart());
           this.lineChart.data.labels= [];
           this.lineChart.data.datasets[0].data= [];
           this.lineChart.update();

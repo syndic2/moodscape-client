@@ -44,10 +44,10 @@ export class AppFeedbackPage implements OnInit {
   }
 
   async onSubmit() {
-    if (this.rating === 0) {
+    if (this.rating === 0 || this.featureCategory.value === '') {
       this.store.dispatch(showAlert({
         options: {
-          message: 'Nilai rating tidak boleh kosong!',
+          message: 'Nilai rating atau kategori ulasan tidak boleh kosong!',
           buttons: ['OK']
         } 
       }));
@@ -56,6 +56,8 @@ export class AppFeedbackPage implements OnInit {
         if (!res.response.status) {
           this.store.dispatch(showRequestErrorModal({ message: res.response.text }));
         } else {
+          this.rating= 0;
+          this.feedbackForm.reset();
           this.store.dispatch(showAlert({
             options: {
               message: 'Ulasan anda berhasil terkirim. Terima kasih telah memberikan ulasan!',

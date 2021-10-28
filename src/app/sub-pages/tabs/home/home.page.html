@@ -15,7 +15,7 @@
       <clock-loader></clock-loader>
     </ng-container>
     <ng-template #showClock>
-      <ion-card id="clock" class="rounded-lg m-0 p-2">
+      <ion-card class="rounded-lg bg-primary m-0 p-2">
         <ion-card-content class="flex items-center gap-x-2 text-white">
           <h1 class="text-6xl mb-0">{{ clock.hours }}</h1>
           <div class="flex flex-col gap-y-1">
@@ -28,15 +28,15 @@
   </section>
 
   <section>
-    <div class="flex items-center gap-x-2 p-4">
-      <img src="/assets/icons/svg/greet.svg" alt="" class="object-contain w-44">
-      <span>Selamat datang, {{ user?.firstName }}</span>
+    <div class="grid grid-cols-2 justify-items-center items-center gap-x-2 p-2">
+      <ion-icon src="/assets/icons/svg/greet.svg" color="primary" style="font-size: 10rem;"></ion-icon>
+      <span class="break-all line-clamp-3">Selamat datang, {{ user?.firstName }}</span>
     </div>
   </section>
 
 	<section>
     <div class="flex justify-between items-center">
-      <h3 class="text-md sm:text-lg font-semibold">Asupan Motivasimu!</h3>
+      <h3 class="text-md sm:text-lg font-medium">Asupan Motivasimu!</h3>
       <a class="text-primary" [routerLink]="['/articles']">Lihat semua</a>
     </div>
     <ng-container *ngIf="!articles.length; else showArticles">
@@ -52,17 +52,17 @@
   </section>
 
   <section>
-    <h3 class="text-md sm:text-lg font-semibold">Semoga bisa membantu anda!</h3>
+    <h3 class="text-md sm:text-lg font-medium">Semoga bisa membantu anda!</h3>
     <div class="grid grid-cols-2 justify-items-center gap-x-2 mt-2">
       <div #myChatEmotionsCard>
-        <ion-card (click)="onOpenMyChatEmotions()" class="flex flex-col items-center gap-y-4 rounded-lg p-6">
-          <img src="/assets/icons/svg/feeling-blue.svg" alt="">
+        <ion-card (click)="onOpenMyChatEmotions()" class="flex flex-col items-center rounded-lg p-6">
+          <ion-icon src="/assets/icons/svg/feeling-blue.svg" color="primary" style="font-size: 8rem;"></ion-icon>
           <span class="text-center my-auto">My Chat Emotions</span>
         </ion-card>
       </div>
       <div #MDQTestCard>
-        <ion-card (click)="onOpenMDQTest()" class="flex flex-col items-center gap-y-4 rounded-lg p-6">
-          <img src="/assets/icons/svg/feeling-of-joy.svg" alt="">
+        <ion-card (click)="onOpenMDQTest()" class="flex flex-col items-center rounded-lg p-6">
+          <ion-icon src="/assets/icons/svg/feeling-of-joy.svg" color="primary" style="font-size: 8rem;"></ion-icon>
           <span class="text-center my-auto">Mood Disorder Questionnaire Test</span>
         </ion-card>
       </div>

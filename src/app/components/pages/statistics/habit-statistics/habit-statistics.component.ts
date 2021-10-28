@@ -58,6 +58,8 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   ) { }
 
   ngOnInit() {
+    this.store.dispatch(fetchHabitsChart());
+    
     this.getHabitsByDateSubscription= this.store
       .select(getHabits())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
@@ -97,9 +99,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
         .select(getHabitsChartByYear(year))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-        if (!res.length) {
-          this.store.dispatch(fetchHabitsChart());
-  
+        if (!res.length) {  
           this.barChart.data.labels= [];
           this.barChart.data.datasets[0].data= [];
           this.barChart.update();

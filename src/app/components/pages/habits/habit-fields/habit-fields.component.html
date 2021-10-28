@@ -25,9 +25,11 @@
         <label class="text-md text-black text-opacity-50 font-semibold">Lakukan / Hindari</label>
         <div class="flex justify-center gap-x-3 mt-2">
           <ion-button type="button" (click)="onSelectType('to do')" [color]="selectedType === 'to do' ? 'primary' : 'light'" class="normal-case w-full">
+            <ion-icon slot="end" name="thumbs-up" [color]="selectedType === 'to do' ? 'light' : 'primary'"></ion-icon>
             Lakukan
           </ion-button>
           <ion-button type="button" (click)="onSelectType('not to do')" [color]="selectedType === 'not to do' ? 'primary' : 'light'" class="normal-case w-full">
+            <ion-icon slot="end" name="thumbs-down" [color]="selectedType === 'not to do' ? 'light' : 'primary'"></ion-icon>
             Hindari
           </ion-button>
         </div>
@@ -39,44 +41,44 @@
       </ion-col>-->
 
       <ion-col size="12">
-        <label class="text-md text-black text-opacity-50 font-semibold">Goal Frekuensi</label>
+        <label class="text-md text-black text-opacity-50 font-semibold">Goal Frekuensi (hari)</label>
         <input 
           type="number" 
           inputmode="numeric" 
           placeholder="Frekuensi"
           formControlName="goal"
-          class="block border-b border-gray-300 bg-transparent transition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1">
+          class="block bg-transparent transition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1">
       </ion-col>
 
       <ion-col size="12" class="ion-activatable">
         <div formGroupName="goalDates" class="flex flex-col gap-y-4">
-          <div (click)="onSelectGoalDate('startDate')" class="relative flex items-center rounded-lg bg-purple-200 p-4">
+          <div (click)="onSelectGoalDate('startDate')" class="relative flex items-center rounded-lg bg-primary p-4">
             <input
               type="text" 
               inputmode="text"
               [value]="(goalStartDate?.value | dateInBahasa).fullDate"
               formControlName="start"
               placeholder="Pilih Tanggal Dimulai"
-              class="absolute top-0 left-0 text-md text-primary placeholder-primary font-semibold bg-transparent w-full h-full p-4 focus:outline-none"
+              class="absolute inset-0 text-md text-white placeholder-white font-semibold bg-transparent p-4 focus:outline-none"
               readonly>
-            <ion-icon name="calendar-number" color="primary" class="ml-auto"></ion-icon>
+            <ion-icon name="calendar-number" class="text-white ml-auto"></ion-icon>
           </div>
 
-          <div (click)="onSelectGoalDate('endDate')" class="relative flex items-center rounded-lg bg-purple-200 p-4">
+          <div (click)="onSelectGoalDate('endDate')" class="relative flex items-center rounded-lg bg-primary p-4">
             <input
               type="text" 
               inputmode="text"
               [value]="(goalEndDate?.value | dateInBahasa).fullDate"
               formControlName="end"
               placeholder="Pilih Tanggal Selesai"
-              class="absolute top-0 left-0 text-md text-primary placeholder-primary font-semibold bg-transparent w-full h-full p-4 focus:outline-none"
+              class="absolute inset-0 text-md text-white placeholder-white font-semibold bg-transparent p-4 focus:outline-none"
               readonly>
-            <ion-icon name="calendar-number" color="primary" class="ml-auto"></ion-icon>
+            <ion-icon name="calendar-number" class="text-white ml-auto"></ion-icon>
           </div>
         </div>
       </ion-col>
       
-      <ion-col size="12">
+      <!--<ion-col size="12">
         <div class="flex justify-between items-center">
           <label class="text-md text-black text-opacity-50 font-semibold">Ingatkan Saya</label>
           <ion-toggle [checked]="reminderTime.value !== ''" (ionChange)="onChangeReminderTime($event)" color="primary"></ion-toggle>
@@ -112,7 +114,7 @@
 
           <ion-ripple-effect></ion-ripple-effect>
         </div>
-      </ion-col>
+      </ion-col>-->
 
       <ion-col size="12">
         <label class="text-md text-black text-opacity-50 font-semibold">Warna Label</label>

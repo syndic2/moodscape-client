@@ -32,7 +32,7 @@
                 <ion-label class="text-lg text-semibold text-center">{{ (item.key | dateInBahasa).fullDate }}</ion-label>
               </ion-list-header>
               <ion-item *ngFor="let mood of item.value">
-                <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
+                <mood-list-item [mood]="mood" [removeFromSearchResults]="true" class="flex-1"></mood-list-item>
               </ion-item>
             </div>
 

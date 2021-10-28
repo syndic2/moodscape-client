@@ -11,6 +11,10 @@ ion-content {
 }
 
 :host {
+  //max-width: 500px;
+  max-height: 75vh;
+  overflow-y: auto;
+
   //&.ion-page {
   //  height: 65%;
   //  margin-top: auto;
@@ -21,7 +25,7 @@ ion-content {
   ::ng-deep {
     .table-bordered {
       border: none !important;
-      font-size: 0.75rem !important;
+      font-size: 2.5vw !important;
 
       th, td {
         border: none !important;
@@ -47,13 +51,17 @@ ion-content {
     }
 
     .monthview-current {
-      color: var(--month-view-current-text-color) !important;
-      background-color: var(--month-view-current-bg-color) !important;
+      color: white !important;
+      background: #00FF00 !important;
+      //color: var(--month-view-current-text-color) !important;
+      //background-color: var(--month-view-current-bg-color) !important;
     }
 
     .monthview-selected {
-      color: var(--month-view-selected-text-color) !important;
-      background-color: var(--month-view-selected-bg-color) !important;
+      color: white !important;
+      background-color: var(--ion-color-primary) !important;
+      //color: var(--month-view-selected-text-color) !important;
+      //background-color: var(--month-view-selected-bg-color) !important;
     }
   }
 }

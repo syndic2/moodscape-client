@@ -42,7 +42,7 @@ export class HabitDetailPage implements OnInit {
           allDay: false
         }];
         this.habitTracks.streaks= [...res.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start).markedAt];
-        this.habitTracks.history= [...res.track.streakLogs.filter(log => log.startDate !== this.habit.goalDates.start)];
+        this.habitTracks.history= [...res.track.streakLogs];
       }
     }); 
   }

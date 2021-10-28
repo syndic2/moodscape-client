@@ -26,7 +26,7 @@
       </button>
     </div>
   
-    <calendar
+    <!--<calendar
       [calendarMode]="mode"
       [currentDate]="currentDate"
       [dateFormatter]="dateFormatter"
@@ -42,8 +42,22 @@
       [style.--month-view-current-bg-color]="monthViewCurrentColor.background"
       [style.--month-view-selected-text-color]="monthViewSelectedColor.text"
       [style.--month-view-selected-bg-color]="monthViewSelectedColor.background">
+    </calendar>-->
+    
+    <calendar
+      [calendarMode]="mode"
+      [currentDate]="currentDate"
+      [dateFormatter]="dateFormatter"
+      [eventSource]="eventSource"
+      [markDisabled]="markDisabled"
+      [showEventDetail]="false"
+      [lockSwipes]="false"
+      (onTitleChanged)="onTitleChanged($event)"
+      (onCurrentDateChanged)="onCurrentDateChanged($event)"
+      (onTimeSelected)="onTimeSelected($event)"
+      [monthviewDisplayEventTemplate]="monthViewTemplate">
     </calendar>
-  
+
     <ng-container *ngIf="!isStatistics">
       <button (click)="onSelectDate()" class="flex text-4xl focus:outline-none mx-auto mt-4">
         <ion-icon name="checkmark-circle" color="primary"></ion-icon>

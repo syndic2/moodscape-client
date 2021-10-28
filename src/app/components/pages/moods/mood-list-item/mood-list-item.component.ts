@@ -14,6 +14,8 @@ import { MoodPopoverComponent } from '../mood-popover/mood-popover.component';
 })
 export class MoodListItemComponent implements OnInit {
   @Input() mood: Mood;
+  @Input() hidePopover: boolean= false;
+  @Input() removeFromSearchResults: boolean= false;
   @ViewChild('moodItem', { static: true }) moodItem: ElementRef;
 
   constructor(private router: Router, private popoverController: PopoverController) { }
@@ -25,7 +27,8 @@ export class MoodListItemComponent implements OnInit {
       event: event,
       component: MoodPopoverComponent,
       componentProps: {
-        mood: this.mood
+        mood: this.mood,
+        removeFromSearchResults: this.removeFromSearchResults
       }
     });
     popover.present();

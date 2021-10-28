@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
@@ -95,12 +95,6 @@ export class ActivityEffects {
             text: 'Hapus',
             handler: () => {
               this.store.dispatch(fetchRemoveActivities({ activityIds: activityIds, activityCategoryId: activityCategoryId }));
-              this.store.dispatch(navigateGo({
-                path: activityCategoryId ?
-                  ['/settings/activities/activity-category', activityCategoryId]
-                :
-                  ['/settings/activities/keeped']
-              }))
             }
           }
         ]
@@ -118,7 +112,15 @@ export class ActivityEffects {
   removeActivities$= createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveActivities),
     mergeMap(({ activityIds, activityCategoryId }) => this.activityService.removeActivities(activityIds, activityCategoryId).pipe(
-      map(res => removeActivities({ activityIds: res.removedActivities, activityCategoryId: activityCategoryId }))
+      switchMap(res => [
+        removeActivities({ activityIds: res.removedActivities, activityCategoryId: activityCategoryId }),
+        navigateGo({
+          path: activityCategoryId ?
+            ['/settings/activities/activity-category', activityCategoryId]
+          :
+            ['/settings/activities/keeped']
+        })
+      ])
     ))
   ));
 
@@ -224,5 +226,5 @@ export class ActivityEffects {
     mergeMap(([props, activityCategories]) => this.activityService.reorderActivityCategory([...activityCategories].map((activityCategory, index) => activityCategory.Id )))
   ), { dispatch: false });
 
-  constructor(private store: Store, private actions$: Actions, private activityService: ActivityService) { }
+  constructor(private store: Store, private ngZone: NgZone, private actions$: Actions, private activityService: ActivityService) { }
 };

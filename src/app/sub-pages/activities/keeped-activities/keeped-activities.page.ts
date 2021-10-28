@@ -25,9 +25,9 @@ export class KeepedActivitiesPage implements OnInit {
     this.keepedActivitiesSubscription= this.store.select(getKeepedActivities).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchActivitiesNoneCategory({ fields: { category: '' } }));
-      } else {
-        this.keepedActivities= res;
       }
+
+      this.keepedActivities= res;
     });
   }
 

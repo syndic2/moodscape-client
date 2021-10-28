@@ -15,23 +15,27 @@
     <moods-count *ngIf="moodsByMonth.moodsCount" [moodsCount]="moodsByMonth.moodsCount"></moods-count>
   </ion-card>
 
-  <ion-card class="relative flex flex-col items-center gap-y-4 rounded-lg p-5">
-    <div *ngIf="!lineChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
-      <span class="text-lg font-semibold">Belum ada data mood</span>
-    </div>
+  <ion-card class="flex flex-col items-center gap-y-4 rounded-lg p-5">
     <h2 class="text-lg font-medium">Grafik Mood Bulanan</h2>
     <div class="flex justify-center gap-x-4 text-xs text-white">
       <button (click)="onSelectLineChartMonth()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
       <button (click)="onSelectLineChartYear()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
     </div>
-    <canvas #lineChartCanvas></canvas>
+    <div class="relative w-full h-full">
+      <div *ngIf="!lineChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+        <span class="text-lg font-semibold">Belum ada data mood</span>
+      </div>
+      <canvas #lineChartCanvas></canvas>
+    </div>
   </ion-card>
 
-  <ion-card class="relative flex flex-col gap-y-4 rounded-lg p-5">
-    <div *ngIf="!doughnutChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
-      <span class="text-lg font-semibold">Belum ada data mood</span>
-    </div>
+  <ion-card class="flex flex-col gap-y-4 rounded-lg p-5">
     <h2 class="text-lg font-medium text-center">Total Keseluruhan Mood</h2>
-    <canvas #doughnutChartCanvas></canvas>
+    <div class="relative w-full h-full">
+      <div *ngIf="!doughnutChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+        <span class="text-lg font-semibold">Belum ada data mood</span>
+      </div>
+      <canvas #doughnutChartCanvas></canvas>
+    </div>
   </ion-card>
 </div>

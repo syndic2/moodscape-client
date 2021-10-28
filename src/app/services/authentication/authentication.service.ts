@@ -30,6 +30,10 @@ export class AuthenticationService {
 		this.checkStoredToken();
 	}
 
+  getToken() {
+    return from(this.storage.get(TOKEN_KEY));
+  }
+
 	checkStoredToken() {
 		let platformObs = from(this.platform.ready());
 

@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <button (click)="openPopover($event)" class="absolute top-2 right-2 focus:outline-none">
+      <button *ngIf="!hidePopover" (click)="openPopover($event)" class="absolute top-2 right-2 focus:outline-none">
         <ion-icon name="ellipsis-vertical-circle" color="primary"></ion-icon>
       </button>
     </ion-card-content>

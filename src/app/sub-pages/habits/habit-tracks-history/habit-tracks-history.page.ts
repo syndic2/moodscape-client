@@ -18,6 +18,8 @@ export class HabitTracksHistoryPage implements OnInit {
     if (this.router.getCurrentNavigation().extras.state) {
       this.habit= this.router.getCurrentNavigation().extras.state.habit;
       this.tracksHistory= this.router.getCurrentNavigation().extras.state.tracksHistory;
+
+      console.log('track history', this.tracksHistory);
     }
   }
 }

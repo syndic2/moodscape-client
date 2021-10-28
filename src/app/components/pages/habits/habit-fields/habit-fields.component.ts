@@ -20,7 +20,7 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
   @Input() habit: Habit;
   @Input() habitId: number;
   @Output() onSubmitEvent: EventEmitter<{}>= new EventEmitter<{}>();
-  @ViewChild('selectReminderTime', { static: true }) selectReminderTimeElement: ElementRef;
+  //@ViewChild('selectReminderTime', { static: true }) selectReminderTimeElement: ElementRef;
   
   public selectedType: string= 'to do';
   private selectedDay;
@@ -75,12 +75,12 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.habit && this.habit.reminderTime !== '') {
-      this.selectReminderTimeElement.nativeElement.style.overflow= 'auto';
-    } else {
-      this.selectReminderTimeElement.nativeElement.style.height= 0;
-      this.selectReminderTimeElement.nativeElement.style.overflow= 'hidden';
-    }
+    //if (this.habit && this.habit.reminderTime !== '') {
+    //  this.selectReminderTimeElement.nativeElement.style.overflow= 'auto';
+    //} else {
+    //  this.selectReminderTimeElement.nativeElement.style.height= 0;
+    //  this.selectReminderTimeElement.nativeElement.style.overflow= 'hidden';
+    //}
   }
 
   get name() {
@@ -184,9 +184,10 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
         ...this.habit && { 
           selectedDate: field === 'startDate' ? this.goalStartDate.value : this.goalEndDate.value
         },
+        disablePastDate: true
         //enabledDate: this.selectedDay.id
       },
-      cssClass: 'auto-height-modal rounded-modal'
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
     });
     modal.present(); 
 
@@ -205,16 +206,16 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
   }
 
   onChangeReminderTime(event) {
-    if (!event.target.checked) {
-      this.reminderTime.setValue('');   
-      collapseAnimation('select-reminder-time', this.selectReminderTimeElement)
-        .direction('reverse')
-        .play();
-    } else {
-      collapseAnimation('select-reminder-time', this.selectReminderTimeElement)
-        .direction('alternate')
-        .play();
-    }
+    //if (!event.target.checked) {
+    //  this.reminderTime.setValue('');   
+    //  collapseAnimation('select-reminder-time', this.selectReminderTimeElement)
+    //    .direction('reverse')
+    //    .play();
+    //} else {
+    //  collapseAnimation('select-reminder-time', this.selectReminderTimeElement)
+    //    .direction('alternate')
+    //    .play();
+    //}
   }
 
   onSubmit() {

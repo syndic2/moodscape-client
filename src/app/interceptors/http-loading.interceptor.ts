@@ -26,13 +26,19 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 		});
 
     if (!request.headers.has('skipLoading') && !request.url.includes(`${environment.rasaChatbot}`)) {
-      //console.log('loading not skipped');
-
-      this.loadingController.getTop().then(hasLoading => {
-        if (!hasLoading) {
-          loading.then(loader => loader.present());
+      //this.loadingController.getTop().then(hasLoading => {
+      //  if (!hasLoading) {
+      //    loading.then(loader => loader.present());
+      //  }
+      //});
+      
+      (async () => { 
+        const isLoading= await this.loadingController.getTop();
+        
+        if (!isLoading) {
+          (await loading).present();
         }
-      });
+      })();
     }
 
 		return next.handle(request).pipe(

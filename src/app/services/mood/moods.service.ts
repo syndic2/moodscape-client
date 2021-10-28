@@ -14,7 +14,7 @@ import { MoodFilter } from 'src/app/models/mood.model';
   providedIn: 'root'
 })
 export class MoodService {
-  private skipLoading: string= 'false';
+  private skipLoading: string= 'skip';
 
   constructor(private http: HttpClient) { }
 
@@ -61,11 +61,7 @@ export class MoodService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserMoods)
     );
   }
@@ -106,11 +102,7 @@ export class MoodService {
       }
     `);
     
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserMoodsChart)
     );
   }
@@ -156,11 +148,7 @@ export class MoodService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserMood)
     );
   }
@@ -215,11 +203,7 @@ export class MoodService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getFilteredUserMood)
     );
   }
@@ -260,11 +244,7 @@ export class MoodService {
       }
     `);
     
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createMood)
     );
   }
@@ -305,11 +285,7 @@ export class MoodService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateMood)
     );
   }
@@ -327,11 +303,7 @@ export class MoodService {
       }
     `);
 
-    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }, {
-      ...this.skipLoading && {
-        headers: { skipLoading: this.skipLoading }
-      }
-    }).pipe(
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.removeMoods)
     );
   }

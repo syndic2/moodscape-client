@@ -85,7 +85,7 @@ export class MoodEffects {
 
   removeMoodsConfirmation$= createEffect(() => this.actions$.pipe(
     ofType(removeMoodsConfirmation),
-    map(({ moodIds }) => showAlert({
+    map(({ moodIds, removeFromSearchResults }) => showAlert({
       options: {
         message: 'Apakah anda yakin ingin menghapus data mood ini?',
         buttons: [
@@ -96,7 +96,7 @@ export class MoodEffects {
           {
             text: 'Hapus',
             handler: () => {
-              this.store.dispatch(fetchRemoveMoods({ moodIds: moodIds }));
+              this.store.dispatch(fetchRemoveMoods({ moodIds: moodIds, removeFromSearchResults: removeFromSearchResults }));
             }
           }
         ]
@@ -106,8 +106,8 @@ export class MoodEffects {
 
   removeMoods$= createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveMoods),
-    mergeMap(({ moodIds }) => this.moodService.removeMoods(moodIds).pipe(
-      map(res => !res.removedMoods.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : removeMoods({ moodIds: res.removedMoods }))
+    mergeMap(({ moodIds, removeFromSearchResults }) => this.moodService.removeMoods(moodIds).pipe(
+      map(res => !res.removedMoods.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : removeMoods({ moodIds: res.removedMoods, removeFromSearchResults }))
     ))
   ));
 

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Plugins } from '@capacitor/core';
+import '@codetrix-studio/capacitor-google-auth';
+
 import { Store } from '@ngrx/store';
 
 import { fetchLogout } from 'src/app/store/actions/authentication.actions';
@@ -38,6 +41,7 @@ export class SideMenuPage implements OnInit {
 	ngOnInit() { }
 
 	onLogout() {
+    Plugins.GoogleAuth.signOut();
     this.store.dispatch(fetchLogout());
 	}
 }

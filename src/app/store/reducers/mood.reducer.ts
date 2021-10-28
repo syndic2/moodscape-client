@@ -46,14 +46,36 @@ export const moodReducer= createReducer(
     ]
   })),
 
-  on(removeMoods, (state, { moodIds }) => ({
-    ...state,
-    moods: [
-      ...filterArrayByAnotherArray(
-        { type: 'object', items: state.moods },
-        { type: 'none-object', items: moodIds },
-        { field1: 'Id' }
-      )
-    ]
-  }))
+  on(removeMoods, (state, { moodIds, removeFromSearchResults }) => {
+    if (!removeFromSearchResults) {
+      return {
+        ...state,
+        moods: [
+          ...filterArrayByAnotherArray(
+            { type: 'object', items: state.moods },
+            { type: 'none-object', items: moodIds },
+            { field1: 'Id' }
+          )
+        ]
+      };
+    }
+
+    return {
+      ...state,
+      moods: [
+        ...filterArrayByAnotherArray(
+          { type: 'object', items: state.moods },
+          { type: 'none-object', items: moodIds },
+          { field1: 'Id' }
+        )
+      ],
+      moodSearchResults: [
+        ...filterArrayByAnotherArray(
+          { type: 'object', items: state.moodSearchResults },
+          { type: 'none-object', items: moodIds },
+          { field1: 'Id' }
+        )
+      ]
+    };
+  })
 );

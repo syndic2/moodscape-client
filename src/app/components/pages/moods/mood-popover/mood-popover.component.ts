@@ -15,6 +15,7 @@ import { removeMoodsConfirmation } from 'src/app/store/actions/mood.actions';
 })
 export class MoodPopoverComponent implements OnInit {
   @Input() mood: Mood;
+  @Input() removeFromSearchResults: boolean;
 
   constructor(private store: Store, private popoverController: PopoverController) { }
     
@@ -27,6 +28,6 @@ export class MoodPopoverComponent implements OnInit {
 
   onRemove() {
     this.popoverController.dismiss();
-    this.store.dispatch(removeMoodsConfirmation({ moodIds: [this.mood.Id] }));
+    this.store.dispatch(removeMoodsConfirmation({ moodIds: [this.mood.Id], removeFromSearchResults: this.removeFromSearchResults }));
   }
 }
