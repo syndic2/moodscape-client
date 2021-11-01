@@ -1,7 +1,7 @@
 <ion-grid fixed>
   <ion-row>
     <ion-col size="12">
-      <div class="flex justify-between gap-x-10 px-4">
+      <div class="flex justify-between gap-x-5 xs:gap-x-10 xs:px-4">
         <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
         <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
       </div>
@@ -9,12 +9,12 @@
 
     <ion-col size="12" class="mt-6">
       <div class="grid grid-cols-5 justify-items-center gap-x-2">
-        <ion-skeleton-text *ngFor="let emoticon of [].constructor(5)" animated class="rounded-full w-14 h-14"></ion-skeleton-text>
+        <ion-skeleton-text *ngFor="let emoticon of [].constructor(5)" animated class="rounded-full w-8 h-8 xs:w-14 xs:h-14"></ion-skeleton-text>
       </div>
     </ion-col>
 
     <ion-col size="12" class="mt-4">
-      <div class="flex items-center gap-x-1">
+      <div class="flex items-center gap-x-1 text-xs xs:text-lg">
         <ion-icon src="../../../../assets/icons/svg/thinking.svg" color="primary"></ion-icon>
         <ion-label>Internal</ion-label>
       </div>
@@ -22,7 +22,7 @@
     </ion-col>
 
     <ion-col size="12" class="mt-4">
-      <div class="flex items-center gap-x-1">
+      <div class="flex items-center gap-x-1 text-xs xs:text-lg">
         <ion-icon src="../../../../assets/icons/svg/dancing.svg" color="primary"></ion-icon>
         <ion-label>External</ion-label>
       </div>
@@ -30,17 +30,17 @@
     </ion-col>
 
     <ion-col size="12" class="mt-4">
-      <div class="flex items-center gap-x-1">
+      <div class="flex items-center gap-x-1 text-xs xs:text-lg">
         <ion-icon name="accessibility" color="primary"></ion-icon>
         <ion-label>Aktivitas</ion-label>
       </div>
       <div class="flex flex-col gap-y-2">
-        <ion-skeleton-text *ngFor="let number of [].constructor(5)" animated class="rounded-xl w-full h-10 mt-2"></ion-skeleton-text>
+        <ion-skeleton-text *ngFor="let number of [].constructor(5)" animated class="rounded-xl w-full h-5 xs:h-10 mt-2"></ion-skeleton-text>
       </div>
     </ion-col>
 
     <ion-col size="12" class="mt-4">
-      <div class="flex items-center gap-x-1">
+      <div class="flex items-center gap-x-1 text-xs xs:text-lg">
         <ion-icon name="document-text" color="primary"></ion-icon>
         <ion-label>Catatan</ion-label>
       </div>
@@ -49,10 +49,10 @@
 
     <ion-col size="12" class="mt-4">
       <div class="flex flex-col items-center">
-        <button type="button" class="flex text-5xl focus:outline-none">
+        <button type="button" class="flex text-4xl xs:text-5xl focus:outline-none">
           <ion-icon name="checkmark-circle" color="primary"></ion-icon>
         </button>
-        <span class="block text-md">Simpan</span>
+        <span class="block text-sm xs:text-md">Simpan</span>
       </div>
     </ion-col>
   </ion-row>

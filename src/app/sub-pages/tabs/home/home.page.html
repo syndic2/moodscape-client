@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-		<ion-title class="text-lg sm:text-xl">Beranda</ion-title>
+		<ion-title>Beranda</ion-title>
 		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu">
-				<ion-icon src="../../assets/icons/svg/menu.svg" class="icon"></ion-icon>
+			<ion-menu-button menu="side-menu" class="side-menu-button">
+				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
 	</ion-toolbar>
@@ -15,12 +15,12 @@
       <clock-loader></clock-loader>
     </ng-container>
     <ng-template #showClock>
-      <ion-card class="rounded-lg bg-primary m-0 p-2">
+      <ion-card class="rounded-lg bg-primary m-0">
         <ion-card-content class="flex items-center gap-x-2 text-white">
-          <h1 class="text-6xl mb-0">{{ clock.hours }}</h1>
-          <div class="flex flex-col gap-y-1">
-            <span class="text-xl">: {{ clock.minutes }}</span>
-            <span class="text-md">{{ clock.toDate() }}</span>
+          <h1 class="text-5xl xs:text-6xl mb-0">{{ clock.hours }}</h1>
+          <div class="flex flex-col xs:gap-y-1">
+            <span class="text-md xs:text-xl">: {{ clock.minutes }}</span>
+            <span class="text-xs xs:text-md">{{ clock.toDate() }}</span>
           </div>
         </ion-card-content>
       </ion-card>
@@ -29,15 +29,15 @@
 
   <section>
     <div class="grid grid-cols-2 justify-items-center items-center gap-x-2 p-2">
-      <ion-icon src="/assets/icons/svg/greet.svg" color="primary" style="font-size: 10rem;"></ion-icon>
-      <span class="break-all line-clamp-3">Selamat datang, {{ user?.firstName }}</span>
+      <ion-icon src="/assets/icons/svg/greet.svg" color="primary" class="text-9xl xs:text-10xl"></ion-icon>
+      <span class="text-xs xs:text-lg break-all line-clamp-3">Halo {{ user?.firstName }}!</span>
     </div>
   </section>
 
 	<section>
     <div class="flex justify-between items-center">
-      <h3 class="text-md sm:text-lg font-medium">Asupan Motivasimu!</h3>
-      <a class="text-primary" [routerLink]="['/articles']">Lihat semua</a>
+      <h3 class="text-xs xs:text-lg font-medium">Asupan Motivasimu!</h3>
+      <a class="text-xs xs:text-lg text-primary" [routerLink]="['/articles']">Lihat semua</a>
     </div>
     <ng-container *ngIf="!articles.length; else showArticles">
       <article-featured-loader></article-featured-loader>
@@ -52,18 +52,18 @@
   </section>
 
   <section>
-    <h3 class="text-md sm:text-lg font-medium">Semoga bisa membantu anda!</h3>
-    <div class="grid grid-cols-2 justify-items-center gap-x-2 mt-2">
+    <h3 class="text-xs xs:text-lg font-medium">Semoga bisa membantu anda!</h3>
+    <div class="grid grid-cols-2 justify-items-center xs:gap-x-4 mt-2">
       <div #myChatEmotionsCard>
-        <ion-card (click)="onOpenMyChatEmotions()" class="flex flex-col items-center rounded-lg p-6">
-          <ion-icon src="/assets/icons/svg/feeling-blue.svg" color="primary" style="font-size: 8rem;"></ion-icon>
-          <span class="text-center my-auto">My Chat Emotions</span>
+        <ion-card (click)="onOpenMyChatEmotions()" class="flex flex-col items-center rounded-lg p-4 xs:p-6">
+          <ion-icon src="/assets/icons/svg/feeling-blue.svg" color="primary" class="text-7xl xs:text-9xl"></ion-icon>
+          <span class="text-tiny xs:text-md text-center my-auto">My Chat Emotions</span>
         </ion-card>
       </div>
       <div #MDQTestCard>
-        <ion-card (click)="onOpenMDQTest()" class="flex flex-col items-center rounded-lg p-6">
-          <ion-icon src="/assets/icons/svg/feeling-of-joy.svg" color="primary" style="font-size: 8rem;"></ion-icon>
-          <span class="text-center my-auto">Mood Disorder Questionnaire Test</span>
+        <ion-card (click)="onOpenMDQTest()" class="flex flex-col items-center rounded-lg p-4 xs:p-6">
+          <ion-icon src="/assets/icons/svg/feeling-of-joy.svg" color="primary" class="text-7xl xs:text-9xl"></ion-icon>
+          <span class="text-tiny xs:text-md text-center my-auto">Mood Disorder Questionnaire Test</span>
         </ion-card>
       </div>
     </div>
@@ -71,7 +71,7 @@
 </ion-content>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button size="small" [routerLink]="['/chat-with-bot']">
-    <ion-icon name="chatbubble" size="default" class="p-1"></ion-icon>
+  <ion-fab-button [routerLink]="['/chat-with-bot']" class="w-8 h-8 xs:w-10 xs:h-10">
+    <ion-icon name="chatbubble" class="text-lg xs:text-2xl"></ion-icon>
   </ion-fab-button>
 </ion-fab>

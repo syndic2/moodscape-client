@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Aktivitas Baru</ion-title>
+    <ion-title>Aktivitas Baru</ion-title>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="side-menu/settings"></ion-back-button>
 		</ion-buttons>
@@ -14,11 +14,11 @@
     </div>
 
     <form class="flex-1 flex flex-col gap-y-2">
-      <ion-item lines="none" class="flex-grow rounded-xl">
+      <ion-item lines="none" class="flex-grow rounded-xl text-sm xs:text-lg">
         <ion-label>Nama</ion-label>
         <ion-input [(ngModel)]="activityName" type="text" inputmode="text" name="name" placeholder="Nama aktivitas"></ion-input>
       </ion-item>
-      <ion-button (click)="onSubmit()" expand="block" shape="round" class="normal-case w-1/2 mx-auto">
+      <ion-button (click)="onSubmit()" expand="block" shape="round" class="text-xs xs:text-md normal-case w-1/2 mx-auto">
         <ion-icon slot="end" name="arrow-forward-circle"></ion-icon>
         Lanjut
       </ion-button>

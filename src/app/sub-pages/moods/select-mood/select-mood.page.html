@@ -7,13 +7,13 @@
 </ion-header>
 
 <ion-content class="flex-column-center">
-  <h1 class="text-lg text-center font-medium">Bagaimana kabarmu hari ini?</h1>
+  <h1 class="text-base xs:text-lg text-center font-medium">Bagaimana kabarmu hari ini?</h1>
 
   <ion-grid fixed class="flex-grow-0 mt-10">
     <ion-row>
       <ion-row>
         <ion-col size="12">
-          <div class="flex justify-between gap-x-10 px-3">
+          <div class="flex justify-between gap-x-5 xs:gap-x-10 xs:px-3">
             <select-date (selectDateEvent)="onSelectDate($event)"></select-date>
             <select-time (selectTimeEvent)="onSelectTime($event)"></select-time>
           </div>
@@ -26,7 +26,7 @@
     </ion-row>
   </ion-grid>
   
-  <button (click)="onNext()" class="flex text-5xl mt-32 focus:outline-none">
+  <button (click)="onNext()" class="flex text-4xl xs:text-5xl mt-32 focus:outline-none">
     <ion-icon name="chevron-forward-circle" color="primary"></ion-icon>
   </button>
 </ion-content>

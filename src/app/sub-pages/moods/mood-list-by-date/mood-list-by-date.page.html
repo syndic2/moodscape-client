@@ -8,7 +8,7 @@
 
 <ion-content class="flex-column row-gap-2">
   <ng-container *ngIf="moods.length">
-    <h2 class="text-center font-medium">{{ (date | dateInBahasa).fullDate }}</h2>
+    <h2 class="text-center text-sm xs:text-lg font-medium">{{ (date | dateInBahasa).fullDate }}</h2>
     <div class="inline-flex gap-x-2 text-sm mt-2">
       <span class="font-semibold">Total Mood:</span>
       <span>{{ moods.length }}</span>
@@ -16,6 +16,6 @@
     <div class="flex flex-col gap-y-2">
       <mood-list-item *ngFor="let mood of moods" [mood]="mood" [hidePopover]="true"></mood-list-item>
     </div>
-    <moods-count [moodsCount]="moodsCount" class="mt-2"></moods-count>
+    <moods-count [moodsCount]="moodsCount" [emoticonSize]="'text-3xl'" class="mt-2"></moods-count>
   </ng-container>
 </ion-content>

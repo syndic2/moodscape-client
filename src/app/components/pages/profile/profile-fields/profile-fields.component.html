@@ -3,13 +3,13 @@
     <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Nama depan</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="firstName" placeholder="Nama depan anda"></ion-input>
+        <ion-input type="text" inputmode="text" formControlName="firstName" placeholder="Nama depan anda" class="text-sm xs:text-base"></ion-input>
       </ion-item>
       <ng-container *ngIf="errorMessages?.firstName.length">
-        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.firstName">
+        <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.firstName">
           <ng-container *ngIf="firstName.hasError(error.type) && (firstName.dirty || firstName.touched)">
-            <small class="text-red-600">{{ error.message }}</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+            <small>{{ error.message }}</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </ng-container>
         </div>
       </ng-container>
@@ -18,13 +18,13 @@
     <ion-col size="12">
       <ion-item>
         <ion-label position="stacked">Nama belakang</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="lastName" placeholder="Nama belakang anda"></ion-input>
+        <ion-input type="text" inputmode="text" formControlName="lastName" placeholder="Nama belakang anda" class="text-sm xs:text-base"></ion-input>
       </ion-item>
       <ng-container *ngIf="errorMessages?.lastName.length">
-        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.lastName">
+        <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.lastName">
           <ng-container *ngIf="lastName.hasError(error.type) && (lastName.dirty || lastName.touched)">
-            <small class="text-red-600">{{ error.message }}</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+            <small>{{ error.message }}</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </ng-container>
         </div>
       </ng-container>
@@ -33,17 +33,17 @@
     <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Jenis kelamin</ion-label>
-        <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender">
+        <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender" class="text-sm xs:text-base">
           <ion-select-option value="M">Lelaki</ion-select-option>
           <ion-select-option value="F">Perempuan</ion-select-option>
         </ion-select>
-        <ion-icon slot="end" name="male-female" color="primary" class="text-base my-auto"></ion-icon>
+        <ion-icon slot="end" name="male-female" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
       </ion-item>
       <ng-container *ngIf="errorMessages?.gender.length">
-        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.gender">
+        <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.gender">
           <ng-container *ngIf="gender.hasError(error.type) && (gender.dirty || gender.touched)">
-            <small class="text-red-600">{{ error.message }}</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+            <small>{{ error.message }}</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </ng-container>
         </div>
       </ng-container>
@@ -52,30 +52,30 @@
     <ion-col size="12">
       <ion-item (click)="onSelectDateOfBirth()" class="rounded-xl">
         <ion-label position="stacked">Tanggal Lahir</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="dateOfBirth" placeholder="Tanggal lahir anda" readonly></ion-input>
-        <ion-icon slot="end" name="calendar" color="primary" class="text-base my-auto"></ion-icon>
+        <ion-input type="text" inputmode="text" formControlName="dateOfBirth" placeholder="Tanggal lahir anda" class="text-sm xs:text-base" readonly></ion-input>
+        <ion-icon slot="end" name="calendar" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
       </ion-item>
       <ng-container *ngIf="errorMessages?.dateOfBirth.length">
-        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.age">
+        <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.age">
           <ng-container *ngIf="dateOfBirth.hasError(error.type) && (dateOfBirth.dirty || dateOfBirth.touched)">
-            <small class="text-red-600">{{ error.message }}</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+            <small>{{ error.message }}</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </ng-container>
         </div>
       </ng-container>
     </ion-col>
 
-    <ion-col *ngIf="!user" size="12">
+    <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Alamat surel</ion-label>
-        <ion-input type="email" inputmode="text" formControlName="email" placeholder="Surel anda"></ion-input>
-        <ion-icon slot="end" name="mail" color="primary" class="text-base my-auto"></ion-icon>
+        <ion-input type="email" inputmode="text" formControlName="email" placeholder="Surel anda" class="text-sm xs:text-base" [disabled]="user ? true : false"></ion-input>
+        <ion-icon slot="end" name="mail" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
       </ion-item>
       <ng-container *ngIf="errorMessages?.email.length">
-        <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.email">
+        <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.email">
           <ng-container *ngIf="email.hasError(error.type) && (email.dirty || email.touched)">
-            <small class="text-red-600">{{ error.message }}</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+            <small>{{ error.message }}</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </ng-container>
         </div>
       </ng-container>

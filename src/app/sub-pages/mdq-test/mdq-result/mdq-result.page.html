@@ -1,23 +1,23 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Hasil Tes</ion-title>
+  <ion-toolbar class="px-4 xs:px-2">
+    <ion-title>Hasil Tes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ng-container *ngIf="!testQuestions.length; else showResult">
     <div class="flex flex-col justify-center items-center h-full">
-      <span>-Belum ada hasil-</span>
+      <span class="text-sm xs:text-base">-Belum ada hasil-</span>
     </div>
   </ng-container>
 
   <ng-template #showResult>
     <ng-container *ngIf="isPositive; else isNegative">
       <div class="flex flex-col items-center gap-y-1">
-        <h2 class="text-lg font-semibold">Hasil tes anda:</h2>
+        <h2 class="text-md xs:text-lg font-semibold">Hasil tes anda:</h2>
         <span class="italic">Positif</span>
-        <img src="../../../../assets/images/counseling.png" class="w-72" alt="">
-        <div class="flex flex-col gap-y-3 mt-6">
+        <img src="../../../../assets/images/counseling.png" class="w-36 xs:w-72" alt="">
+        <div class="flex flex-col gap-y-3 text-sm xs:text-base mt-6">
           <p>
             Bedasarkan jawaban anda, kemungkinan anda mengalami gejala <b>Bipolar Disorder</b>. 
             Hidup dengan gejala tersebut dapat menyebabkan kesulitan mengelola hubungan dan bahkan pekerjaan sehari-hari.
@@ -36,10 +36,10 @@
 
     <ng-template #isNegative>
       <div class="flex flex-col items-center gap-y-1">
-        <h2 class="text-lg font-semibold">Hasil tes anda:</h2>
-        <span class="italic">Negatif</span>
-        <img src="../../../../assets/images/happy.png" class="w-72" alt="">
-        <div class="flex flex-col gap-y-3 mt-6">
+        <h2 class="text-md xs:text-lg font-semibold">Hasil tes anda:</h2>
+        <span class="text-sm xs:text-base italic">Negatif</span>
+        <img src="../../../../assets/images/happy.png" class="w-36 xs:w-72" alt="">
+        <div class="flex flex-col gap-y-3 text-sm xs:text-base mt-6">
           <p>
             Bedasarkan jawaban anda, anda memiliki sedikit atau tidak ada gejala terhadap Bipolar Disorder.
           </p>
@@ -54,8 +54,8 @@
       </div>
     </ng-template>
   
-    <div class="flex flex-col gap-y-1 mt-8">
-      <h3 class="text-md font-semibold">Anda menjawab:</h3>
+    <div class="flex flex-col gap-y-1 text-md xs:text-base mt-8">
+      <h3 class="font-semibold">Anda menjawab:</h3>
       <ul class="list-disc list-outside">
         <li class="ml-4">
           Bagian 1: terjawab <b>"Ya"</b> sebanyak <b>{{ description?.firstQuestion }}</b> dari <b>13</b> peratanyaan.
@@ -70,8 +70,8 @@
     </div>
 
     <div class="flex justify-center items-center gap-x-2 mt-10">
-      <ion-button [routerLink]="['/mdq-test/questions']" [queryParams]="{ page: 1 }" shape="round" color="primary" class="normal-case">Test Ulang</ion-button>
-      <ion-button [routerLink]="['/mdq-test']" shape="round" color="primary" class="normal-case ">Selesai</ion-button>
+      <ion-button [routerLink]="['/mdq-test/questions']" [queryParams]="{ page: 1 }" shape="round" color="primary" class="normal-case text-xs xs:text-md w-2/5">Test Ulang</ion-button>
+      <ion-button [routerLink]="['/mdq-test']" shape="round" color="primary" class="normal-case text-xs xs:text-md w-2/5">Selesai</ion-button>
     </div>
   </ng-template>
 </ion-content>

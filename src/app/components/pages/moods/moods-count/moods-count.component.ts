@@ -9,7 +9,8 @@ import { MOOD_EMOTICON_COLORS, MOOD_ICON_PATHS } from 'src/app/models/mood.model
 })
 export class MoodsCountComponent implements OnInit, OnChanges {
   @Input() moodsCount: any;
-  
+  @Input() emoticonSize: string= 'text-2xl';
+
   public moods: any[]= [
     { count: 0, iconPath: MOOD_ICON_PATHS.GEMBIRA, emoticonColor: MOOD_EMOTICON_COLORS.GEMBIRA },
     { count: 0, iconPath: MOOD_ICON_PATHS.SENANG, emoticonColor: MOOD_EMOTICON_COLORS.SENANG },

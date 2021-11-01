@@ -33,7 +33,7 @@
         </ng-template>
       </ng-template>
 
-      <div class="flex flex-col gap-y-2">
+      <div class="flex flex-col gap-y-2 text-xs xs:text-base">
         <div class="inline-flex items-center gap-x-2">
           <h3 class="font-semibold">Streaks:</h3>
           <span>{{ habitTracks.streaks.length }} hari</span>
@@ -54,7 +54,7 @@
     </div>
 
     <habit-fields #habitFields [habit]="habit" (onSubmitEvent)="onUpdate($event)">
-      <button btnSubmit type="submit" class="flex text-5xl focus:outline-none mx-auto">
+      <button btnSubmit type="submit" class="flex text-4xl xs:text-5xl focus:outline-none mx-auto">
         <ion-icon name="checkmark-circle" color="primary"></ion-icon>
       </button>
     </habit-fields>

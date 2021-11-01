@@ -20,10 +20,10 @@ export class HabitListItemComponent implements OnInit, OnChanges {
   
   public currentLog: HabitStreakLog;
   public lastMarkedAt: Date;
+  public currentDate: Date= new Date();
   public daysLeft: number= 0;
   public currentGoal: number= 0;
   public goalProgress: number= 0;
-  private currentDate: Date= new Date();
 
   constructor(private store: Store) { }
 
@@ -33,6 +33,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.currentLog= this.habit.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start);
     this.lastMarkedAt= this.currentLog.lastMarkedAt ? new Date(this.currentLog.lastMarkedAt) : null;
+    this.lastMarkedAt.setHours(0, 0, 0, 0);
     this.currentGoal= this.currentLog.currentGoal;
     this.calculateProgress();
     

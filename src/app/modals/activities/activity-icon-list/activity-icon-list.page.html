@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Pilih Ikon Aktivitas</ion-title>
+  <ion-toolbar class="px-4 xs:px-2">
+    <ion-title>Pilih Ikon Aktivitas</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onClose()">
-        <ion-icon slot="icon-only" name="close" size="large" class="icon"></ion-icon>
+        <ion-icon name="close" class="text-2xl xs:text-3xl"></ion-icon>
       </ion-button>
     </ion-buttons>
 	</ion-toolbar>
@@ -12,7 +12,7 @@
 <ion-content>
   <ng-container *ngIf="!(activityIcons$ | async)?.length; else showActivityIcons">
     <div class="flex justify-center items-center h-full">
-      <span>-Belum ada ikon aktivitas-</span>
+      <span class="text-xs xs:text-base">-Belum ada ikon aktivitas-</span>
     </div>
   </ng-container>
 
@@ -25,7 +25,7 @@
           outline="true"
           *ngFor="let activityIcon of (activityIcons$ | async)"
           (click)="onSelectIcon(activityIcon)">
-          <ion-label>{{ activityIcon.name }}</ion-label>
+          <ion-label class="text-sm xs:text-lg">{{ activityIcon.name }}</ion-label>
         </ion-chip>
       </div>
     </div>
@@ -35,7 +35,7 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <div class="flex p-4">
-      <ion-button (click)="onChoose()" class="normal-case w-1/2 mx-auto">
+      <ion-button (click)="onChoose()" shape="round" class="text-xs xs:text-md normal-case w-2/6 xs:w-1/2 mx-auto">
         <ion-icon slot="start" name="add-circle"></ion-icon>
         Pilih
       </ion-button>

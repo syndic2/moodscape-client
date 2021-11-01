@@ -8,7 +8,7 @@
 
 <ion-content class="flex-column row-gap-4">
   <ng-container *ngIf="habits.length">
-    <div class="flex flex-col items-center gap-y-2">
+    <div class="flex flex-col items-center gap-y-2 text-sm xs:text-base">
       <h2 class="font-semibold">Tanggal dimulai</h2>
       <span class="font-medium">{{ (startDate | dateInBahasa).fullDate }}</span>
     </div>
@@ -23,8 +23,8 @@
         <ion-item-options side="start">
           <ion-item-option class="bg-transparent">
             <div [routerLink]="['/habits', habit.Id]" class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-4">
-              <ion-icon slot="icon-only" name="create" size="large"></ion-icon>
-              <label class="normal-case font-semibold">Ubah</label>
+              <ion-icon name="create" class="text-2xl xs:text-4xl"></ion-icon>
+              <label class="normal-case text-xs xs:text-base font-semibold">Ubah</label>
             </div>
           </ion-item-option>
         </ion-item-options>
@@ -36,8 +36,8 @@
         <ion-item-options side="end">
           <ion-item-option class="bg-transparent">
             <div (click)="onRemove(habit)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
-              <ion-icon slot="icon-only" name="trash" size="large"></ion-icon>
-              <label class="normal-case font-semibold">Hapus</label>
+              <ion-icon name="trash" class="text-2xl xs:text-4xl"></ion-icon>
+              <label class="normal-case text-xs xs:text-base font-semibold">Hapus</label>
             </div>
           </ion-item-option>
         </ion-item-options>

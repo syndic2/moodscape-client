@@ -13,12 +13,12 @@
 
 <ion-content>
   <!--<h1 class="text-lg text-center font-medium">Apa yang telah anda lakukan? :)</h1>-->
-  <form [formGroup]="createMoodForm" (ngSubmit)="onSubmit()" class="mt-2">
+  <form [formGroup]="createMoodForm" (ngSubmit)="onSubmit()" class="xs:mt-2">
     <ion-grid fixed>
       <ion-row class="gap-y-3">
         <ion-col size="12">
           <div formGroupName="parameters" class="flex flex-col gap-y-5">
-            <div>
+            <div class="text-xs xs:text-lg">
               <div class="flex items-center gap-x-1">
                 <ion-icon src="../../../../../assets/icons/svg/thinking.svg" color="primary"></ion-icon>
                 <ion-label>Internal</ion-label>
@@ -31,7 +31,7 @@
               </ion-textarea>
             </div>
 
-            <div>
+            <div class="text-xs xs:text-lg">
               <div class="flex items-center gap-x-1">
                 <ion-icon src="../../../../../assets/icons/svg/dancing.svg" color="primary"></ion-icon>
                 <ion-label>External</ion-label>
@@ -46,15 +46,15 @@
           </div>
         </ion-col>
 
-        <ion-col size="12">
+        <!--<ion-col size="12">
           <div class="flex items-center gap-x-1">
             <ion-icon name="accessibility" color="primary"></ion-icon>
             <ion-label>Aktivitas</ion-label>
           </div>
           <select-activities (selectActivitiesEvent)="onSelectActivities($event)" class="block mt-2"></select-activities>
-        </ion-col>
+        </ion-col>-->
 
-        <ion-col size="12">
+        <ion-col size="12" class="text-xs xs:text-lg">
           <div class="flex items-center gap-x-1">
             <ion-icon name="document-text" color="primary"></ion-icon>
             <ion-label>Catatan</ion-label>
@@ -75,7 +75,7 @@
         </ion-col>-->
 
         <ion-col size="12">
-          <button type="submit" class="flex text-5xl mx-auto focus:outline-none">
+          <button type="submit" class="flex text-4xl xs:text-5xl mx-auto focus:outline-none">
             <ion-icon name="checkmark-circle" color="primary"></ion-icon>
           </button>
         </ion-col>

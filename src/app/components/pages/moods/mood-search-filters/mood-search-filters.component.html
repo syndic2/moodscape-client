@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-y-2">
-  <span class="font-semibold">Pencarian bedasarkan:</span>
+  <span class="text-base xs:text-xl font-medium">Pencarian bedasarkan:</span>
   <ul class="list-disc list-outside">
     <li class="ml-4">
-      <div class="inline-flex items-center gap-x-2">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Mood:</label>
         <ng-container *ngIf="!filters?.emoticon; else showEmoticon">
           <ion-icon name="remove-outline" color="danger"></ion-icon>
@@ -14,21 +14,21 @@
     </li>
 
     <li class="ml-4">
-      <div class="inline-flex items-center gap-x-2">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Internal:</label>
         <ion-icon [name]="filters?.parameters?.internal ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.internal ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
 
     <li class="ml-4">
-      <div class="inline-flex items-center gap-x-2">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>External:</label>
         <ion-icon [name]="filters?.parameters?.external ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.external ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
     
     <li class="ml-4">
-      <div class="inline-flex gap-x-2">
+      <div class="inline-flex gap-x-2 text-sm xs:text-lg">
         <label class="h-fit-content">Aktivitas:</label>
         <ng-container *ngIf="!filters?.activities.length; else showActivities">
           <ion-icon name="remove-outline" color="danger"></ion-icon>
@@ -44,7 +44,7 @@
     </li>
 
     <li class="ml-4"> 
-      <div class="inline-flex items-center gap-x-2">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Catatan:</label>
         <ion-icon [name]="filters?.note ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.note ? 'success' : 'danger'"></ion-icon>
       </div>

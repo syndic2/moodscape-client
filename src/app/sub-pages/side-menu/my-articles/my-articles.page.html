@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-		<ion-title class="text-lg sm:text-xl">Artikel saya</ion-title>
+		<ion-title>Artikel saya</ion-title>
 		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu">
-				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
+			<ion-menu-button menu="side-menu" class="side-menu-button">
+				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
 	</ion-toolbar>
@@ -32,8 +32,8 @@
   <ng-template #finishLoading>
     <ng-container *ngIf="!articles.length; else showArticles">
       <div class="flex flex-col justify-center items-center gap-y-2 h-full">
-        <img src="../../../../assets/images/open-file.png" class="object-contain w-72" alt="">
-        <span>-Tidak ada artikel-</span>
+        <img src="../../../../assets/images/open-file.png" class="object-contain w-44 xs:w-72" alt="">
+        <span class="text-xs xs:text-md">-Tidak ada artikel-</span>
       </div>
     </ng-container>
 

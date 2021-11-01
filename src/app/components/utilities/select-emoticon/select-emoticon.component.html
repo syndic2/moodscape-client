@@ -1,14 +1,13 @@
-<div class="grid grid-cols-5 justify-items-center gap-x-2">
+<div class="grid grid-cols-5 justify-items-center gap-x-4 xs:gap-x-2">
   <label *ngFor="let emoticon of emoticons" class="relative text-center">
     <input
       type="radio"
       (change)="onSelectEmoticon(emoticon)"
       class="invisible absolute top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4"
       [name]="'emoticon'"
-      [checked]="selectedEmoticon?.name === emoticon.name"
-    >
+      [checked]="selectedEmoticon?.name === emoticon.name">
     <!--<img [src]="'../../../../assets/'+emoticon.icon" class="emoticons w-full" alt="">-->
-    <ion-icon [src]="'/assets/'+emoticon.iconPath" [style.color]="emoticon.color"></ion-icon>
-    <span class="block text-xs mt-2">{{ emoticon.name }}</span>
+    <ion-icon [src]="'/assets/'+emoticon.iconPath" [style.color]="emoticon.color" class="text-3xl xs:text-5xl"></ion-icon>
+    <span *ngIf="showLabel" class="block text-tiny xs:text-sm mt-2">{{ emoticon.name }}</span>
   </label>
 </div>

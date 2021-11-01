@@ -1,42 +1,42 @@
 <ion-list lines="none" class="grid grid-flow-row gap-y-1 bg-transparent p-0">
   <ion-card *ngFor="let number of [].constructor(5)" class="rounded-lg">
     <ion-card-content class="flex flex-col p-0">
-      <!-- TOP CONTENT -->
-      <div class="grid grid-cols-2 grid-flow-row items-center gap-x-5 gap-y-2 p-4">
-        <label class="text-md font-semibold">Tanggal dimulai</label>
-        
-        <span class="text-sm font-medium whitespace-nowrap">
-          <ion-skeleton-text animated class="rounded-xl w-1/2 ml-auto"></ion-skeleton-text>
-        </span>
-  
-        <label class="text-md font-medium">
-          <div class="flex flex-col gap-y-1">
-            <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
-            <ion-skeleton-text animated class="rounded-xl w-3/4"></ion-skeleton-text>
-            <ion-skeleton-text animated class="rounded-xl w-1/2"></ion-skeleton-text>
+      <div class="relative bg-white w-full h-fit-content">
+        <!-- TOP CONTENT -->
+        <div class="flex justify-between gap-x-5 p-3 xs:p-4">
+          <div class="grid grid-flow-col items-center gap-x-2 xs:gap-x-4">
+            <ion-skeleton-text animated class="rounded-full w-4 h-4 xs:w-8 xs:h-8"></ion-skeleton-text>
+            <div class="border-r-2 h-full"></div>
+            <div class="flex flex-col">
+              <ion-skeleton-text animated class="rounded-lg w-14 h-2 xs:w-20"></ion-skeleton-text>
+              <ion-skeleton-text animated class="rounded-lg w-10 h-2 xs:w-12"></ion-skeleton-text>
+              <ion-skeleton-text animated class="rounded-lg w-8 h-2 xs:w-10"></ion-skeleton-text>
+            </div>
           </div>
-        </label>
-        
-        <h3 class="text-3xl text-right font-bold">
-          <div class="inline-flex space-x-3 w-3/4">
-            <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text> <span>/</span> <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+          <div class="flex flex-col gap-y-1 xs:gap-y-2">
+            <ion-skeleton-text animated class="rounded-lg w-14 h-2 ml-auto"></ion-skeleton-text>
+            <div class="flex gap-x-2">
+              <ion-skeleton-text animated class="rounded-lg w-5 h-4 xs:w-6 xs:h-6"></ion-skeleton-text>
+              <span class="text-xl xs:text-3xl">/</span>
+              <ion-skeleton-text animated class="rounded-lg w-5 h-4 xs:w-6 xs:h-6"></ion-skeleton-text>
+            </div>
           </div>
-        </h3>
+        </div>
       </div>
   
       <!-- BOTTOM CONTENT -->
-      <div class="grid grid-cols-3 justify-items-center font-semibold py-4">
-        <div class="flex flex-col items-center">
+      <div class="grid grid-cols-3 justify-items-center items-center text-tiny xs:text-base font-medium py-4">
+        <div class="flex flex-col items-center gap-y-1">
           <span>Pengingat</span>
-          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+          <ion-skeleton-text animated class="rounded-lg"></ion-skeleton-text>
         </div>
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center gap-y-1">
           <span>Sisa Hari</span>
-          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+          <ion-skeleton-text animated class="rounded-lg"></ion-skeleton-text>
         </div>
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center gap-y-1">
           <span>Streaks</span>
-          <ion-skeleton-text animated class="rounded-xl"></ion-skeleton-text>
+          <ion-skeleton-text animated class="rounded-lg"></ion-skeleton-text>
         </div>
       </div>
     </ion-card-content>

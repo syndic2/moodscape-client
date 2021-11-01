@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">{{ currentPage === 1 ? 'Bagian I' : 'Bagian II - III' }}</ion-title>
+    <ion-title>{{ currentPage === 1 ? 'Bagian I' : 'Bagian II - III' }}</ion-title>
     <ion-buttons slot="start">
       <ion-button (click)="onPrev()">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -13,8 +13,8 @@
   <div class="flex flex-col">
     <div #questionsContainer class="flex-1">
       <ng-container *ngIf="currentPage === 1; else showNext;">
-        <h3 class="text-md font-semibold">1. {{ testQuestions[0].question }}</h3>
-        <div class="flex flex-col gap-y-1 text-sm mt-2">
+        <h3 class="text-md xs:text-lg font-semibold">1. {{ testQuestions[0].question }}</h3>
+        <div class="flex flex-col gap-y-1 text-xs xs:text-md mt-2">
           <span class="italic">Keterangan:</span>
           <span>
             <b>*Y=</b> Ya
@@ -23,7 +23,7 @@
             <b>*T=</b> Tidak
           </span>
         </div> 
-        <div class="grid grid-flow-row grid-cols-auto-fr(1) gap-x-3 gap-y-5 mt-4">
+        <div class="grid grid-flow-row grid-cols-auto-fr(1) gap-x-3 gap-y-5 text-xs xs:text-base mt-4">
           <ng-container *ngFor="let choice of testQuestions[0].choices; let idx= index;">
             <label class="lowercase font-semibold w-fit-content">{{ idx | alphabetNumbering }}).</label>
             <div class="flex flex-col gap-y-2">
@@ -42,7 +42,7 @@
                       'bg-primary text-white font-semibold': answer === choice.answer,
                       'bg-white text-primary font-semibold': answer !== choice.answer 
                     }" 
-                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                    class="selection border border-primary rounded-full flex justify-center items-center w-5 h-5 xs:w-8 xs:h-8 p-4"
                   >
                     <span class="text-xs">{{ answer }}</span>
                   </div>
@@ -57,8 +57,8 @@
         <ng-container *ngIf="currentPage === 2">
           <div class="grid grid-flow-row gap-y-5">
             <div class="flex flex-col gap-y-2">
-              <h3 class="text-md font-semibold">2. {{ testQuestions[1].question }}</h3>
-              <div class="flex flex-col gap-y-2 text-sm">
+              <h3 class="text-md xs:text-lg font-semibold">2. {{ testQuestions[1].question }}</h3>
+              <div class="flex flex-col gap-y-2 text-xs xs:text-md">
                 <span class="italic">Keterangan:</span>
                 <span>
                   <b>*Y=</b> Ya
@@ -67,7 +67,7 @@
                   <b>*T=</b> Tidak
                 </span>
               </div>
-              <div class="inline-flex justify-center items-center gap-x-4 mt-2">
+              <div class="inline-flex justify-center items-center gap-x-4 mt-2 text-xs xs:text-base">
                 <label *ngFor="let answer of ['Y', 'T']" class="relative">
                   <input
                     type="radio" 
@@ -81,7 +81,7 @@
                       'bg-primary text-white font-semibold': answer === testQuestions[1].answer,
                       'bg-white text-primary font-semibold': answer !== testQuestions[1].answer 
                     }" 
-                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                    class="selection border border-primary rounded-full flex justify-center items-center w-5 h-5 xs:w-8 xs:h-8 p-4"
                   >
                     <span class="text-xs">{{ answer }}</span>
                   </div>
@@ -90,8 +90,8 @@
             </div>
   
             <div class="flex flex-col gap-y-2">
-              <h3 class="text-md font-semibold">3. {{ testQuestions[2].question }}</h3>
-              <div class="flex flex-col gap-y-2 text-sm">
+              <h3 class="text-md xs:text-lg font-semibold">3. {{ testQuestions[2].question }}</h3>
+              <div class="flex flex-col gap-y-2 text-xs xs:text-md">
                 <span class="italic">Keterangan:</span>
                 <span>
                   <b>*TM=</b> Tidak Ada Masalah
@@ -120,7 +120,7 @@
                       'bg-primary text-white font-semibold': answer === testQuestions[2].answer,
                       'bg-white text-primary font-semibold': answer !== testQuestions[2].answer 
                     }" 
-                    class="selection border border-primary rounded-full flex justify-center items-center w-8 h-8 p-4"
+                    class="selection border border-primary rounded-full flex justify-center items-center w-5 h-5 xs:w-8 xs:h-8 p-4"
                   >
                     <span class="text-xs">{{ answer }}</span>
                   </div>
@@ -135,7 +135,7 @@
       <button (click)="onNext()" class="flex focus:outline-none">
         <ion-icon slot="icon-only" name="chevron-forward-circle" color="primary" size="large"></ion-icon>
       </button>
-      <label class="text-md">{{ buttonText }}</label>
+      <label class="text-tiny xs:text-md">{{ buttonText }}</label>
     </div>
   </div>
 </ion-content>

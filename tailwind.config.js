@@ -1,17 +1,26 @@
-//const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   purge: ['./src/**/*.{html,ts}'],
   darkMode: false, // or 'media' or 'class'
   important: true,
   theme: {
-    //screens: {
-    //  'xs': '475px',
-    //  ...defaultTheme.screens,
-    //},
+    screens: {
+      'xs': '400px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         primary: 'var(--ion-color-primary)'
+      },
+      fontSize: {
+        'tiny': '0.675rem',
+        'md': '0.9rem',
+        '10xl': '10rem',
+        '11xl': '12rem',
+        '12xl': '14rem',
+        '13xl': '15rem',
+        '14xl': '16rem'
       },
       width: {
         'fit-content': 'fit-content'

@@ -1,25 +1,25 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom" class="border-t">
     <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Beranda</ion-label>
+      <ion-icon name="home" class="text-xl xs:text-2xl"></ion-icon>
+      <!--<ion-label class="text-xs">Beranda</ion-label>-->
     </ion-tab-button>
 
     <ion-tab-button tab="moods">
-      <ion-icon name="happy"></ion-icon>
-      <ion-label>Mood</ion-label>
+      <ion-icon name="happy" class="text-xl xs:text-2xl"></ion-icon>
+      <!--<ion-label class="text-xs">Mood</ion-label-->
     </ion-tab-button>
 
     <ion-tab-button></ion-tab-button>
 
     <ion-tab-button tab="habits">
-      <ion-icon src="../../assets/icons/svg/habits.svg"></ion-icon>
-      <ion-label>Habit</ion-label>
+      <ion-icon src="../../assets/icons/svg/habits.svg" class="text-xl xs:text-2xl"></ion-icon>
+      <!--<ion-label class="text-xs">Habit</ion-label>-->
     </ion-tab-button>
 
     <ion-tab-button tab="statistics">
-      <ion-icon name="stats-chart"></ion-icon>
-      <ion-label>Statistik</ion-label>
+      <ion-icon name="stats-chart" class="text-xl xs:text-2xl"></ion-icon>
+      <!--<ion-label class="text-xs">Statistik</ion-label>-->
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
@@ -30,13 +30,13 @@
   </ion-fab-button>
 
   <ion-fab-list side="start">
-    <ion-fab-button [routerLink]="['/moods/create/step-1']" class="transform -translate-y-14 translate-x-2 w-14 h-14">
-      <ion-icon src="../../assets/icons/svg/add-mood.svg" color="primary" size="large"></ion-icon>
+    <ion-fab-button [routerLink]="['/moods/create/step-1']" class="transform translate-x-4 -translate-y-14 xs:translate-x-2 w-12 h-12 xs:w-14 xs:h-14">
+      <ion-icon src="../../assets/icons/svg/add-mood.svg" color="primary" class="text-2xl xs:text-3xl"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
   <ion-fab-list side="end">
-    <ion-fab-button [routerLink]="['/habits/create']" size="large" class="transform -translate-y-14 -translate-x-2 w-14 h-14">
-      <ion-icon src="../../assets/icons/svg/add-habit.svg" color="primary" size="large"></ion-icon>
+    <ion-fab-button [routerLink]="['/habits/create']" class="transform -translate-x-4 -translate-y-14 xs:-translate-x-2 w-12 h-12 xs:w-14 xs:h-14">
+      <ion-icon src="../../assets/icons/svg/add-habit.svg" color="primary" class="text-2xl xs:text-3xl"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>

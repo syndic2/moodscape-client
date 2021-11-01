@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">My Chat Emotions</ion-title>
+    <ion-title>My Chat Emotions</ion-title>
     <ion-buttons slot="start">
 			<ion-back-button defaultHref="side-menu/tabs/home" [routerLink]="['/side-menu/tabs/home']"></ion-back-button>
 		</ion-buttons>
@@ -9,28 +9,30 @@
 
 <ion-content class="flex-column row-gap-4">
   <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else showAuthButton">
-    <div class="h-10">
+    <div class="h-5 xs:h-10">
       <ion-skeleton-text animated class="rounded-lg w-3/4 mx-auto"></ion-skeleton-text>
     </div>
   </ng-container>
   <ng-template #showAuthButton>
-    <ng-container *ngIf="!isTelegramAuthorized; else showAuthorized">
-      <button (click)="onConnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-green-500 rounded-lg w-3/4 mx-auto p-3">
-        Masuk Telegram
-        <ion-icon name="log-in" class="text-2xl"></ion-icon>
-      </button>
-    </ng-container>
-    <ng-template #showAuthorized>
-      <button (click)="onDisconnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-red-500 rounded-lg w-3/4 mx-auto p-3">
-        Keluar Telegram
-        <ion-icon name="log-out" class="text-2xl"></ion-icon>
-      </button>
-    </ng-template>
+    <div class="text-xs xs:text-lg">
+      <ng-container *ngIf="!isTelegramAuthorized; else showAuthorized">
+        <button (click)="onConnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-green-500 rounded-lg w-3/4 mx-auto p-2 xs:p-3">
+          Masuk Telegram
+          <ion-icon name="log-in" class="text-xl xs:text-2xl"></ion-icon>
+        </button>
+      </ng-container>
+      <ng-template #showAuthorized>
+        <button (click)="onDisconnectTelegram()" class="flex justify-center items-center gap-x-2 text-white bg-red-500 rounded-lg w-3/4 mx-auto p-2 xs:p-3">
+          Keluar Telegram
+          <ion-icon name="log-out" class="text-xl xs:text-2xl"></ion-icon>
+        </button>
+      </ng-template>
+    </div>
   </ng-template>
 
   <div>
     <ion-card class="flex flex-col gap-y-2 rounded-lg p-4">
-      <h3 class="text-lg font-medium text-center">Emosi Keseluruhan</h3>
+      <h3 class="text-sm xs:text-lg font-medium text-center">Emosi Keseluruhan</h3>
       <canvas #pieChartCanvas></canvas>
     </ion-card>
   </div>
@@ -44,9 +46,9 @@
     ]; let idx= index">
       <div #emotionCard (click)="onSelectEmotion(idx)" class="flex flex-col items-center gap-y-1">
         <ion-card class="rounded-lg p-4">
-          <img [src]="'/assets/images/'+emotion.image" alt="" class="object-contain h-28">
+          <img [src]="'/assets/images/'+emotion.image" alt="" class="object-contain h-16 xs:h-28">
         </ion-card>
-        <span class="capitalize font-medium">{{ emotion.name }}</span>
+        <span class="capitalize text-xs xs:text-base font-medium">{{ emotion.name }}</span>
       </div>
     </ng-container>
   </div>

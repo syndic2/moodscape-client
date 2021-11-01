@@ -1,8 +1,10 @@
 <ng-template #activityTemplate>
-  <ion-label class="focus:outline-none" [routerLink]="['/settings/activities/activity', activity.Id]">{{ activity.name }}</ion-label>
+  <ion-label class="text-sm xs:text-base focus:outline-none" [routerLink]="['/settings/activities/activity', activity.Id]">
+    {{ activity.name }}
+  </ion-label>
   <ion-reorder *ngIf="forReorder" class="flex gap-2 mr-4" slot="start">
     <ion-icon name="menu-outline"></ion-icon>
     <ion-icon name="accessibility-outline"></ion-icon>
   </ion-reorder>
-  <ion-icon name="ellipsis-vertical-circle" (click)="openPopover($event)" color="primary"></ion-icon>
+  <ion-icon name="ellipsis-vertical-circle" (click)="openPopover($event)" color="primary" class="text-2xl xs:text-3xl"></ion-icon>
 </ng-template>

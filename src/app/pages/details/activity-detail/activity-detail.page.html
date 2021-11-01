@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">{{ activity?.name }}</ion-title>
+    <ion-title>{{ activity?.name }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="
         activityCategory ?
@@ -19,16 +19,16 @@
 
   <ng-container *ngIf="activity">
     <div (click)="onUpdateName()" class="flex items-center gap-x-3 p-2">
-      <ion-icon class="w-8 h-8" name="create" color="primary"></ion-icon>
-      <div class="flex flex-col">
+      <ion-icon class="w-6 h-6 xs:w-8 xs:h-8" name="create" color="primary"></ion-icon>
+      <div class="flex flex-col text-sm xs:text-base">
         <span>Nama</span>
         <span class="text-black text-opacity-50">{{ activity.name }}</span>
       </div>
     </div>
   
     <div (click)="onMoveToAnotherCatgory()" class="flex items-center gap-x-3 p-2">
-      <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
-      <div class="flex flex-col">
+      <ion-icon class="w-6 h-6 xs:w-8 xs:h-8" name="folder-open" color="primary"></ion-icon>
+      <div class="flex flex-col text-sm xs:text-base">
         <span>Kategori</span>
         <span class="text-black text-opacity-50">
           {{activityCategory ? activityCategory.category : 'Pilih kategori aktivitas' }}
@@ -36,7 +36,7 @@
       </div>
     </div>
   
-    <div (click)="onChangeIcon()" class="flex items-center gap-x-3 p-2">
+    <div (click)="onChangeIcon()" class="flex items-center gap-x-3 text-sm xs:text-base p-2">
       <span>{{ activity.icon }}</span>
       <span>Ikon</span>
     </div>
@@ -46,7 +46,7 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar class="p-2">
     <ng-container *ngIf="activity">
-      <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
+      <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case text-xs xs:text-md w-2/6 xs:w-1/2 mx-auto">
         <ion-icon slot="start" name="trash"></ion-icon>
         Hapus
       </ion-button>

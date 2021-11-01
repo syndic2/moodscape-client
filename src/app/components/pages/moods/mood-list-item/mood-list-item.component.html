@@ -1,26 +1,26 @@
 <div #moodItem>
   <ion-card class="rounded-2xl">
     <ion-card-content class="relative">
-      <div (click)="onOpenDetail()" class="flex items-start gap-x-4">
-        <ion-icon [src]="'../../../../../assets/'+mood.emoticon.iconPath" [style.color]="mood.emoticon.color" class="emoticons"></ion-icon>
+      <div (click)="onOpenDetail()" class="flex items-start gap-x-2 xs:gap-x-4">
+        <ion-icon [src]="'../../../../../assets/'+mood.emoticon.iconPath" [style.color]="mood.emoticon.color" class="text-4xl xs:text-5xl"></ion-icon>
         <div class="flex-1 flex flex-col gap-y-1">
           <!-- Detail -->
           <div class="flex flex-col">
-            <span>{{ (mood.createdAt.date | dateInBahasa).fullDate }}</span>
+            <span class="text-xs xs:text-lg">{{ (mood.createdAt.date | dateInBahasa).fullDate }}</span>
             <div class="flex items-center gap-x-2">
-              <h3 class="text-lg uppercase font-semibold">{{ mood.emoticon.name }}</h3>
-              <span>{{ mood.createdAt.time }}</span>
+              <h3 class="text-md xs:text-xl uppercase font-semibold">{{ mood.emoticon.name }}</h3>
+              <span class="text-xs xs:text-base">{{ mood.createdAt.time }}</span>
             </div>
           </div>
   
           <!-- Activities -->
-          <div class="flex flex-wrap gap-2">
+          <!--<div class="flex flex-wrap gap-2">
             <label *ngFor="let activity of mood.activities">{{ activity.name }}</label>
-          </div>
+          </div>-->
         </div>
       </div>
       <button *ngIf="!hidePopover" (click)="openPopover($event)" class="absolute top-2 right-2 focus:outline-none">
-        <ion-icon name="ellipsis-vertical-circle" color="primary"></ion-icon>
+        <ion-icon name="ellipsis-vertical-circle" color="primary" class="text-xl xs:text-3xl"></ion-icon>
       </button>
     </ion-card-content>
   </ion-card>

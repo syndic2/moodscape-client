@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-		<ion-title class="text-lg sm:text-xl">Pengaturan</ion-title>
+		<ion-title>Pengaturan</ion-title>
 		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu">
-				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
+			<ion-menu-button menu="side-menu" class="side-menu-button">
+				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
 	</ion-toolbar>
@@ -12,9 +12,9 @@
 <ion-content>
   <ion-list lines="full">
     <ion-item [routerLink]="page.url" *ngFor="let page of pages">
-      <ion-icon slot="start" [name]="page.icon" color="primary"></ion-icon>
-      <ion-icon slot="end" name="chevron-forward" color="primary"></ion-icon>
-      <ion-label>{{ page.title }}</ion-label>
+      <ion-icon slot="start" [name]="page.icon" color="primary" class="text-lg xs:text-2xl"></ion-icon>
+      <ion-icon slot="end" name="chevron-forward" color="primary" class="text-lg xs:text-2xl"></ion-icon>
+      <ion-label class="text-sm xs:text-lg">{{ page.title }}</ion-label>
     </ion-item>
   </ion-list>
 	<!--<ion-item lines="none">

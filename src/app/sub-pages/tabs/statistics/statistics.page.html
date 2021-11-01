@@ -1,15 +1,15 @@
 <ion-header class="ion-no-border">
 	<ion-toolbar>
-		<ion-title class="text-lg sm:text-xl">Statistik</ion-title>
+		<ion-title>Statistik</ion-title>
 		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu">
+			<ion-menu-button menu="side-menu" class="side-menu-button">
 				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content class="flex-column row-gap-5">
+<ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -19,19 +19,19 @@
       [routerLink]="['/side-menu/tabs/statistics']"
       [queryParams]="{ mode: 'mood' }"
       [color]="selectedMode === 'mood' ? 'primary' : 'light'" 
-      class="normal-case">
+      class="normal-case text-tiny xs:text-sm">
       Mood
     </ion-button>
     <ion-button
       [routerLink]="['/side-menu/tabs/statistics']"
       [queryParams]="{ mode: 'habit' }" 
       [color]="selectedMode === 'habit' ? 'primary' : 'light'" 
-      class="normal-case">
+      class="normal-case text-tiny xs:text-sm">
       Habit
     </ion-button>
   </div>
 
-  <div class="flex-1">
+  <div class="mt-2 xs:mt-4">
     <ng-container *ngIf="selectedMode === 'mood'">
       <mood-statistics></mood-statistics>
     </ng-container>

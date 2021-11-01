@@ -2,7 +2,7 @@
   <ng-container *ngIf="!isStatistics">
     <ion-header class="ion-no-border">
       <ion-toolbar>
-        <ion-title class="text-md text-base p-0">{{ (selectedDate | dateInBahasa).fullDate }}</ion-title>
+        <ion-title class="text-sm xs:text-base p-0">{{ (selectedDate | dateInBahasa).fullDate }}</ion-title>
         <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
           <ion-icon name="close" color="light"></ion-icon>
         </button>
@@ -11,16 +11,16 @@
   </ng-container>
   
   <div class="inner-content">
-    <div class="flex justify-center gap-x-4 text-xs text-white">
-      <button (click)="onSelectMonth()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
-      <button (click)="onSelectYear()" class="border rounded-lg bg-primary w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
+    <div class="flex justify-center gap-x-4 text-tiny xs:text-xs text-white">
+      <button (click)="onSelectMonth()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
+      <button (click)="onSelectYear()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
     </div>
   
     <div class="flex justify-between items-center gap-x-2 mt-4">
       <button (click)="prev()" class="flex items-center text-xl focus:outline-none">
         <ion-icon name="chevron-back" color="primary"></ion-icon>
       </button>
-      <h2 class="text-md text-center font-medium">{{ viewTitle }}</h2>
+      <h2 class="text-sm xs:text-md text-center font-medium">{{ viewTitle }}</h2>
       <button (click)="next()" class="flex items-center text-xl focus:outline-none">
         <ion-icon name="chevron-forward" color="primary"></ion-icon>
       </button>
@@ -59,7 +59,7 @@
     </calendar>
 
     <ng-container *ngIf="!isStatistics">
-      <button (click)="onSelectDate()" class="flex text-4xl focus:outline-none mx-auto mt-4">
+      <button (click)="onSelectDate()" class="flex text-3xl xs:text-4xl focus:outline-none mx-auto mt-4">
         <ion-icon name="checkmark-circle" color="primary"></ion-icon>
       </button>
     </ng-container>

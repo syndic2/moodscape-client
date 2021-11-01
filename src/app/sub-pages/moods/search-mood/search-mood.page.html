@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Cari Mood</ion-title>
+    <ion-title>Cari Mood</ion-title>
     <ion-buttons slot="start">
 			<ion-back-button defaultHref="side-menu/tabs/moods"></ion-back-button>
 		</ion-buttons>
@@ -22,20 +22,38 @@
     </div>
 
     <div class="flex flex-col items-center gap-y-5 w-full">
-      <h3 class="text-lg font-semibold mt-4">Cari bedasarkan</h3>
+      <h3 class="text-base xs:text-xl font-medium mt-4">Cari bedasarkan</h3>
 
-      <select-emoticon (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-4/5"></select-emoticon>
+      <select-emoticon [showLabel]="false" (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-11/12 xs:w-10/12"></select-emoticon>
 
-      <div class="flex flex-wrap justify-center gap-2 w-full">
-        <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-75': filters.parameters.internal }" expand="block" color="warning" shape="round" class="flex-1 normal-case">
+      <div class="flex flex-wrap justify-center gap-2 xs:gap-4 w-full">
+        <ion-button 
+          (click)="onText('internal')" 
+          [ngClass]="{ 'filter brightness-75': filters.parameters.internal }" 
+          expand="block" 
+          color="warning" 
+          shape="round" 
+          class="flex-1 normal-case text-xs xs:text-base">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Internal
         </ion-button>
-        <ion-button (click)="onText('external')" [ngClass]="{ 'filter brightness-75': filters.parameters.external }" expand="block" color="danger" shape="round" class="flex-1 normal-case">
+        <ion-button 
+          (click)="onText('external')" 
+          [ngClass]="{ 'filter brightness-75': filters.parameters.external }" 
+          expand="block" 
+          color="danger" 
+          shape="round" 
+          class="flex-1 normal-case text-xs xs:text-base">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           External
         </ion-button>
-        <ion-button (click)="onText('note')" [ngClass]="{ 'filter brightness-75': filters.note }" expand="block" color="success" shape="round" class="normal-case w-1/2">
+        <ion-button 
+          (click)="onText('note')" 
+          [ngClass]="{ 'filter brightness-75': filters.note }" 
+          expand="block" 
+          color="success" 
+          shape="round" 
+          class="normal-case text-xs xs:text-base w-1/2">
           <ion-icon slot="start" name="add" color="light"></ion-icon>
           Catatan
         </ion-button>
@@ -45,7 +63,7 @@
     </div>
 
     <div class="flex-1 flex justify-center items-center">
-      <img src="../../../../../assets/images/wondering.png" class="w-72" alt="">
+      <img src="../../../../../assets/images/wondering.png" class="w-48 xs:w-72" alt="">
     </div>
   </div>
 </ion-content>
@@ -53,7 +71,7 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <div class="flex justify-center items-center p-4">
-      <ion-button (click)="onSearch()" color="primary" class="flex-1 normal-case">
+      <ion-button (click)="onSearch()" color="primary" class="flex-1 normal-case text-xs xs:text-md">
         <ion-icon slot="start" name="search"></ion-icon>
         Cari
       </ion-button>

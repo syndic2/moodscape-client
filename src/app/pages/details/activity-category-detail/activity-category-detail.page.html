@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">{{ activityCategory?.category }}</ion-title>
+    <!--<ion-title>{{ activityCategory?.category }}</ion-title>-->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="settings/activities"></ion-back-button>
     </ion-buttons>
@@ -14,8 +14,8 @@
 
   <ng-container *ngIf="activityCategory">
     <div class="flex items-center gap-x-3" (click)="onUpdate()">
-      <ion-icon class="w-8 h-8" name="folder-open" color="primary"></ion-icon>
-      <div class="flex flex-col">
+      <ion-icon class="w-6 h-6 xs:w-8 xs:h-8" name="folder-open" color="primary"></ion-icon>
+      <div class="flex flex-col text-sm xs:text-base">
         <span>Kategori</span>
         <span class="text-black text-opacity-50">
           {{ activityCategory.category }}
@@ -25,14 +25,14 @@
     
     <div class="flex-1 flex flex-col gap-y-2 mt-6">
       <div class="flex items-center justify-between">
-        <ion-label class="font-semibold">Aktivitas</ion-label>
-        <button (click)="onCreateActivity()" class="flex focus:outline-none">
-          <ion-icon slot="icon-only" name="add-circle-outline" color="primary" size="large"></ion-icon>
+        <ion-label class="text-sm xs:text-2xl font-medium">Aktivitas</ion-label>
+        <button (click)="onCreateActivity()" class="flex text-2xl xs:text-4xl focus:outline-none">
+          <ion-icon name="add-circle-outline" color="primary"></ion-icon>
         </button>
       </div>
 
       <ng-container *ngIf="!activityCategory.activities.length; else showActivities">
-        <span class="m-auto">-Belum ada aktivitas-</span>
+        <span class="text-xs xs:text-lg m-auto">-Belum ada aktivitas-</span>
       </ng-container>
 
       <ng-template #showActivities>
@@ -54,7 +54,7 @@
         <ion-icon slot="start" name="add-circle"></ion-icon>
         Tambah Aktivitas Baru
       </ion-button>-->
-      <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case w-1/2 mx-auto">
+      <ion-button (click)="onRemove()" expand="block" shape="round" color="danger" class="normal-case text-xs xs:text-md w-2/6 xs:w-1/2 mx-auto">
         <ion-icon slot="start" name="trash"></ion-icon>
         Hapus
       </ion-button>

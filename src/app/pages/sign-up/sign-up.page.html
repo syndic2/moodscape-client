@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar class="with-back-button">
+	<ion-toolbar>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="sign-in"></ion-back-button>
 		</ion-buttons>
@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-	<h1 class="text-2xl text-center">Daftarkan diri anda!</h1>
+	<h1 class="text-lg xs:text-2xl text-center">Daftarkan diri anda!</h1>
 	<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="mt-2">
 		<ion-grid fixed>
       <ion-row>
@@ -16,13 +16,13 @@
         <ion-col size="12">
           <ion-item class="rounded-xl">
             <ion-label position="stacked">Nama pengguna</ion-label>
-            <ion-input type="text" inputmode="text" formControlName="username" placeholder="Nama pengguna anda"></ion-input>
-            <ion-icon slot="end" name="person" color="primary" class="text-base my-auto"></ion-icon>
+            <ion-input type="text" inputmode="text" formControlName="username" placeholder="Nama pengguna anda" class="text-sm xs:text-base"></ion-input>
+            <ion-icon slot="end" name="person" color="primary" class="text-xs sm:text-base my-auto"></ion-icon>
           </ion-item>
-          <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.username">
-            <ng-container class="flex mt-1 font-semibold" *ngIf="username.hasError(error.type) && (username.touched || username.dirty)">
-              <small class="text-red-600">{{ error.message }}</small>
-              <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+          <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.username">
+            <ng-container *ngIf="username.hasError(error.type) && (username.touched || username.dirty)">
+              <small>{{ error.message }}</small>
+              <ion-icon name="alert-circle" class="ml-1"></ion-icon>
             </ng-container>
           </div>
         </ion-col>
@@ -30,13 +30,13 @@
         <ion-col size="12">
           <ion-item class="rounded-xl">
             <ion-label position="stacked">Kata sandi</ion-label>
-            <ion-input type="password" inputmode="text" formControlName="password" placeholder="Kata sandi anda"></ion-input>
-            <ion-icon slot="end" name="lock-open" color="primary" class="text-base my-auto"></ion-icon>
+            <ion-input type="password" inputmode="text" formControlName="password" placeholder="Kata sandi anda" class="text-sm xs:text-base"></ion-input>
+            <ion-icon slot="end" name="lock-open" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
           </ion-item>
-          <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.password">
+          <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.password">
             <ng-container *ngIf="password.hasError(error.type) && (password.touched || password.dirty)">
-              <small class="text-red-600">{{ error.message }}</small>
-              <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+              <small>{{ error.message }}</small>
+              <ion-icon name="alert-circle" class="ml-1"></ion-icon>
             </ng-container>
           </div>
         </ion-col>
@@ -44,23 +44,23 @@
         <ion-col size="12">
           <ion-item class="rounded-xl">
             <ion-label position="stacked">Konfirmasi kata sandi</ion-label>
-            <ion-input type="password" inputmode="text" formControlName="confirmPassword" placeholder="Konfirmasi kata sandi anda"></ion-input>
-            <ion-icon slot="end" name="lock-closed" color="primary" class="text-base my-auto"></ion-icon>
+            <ion-input type="password" inputmode="text" formControlName="confirmPassword" placeholder="Konfirmasi kata sandi anda" class="text-sm xs:text-base"></ion-input>
+            <ion-icon slot="end" name="lock-closed" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
           </ion-item>
-          <div class="flex mt-1 font-semibold" *ngFor="let error of errorMessages.confirmPassword">
-            <ng-container class="flex mt-1 font-semibold" *ngIf="confirmPassword.hasError(error.type) && (confirmPassword.touched || confirmPassword.dirty)">
-              <small class="text-red-600">{{ error.message }}</small>
-              <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+          <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.confirmPassword">
+            <ng-container *ngIf="confirmPassword.hasError(error.type) && (confirmPassword.touched || confirmPassword.dirty)">
+              <small>{{ error.message }}</small>
+              <ion-icon name="alert-circle" class="ml-1"></ion-icon>
             </ng-container>
           </div>
-          <div class="flex mt-1 font-semibold" *ngIf="confirmPassword?.errors?.matchValidator">
-            <small class="text-red-600">Kata sandi dengan konfirmasi kata sandi tidak sama</small>
-            <ion-icon name="alert-circle" class="text-base text-red-600 ml-1 my-auto"></ion-icon>
+          <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngIf="confirmPassword?.errors?.matchValidator">
+            <small>Kata sandi dengan konfirmasi kata sandi tidak sama</small>
+            <ion-icon name="alert-circle" class="ml-1"></ion-icon>
           </div>
         </ion-col>
 
         <ion-col class="text-center" size="12">
-          <ion-button type="submit" class="ion-margin-top" shape="round" class="normal-case">Daftar</ion-button>
+          <ion-button type="submit" class="ion-margin-top" shape="round" class="normal-case text-xs xs:text-md">Daftar</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

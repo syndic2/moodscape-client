@@ -4,6 +4,13 @@ ion-toolbar {
   --padding-start: 1.25rem;
   --padding-end: 1.25rem;
   border-radius: 0 !important;
+
+  @media screen and (max-width: 400px) {
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+  }
 }
 
 ion-content {
@@ -25,7 +32,11 @@ ion-content {
   ::ng-deep {
     .table-bordered {
       border: none !important;
-      font-size: 2.5vw !important;
+      font-size: 0.75rem !important;
+
+      @media screen and (max-width: 400px) {
+        font-size: 0.675rem !important;
+      }
 
       th, td {
         border: none !important;
@@ -44,8 +55,15 @@ ion-content {
         td {
           padding-top: 10px !important;
           padding-bottom: 10px !important;
-          padding-left: 12px !important;
-          padding-right: 12px !important;
+          padding-left: 10px !important;
+          padding-right: 10px !important;
+
+          @media screen and (max-width: 400px) {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important
+          }
         }
       }
     }

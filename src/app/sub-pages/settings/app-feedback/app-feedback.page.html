@@ -8,18 +8,18 @@
 
 <ion-content>
   <div class="flex flex-col justify-center h-full">
-    <h1 class="text-xl text-center">Umpan Balik</h1>
+    <h1 class="text-base xs:text-xl text-center">Umpan Balik</h1>
     <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" class="mt-2">
       <ion-grid fixed>
         <ion-row>
           <ion-col size="12">
-            <select-emoticon (selectEmoticonEvent)="onSelectEmoticon($event)"></select-emoticon>
+            <select-emoticon [showLabel]="false" (selectEmoticonEvent)="onSelectEmoticon($event)"></select-emoticon>
           </ion-col>
 
-          <ion-col size="12" class="mt-4">
+          <ion-col size="12" class="mt-2">
             <ion-item class="rounded-t-xl">
-              <ion-label>Kategori fitur ulasan</ion-label>
-              <ion-select formControlName="featureCategory" interface="action-sheet" cancelText="Kembali">
+              <ion-label class="text-sm xs:text-lg">Kategori fitur ulasan</ion-label>
+              <ion-select formControlName="featureCategory" interface="action-sheet" cancelText="Tutup">
                 <ion-select-option value="General">Keseluruhan Aplikasi</ion-select-option>
                 <ion-select-option value="Mood Tracker">Mood Tracker</ion-select-option>
                 <ion-select-option value="Habit Tracker">Habit Tracker</ion-select-option>
@@ -29,13 +29,13 @@
               </ion-select>
             </ion-item>
             <ion-item class="item-without-highlight shadow-lg">
-              <ion-label position="stacked">Ulasan anda</ion-label>
-              <ion-textarea rows="5" formControlName="review" placeholder="Tulis ulasan anda disini..."></ion-textarea>
+              <ion-label position="stacked" class="text-lg xs:text-2xl">Ulasan anda</ion-label>
+              <ion-textarea rows="5" formControlName="review" placeholder="Tulis ulasan anda disini..." class="text-sm xs:text-lg"></ion-textarea>
             </ion-item>
           </ion-col>
 
           <ion-col class="text-center" size="12">
-            <ion-button type="submit" shape="round" class="normal-case">Kirim</ion-button>
+            <ion-button type="submit" shape="round" class="normal-case text-sm xs:text-md">Kirim</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

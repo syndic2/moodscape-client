@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar class="">
-    <ion-title class="text-lg sm:text-xl">Profil Saya</ion-title>
+	<ion-toolbar>
+    <ion-title>Profil Saya</ion-title>
 		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu">
+			<ion-menu-button menu="side-menu" class="side-menu-button">
 				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
 			</ion-menu-button>
 		</ion-buttons>
@@ -14,7 +14,7 @@
 		<ion-refresher-content></ion-refresher-content>
 	</ion-refresher>
 
-	<ion-icon src="/assets/icons/svg/joyride.svg" color="primary" class="block mx-auto" style="font-size: 10rem;"></ion-icon>
+	<ion-icon src="/assets/icons/svg/joyride.svg" color="primary" class="block text-9xl xs:text-10xl mx-auto"></ion-icon>
 
 	<ng-container *ngIf="!user; else showProfile">
 		<profile-fields-loader></profile-fields-loader>
@@ -28,7 +28,7 @@
         <ion-row>
           <profile-fields [user]="user" [form]="updateProfileForm" [errorMessages]="errorMessages"></profile-fields>
           <ion-col class="text-center" size="12">
-            <ion-button type="submit" shape="round" class="normal-case">Simpan</ion-button>
+            <ion-button type="submit" shape="round" class="normal-case text-xs xs:text-md">Simpan</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

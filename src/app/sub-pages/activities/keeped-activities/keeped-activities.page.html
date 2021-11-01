@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Aktivitas Tersimpan</ion-title>
+    <ion-title>Aktivitas Tersimpan</ion-title>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="settings/activities"></ion-back-button>
 		</ion-buttons>
@@ -14,7 +14,7 @@
 
   <ng-container *ngIf="!keepedActivities.length; else showKeepedActivities">
     <div class="flex flex-col justify-center items-center h-full">
-      <span>-Belum ada aktivitas yang tersimpan-</span>
+      <span class="text-xs xs:text-lg">-Belum ada aktivitas yang tersimpan-</span>
     </div>
   </ng-container>
   <ng-template #showKeepedActivities>

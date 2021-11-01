@@ -8,6 +8,7 @@ import { MOOD_EMOTICON_COLORS, MoodEmoticon } from 'src/app/models/mood.model';
   styleUrls: ['./select-emoticon.component.scss'],
 })
 export class SelectEmoticonComponent implements OnInit {
+  @Input() showLabel: boolean= true;
   @Input() selectedEmoticon: MoodEmoticon;
   @Output() selectEmoticonEvent= new EventEmitter<any>();
 

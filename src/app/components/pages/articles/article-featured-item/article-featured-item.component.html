@@ -1,10 +1,10 @@
 <div class="relative w-full">
-  <img class="rounded-xl filter brightness-50 object-center object-cover w-full h-36" [src]="article.headerImg" alt="">
+  <img class="rounded-xl filter brightness-50 object-center object-cover w-full h-28 xs:h-36" [src]="article.headerImg" alt="">
   <div class="absolute top-0 left-0 flex flex-col justify-end w-full h-full p-4">
     <div class="flex flex-col gap-y-2 text-left text-white">
-      <h1 class="line-clamp-3 text-sm">{{ article.title }}</h1>
+      <h1 class="text-tiny xs:text-sm line-clamp-2 xs:line-clamp-3">{{ article.title }}</h1>
       <div class="flex justify-between items-center">
-        <span class="text-opacity-25 text-xs">{{ article.postedAt }}</span>
+        <span class="text-opacity-25 text-tiny xs:text-xs">{{ article.postedAt }}</span>
         <ion-icon name="chevron-forward"></ion-icon>
       </div>
     </div>

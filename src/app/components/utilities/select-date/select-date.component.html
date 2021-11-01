@@ -1,4 +1,4 @@
-<div (click)="onSelectDate()" class="flex items-center gap-x-1 bg-transparent border-b-2 border-primary pb-2">
+<div (click)="onSelectDate()" class="flex items-center gap-x-1 text-sm xs:text-lg bg-transparent border-b-2 border-primary pb-2">
   <ion-icon name="calendar" color="primary"></ion-icon>
   <ion-input
     type="text"
@@ -7,5 +7,5 @@
     [value]="(selectedDate | dateInBahasa)['format::/']"
     [disabled]="true">
   </ion-input>
-  <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
+  <ion-icon name="caret-down" color="primary"></ion-icon>
 </div>

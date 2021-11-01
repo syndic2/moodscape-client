@@ -1,11 +1,11 @@
 <ng-template #activityCategoryTemplate>
-  <ion-label class="focus:outline-none" [routerLink]="['/settings/activities/activity-category', activityCategory.Id]">
+  <ion-label [routerLink]="['/settings/activities/activity-category', activityCategory.Id]" class="text-xs xs:text-lg focus:outline-none">
     {{ activityCategory.category }}
     <span class="text-black text-opacity-50">({{ activityCategory.activities.length }}x)</span>
   </ion-label>
-  <ion-reorder *ngIf="forReorder" class="flex gap-2 mr-4" slot="start">
+  <ion-reorder *ngIf="forReorder" class="flex gap-2 text-sm xs:text-2xl mr-4" slot="start">
     <ion-icon name="menu-outline"></ion-icon>
     <ion-icon name="folder-open-outline" color="primary"></ion-icon>
   </ion-reorder>
-  <ion-icon (click)="openPopover($event)" name="ellipsis-vertical-circle" color="primary"></ion-icon>
+  <ion-icon (click)="openPopover($event)" name="ellipsis-vertical-circle" color="primary" class="text-lg xs:text-3xl"></ion-icon>
 </ng-template>
