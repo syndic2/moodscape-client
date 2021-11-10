@@ -1,9 +1,29 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>themes</ion-title>
+    <ion-title>Tema</ion-title>
+    <ion-buttons slot="start">
+			<ion-back-button defaultHref="side-menu/settings"></ion-back-button>
+		</ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ng-container *ngIf="!themes.length; else showThemes">
+    <div class="flex ustify-center items-center h-full">
+      <span class="text-sm xs:text-base m-auto">-Belum ada tema-</span>
+    </div>
+  </ng-container>
 
+  <ng-template #showThemes>
+    <div class="grid grid-cols-2 gap-2 xs:gap-4">
+      <ng-container *ngFor="let theme of themes; let idx= index">
+        <div #themeCard (click)="onSelectTheme(idx)">
+          <ion-card class="flex flex-col items-center gap-y-4 h-fit-content p-4 xs:p-6">
+            <div class="rounded-full w-8 h-8 xs:w-12 xs:h-12" [style.background]="theme.colors.primary"></div>
+            <span class="text-xs xs:text-base font-medium text-center">{{ theme.name }}</span>
+          </ion-card>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
 </ion-content>

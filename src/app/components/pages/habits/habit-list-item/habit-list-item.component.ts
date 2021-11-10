@@ -33,7 +33,11 @@ export class HabitListItemComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.currentLog= this.habit.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start);
     this.lastMarkedAt= this.currentLog.lastMarkedAt ? new Date(this.currentLog.lastMarkedAt) : null;
-    this.lastMarkedAt.setHours(0, 0, 0, 0);
+    
+    if (this.lastMarkedAt) {
+      this.lastMarkedAt.setHours(0, 0, 0, 0);
+    }
+
     this.currentGoal= this.currentLog.currentGoal;
     this.calculateProgress();
     

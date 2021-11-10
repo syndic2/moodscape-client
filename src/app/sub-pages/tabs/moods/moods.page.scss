@@ -4,7 +4,7 @@
   --padding-start: 1.5rem;
   --padding-end: 1.5rem;
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     --padding-top: 1rem;
     --padding-bottom: 1rem;
     --padding-start: 1rem;

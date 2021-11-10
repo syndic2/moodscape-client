@@ -140,7 +140,7 @@ export const transformDateTime= (dateTime: Date) => {
   };
 
   transformed.toDate= (): string => {
-    return `${transformed.day}, ${transformed.date} ${monthNames(dateTime.getMonth())} ${transformed.year}`;
+    return `${transformed.day}, ${parseInt(transformed.date.toString())} ${monthNames(dateTime.getMonth())} ${transformed.year}`;
   };
 
   transformed.toTime= (): string => {

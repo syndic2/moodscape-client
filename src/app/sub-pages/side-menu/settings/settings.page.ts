@@ -9,11 +9,11 @@ import { ThemeService } from 'src/app/services/theme/theme.service';
 })
 export class SettingsPage implements OnInit {
   public pages: any[] = [
-    {
-      title: 'Aktivitas',
-			url: '/settings/activities',
-			icon: 'accessibility'
-    },
+    //{
+    //  title: 'Aktivitas',
+		//	url: '/settings/activities',
+		//	icon: 'accessibility'
+    //},
     {
       title: 'Tema',
 			url: '/settings/themes',

@@ -1,7 +1,7 @@
 <div #habitItem class="relative">
   <ion-icon 
-    [name]="lastMarkedAt.getTime() === currentDate.getTime() ? 'checkmark-done-outline' : 'alert-outline'"  
-    [color]="lastMarkedAt.getTime() === currentDate.getTime() ? 'success' : 'danger' "
+    [name]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'checkmark-done-outline' : 'alert-outline'"  
+    [color]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'success' : 'danger' "
     class="absolute -top-3 right-0 z-50 text-3xl">
   </ion-icon>
 
@@ -30,7 +30,7 @@
       </div>
   
       <!-- BOTTOM CONTENT -->
-      <div [style.background-color]="habit.labelColor" class="grid grid-cols-3 justify-items-center items-center text-tiny xs:text-base text-white font-semibold py-4">
+      <div [style.background-color]="habit.labelColor" class="grid grid-cols-3 justify-items-center items-center text-tiny xs:text-sm text-white font-semibold py-4">
         <div class="flex flex-col items-center gap-y-1">
           <span>Pengingat</span>
           <span>{{ habit.reminderTime !== '' ? habit.reminderTime : '-- : --' }}</span>

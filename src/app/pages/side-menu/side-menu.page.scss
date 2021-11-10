@@ -22,13 +22,13 @@ ion-menu {
       }
     }
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: var(--small-screen-width)) {
       --padding-start: 8px;
       --padding-end: 8px;
     }
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     --max-width: 75vw;
   }
 }

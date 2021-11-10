@@ -8,6 +8,7 @@ import { Capacitor, Network } from '@capacitor/core';
 
 import { FirebaseCloudMessagingService } from './services/firebase-cloud-messaging/firebase-cloud-messaging.service';
 import { ModalService } from './services/modal/modal.service';
+import { ThemeService } from './services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +24,15 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private deepLinks: Deeplinks,
     private fcmService: FirebaseCloudMessagingService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit() {
     this.checkNetworkConnection();
+    this.themeService.getThemes().subscribe(() => {
+      this.themeService.applyTheme();
+    });
 
     if (Capacitor.platform !== 'web') {
       this.platform.ready().then(() => {

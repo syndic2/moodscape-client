@@ -5,7 +5,7 @@ ion-toolbar {
   --padding-end: 1.25rem;
   border-radius: 0 !important;
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     --padding-top: 1rem;
     --padding-bottom: 1rem;
     --padding-start: 1rem;
@@ -34,7 +34,7 @@ ion-content {
       border: none !important;
       font-size: 0.75rem !important;
 
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: var(--small-screen-width)) {
         font-size: 0.675rem !important;
       }
 
@@ -58,7 +58,7 @@ ion-content {
           padding-left: 10px !important;
           padding-right: 10px !important;
 
-          @media screen and (max-width: 400px) {
+          @media screen and (max-width: var(--small-screen-width)) {
             padding-top: 5px !important;
             padding-bottom: 5px !important;
             padding-left: 5px !important;

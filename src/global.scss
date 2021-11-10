@@ -124,7 +124,7 @@ ion-searchbar {
     }
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     .searchbar-input-container {
       input {
         font-size: 0.875rem !important;
@@ -145,7 +145,7 @@ ion-button {
     --border-radius: 1.5rem;
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     --padding-top: 1rem;
     --padding-bottom: 1rem;
     --padding-start: 1rem;
@@ -184,7 +184,7 @@ ion-back-button {
 		height: 40px;
 	}*/
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: var(--small-screen-width)) {
     --icon-font-size: 1.25rem;
   }
 }
@@ -194,7 +194,7 @@ ion-menu-button {
     ion-icon {
       font-size: 1.5rem !important;
 
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: var(--small-screen-width)) {
         font-size: 1.25rem !important;
       }
     }
@@ -222,7 +222,7 @@ ion-header {
       padding-right: 1rem;
       padding-left: 1rem;
 
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: var(--small-screen-width)) {
         font-size: 1rem;
         padding-right: 0.5rem;
         padding-left: 0.5rem;
@@ -253,7 +253,7 @@ ion-header {
       }
     }*/
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: var(--small-screen-width)) {
       --padding-top: 0;
       --padding-bottom: 0;
       --padding-start: 5px;
@@ -412,7 +412,7 @@ ion-tabs {
 	//--ion-color-primary-tint: #6b37bd;
 
   --ion-color-primary: #41c1dd;
-  --ion-color-primary-rgb: 65,193,221;
+  --ion-color-primary-rgb: 65, 193, 221;
   --ion-color-primary-contrast: #ffffff;
 	--ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #39aac2;

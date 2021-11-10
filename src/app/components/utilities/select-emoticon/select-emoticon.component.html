@@ -7,7 +7,7 @@
       [name]="'emoticon'"
       [checked]="selectedEmoticon?.name === emoticon.name">
     <!--<img [src]="'../../../../assets/'+emoticon.icon" class="emoticons w-full" alt="">-->
-    <ion-icon [src]="'/assets/'+emoticon.iconPath" [style.color]="emoticon.color" class="text-3xl xs:text-5xl"></ion-icon>
+    <ion-icon [src]="'/assets/'+emoticon.iconPath" [style.color]="emoticon.color" class="text-3xl xs:text-4xl"></ion-icon>
     <span *ngIf="showLabel" class="block text-tiny xs:text-sm mt-2">{{ emoticon.name }}</span>
   </label>
 </div>
