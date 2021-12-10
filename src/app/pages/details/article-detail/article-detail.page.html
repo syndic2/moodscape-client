@@ -19,12 +19,14 @@
   <ng-container *ngIf="article">
     <h1 class="text-lg sm:text-2xl font-semibold text-left mt-0">{{ article.title }}</h1>
     <div class="text-black text-opacity-50 text-sm sm:text-base mt-2">
-      <span class="block">Waktu posting: {{ article.postedAt }}</span>
+      <span class="block">Waktu posting: {{ (article.postedAt | dateInBahasa).fullDate }}</span>
       <span class="block">Penulis: {{ article.author }}</span>
     </div>
     <div class="mt-8">
       <img class="w-3/4 mx-auto" [src]="article.headerImg" alt="">
-      <a class="block text-center  text-black text-opacity-50 text-xs sm:text-base mt-2" [href]="article.url">{{ article.url }}</a>
+      <a class="block text-center  text-black text-opacity-50 text-xs sm:text-base mt-2" [href]="article.url">
+        {{ article.url }}
+      </a>
     </div>
     <p class="text-sm sm:text-lg text-center mt-4" [innerHTML]="article.content"></p>
   </ng-container>

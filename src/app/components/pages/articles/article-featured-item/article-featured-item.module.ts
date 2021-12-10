@@ -4,19 +4,17 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
-import { ArticleListItemComponent } from './article-list-item.component';
+import { ArticleFeaturedItemComponent } from './article-featured-item.component';
 
 @NgModule({
-  declarations: [
-    ArticleListItemComponent
-  ],
+  declarations: [ArticleFeaturedItemComponent],
   imports: [
     CommonModule,
     IonicModule,
     SharedPipeModule
   ],
   exports: [
-    ArticleListItemComponent
+    ArticleFeaturedItemComponent
   ]
 })
-export class ArticleListItemModule { }
+export class ArticleFeaturedItemModule { }

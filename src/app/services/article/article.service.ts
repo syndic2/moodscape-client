@@ -10,15 +10,15 @@ import gqlCompress from 'graphql-query-compress';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ArticleService {
-  private skipLoading: string= 'true';
+  private skipLoading: string = 'true';
 
-	constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-	getArticles(offset: number = 0, limit: number = 10): Observable<any> {
-		const query = gqlCompress(`
+  getArticles(offset: number = 0, limit: number = 10): Observable<any> {
+    const query = gqlCompress(`
 			query {
 				getArticlePagination(offset: ${offset}, limit: ${limit}) {
           offset,
@@ -27,11 +27,8 @@ export class ArticleService {
           articles {
             Id,
             title,
-            shortSummary,
             author,
             postedAt,
-            reviewedBy,
-            content,
             headerImg,
             urlName,
             url
@@ -40,15 +37,15 @@ export class ArticleService {
 			}
 		`);
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
       headers: { skipLoading: this.skipLoading }
     }).pipe(
-			map((res: any) => res.data.getArticlePagination)
-		);
-	}
+      map((res: any) => res.data.getArticlePagination)
+    );
+  }
 
   getArchivedArticles(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getArchivedArticles {
           __typename
@@ -82,7 +79,7 @@ export class ArticleService {
   }
 
   getArticleByUrlName(urlName: string): Observable<any> {
-		const query = gqlCompress(`
+    const query = gqlCompress(`
 			query {
 				getArticleByUrlName(urlName: "${urlName}") {
           Id,
@@ -99,14 +96,14 @@ export class ArticleService {
 			}
 		`);
 
-		return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
-			map((res: any) => res.data.getArticleByUrlName)
-		);
-	}
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+      map((res: any) => res.data.getArticleByUrlName)
+    );
+  }
 
   searchArticle(fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       query {
         getFilteredArticles(fields: ${args}) {
           Id,
@@ -128,8 +125,8 @@ export class ArticleService {
   }
 
   searchArchivedArticles(fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       query {
         getFilteredArchivedArticles(fields: ${args}) {
           Id,
@@ -144,14 +141,14 @@ export class ArticleService {
         }
       }
     `);
-    
+
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getFilteredArchivedArticles)
     );
   }
 
   archiveArticles(articleIds: number[]): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         archiveArticles(articleIds: [${articleIds}]) {
           archivedArticles {
@@ -179,7 +176,7 @@ export class ArticleService {
   }
 
   removeArchivedArticles(articleIds: number[]) {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         removeArchivedArticles(articleIds: [${articleIds}]) {
           removedArticles,

@@ -19,11 +19,12 @@ import { ChatbotService } from 'src/app/services/chatbot/chatbot.service';
 export class ChatWithBotPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
-  public messages: any[]= [];
   public messageText: string= '';
+  public messages: any[]= [];
+  public buttonMessages: any[]= [];
+  public isBotTyping: boolean= false;
   private sender: string | number;
-  private BOTGreetFirstSubscription: Subscription;
-  private setAuthIdSubscription: Subscription;
+  private initiateGreetBotSubscription: Subscription;
   private sendMessageSubscription: Subscription;
 
   constructor(
@@ -44,18 +45,14 @@ export class ChatWithBotPage implements OnInit {
         this.store.dispatch(fetchProfile());
       } else {
         this.sender= res.Id;
-        //this.BOTGreetFirstSubscription= this.chatbotService.BOTGreetFirst(this.sender).subscribe((res: any) => {
-        //  console.log('res', res.messages);
-        //});
-        this.setAuthIdSubscription= this.chatbotService.setAuthId(this.sender).subscribe(res => {
-          console.log('res', res);
-        });
+        this.sendMessage('/initiate_bot_greet');
       }
     });
   }
 
   ionViewWillLeave() {
-    this.setAuthIdSubscription && this.setAuthIdSubscription.unsubscribe();
+    this.resetMessages();
+    this.initiateGreetBotSubscription && this.initiateGreetBotSubscription.unsubscribe();
     this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
   }
 
@@ -67,24 +64,67 @@ export class ChatWithBotPage implements OnInit {
   logScrolling(event) {
   }
 
+  resetMessages() {
+    this.messageText= '';
+    this.messages= [];
+    this.buttonMessages= [];
+    this.isBotTyping= false;
+  }
+
+  sendMessage(messageText: string, buttonMessageTitle: string= '') {
+    if (messageText !== '/initiate_bot_greet' && !this.buttonMessages.length) 
+      this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: messageText });
+    else if (buttonMessageTitle !== '')
+      this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: buttonMessageTitle });
+    
+    if (this.buttonMessages.length)
+      this.buttonMessages= [];
+
+    this.messages.push({ isLoading: true });
+    this.isBotTyping= true;
+
+    this.sendMessageSubscription= this.chatbotService
+      .sendMessage(this.sender, messageText)
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe((res: any[]) => {      
+      if (res.length) {
+        this.messages.pop();
+        this.messages= [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];
+        this.isBotTyping= false;
+        this.content.scrollToBottom(200);
+
+        res.forEach(message => {
+          if (message.buttons) {
+            this.buttonMessages= message.buttons;
+            return;
+          }
+        });
+      }
+    });
+  }
+
   onSendMessage() {
     if (this.messageText && this.messageText.trim()) {
-      this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: this.messageText });
-      this.messages.push({ isLoading: true });
-
-      this.sendMessageSubscription= this.chatbotService
-        .sendMessage(this.sender, this.messageText)
-        .pipe(takeUntil(this.authenticationService.isLoggedIn))
-        .subscribe((res: any[]) => {
-        if (res.length) {
-          this.messages.pop();
-          this.messages= [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];
-          this.content.scrollToBottom(200);
-        }
-      });
-
+      this.sendMessage(this.messageText);
       this.messageText= '';
       this.content.scrollToBottom(200);
+      
+      //this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: this.messageText });
+      //this.messages.push({ isLoading: true });
+
+      //this.sendMessageSubscription= this.chatbotService
+      //  .sendMessage(this.sender, this.messageText)
+      //  .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      //  .subscribe((res: any[]) => {
+      //  if (res.length) {
+      //    this.messages.pop();
+      //    this.messages= [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];
+      //    this.content.scrollToBottom(200);
+      //  }
+      //});
+
+      //this.messageText= '';
+      //this.content.scrollToBottom(200);
     }
   }
 }

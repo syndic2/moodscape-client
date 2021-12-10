@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { ArticleEffects } from 'src/app/store/effects/article.effects';
 
+import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
 import { ArticleDetailPageRoutingModule } from './article-detail-routing.module';
 import { ArticleDetailPage } from './article-detail.page';
 
@@ -17,7 +18,8 @@ import { ArticleDetailPage } from './article-detail.page';
     FormsModule,
     IonicModule,
     EffectsModule.forFeature([ArticleEffects]),
+    SharedPipeModule,
     ArticleDetailPageRoutingModule
   ]
 })
-export class ArticleDetailPageModule {}
+export class ArticleDetailPageModule { }

@@ -9,25 +9,26 @@ import { fetchArticleByUrlName, fetchArchiveArticles } from 'src/app/store/actio
 import { getArticleByUrlName } from 'src/app/store/selectors/article.selectors';
 
 @Component({
-	selector: 'app-article-detail',
-	templateUrl: './article-detail.page.html',
-	styleUrls: ['./article-detail.page.scss'],
+  selector: 'app-article-detail',
+  templateUrl: './article-detail.page.html',
+  styleUrls: ['./article-detail.page.scss'],
 })
 export class ArticleDetailPage implements OnInit {
   public article: Article;
   private articleSubscription: Subscription;
   private urlName: string;
 
-	constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
-	ngOnInit() {
-    this.urlName= this.activatedRoute.snapshot.paramMap.get('urlName');
+  ngOnInit() {
+    this.urlName = this.activatedRoute.snapshot.paramMap.get('urlName');
   }
 
   ionViewWillEnter() {
-    this.articleSubscription= this.store.select(getArticleByUrlName(this.urlName)).subscribe(res => {
+    this.store.dispatch(fetchArticleByUrlName({ urlName: this.urlName }));
+    this.articleSubscription = this.store.select(getArticleByUrlName(this.urlName)).subscribe(res => {
       if (res !== null) {
-        this.article= res;
+        this.article = res;
       }
     });
   }

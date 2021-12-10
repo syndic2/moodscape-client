@@ -31,56 +31,56 @@ import {
 
 @Injectable()
 export class ArticleEffects {
-  getArticles$= createEffect(() => this.actions$.pipe(
+  getArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchArticles),
     exhaustMap(({ offset, limit }) => this.articleService.getArticles(offset, limit).pipe(
       map(res => setArticles({ articlePagination: res }))
     ))
   ));
 
-  getFeaturedArticles$= createEffect(() => this.actions$.pipe(
+  getFeaturedArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchFeaturedArticles),
-    exhaustMap(() => this.articleService.getArticles().pipe(
+    exhaustMap(() => this.articleService.getArticles(0, 5).pipe(
       map(res => setFeaturedArticles({ articles: res.articles }))
     ))
   ));
 
-  getMoreArticles$= createEffect(() => this.actions$.pipe(
+  getMoreArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMoreArticles),
     exhaustMap(({ offset, limit }) => this.articleService.getArticles(offset, limit).pipe(
       map(res => setMoreArticles({ articlePagination: res }))
     ))
   ));
 
-  getArchivedArticles$= createEffect(() => this.actions$.pipe(
+  getArchivedArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchArchivedArticles),
     exhaustMap(() => this.articleService.getArchivedArticles().pipe(
       map(res => setArchivedArticles({ articles: res.articles }))
     ))
   ));
 
-  getArticleByUrlName$= createEffect(() => this.actions$.pipe(
+  getArticleByUrlName$ = createEffect(() => this.actions$.pipe(
     ofType(fetchArticleByUrlName),
     exhaustMap(({ urlName }) => this.articleService.getArticleByUrlName(urlName).pipe(
       map(res => setArticle({ article: res }))
     ))
   ));
 
-  searchArticle$= createEffect(() => this.actions$.pipe(
+  searchArticle$ = createEffect(() => this.actions$.pipe(
     ofType(fetchSearchArticle),
     exhaustMap(({ fields }) => this.articleService.searchArticle(fields).pipe(
       map(res => setArticleSearchResults({ articles: res }))
     ))
   ));
 
-  searchArchivedArticles$= createEffect(() => this.actions$.pipe(
+  searchArchivedArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchSearchArchivedArticles),
     exhaustMap(({ fields }) => this.articleService.searchArchivedArticles(fields).pipe(
       map(res => setArticleSearchResults({ articles: res }))
     ))
   ));
 
-  archiveArticles$= createEffect(() => this.actions$.pipe(
+  archiveArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchArchiveArticles),
     concatMap(({ articleIds }) => this.articleService.archiveArticles(articleIds).pipe(
       switchMap(res => [
@@ -96,7 +96,7 @@ export class ArticleEffects {
     ))
   ));
 
-  removeArchivedArticlesConfirmation$= createEffect(() => this.actions$.pipe(
+  removeArchivedArticlesConfirmation$ = createEffect(() => this.actions$.pipe(
     ofType(removeArchivedArticlesConfirmation),
     map(({ articleIds }) => showAlert({
       options: {
@@ -113,11 +113,11 @@ export class ArticleEffects {
             }
           }
         ]
-        }
+      }
     }))
   ));
 
-  removeArchivedArticles$= createEffect(() => this.actions$.pipe(
+  removeArchivedArticles$ = createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveArchivedArticles),
     mergeMap(({ articleIds }) => this.articleService.removeArchivedArticles(articleIds).pipe(
       map(res => removeArchivedArticles({ articleIds: res.removedArticles }))

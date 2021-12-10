@@ -25,19 +25,19 @@ export class HomePage implements OnInit {
   @ViewChild('MDQTestCard', { static: true }) MDQTestCard: ElementRef;
 
   public user: User;
-  public articles: Article[]= [];
-  public clock= transformDateTime(new Date());
-  public sliderOptions= {
-		slidesPerView: 1,
-		spaceBetween: 5,
-		loop: true,
-		autoplay: true,
+  public articles: Article[] = [];
+  public clock = transformDateTime(new Date());
+  public sliderOptions = {
+    slidesPerView: 1,
+    spaceBetween: 5,
+    loop: true,
+    autoplay: true,
     pagination: {
       el: '.swiper-pagination',
       type: 'bullets',
       clickable: true
     }
-	};
+  };
   private getAuthenticatedSubscription: Subscription;
   private featuredArticlesSubscription: Subscription;
 
@@ -47,29 +47,29 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    setInterval(() => this.clock= transformDateTime(new Date()), 1000);
+    setInterval(() => this.clock = transformDateTime(new Date()), 1000);
 
-    this.getAuthenticatedSubscription= this.store
+    this.getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res) {
-        this.store.dispatch(fetchProfile());
-      } else {
-        this.user= { ...res };
-      }
-    });
+        if (!res) {
+          this.store.dispatch(fetchProfile());
+        } else {
+          this.user = { ...res };
+        }
+      });
 
-    this.featuredArticlesSubscription= this.store
+    this.featuredArticlesSubscription = this.store
       .select(getFeaturedArticles)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res.length) {
-        this.store.dispatch(fetchFeaturedArticles());
-      } else {
-        this.articles= res;
-      }
-    });
+        if (!res.length) {
+          this.store.dispatch(fetchFeaturedArticles());
+        }
+
+        this.articles = res;
+      });
   }
 
   ionViewWillLeave() {

@@ -1,15 +1,15 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Artikel</ion-title>
-		<ion-buttons slot="start">
-			<ion-back-button defaultHref="side-menu"></ion-back-button>
-		</ion-buttons>
-		<ion-buttons slot="end">
-			<ion-button [routerLink]="['/side-menu/my-articles']">
-				<ion-icon class="icon" name="bookmarks"></ion-icon>
-			</ion-button>
-		</ion-buttons>
-	</ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Artikel</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="side-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/side-menu/my-articles']">
+        <ion-icon class="icon" name="bookmarks"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -18,12 +18,7 @@
   </ion-refresher>
 
   <a [routerLink]="['/articles/search']">
-    <ion-searchbar
-      type="text"
-      inputmode="text"
-      placeholder="Cari artikel"
-      showCancelButton="never"
-      class="opacity-100"
+    <ion-searchbar type="text" inputmode="text" placeholder="Cari artikel" showCancelButton="never" class="opacity-100"
       disabled>
     </ion-searchbar>
   </a>
@@ -40,7 +35,8 @@
     </ion-slides>
 
     <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
-      <ion-item id='{{ "article_"+idx }}' *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
+      <ion-item id='{{ "article_"+idx }}' *ngFor="let article of articles; let idx= index;"
+        [routerLink]="['/articles', article.urlName]">
         <article-list-item [article]="article"></article-list-item>
       </ion-item>
     </ion-list>
@@ -52,11 +48,11 @@
     </ion-virtual-scroll>-->
   </ng-template>
 
-	<ion-infinite-scroll [ngClass]="{ 'hidden': !showInfiniteScroll }" (ionInfinite)="loadMore($event)">
-		<ion-infinite-scroll-content>
+  <ion-infinite-scroll [ngClass]="{ 'hidden': !showInfiniteScroll }" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content>
       <div class="flex justify-center items-center">
         <ion-button (click)="onLoadMore()" size="small" shape="round" class="normal-case">Muat Lagi</ion-button>
       </div>
     </ion-infinite-scroll-content>
-	</ion-infinite-scroll>
+  </ion-infinite-scroll>
 </ion-content>

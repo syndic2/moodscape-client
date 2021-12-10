@@ -11,7 +11,7 @@ import { ArticleListItemModule } from 'src/app/components/pages/articles/article
 import { ArticleListLoaderModule } from 'src/app/components/pages/articles/article-list-loader/article-list-loader.module';
 import { ArticlesPageRoutingModule } from './articles-routing.module';
 import { ArticlesPage } from './articles.page';
-import { ArticleCardItemComponent } from 'src/app/components/pages/articles/article-card-item/article-card-item.component';
+import { ArticleCardItemModule } from 'src/app/components/pages/articles/article-card-item/article-card-item.module';
 import { ArticleCardLoaderComponent } from 'src/app/components/pages/articles/article-card-loader/article-card-loader.component';
 
 @NgModule({
@@ -20,14 +20,14 @@ import { ArticleCardLoaderComponent } from 'src/app/components/pages/articles/ar
     FormsModule,
     IonicModule,
     EffectsModule.forFeature([ArticleEffects]),
+    ArticleCardItemModule,
     ArticleListItemModule,
     ArticleListLoaderModule,
     ArticlesPageRoutingModule
   ],
   declarations: [
     ArticlesPage,
-    ArticleCardItemComponent,
     ArticleCardLoaderComponent
   ]
 })
-export class ArticlesPageModule {}
+export class ArticlesPageModule { }

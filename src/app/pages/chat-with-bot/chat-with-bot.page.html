@@ -32,9 +32,27 @@
 
 <ion-footer>
   <ion-toolbar>
-    <div class="flex items-center gap-x-2 p-3">
-      <ion-textarea [(ngModel)]="messageText" class="flex-grow bg-gray-100 rounded-lg border-1 border-primary m-0 focus:outline-none" inputmode="text" placeholder="Ketik sesuatu atau ketik 'Bantuan'" rows="1" autoGrow></ion-textarea>
-      <ion-icon name="send" color="primary" (click)="onSendMessage()"></ion-icon>
-    </div>
+    <ng-container *ngIf="!buttonMessages.length; else showButtonMessages">
+      <div class="flex items-center gap-x-2 p-3">
+        <ion-textarea 
+          [(ngModel)]="messageText" 
+          inputmode="text" 
+          placeholder="Ketik sesuatu" 
+          rows="1" 
+          autoGrow
+          class="flex-grow bg-gray-100 rounded-lg border-1 border-primary m-0 focus:outline-none"
+          [disabled]="isBotTyping">
+        </ion-textarea>
+        <ion-icon name="send" color="primary" (click)="onSendMessage()"></ion-icon>
+      </div>
+    </ng-container>
+
+    <ng-template #showButtonMessages>
+      <ng-container *ngFor="let button of buttonMessages">
+        <div class="flex flex-wrap justify-center items-center gap-4 p-3">
+          <button (click)="sendMessage(button.payload, button.title)" class="rounded-full text-sm text-white bg-primary p-4">{{ button.title }}</button>
+        </div>
+      </ng-container>
+    </ng-template>
   </ion-toolbar>
 </ion-footer>

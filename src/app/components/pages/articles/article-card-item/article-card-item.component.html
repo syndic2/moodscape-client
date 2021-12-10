@@ -1,12 +1,14 @@
 <ng-template #articleCard>
   <ion-card button class="rounded-lg">
     <ion-card-header>
-      <img class="rounded-lg object-cover sm:object-none w-full h-40 sm:w-auto sm:h-auto mx-auto" [src]="article.headerImg" alt="">
-      <ion-card-title class="text-base sm:text-2xl font-semibold w-72 sm:w-auto mx-auto my-0 truncate sm:overflow-auto sm:whitespace-normal">
+      <img class="rounded-lg object-cover sm:object-none w-full h-40 sm:w-auto sm:h-auto mx-auto"
+        [src]="article.headerImg" alt="">
+      <ion-card-title
+        class="text-base sm:text-2xl font-semibold w-72 sm:w-auto mx-auto my-0 truncate sm:overflow-auto sm:whitespace-normal">
         {{ article.title }}
       </ion-card-title>
       <ion-card-subtitle class="grid grid-cols-2 items-center divide-x divide-black my-0">
-        <span class="text-right pr-2">{{ article.postedAt }}</span>
+        <span class="text-right pr-2">{{ (article.postedAt | dateInBahasa).shortDate }}</span>
         <span class="text-left pl-2">{{ article.author }}</span>
       </ion-card-subtitle>
     </ion-card-header>

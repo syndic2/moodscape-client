@@ -58,10 +58,7 @@ export class ThemeService {
   }
 
   applyTheme() {
-    this.storage.get(THEME_KEY).then(key => {
-      console.log('key', key);
-      this.renderer.addClass(this.document.body, key)
-    });
+    this.storage.get(THEME_KEY).then(key => this.renderer.addClass(this.document.body, key));
   }
 
   setTheme(theme: Theme) {
