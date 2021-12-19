@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FooterComponent } from '../components/footer/footer.component';
 
-const Components= [
+const Components = [
   FooterComponent
 ];
 

@@ -2,7 +2,7 @@ import { ElementRef } from "@angular/core";
 
 import { createAnimation, Animation } from "@ionic/angular";
 
-export const poppingAnimation= (name: string, element: ElementRef): Animation => {
+export const poppingAnimation = (name: string, element: ElementRef): Animation => {
   return createAnimation(`${name}-popping`)
     .addElement(element.nativeElement)
     .keyframes([
@@ -14,7 +14,7 @@ export const poppingAnimation= (name: string, element: ElementRef): Animation =>
     .duration(150);
 };
 
-export const collapseAnimation= (name: string, element: ElementRef): Animation => {
+export const collapseAnimation = (name: string, element: ElementRef): Animation => {
   return createAnimation(`${name}-collapse`)
     .addElement(element.nativeElement)
     .fromTo('height', '0', `${element.nativeElement.scrollHeight}px`)

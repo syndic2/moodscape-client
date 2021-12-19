@@ -17,7 +17,7 @@ import {
   /**
    * Activity categories
    */
-  setActivityCategories,  
+  setActivityCategories,
   setActivitiesNonetCategory,
   setActivityCategory,
   createActivityCategory,
@@ -26,14 +26,14 @@ import {
   reorderActivityCategory,
 } from '../actions/activity.actions';
 
-const initialState: ActivityState= {
+const initialState: ActivityState = {
   activityIcons: [],
   activityCategories: [],
   keepedActivties: [],
   //reorderedActivityCategories: []
 };
 
-export const activityReducer= createReducer(
+export const activityReducer = createReducer(
   initialState,
 
   /**
@@ -233,7 +233,7 @@ export const activityReducer= createReducer(
               ...activityCategory,
               activities: [...activityCategory.activities, ...activities]
             };
-          } 
+          }
 
           return activityCategory;
         })
@@ -244,15 +244,15 @@ export const activityReducer= createReducer(
   /**
    * Activity Category
    */
-   on(setActivityCategories, (state, { activityCategories }) => ({ 
-    ...state, 
+  on(setActivityCategories, (state, { activityCategories }) => ({
+    ...state,
     activityCategories: [...activityCategories],
-    reorderedActivityCategories: [...new Array(activityCategories.length+1).keys()]
+    reorderedActivityCategories: [...new Array(activityCategories.length + 1).keys()]
   })),
 
   on(setActivitiesNonetCategory, (state, { activities }) => ({ ...state, keepedActivties: [...activities] })),
 
-  on(setActivityCategory, (state, { activityCategory }) => ({ 
+  on(setActivityCategory, (state, { activityCategory }) => ({
     ...state,
     activityCategories: [
       ...state.activityCategories.map((object, index) => {
@@ -262,10 +262,10 @@ export const activityReducer= createReducer(
 
         return object;
       })
-    ] 
+    ]
   })),
 
-  on(createActivityCategory, (state, { activityCategory }) => ({...state, activityCategories: [...state.activityCategories, activityCategory] })),
+  on(createActivityCategory, (state, { activityCategory }) => ({ ...state, activityCategories: [...state.activityCategories, activityCategory] })),
 
   on(updateActivityCategory, (state, { activityCategoryId, fields }) => ({
     ...state,
@@ -282,7 +282,7 @@ export const activityReducer= createReducer(
 
   on(removeActivityCategories, (state, { activityCategoryIds, keepActivities }) => {
     if (keepActivities) {
-      const removedActivityCategories: ActivityCategory[]= [
+      const removedActivityCategories: ActivityCategory[] = [
         ...filterArrayByAnotherArray(
           { type: 'object', items: state.activityCategories },
           { type: 'none-object', items: activityCategoryIds },
@@ -290,10 +290,10 @@ export const activityReducer= createReducer(
           false
         )
       ];
-      let activitiesFromRemovedCategories: Activity[]= [];
+      let activitiesFromRemovedCategories: Activity[] = [];
 
       removedActivityCategories.forEach((object, index) => {
-        activitiesFromRemovedCategories= [...object.activities];
+        activitiesFromRemovedCategories = [...object.activities];
       });
 
       return {
@@ -322,8 +322,8 @@ export const activityReducer= createReducer(
   }),
 
   on(reorderActivityCategory, (state, { from, to }) => {
-    const activityCategories= [...state.activityCategories];
-    let itemToMove1= activityCategories.splice(from, 1)[0];
+    const activityCategories = [...state.activityCategories];
+    let itemToMove1 = activityCategories.splice(from, 1)[0];
     activityCategories.splice(to, 0, itemToMove1);
 
     //const reorderedActivityCategories= [...state.reorderedActivityCategories];

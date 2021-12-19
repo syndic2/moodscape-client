@@ -12,22 +12,22 @@ import gqlCompress from 'graphql-query-compress';
 import { environment } from 'src/environments/environment';
 import { Theme } from 'src/app/models/theme.model';
 
-const THEME_KEY= 'selected-theme';
+const THEME_KEY = 'selected-theme';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
   private renderer: Renderer2;
-  private currentTheme: string= '.main-theme';
+  private currentTheme: string = '.main-theme';
   //public isDarkMode: boolean= false;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
-    private storage: Storage, 
+    private storage: Storage,
     private rendererFactory: RendererFactory2) {
-    this.renderer= this.rendererFactory.createRenderer(null, null);
+    this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
   enableMainTheme() {
@@ -39,7 +39,7 @@ export class ThemeService {
     //this.isDarkMode= true;
     this.renderer.addClass(this.document.body, 'dark-theme');
   }
-  
+
   private createThemeClassName(name: string): string {
     return `${name.toLowerCase().split(' ').join('-')}-theme`;
   }
@@ -64,14 +64,14 @@ export class ThemeService {
   setTheme(theme: Theme) {
     this.storage.get(THEME_KEY).then(key => this.renderer.removeClass(this.document.body, key));
     //this.renderer.removeClass(this.document.body, this.currentTheme);
-    
+
     if (theme.Id === 'none') {
       this.renderer.addClass(this.document.body, '.main-theme');
       this.storage.set(THEME_KEY, '.main-theme');
       //this.currentTheme= '.main-theme';
     } else {
-      const themeName= this.createThemeClassName(theme.name);
-      
+      const themeName = this.createThemeClassName(theme.name);
+
       this.renderer.addClass(this.document.body, themeName);
       this.storage.set(THEME_KEY, themeName);
       //this.currentTheme= themeName;
@@ -79,7 +79,7 @@ export class ThemeService {
   }
 
   getThemes(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getActiveThemes {
           Id,
@@ -96,17 +96,21 @@ export class ThemeService {
         }
       }
     `);
-    
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
-      map((res: any) => {
-        const themes: Theme[]= res.data.getActiveThemes;
-        const style= this.document.createElement('style');
-        style.type= 'text/css';
-        style.innerHTML= '';
 
-        themes.forEach(theme => style.innerHTML+= this.createThemeStyle(theme));
-        this.document.head.appendChild(style);    
-        
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      headers: {
+        skipLoading: 'true'
+      }
+    }).pipe(
+      map((res: any) => {
+        const themes: Theme[] = res.data.getActiveThemes;
+        const style = this.document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '';
+
+        themes.forEach(theme => style.innerHTML += this.createThemeStyle(theme));
+        this.document.head.appendChild(style);
+
         return themes;
       })
     );

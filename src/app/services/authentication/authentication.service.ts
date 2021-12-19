@@ -19,39 +19,39 @@ const TOKEN_KEY = 'auth-token';
 const REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthenticationService {
-	public authenticate: Observable<any>;
-	public isLoggedIn: Subject<void>= new Subject();
-	public userData: BehaviorSubject<string> = new BehaviorSubject(null); //TOKEN
+  public authenticate: Observable<any>;
+  public isLoggedIn: Subject<void> = new Subject();
+  public userData: BehaviorSubject<string> = new BehaviorSubject(null); //TOKEN
 
-	constructor(private http: HttpClient, private storage: Storage, private platform: Platform) {
-		this.checkStoredToken();
-	}
+  constructor(private http: HttpClient, private storage: Storage, private platform: Platform) {
+    this.checkStoredToken();
+  }
 
   getToken() {
     return from(this.storage.get(TOKEN_KEY));
   }
 
-	checkStoredToken() {
-		let platformObs = from(this.platform.ready());
+  checkStoredToken() {
+    let platformObs = from(this.platform.ready());
 
-		this.authenticate = platformObs.pipe(
-			switchMap(() => from(this.storage.get(TOKEN_KEY))),
-			map(token => {
-				if (!token) {
-					return false;
-				} else {
-					return true;
-				}
-			})
-		);
-	}
+    this.authenticate = platformObs.pipe(
+      switchMap(() => from(this.storage.get(TOKEN_KEY))),
+      map(token => {
+        if (!token) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+    );
+  }
 
-	login(credentials, withGoogle: boolean = false): Observable<any> {
-		const args = StringifyObject(credentials, { singleQuotes: false });
-		const query = gqlCompress(`
+  login(credentials, withGoogle: boolean = false): Observable<any> {
+    const args = StringifyObject(credentials, { singleQuotes: false });
+    const query = gqlCompress(`
 			mutation {
 				login(
 					emailOrUsername: "${withGoogle ? credentials.email : credentials.emailOrUsername}",
@@ -77,26 +77,26 @@ export class AuthenticationService {
 			}
     `);
 
-		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
-			map((res: any) => {
-				this.userData.next(res.data.login.accessToken);
+    return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
+      map((res: any) => {
+        this.userData.next(res.data.login.accessToken);
 
-				return res.data.login;
-			}),
-			switchMap((res: any) => {
-				return from(Promise.all([
-					res,
-					this.storage.set(TOKEN_KEY, res.accessToken),
-					this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken)
-				]));
-			})
-		);
-	}
+        return res.data.login;
+      }),
+      switchMap((res: any) => {
+        return from(Promise.all([
+          res,
+          this.storage.set(TOKEN_KEY, res.accessToken),
+          this.storage.set(REFRESH_TOKEN_KEY, res.refreshToken)
+        ]));
+      })
+    );
+  }
 
-	refreshToken(): Observable<any> {
-		return from(this.storage.get(REFRESH_TOKEN_KEY)).pipe(
-			switchMap(refreshToken => {
-				const query = gqlCompress(`
+  refreshToken(): Observable<any> {
+    return from(this.storage.get(REFRESH_TOKEN_KEY)).pipe(
+      switchMap(refreshToken => {
+        const query = gqlCompress(`
 					mutation {
 						refreshAuth(refreshToken: "${refreshToken}") {
 							newToken
@@ -104,22 +104,22 @@ export class AuthenticationService {
 					}
 				`);
 
-				return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
-					map((res: any) => {
-						this.userData.next(res.data.refreshAuth.newToken);
+        return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
+          map((res: any) => {
+            this.userData.next(res.data.refreshAuth.newToken);
 
-						return res.data.refreshAuth.newToken;
-					}),
-					switchMap(newToken => {
-						return from(this.storage.set(TOKEN_KEY, newToken));
-					})
-				);
-			})
-		);
-	}
+            return res.data.refreshAuth.newToken;
+          }),
+          switchMap(newToken => {
+            return from(this.storage.set(TOKEN_KEY, newToken));
+          })
+        );
+      })
+    );
+  }
 
-	requestResetPassword(email: string): Observable<any> {
-		const query= gqlCompress(`
+  requestResetPassword(email: string): Observable<any> {
+    const query = gqlCompress(`
 			mutation {
 				requestResetPassword(email: "${email}") {
 					resetUrl,
@@ -131,13 +131,13 @@ export class AuthenticationService {
 			}
 		`);
 
-		return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
-			map((res: any) => res.data.requestResetPassword)
-		);
-	}
+    return this.http.post(`${environment.apiUrl}/auth`, { query: query }).pipe(
+      map((res: any) => res.data.requestResetPassword)
+    );
+  }
 
   resetPassword(resetToken: string, newPassword: string): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         resetPassword(resetToken: "${resetToken}", newPassword: "${newPassword}") {
           userWithNewPassword {
@@ -156,13 +156,13 @@ export class AuthenticationService {
     );
   }
 
-	logout(): Observable<any> {
-		this.isLoggedIn.next(null);
-		this.userData.next(null);
+  logout(): Observable<any> {
+    this.isLoggedIn.next(null);
+    this.userData.next(null);
 
-		return from(Promise.all([
-			this.storage.remove(TOKEN_KEY),
-			this.storage.remove(REFRESH_TOKEN_KEY),
-		]));
-	}
+    return from(Promise.all([
+      this.storage.remove(TOKEN_KEY),
+      this.storage.remove(REFRESH_TOKEN_KEY),
+    ]));
+  }
 }

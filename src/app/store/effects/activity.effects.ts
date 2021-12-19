@@ -37,7 +37,7 @@ import {
   removeActivityCategoriesConfirmation,
   fetchRemoveActivityCategories,
   fetchReOrderActivityCategory,
-  
+
   setActivityCategories,
   setActivitiesNonetCategory,
   setActivityCategory,
@@ -53,35 +53,35 @@ export class ActivityEffects {
   /**
    * Activity
    */
-  getActivityIcons$= createEffect(() => this.actions$.pipe(
+  getActivityIcons$ = createEffect(() => this.actions$.pipe(
     ofType(fetchActivityIcons),
     exhaustMap(() => this.activityService.getActivityIcons().pipe(
       map(res => setActivityIcons({ activityIcons: res }))
     ))
   ));
 
-  getActivity$= createEffect(() => this.actions$.pipe(
+  getActivity$ = createEffect(() => this.actions$.pipe(
     ofType(fetchActivity),
     exhaustMap(({ activityId, activityCategoryId }) => this.activityService.getActivity(activityId, activityCategoryId).pipe(
       map(res => setActivity({ activity: res.activity, activityCategoryId: activityCategoryId }))
     ))
   ));
 
-  createActivity$= createEffect(() => this.actions$.pipe(
+  createActivity$ = createEffect(() => this.actions$.pipe(
     ofType(fetchCreateActivity),
     concatMap(({ fields, activityCategoryId }) => this.activityService.createActivity(fields, activityCategoryId).pipe(
       map(res => createActivity({ activity: res.createdActivity, activityCategoryId: activityCategoryId }))
     ))
   ))
 
-  updateActivity$= createEffect(() => this.actions$.pipe(
+  updateActivity$ = createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateActivity),
     concatMap(({ activityId, fields, activityCategoryId }) => this.activityService.updateActivity(activityId, fields, activityCategoryId).pipe(
       map(res => updateActivity({ activityId: res.updatedActivity.Id, fields: res.updatedActivity, activityCategoryId: activityCategoryId }))
     ))
   ));
 
-  removeActivitiesConfirmation$= createEffect(() => this.actions$.pipe(
+  removeActivitiesConfirmation$ = createEffect(() => this.actions$.pipe(
     ofType(removeActivitiesConfirmation),
     map(({ activityIds, activityCategoryId }) => showAlert({
       options: {
@@ -102,14 +102,14 @@ export class ActivityEffects {
     }))
   ));
 
-  moveActivitiesIntoCategory$= createEffect(() => this.actions$.pipe(
+  moveActivitiesIntoCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMoveActivitiesIntoCategory),
     mergeMap(({ activityIds, fromCategoryId, toCategoryId }) => this.activityService.moveActivitiesIntoCategory(activityIds, fromCategoryId, toCategoryId).pipe(
       map(res => moveActivitiesIntoCategory({ activities: res.movedActivities, fromCategoryId: fromCategoryId, toCategoryId: toCategoryId }))
     ))
   ));
 
-  removeActivities$= createEffect(() => this.actions$.pipe(
+  removeActivities$ = createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveActivities),
     mergeMap(({ activityIds, activityCategoryId }) => this.activityService.removeActivities(activityIds, activityCategoryId).pipe(
       switchMap(res => [
@@ -117,7 +117,7 @@ export class ActivityEffects {
         navigateGo({
           path: activityCategoryId ?
             ['/settings/activities/activity-category', activityCategoryId]
-          :
+            :
             ['/settings/activities/keeped']
         })
       ])
@@ -127,42 +127,42 @@ export class ActivityEffects {
   /**
    * Activity Category
   */
-  getActivityCategories$= createEffect(() => this.actions$.pipe(
+  getActivityCategories$ = createEffect(() => this.actions$.pipe(
     ofType(fetchActivityCategories),
     exhaustMap(() => this.activityService.getActivityCategories().pipe(
       map(res => setActivityCategories({ activityCategories: res.activityCategories }))
     ))
   ));
 
-  getActivitiesNoneCategory$= createEffect(() => this.actions$.pipe(
+  getActivitiesNoneCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchActivitiesNoneCategory),
     exhaustMap(({ fields }) => this.activityService.getActivityCategories(fields).pipe(
       map(res => setActivitiesNonetCategory({ activities: res.activityCategories.length ? res.activityCategories[0].activities : [] }))
     ))
   ));
 
-  getActivityCategory$= createEffect(() => this.actions$.pipe(
+  getActivityCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchActivityCategory),
     exhaustMap(({ activityCategoryId }) => this.activityService.getActivityCategory(activityCategoryId).pipe(
       map(res => setActivityCategory({ activityCategory: res.activityCategory }))
     ))
   ));
 
-  createActivityCategory$= createEffect(() => this.actions$.pipe(
+  createActivityCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchCreateActivityCategory),
     concatMap(({ fields }) => this.activityService.createActivityCategory(fields).pipe(
       map(res => createActivityCategory({ activityCategory: res.createdActivityCategory }))
     ))
   ));
 
-  updateActivityCategory$= createEffect(() => this.actions$.pipe(
+  updateActivityCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateActivityCategory),
     concatMap(({ activityCategoryId, fields }) => this.activityService.updateActivityCategory(activityCategoryId, fields).pipe(
       map(res => updateActivityCategory({ activityCategoryId: res.updatedActivityCategory.Id, fields: res.updatedActivityCategory }))
     ))
   ));
 
-  removeActivityCategoriesConfrimation$= createEffect(() => this.actions$.pipe(
+  removeActivityCategoriesConfrimation$ = createEffect(() => this.actions$.pipe(
     ofType(removeActivityCategoriesConfirmation),
     //mergeMap(({ activityCategoryIds, keepActivities }) => of({ activityCategoryIds, keepActivities }).pipe(
     //  withLatestFrom(this.store.select(getActivityCategory({ Id: activityCategoryIds[0] })))
@@ -213,17 +213,17 @@ export class ActivityEffects {
     }))
   ));
 
-  removeActivityCategories$= createEffect(() => this.actions$.pipe(
+  removeActivityCategories$ = createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveActivityCategories),
     mergeMap(({ activityCategoryIds, keepActivities }) => this.activityService.removeActivityCategories(activityCategoryIds, keepActivities).pipe(
       map(res => removeActivityCategories({ activityCategoryIds: res.removedActivityCategories, keepActivities: keepActivities }))
     ))
   ));
 
-  reorderActivityCategory$= createEffect(() => this.actions$.pipe(
+  reorderActivityCategory$ = createEffect(() => this.actions$.pipe(
     ofType(fetchReOrderActivityCategory),
     withLatestFrom(this.store.select(getActivityCategories)),
-    mergeMap(([props, activityCategories]) => this.activityService.reorderActivityCategory([...activityCategories].map((activityCategory, index) => activityCategory.Id )))
+    mergeMap(([props, activityCategories]) => this.activityService.reorderActivityCategory([...activityCategories].map((activityCategory, index) => activityCategory.Id)))
   ), { dispatch: false });
 
   constructor(private store: Store, private ngZone: NgZone, private actions$: Actions, private activityService: ActivityService) { }

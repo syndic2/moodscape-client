@@ -10,16 +10,14 @@ import { Habit, HabitStreakLog } from 'src/app/models/habit.model';
 })
 export class HabitTracksHistoryPage implements OnInit {
   public habit: Habit;
-  public tracksHistory: HabitStreakLog[]= [];
+  public tracksHistory: HabitStreakLog[] = [];
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state) {
-      this.habit= this.router.getCurrentNavigation().extras.state.habit;
-      this.tracksHistory= this.router.getCurrentNavigation().extras.state.tracksHistory;
-
-      console.log('track history', this.tracksHistory);
+      this.habit = this.router.getCurrentNavigation().extras.state.habit;
+      this.tracksHistory = this.router.getCurrentNavigation().extras.state.tracksHistory;
     }
   }
 }

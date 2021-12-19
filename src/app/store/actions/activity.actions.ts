@@ -6,68 +6,68 @@ import { ActivityIcon, Activity, ActivityCategory } from 'src/app/models/activit
  * Activity
  */
 //Fetch API
-export const fetchActivityIcons= createAction(
+export const fetchActivityIcons = createAction(
   '[Activity Icon/API] Get activity icons',
   props<{ name?: string }>()
 );
 
-export const fetchActivity= createAction(
+export const fetchActivity = createAction(
   '[Activity/API] Get activity',
   props<{ activityId: number, activityCategoryId?: number }>()
 );
 
-export const fetchCreateActivity= createAction(
+export const fetchCreateActivity = createAction(
   '[Activity/API] Create new activity',
   props<{ fields, activityCategoryId?: number }>()
 );
 
-export const fetchUpdateActivity= createAction(
+export const fetchUpdateActivity = createAction(
   '[Activity/API] Update activity',
   props<{ activityId: number, fields: {}, activityCategoryId?: number }>()
 );
 
-export const removeActivitiesConfirmation= createAction(
+export const removeActivitiesConfirmation = createAction(
   '[Activity/API] Remove activities confirmation',
   props<{ activityIds: number[], activityCategoryId?: number }>()
 );
 
-export const fetchRemoveActivities= createAction(
+export const fetchRemoveActivities = createAction(
   '[Activity/API] Remove activities',
   props<{ activityIds: number[], activityCategoryId?: number }>()
 );
 
-export const fetchMoveActivitiesIntoCategory= createAction(
+export const fetchMoveActivitiesIntoCategory = createAction(
   '[Activity/API] Move activities into category',
   props<{ activityIds, fromCategoryId?: number, toCategoryId: number }>()
 );
 
 //STORE
-export const setActivityIcons= createAction(
+export const setActivityIcons = createAction(
   '[Activity Icon/STORE] Set activity icons',
   props<{ activityIcons: ActivityIcon[] }>()
 );
 
-export const setActivity= createAction(
+export const setActivity = createAction(
   '[Activity/STORE] Set activity',
   props<{ activity: Activity, activityCategoryId?: number }>()
 );
 
-export const createActivity= createAction(
+export const createActivity = createAction(
   '[Activity/STORE] Create new activity',
   props<{ activity, activityCategoryId?: number }>()
 );
 
-export const updateActivity= createAction(
+export const updateActivity = createAction(
   '[Activity/STORE] Update activity',
   props<{ activityId: number, fields: {}, activityCategoryId?: number }>()
 );
 
-export const removeActivities= createAction(
+export const removeActivities = createAction(
   '[Activity/STORE] Remove activities',
   props<{ activityIds: number[], activityCategoryId?: number }>()
 );
 
-export const moveActivitiesIntoCategory= createAction(
+export const moveActivitiesIntoCategory = createAction(
   '[Activity/STORE] Move activities into category',
   props<{ activities, fromCategoryId?: number, toCategoryId: number }>()
 );
@@ -76,72 +76,72 @@ export const moveActivitiesIntoCategory= createAction(
  * Activity Category
  */
 //Fetch API
-export const fetchActivityCategories= createAction('[Activity/API] Get activity categories');
+export const fetchActivityCategories = createAction('[Activity/API] Get activity categories');
 
-export const fetchActivitiesNoneCategory= createAction(
+export const fetchActivitiesNoneCategory = createAction(
   '[Activity/API] Get activity none category',
   props<{ fields: {} }>()
 );
 
-export const fetchActivityCategory= createAction(
+export const fetchActivityCategory = createAction(
   '[Activity/API] Get activity category',
   props<{ activityCategoryId: number }>()
 );
 
-export const fetchCreateActivityCategory= createAction(
+export const fetchCreateActivityCategory = createAction(
   '[Activity/API] Create new activity category',
   props<{ fields: {} }>()
 )
 
-export const fetchUpdateActivityCategory= createAction(
+export const fetchUpdateActivityCategory = createAction(
   '[Activity/API] Update activity category',
-  props<{ activityCategoryId: number , fields: {} }>()
+  props<{ activityCategoryId: number, fields: {} }>()
 );
 
-export const removeActivityCategoriesConfirmation= createAction(
+export const removeActivityCategoriesConfirmation = createAction(
   '[Activity/API] Remove activity categories confirmation',
   props<{ activityCategory: ActivityCategory }>()
 );
 
-export const fetchRemoveActivityCategories= createAction(
+export const fetchRemoveActivityCategories = createAction(
   '[Activity/API] Remove activity categories',
-  props<{ activityCategoryIds: number[], keepActivities?: boolean }>() 
+  props<{ activityCategoryIds: number[], keepActivities?: boolean }>()
 );
 
-export const fetchReOrderActivityCategory= createAction('[Activity/API] Post reordered indexes of activity category');
+export const fetchReOrderActivityCategory = createAction('[Activity/API] Post reordered indexes of activity category');
 
 //STORE
-export const setActivityCategories= createAction(
+export const setActivityCategories = createAction(
   '[Activity/STORE] Set activity categories',
   props<{ activityCategories: ActivityCategory[] }>()
 );
 
-export const setActivitiesNonetCategory= createAction(
+export const setActivitiesNonetCategory = createAction(
   '[Activity/STORE] Set activity without category',
   props<{ activities: Activity[] }>()
 );
 
-export const setActivityCategory= createAction(
+export const setActivityCategory = createAction(
   '[Activity/STORE] Set activity category',
   props<{ activityCategory: ActivityCategory }>()
 );
 
-export const createActivityCategory= createAction(
+export const createActivityCategory = createAction(
   '[Activity/STORE] Create new activity Category',
   props<{ activityCategory }>()
 );
 
-export const updateActivityCategory= createAction(
+export const updateActivityCategory = createAction(
   '[Activity/STORE] Update activity category',
   props<{ activityCategoryId: number, fields: {} }>()
 );
 
-export const removeActivityCategories= createAction(
+export const removeActivityCategories = createAction(
   '[Activity/STORE] Remove activity categories',
   props<{ activityCategoryIds: number[], keepActivities?: boolean }>()
 );
 
-export const reorderActivityCategory= createAction(
+export const reorderActivityCategory = createAction(
   '[Activity/STORE] Reorder activity category',
   props<{ from: number, to: number }>()
 );

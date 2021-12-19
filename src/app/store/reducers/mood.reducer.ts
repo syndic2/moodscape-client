@@ -4,13 +4,13 @@ import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { MoodState } from '../states';
 import { setMoods, setMoodsChart, setMood, setMoodSearchResults, createMood, updateMood, removeMoods } from '../actions/mood.actions';
 
-const initialState: MoodState= {
+const initialState: MoodState = {
   moods: [],
   moodSearchResults: [],
   moodsChart: []
 };
 
-export const moodReducer= createReducer(
+export const moodReducer = createReducer(
   initialState,
   on(setMoods, (state, { moods }) => ({ ...state, moods: [...moods] })),
 
@@ -40,7 +40,7 @@ export const moodReducer= createReducer(
         if (mood.Id !== moodId) {
           return mood;
         }
-        
+
         return { ...mood, ...fields };
       })
     ]

@@ -2,35 +2,35 @@ import { createAction, props } from '@ngrx/store';
 import { User } from 'src/app/models/user.model';
 
 //Fetch API
-export const requestLogin= createAction(
+export const requestLogin = createAction(
   '[Auth/API] Request auth login',
-  props<{ credentials: {}, withGoogle?: boolean, isInvalid?: boolean}>()
+  props<{ credentials: {}, withGoogle?: boolean, isInvalid?: boolean }>()
 );
 
-export const fetchLogin= createAction(
+export const fetchLogin = createAction(
   '[Auth/API] Authenticate login credentials',
   props<{ credentials: {}, withGoogle?: boolean }>()
 );
 
-export const requestResetPassword= createAction(
+export const requestResetPassword = createAction(
   '[Auth/API] Request reset password',
   props<{ email: string }>()
 );
 
-export const fetchResetPassword= createAction(
+export const fetchResetPassword = createAction(
   '[Auth/API] Reset password',
   props<{ resetToken: string, newPassword: string }>()
 );
 
-export const fetchLogout= createAction('[Auth/API] Auth logout');
+export const fetchLogout = createAction('[Auth/API] Auth logout');
 
 //STORE
-export const setAuth= createAction(
+export const setAuth = createAction(
   '[Auth/STORE] Set auth login',
   props<{ user: User }>()
 );
 
-export const updateAuth= createAction(
+export const updateAuth = createAction(
   '[Auth/STORE] Update auth',
   props<{ fields: {} }>()
 );
@@ -38,4 +38,4 @@ export const updateAuth= createAction(
 /**
  * logout on logoutMetaReducer
  */
-export const logout= createAction('[Auth/STORE] Auth logout');
+export const logout = createAction('[Auth/STORE] Auth logout');

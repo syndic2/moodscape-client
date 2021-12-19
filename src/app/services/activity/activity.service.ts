@@ -13,15 +13,15 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ActivityService {
-  private skipLoading: string= 'skip';
+  private skipLoading: string = 'skip';
 
   constructor(private http: HttpClient) { }
 
   /**
    * Activity
    */
-   getActivityIcons(name: string= ''): Observable<any> {
-    const query= gqlCompress(`
+  getActivityIcons(name: string = ''): Observable<any> {
+    const query = gqlCompress(`
       query {
         getActivityIcons(name: "${name}") {
           Id,
@@ -29,14 +29,14 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getActivityIcons)
     );
   }
 
-  getActivity(activityId: number, activityCategoryId: number= 0): Observable<any> {
-    const query= gqlCompress(`
+  getActivity(activityId: number, activityCategoryId: number = 0): Observable<any> {
+    const query = gqlCompress(`
       query {
         getActivity(Id: ${activityId}, activityCategoryId: ${activityCategoryId}) {
           __typename
@@ -63,9 +63,9 @@ export class ActivityService {
     )
   }
 
-  createActivity(fields: {}, activityCategoryId: number= 0): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+  createActivity(fields: {}, activityCategoryId: number = 0): Observable<any> {
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         createActivity(fields: ${args}, activityCategoryId: ${activityCategoryId}) {
           createdActivity {
@@ -80,15 +80,15 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createActivity)
     );
   }
 
-  updateActivity(activityId: number, fields: {}, activityCategoryId: number= 0): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+  updateActivity(activityId: number, fields: {}, activityCategoryId: number = 0): Observable<any> {
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         updateActivity(Id: ${activityId}, fields: ${args}, activityCategoryId: ${activityCategoryId}) {
           updatedActivity {
@@ -103,14 +103,14 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateActivity)
     );
   }
 
-  removeActivities(activityIds: number[], activityCategoryId: number= 0): Observable<any> {
-    const query= gqlCompress(`
+  removeActivities(activityIds: number[], activityCategoryId: number = 0): Observable<any> {
+    const query = gqlCompress(`
       mutation {
         removeActivities(activityIds: [${activityIds}], activityCategoryId: ${activityCategoryId}) {
           removedActivities,
@@ -125,10 +125,10 @@ export class ActivityService {
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.removeActivities)
     );
-  } 
+  }
 
-  moveActivitiesIntoCategory(activityIds: number[], fromCategoryId: number= 0, toCategoryId: number): Observable<any> {
-    const query= gqlCompress(`
+  moveActivitiesIntoCategory(activityIds: number[], fromCategoryId: number = 0, toCategoryId: number): Observable<any> {
+    const query = gqlCompress(`
       mutation {
         moveActivitiesIntoCategory(activityIds: [${activityIds}], fromCategoryId: ${fromCategoryId}, toCategoryId: ${toCategoryId}) {
           movedActivities {
@@ -143,25 +143,25 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.moveActivitiesIntoCategory)
     );
   }
-  
+
   /**
    * Activity Category
    */
-  getActivityCategories(fields= {}): Observable<any> {
+  getActivityCategories(fields = {}): Observable<any> {
     const args = StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getActivityCategories(fields: ${args}) {
           __typename
           ... on AuthInfoField {
             message
           },
-          ... on UserActivities { 
+          ... on UserActivities {
             activityCategories {
               Id,
               category,
@@ -186,7 +186,7 @@ export class ActivityService {
   }
 
   getActivityCategory(activityCategoryId: number): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getActivityCategory(Id: ${activityCategoryId}) {
           __typename,
@@ -211,15 +211,15 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getActivityCategory)
     )
   }
 
   createActivityCategory(fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         createActivityCategory(fields: ${args}) {
           createdActivityCategory {
@@ -236,17 +236,17 @@ export class ActivityService {
             status
           }
         }
-      }    
+      }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createActivityCategory)
     );
   }
 
   updateActivityCategory(activityCategoryId: number, fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         updateActivityCategory(Id: ${activityCategoryId}, fields: ${args}) {
           updatedActivityCategory {
@@ -265,14 +265,14 @@ export class ActivityService {
         }
       }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.updateActivityCategory)
     );
   }
 
-  removeActivityCategories(activityCategoryIds: number[], keepActivities: boolean= false): Observable<any> {
-    const query= gqlCompress(`
+  removeActivityCategories(activityCategoryIds: number[], keepActivities: boolean = false): Observable<any> {
+    const query = gqlCompress(`
       mutation {
         removeActivityCategories(activityCategoryIds: [${activityCategoryIds}], keepActivities: ${keepActivities}) {
           removedActivityCategories,
@@ -280,7 +280,7 @@ export class ActivityService {
             text,
             status
           }
-        } 
+        }
       }
     `);
 
@@ -290,7 +290,7 @@ export class ActivityService {
   }
 
   reorderActivityCategory(categoryIds: number[]): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         reorderActivityCategory(categoryIds: [${categoryIds}]) {
           reorderedActivityCategories {

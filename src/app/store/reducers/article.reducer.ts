@@ -2,18 +2,18 @@ import { createReducer, on } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { ArticleState } from '../states';
-import { 
-  setArticles, 
+import {
+  setArticles,
   setFeaturedArticles,
   setMoreArticles,
-  setArchivedArticles, 
+  setArchivedArticles,
   setArticleSearchResults,
-  setArticle, 
-  archiveArticles, 
-  removeArchivedArticles 
+  setArticle,
+  archiveArticles,
+  removeArchivedArticles
 } from '../actions/article.actions';
 
-const initialState: ArticleState= {
+const initialState: ArticleState = {
   featuredArticles: [],
   articlePagination: {
     articles: []
@@ -22,19 +22,19 @@ const initialState: ArticleState= {
   articleSearchResults: []
 };
 
-export const articleReducer= createReducer(
+export const articleReducer = createReducer(
   initialState,
-  on(setArticles, (state, { articlePagination }) => ({ 
-    ...state, 
-    articlePagination: { 
-      ...state.articlePagination, 
-      ...articlePagination 
+  on(setArticles, (state, { articlePagination }) => ({
+    ...state,
+    articlePagination: {
+      ...state.articlePagination,
+      ...articlePagination
     }
   })),
-  
+
   on(setFeaturedArticles, (state, { articles }) => ({ ...state, featuredArticles: [...articles] })),
 
-  on(setMoreArticles, (state, { articlePagination }) => ({ 
+  on(setMoreArticles, (state, { articlePagination }) => ({
     ...state,
     articlePagination: {
       ...state.articlePagination,
@@ -42,12 +42,12 @@ export const articleReducer= createReducer(
       limit: articlePagination.limit,
       maxPage: articlePagination.maxPage,
       articles: [...state.articlePagination.articles, ...articlePagination.articles],
-    } 
+    }
   })),
 
   on(setArchivedArticles, (state, { articles }) => ({ ...state, archivedArticles: [...articles] })),
 
-  on(setArticle, (state, { article }) => ({ 
+  on(setArticle, (state, { article }) => ({
     ...state,
     articlePagination: {
       ...state.articlePagination,

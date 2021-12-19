@@ -17,7 +17,7 @@ export class FeedbackService {
   constructor(private http: HttpClient) { }
 
   sendAppFeedback(fields: {}): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         createAppFeedback(fields: ${StringifyObject(filterObjectProps(fields), { singleQuotes: false })}) {
           createdFeedback {
@@ -40,7 +40,7 @@ export class FeedbackService {
     `);
 
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
-      map((res: any)  => res.data.createAppFeedback)
+      map((res: any) => res.data.createAppFeedback)
     );
   }
 }

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AuthenticationGuard } from '../guards/authentication/authentication.guard';
 
-export const routes: Routes= [
+export const routes: Routes = [
   {
     path: 'side-menu',
     canLoad: [AuthenticationGuard],
@@ -61,7 +61,7 @@ export const routes: Routes= [
     loadChildren: () => import('../sub-pages/habits/search-habit/search-habit.module').then(m => m.SearchHabitPageModule)
   },
   {
-    path: 'habits/search-results', 
+    path: 'habits/search-results',
     canLoad: [AuthenticationGuard],
     loadChildren: () => import('../sub-pages/habits/search-results-habit/search-results-habit.module').then(m => m.SearchResultsHabitPageModule)
   },

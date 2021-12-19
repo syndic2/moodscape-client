@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
 
   setupDeepLinks() {
     this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
-      const internalPath= `${match.$link.path}`;
+      const internalPath = `${match.$link.path}`;
       this.zone.run(() => {
         this.router.navigateByUrl(internalPath);
       });

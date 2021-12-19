@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ChatEmotionsService {
-  private apiUrl: string= environment.apiUrl.replace('/api', '');
+  private apiUrl: string = environment.apiUrl.replace('/api', '');
 
   constructor(private httpClient: HttpClient) { }
 

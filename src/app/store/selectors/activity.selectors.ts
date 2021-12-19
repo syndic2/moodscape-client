@@ -3,9 +3,9 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { StoreFeatureKeys } from '../feature-keys';
 import { ActivityState } from '../states';
 
-const selectActivityFeature= createFeatureSelector<ActivityState>(StoreFeatureKeys.ACTIVITY);
+const selectActivityFeature = createFeatureSelector<ActivityState>(StoreFeatureKeys.ACTIVITY);
 
-export const gettActivityCategoryList= createSelector(
+export const gettActivityCategoryList = createSelector(
   selectActivityFeature,
   state => state.activityCategories.map((object, index) => ({
     Id: object.Id,
@@ -14,17 +14,17 @@ export const gettActivityCategoryList= createSelector(
   }))
 );
 
-export const getActivityIcons= createSelector(
+export const getActivityIcons = createSelector(
   selectActivityFeature,
   state => state.activityIcons
 );
 
-export const getActivityCategories= createSelector(
+export const getActivityCategories = createSelector(
   selectActivityFeature,
   state => state.activityCategories
 );
 
-export const getKeepedActivities= createSelector(
+export const getKeepedActivities = createSelector(
   selectActivityFeature,
   state => state.keepedActivties
 );
@@ -34,29 +34,29 @@ export const getKeepedActivities= createSelector(
 //  state => state.reorderedActivityCategories
 //);
 
-export const gettAllActivity= createSelector(
+export const gettAllActivity = createSelector(
   getActivityCategories,
   getKeepedActivities,
   (activityCategories, keepedActivities) => {
-    let activities= [];
+    let activities = [];
 
     activityCategories.forEach((activityCategory, index) => {
-      activities= [...activities , ...activityCategory.activities.map((activity, index) => ({
-          ...activity,
-          activityCategory: activityCategory
-        }))
+      activities = [...activities, ...activityCategory.activities.map((activity, index) => ({
+        ...activity,
+        activityCategory: activityCategory
+      }))
       ];
     });
 
     keepedActivities.forEach((activity, index) => {
-      activities= [...activities, activity];
+      activities = [...activities, activity];
     });
 
     return activities;
   }
 );
 
-export const getCheckedUnkeepedActivities= (props) => {
+export const getCheckedUnkeepedActivities = (props) => {
   return createSelector(
     getActivityCategories,
     state => state.map(activityCategory => {
@@ -64,7 +64,7 @@ export const getCheckedUnkeepedActivities= (props) => {
         ...activityCategory,
         activities: [
           ...activityCategory.activities.map(userActivity => {
-            const activity= props.selectedActivities.find(selected => selected.Id === userActivity.Id);
+            const activity = props.selectedActivities.find(selected => selected.Id === userActivity.Id);
 
             if (!activity) {
               return userActivity;
@@ -81,11 +81,11 @@ export const getCheckedUnkeepedActivities= (props) => {
   );
 };
 
-export const getCheckedKeepedActivities= (props) => {
+export const getCheckedKeepedActivities = (props) => {
   return createSelector(
     getKeepedActivities,
     state => state.map(keeped => {
-      const activity= props.selectedActivities.find(selected => selected.Id === keeped.Id);
+      const activity = props.selectedActivities.find(selected => selected.Id === keeped.Id);
 
       if (!activity) {
         return keeped;
@@ -99,14 +99,14 @@ export const getCheckedKeepedActivities= (props) => {
   );
 };
 
-export const getActivity= (props) => {
+export const getActivity = (props) => {
   return createSelector(
     gettAllActivity,
     state => state.find(activity => activity.Id === props.Id)
   );
 };
 
-export const getActivityCategory= (props) => {
+export const getActivityCategory = (props) => {
   return createSelector(
     getActivityCategories,
     state => state.find(activityCategory => activityCategory.Id === props.Id)

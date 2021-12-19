@@ -13,12 +13,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HabitService {
-  private skipLoading: string= 'skip';
+  private skipLoading: string = 'skip';
 
   constructor(private http: HttpClient) { }
 
   getHabits(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserHabits {
           __typename
@@ -74,7 +74,7 @@ export class HabitService {
   }
 
   getHabitsChart(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserHabitsChart {
           __typename
@@ -104,7 +104,7 @@ export class HabitService {
   }
 
   searchHabit(filters: {}): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
 
     `);
 
@@ -114,7 +114,7 @@ export class HabitService {
   }
 
   getHabit(habitId: number): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserHabit(Id: ${habitId}) {
           __typename
@@ -168,8 +168,8 @@ export class HabitService {
   }
 
   createHabit(fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         createHabit(fields: ${args}) {
           createdHabit {
@@ -217,8 +217,8 @@ export class HabitService {
   }
 
   updateHabit(habitId: number, fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         updateHabit(Id: ${habitId}, fields: ${args}) {
           updatedHabit {
@@ -266,7 +266,7 @@ export class HabitService {
   }
 
   removeHabits(habitIds: number[]): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         removeHabits(habitIds: ${habitIds}) {
           removedHabits,
@@ -284,7 +284,7 @@ export class HabitService {
   }
 
   markHabitGoal(habitId: number, markedAt: string): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         markHabitGoal(Id: ${habitId}, markedAt: "${markedAt}") {
           markedHabit {

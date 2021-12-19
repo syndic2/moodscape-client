@@ -20,7 +20,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 
 @Injectable()
 export class AuthenticationEffects {
-  requestLogin$= createEffect(() => this.actions$.pipe(
+  requestLogin$ = createEffect(() => this.actions$.pipe(
     ofType(requestLogin),
     map(({ credentials, withGoogle, isInvalid }) => {
       if (isInvalid) {
@@ -36,7 +36,7 @@ export class AuthenticationEffects {
     }),
   ));
 
-  login$= createEffect(() => this.actions$.pipe(
+  login$ = createEffect(() => this.actions$.pipe(
     ofType(fetchLogin),
     exhaustMap(({ credentials, withGoogle }) => this.authenticationService.login(credentials, withGoogle).pipe(
       map(res => {
@@ -64,15 +64,15 @@ export class AuthenticationEffects {
     ))
   ));
 
-  requestResetPassword$= createEffect(() => this.actions$.pipe(
+  requestResetPassword$ = createEffect(() => this.actions$.pipe(
     ofType(requestResetPassword)
   ));
 
-  resetPassword$= createEffect(() => this.actions$.pipe(
+  resetPassword$ = createEffect(() => this.actions$.pipe(
     ofType(fetchResetPassword)
   ));
 
-  logout$= createEffect(() => this.actions$.pipe(
+  logout$ = createEffect(() => this.actions$.pipe(
     ofType(fetchLogout),
     exhaustMap(() => this.authenticationService.logout().pipe(
       switchMap(() => [
@@ -82,5 +82,5 @@ export class AuthenticationEffects {
     ))
   ));
 
-  constructor(private store: Store, private actions$: Actions, private authenticationService: AuthenticationService) {}
+  constructor(private store: Store, private actions$: Actions, private authenticationService: AuthenticationService) { }
 }

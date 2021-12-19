@@ -27,42 +27,42 @@ import { MoodService } from 'src/app/services/mood/moods.service';
 
 @Injectable()
 export class MoodEffects {
-  getMoods$= createEffect(() => this.actions$.pipe(
+  getMoods$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMoods),
     exhaustMap(() => this.moodService.getMoods().pipe(
       map(res => setMoods({ moods: res.moods }))
     ))
   ));
-  
-  getMoodsChart$= createEffect(() => this.actions$.pipe(
+
+  getMoodsChart$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMoodsChart),
     exhaustMap(() => this.moodService.getMoodsChart().pipe(
       map(res => setMoodsChart({ moodsChart: res.moodsChart }))
     ))
   ));
 
-  getMood$= createEffect(() => this.actions$.pipe(
+  getMood$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMood),
     exhaustMap(({ moodId }) => this.moodService.getMood(moodId).pipe(
       map(res => !res.mood ? setMood({ mood: res.mood }) : showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }))
     ))
   ));
 
-  searchMoods$= createEffect(() => this.actions$.pipe(
+  searchMoods$ = createEffect(() => this.actions$.pipe(
     ofType(fetchSearchMood),
     exhaustMap(({ filters }) => this.moodService.searchMood(filters).pipe(
       map(res => setMoodSearchResults({ moods: res.moods }))
     ))
   ));
 
-  createMood$= createEffect(() => this.actions$.pipe(
+  createMood$ = createEffect(() => this.actions$.pipe(
     ofType(fetchCreateMood),
     concatMap(({ fields }) => this.moodService.createMood(fields).pipe(
       map(res => !res.createdMood ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : createMood({ mood: res.createdMood }))
     ))
   ));
 
-  updateMood$= createEffect(() => this.actions$.pipe(
+  updateMood$ = createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateMood),
     concatMap(({ moodId, fields }) => this.moodService.updateMood(moodId, fields).pipe(
       switchMap(res => {
@@ -83,7 +83,7 @@ export class MoodEffects {
     ))
   ));
 
-  removeMoodsConfirmation$= createEffect(() => this.actions$.pipe(
+  removeMoodsConfirmation$ = createEffect(() => this.actions$.pipe(
     ofType(removeMoodsConfirmation),
     map(({ moodIds, removeFromSearchResults }) => showAlert({
       options: {
@@ -104,12 +104,12 @@ export class MoodEffects {
     }))
   ));
 
-  removeMoods$= createEffect(() => this.actions$.pipe(
+  removeMoods$ = createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveMoods),
     mergeMap(({ moodIds, removeFromSearchResults }) => this.moodService.removeMoods(moodIds).pipe(
       map(res => !res.removedMoods.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba lagi' }) : removeMoods({ moodIds: res.removedMoods, removeFromSearchResults }))
     ))
   ));
 
-  constructor(private store: Store, private actions$: Actions, private moodService: MoodService) {}
+  constructor(private store: Store, private actions$: Actions, private moodService: MoodService) { }
 };

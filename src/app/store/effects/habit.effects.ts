@@ -5,7 +5,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators';
 
 import { showAlert, showRequestErrorModal } from '../actions/application.actions';
-import { 
+import {
   fetchHabits,
   fetchHabitsChart,
   fetchHabitSearchResults,
@@ -15,7 +15,7 @@ import {
   removeHabitsConfirmation,
   fetchRemoveHabits,
   fetchMarkHabitGoal,
-  
+
   setHabits,
   setHabitsChart,
   setHabitSearchResults,
@@ -29,35 +29,35 @@ import { HabitService } from 'src/app/services/habit/habit.service';
 
 @Injectable()
 export class HabitEffects {
-  getHabits$= createEffect(() => this.actions$.pipe(
+  getHabits$ = createEffect(() => this.actions$.pipe(
     ofType(fetchHabits),
     exhaustMap(() => this.habitService.getHabits().pipe(
       map(res => setHabits({ habits: res.habits }))
     ))
   ));
-  
-  getHabitsChart$= createEffect(() => this.actions$.pipe(
+
+  getHabitsChart$ = createEffect(() => this.actions$.pipe(
     ofType(fetchHabitsChart),
     exhaustMap(() => this.habitService.getHabitsChart().pipe(
       map(res => setHabitsChart({ habitsChart: res.habitsChart }))
     ))
   ));
 
-  getHabit$= createEffect(() => this.actions$.pipe(
+  getHabit$ = createEffect(() => this.actions$.pipe(
     ofType(fetchHabit),
     exhaustMap(({ habitId }) => this.habitService.getHabit(habitId).pipe(
       map(res => !res.habit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : setHabit({ habit: res.habit }))
     ))
   ));
-  
-  createHabit$= createEffect(() => this.actions$.pipe(
+
+  createHabit$ = createEffect(() => this.actions$.pipe(
     ofType(fetchCreateHabit),
     concatMap(({ fields }) => this.habitService.createHabit(fields).pipe(
       map(res => !res.createdHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : createHabit({ habit: res.createdHabit }))
     ))
   ));
 
-  updateHabit$= createEffect(() => this.actions$.pipe(
+  updateHabit$ = createEffect(() => this.actions$.pipe(
     ofType(fetchUpdateHabit),
     concatMap(({ habitId, fields }) => this.habitService.updateHabit(habitId, fields).pipe(
       switchMap(res => {
@@ -78,7 +78,7 @@ export class HabitEffects {
     ))
   ));
 
-  removeHabitsConfirmation$= createEffect(() => this.actions$.pipe(
+  removeHabitsConfirmation$ = createEffect(() => this.actions$.pipe(
     ofType(removeHabitsConfirmation),
     map(({ habitIds }) => showAlert({
       options: {
@@ -99,19 +99,19 @@ export class HabitEffects {
     }))
   ));
 
-  removeHabits$= createEffect(() => this.actions$.pipe(
+  removeHabits$ = createEffect(() => this.actions$.pipe(
     ofType(fetchRemoveHabits),
     mergeMap(({ habitIds }) => this.habitService.removeHabits(habitIds).pipe(
       map(res => !res.removedHabits.length ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : removeHabits({ habitIds: res.removedHabits }))
     ))
   ));
-  
-  markHabitGoal$= createEffect(() => this.actions$.pipe(
+
+  markHabitGoal$ = createEffect(() => this.actions$.pipe(
     ofType(fetchMarkHabitGoal),
     concatMap(({ habitId, markedAt }) => this.habitService.markHabitGoal(habitId, markedAt).pipe(
       map(res => !res.markedHabit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : markHabitGoal({ habitId: res.markedHabit.Id, fields: res.markedHabit }))
     ))
   ));
 
-  constructor(private store: Store, private actions$: Actions, private habitService: HabitService) {}
+  constructor(private store: Store, private actions$: Actions, private habitService: HabitService) { }
 };

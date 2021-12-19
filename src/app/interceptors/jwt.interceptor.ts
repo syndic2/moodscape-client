@@ -12,19 +12,19 @@ import { AuthenticationService } from '../services/authentication/authentication
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-	constructor(
+  constructor(
     private utilitiesService: UtilitiesService,
     private modalService: ModalService,
-		private authService: AuthenticationService,
-	) { }
+    private authService: AuthenticationService,
+  ) { }
 
-	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (req.url === `${environment.apiUrl}/auth` || 
-        req.url.includes(`${environment.apiUrl.replace('/api', '')}/telegram`) ||
-        req.url.includes(`${environment.rasaChatbot}`)
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url === `${environment.apiUrl}/auth` ||
+      req.url.includes(`${environment.apiUrl.replace('/api', '')}/telegram`) ||
+      req.url.includes(`${environment.rasaChatbot}`)
     ) {
-			return next.handle(req);
-		} else {
+      return next.handle(req);
+    } else {
       return this.authService.getToken().pipe(
         switchMap(token => {
           return next.handle(this.attachToken(req, token)).pipe(
@@ -33,65 +33,65 @@ export class JwtInterceptor implements HttpInterceptor {
             })
           );
         })
-      )
-		}
-	}
+      );
+    }
+  }
 
-	private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
+  private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
     if (res.body) {
       this.utilitiesService.onSkeletonLoading.next(true);
 
-			const data = res.body.data;
-      const resolver= data[Object.keys(data)[0]]
-			let isTokenExpired: boolean= false;
+      const data = res.body.data;
+      const resolver = data[Object.keys(data)[0]]
+      let isTokenExpired: boolean = false;
 
       //console.log('body', res.body);
       //console.log('resolver', resolver);
-      
+
       if (resolver === undefined || resolver === null) {
-        isTokenExpired= true;
+        isTokenExpired = true;
       } else {
         if (resolver.hasOwnProperty('__typename')) {
           if (resolver.__typename === 'AuthInfoField') {
-            isTokenExpired= true;
+            isTokenExpired = true;
           } else {
-            isTokenExpired= false;
+            isTokenExpired = false;
           }
         } else {
-          isTokenExpired= false;
+          isTokenExpired = false;
         }
       }
 
-			if (isTokenExpired === false) { //CHECK IF NOT EXPIRED
+      if (isTokenExpired === false) { //CHECK IF NOT EXPIRED
         this.utilitiesService.onSkeletonLoading.next(false);
-				//console.log('token no need to be refresh', isTokenExpired);
+        //console.log('token no need to be refresh', isTokenExpired);
 
-				return res;
-			} else {
-				//console.log('token need to be refresh', isTokenExpired);
+        return res;
+      } else {
+        //console.log('token need to be refresh', isTokenExpired);
 
-				//return this.authService.refreshToken().subscribe(async newToken => {
-				//	//console.log('finish refreshing token');
-				//	//console.log('new token', newToken);
-        //  
+        //return this.authService.refreshToken().subscribe(async newToken => {
+        //	//console.log('finish refreshing token');
+        //	//console.log('new token', newToken);
+        //
         //  this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
-				//});
+        //});
 
         this.modalService.requestError('Gagal validasi otentikasi, silahkan dicoba lagi');
 
         return this.authService.refreshToken();
-			}
-		}
-	}
+      }
+    }
+  }
 
-	private attachToken(req: HttpRequest<any>, token: string) {
-		if (!token) {
-			return req;
-		}
+  private attachToken(req: HttpRequest<any>, token: string) {
+    if (!token) {
+      return req;
+    }
 
-		return req.clone({
-			headers: req.headers.set('Authorization', `Bearer ${token}`)
-		});
-	}
+    return req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${token}`)
+    });
+  }
 }
 

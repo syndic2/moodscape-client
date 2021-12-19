@@ -9,7 +9,7 @@ import { habitReducer } from './reducers/habit.reducer';
 import { activityReducer } from './reducers/activity.reducer';
 import { articleReducer } from './reducers/article.reducer';
 
-export const reducers: ActionReducerMap<any>= {
+export const reducers: ActionReducerMap<any> = {
   [StoreFeatureKeys.APPLICATION]: applicationReducer,
   [StoreFeatureKeys.AUTHENTIACTION]: authenticationReducer,
   [StoreFeatureKeys.MOOD]: moodReducer,
@@ -18,7 +18,7 @@ export const reducers: ActionReducerMap<any>= {
   [StoreFeatureKeys.ARTICLE]: articleReducer
 };
 
-const debugMeta= (reducer: ActionReducer<any>): ActionReducer<any> => {
+const debugMeta = (reducer: ActionReducer<any>): ActionReducer<any> => {
   return (state, action) => {
     console.log('state', state);
     console.log('action', action);
@@ -27,7 +27,7 @@ const debugMeta= (reducer: ActionReducer<any>): ActionReducer<any> => {
   };
 };
 
-const logoutMeta= (reducer: ActionReducer<any>): ActionReducer<any> => {
+const logoutMeta = (reducer: ActionReducer<any>): ActionReducer<any> => {
   return (state, action) => {
     if (action.type === logout.type) {
       return reducer(undefined, { type: INIT });
@@ -37,4 +37,4 @@ const logoutMeta= (reducer: ActionReducer<any>): ActionReducer<any> => {
   }
 };
 
-export const metaReducers: MetaReducer<any>[]= [logoutMeta];
+export const metaReducers: MetaReducer<any>[] = [logoutMeta];

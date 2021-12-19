@@ -1,6 +1,6 @@
 import { state, style, animate, trigger, transition } from '@angular/animations';
 
-export const Animations= [
+export const Animations = [
   trigger('collapse', [
     state('default', style({
       maxHeight: '0',

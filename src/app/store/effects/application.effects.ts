@@ -9,46 +9,46 @@ import { showRequestErrorModal, showToast, showAlert, showModal, showPopover } f
 import { ModalService } from 'src/app/services/modal/modal.service';
 
 @Injectable()
-export class ApplicationEffects {  
+export class ApplicationEffects {
   /**
    * Ionic
    */
-  showToast$= createEffect(() => this.actions$.pipe(
+  showToast$ = createEffect(() => this.actions$.pipe(
     ofType(showToast),
     tap(async ({ options }) => {
-      const toast= await this.toastController.create(options);
+      const toast = await this.toastController.create(options);
       return toast.present();
     })
   ), { dispatch: false });
 
-  showAlert$= createEffect(() => this.actions$.pipe(
+  showAlert$ = createEffect(() => this.actions$.pipe(
     ofType(showAlert),
     tap(async ({ options }) => {
-      const alert= await this.alertController.create(options);
+      const alert = await this.alertController.create(options);
       return alert.present();
     })
   ), { dispatch: false });
 
-  showModal$= createEffect(() => this.actions$.pipe(
+  showModal$ = createEffect(() => this.actions$.pipe(
     ofType(showModal),
     tap(async ({ options }) => {
-      const modal= await this.modalController.create(options);
+      const modal = await this.modalController.create(options);
       return modal.present();
     })
   ), { dispatch: false });
 
-  showPopover$= createEffect(() => this.actions$.pipe(
+  showPopover$ = createEffect(() => this.actions$.pipe(
     ofType(showPopover),
     tap(async ({ options }) => {
-      const popover= await this.popoverController.create(options);
+      const popover = await this.popoverController.create(options);
       return popover.present();
     })
   ), { dispatch: false });
-  
+
   /**
    * Application
    */
-    showRequestErrorModal$= createEffect(() => this.actions$.pipe(
+  showRequestErrorModal$ = createEffect(() => this.actions$.pipe(
     ofType(showRequestErrorModal),
     tap(({ message }) => this.modalService.requestError(message))
   ), { dispatch: false });
@@ -60,5 +60,5 @@ export class ApplicationEffects {
     private modalController: ModalController,
     private popoverController: PopoverController,
     private modalService: ModalService
-  ) {}
+  ) { }
 };

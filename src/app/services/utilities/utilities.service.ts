@@ -6,8 +6,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UtilitiesService {
-  public onBackdrop: BehaviorSubject<boolean>= new BehaviorSubject(false);
-  public onSkeletonLoading: BehaviorSubject<boolean>= new BehaviorSubject(true);
+  public onBackdrop: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public onSkeletonLoading: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor() { }
 

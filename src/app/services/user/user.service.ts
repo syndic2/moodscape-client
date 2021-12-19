@@ -11,13 +11,13 @@ import { environment } from 'src/environments/environment';
 import { filterObjectProps } from 'src/app/utilities/helpers';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class UserService {
-	constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-	getProfile(): Observable<any> {
-		const query = gqlCompress(`
+  getProfile(): Observable<any> {
+    const query = gqlCompress(`
 			query {
 				getUserProfile {
 					__typename,
@@ -42,25 +42,25 @@ export class UserService {
 				}
 			}
 		`);
-    
+
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserProfile)
     );
-	}
+  }
 
-	createUser(fields: {}): Observable<any> {
-    fields= { ...fields };
+  createUser(fields: {}): Observable<any> {
+    fields = { ...fields };
 
     delete fields['confirmPassword'];
 
-		const args = StringifyObject(fields, {
-			singleQuotes: false,
-			transform: (object, property, originalResult) => {
-				if (property === 'age') return object[property] === '' ? 0 : originalResult;
-				else return originalResult;
-			}
-		});
-		const query = gqlCompress(`
+    const args = StringifyObject(fields, {
+      singleQuotes: false,
+      transform: (object, property, originalResult) => {
+        if (property === 'age') return object[property] === '' ? 0 : originalResult;
+        else return originalResult;
+      }
+    });
+    const query = gqlCompress(`
 			mutation {
 				createUser(fields: ${args}) {
 					response {
@@ -71,14 +71,14 @@ export class UserService {
 			}
 		`);
 
-		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
-			map((res: any) => res.data.createUser)
-		);
-	}
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
+      map((res: any) => res.data.createUser)
+    );
+  }
 
-	updateProfile(fields: {}): Observable<any> {
-		const args = StringifyObject(filterObjectProps(fields), { singleQuotes: false });
-		const query = gqlCompress(`
+  updateProfile(fields: {}): Observable<any> {
+    const args = StringifyObject(filterObjectProps(fields), { singleQuotes: false });
+    const query = gqlCompress(`
 			mutation {
 				updateProfile(fields: ${args}) {
 					updatedProfile {
@@ -98,13 +98,13 @@ export class UserService {
 			}
     `);
 
-		return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
-			map((res: any) => res.data.updateProfile)
-		);
-	}
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
+      map((res: any) => res.data.updateProfile)
+    );
+  }
 
   changePassword(oldPassword: string, newPassword: string): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         changePassword(oldPassword: "${oldPassword}", newPassword: "${newPassword}") {
           response {

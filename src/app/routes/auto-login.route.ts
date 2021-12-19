@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 import { AutoLoginGuard } from "src/app/guards/auto-login/auto-login.guard";
 
-export const routes: Routes= [
+export const routes: Routes = [
   {
     path: 'sign-in',
     canLoad: [AutoLoginGuard],

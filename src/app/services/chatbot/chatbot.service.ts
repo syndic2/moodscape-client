@@ -9,37 +9,38 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ChatbotService {
-  private skipLoading: string= 'true';
+  private skipLoading: string = 'true';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   initiateGreetBot(userId: string) {
-    return this.http.post(`${environment.rasaChatbot}/conversations/${userId}/trigger_intent`, 
-      { name: 'initiate_greet_bot' }, {
+    return this.http.post(`${environment.rasaChatbot}/conversations/${userId}/trigger_intent`,
+      { name: 'initiate_greet_bot' },
+      {
         ...this.skipLoading && {
           headers: { skipLoading: this.skipLoading }
-        }  
+        }
       }
     );
   }
-  
+
   //setAuthId(userId: string): Observable<any> {
   //  return this.http.post(`${environment.rasaChatbot}/conversations/jonathan/tracker/events`,
   //    { event: 'slot', name: 'auth_id', value: userId }, {
   //      ...this.skipLoading && {
   //        headers: { skipLoading: this.skipLoading }
-  //      }    
+  //      }
   //    }
   //  );
   //}
 
   sendMessage(sender: string | number, messageText: string): Observable<any> {
-    return this.http.post(`${environment.rasaChatbot}/webhooks/rest/webhook`, 
+    return this.http.post(`${environment.rasaChatbot}/webhooks/rest/webhook`,
       { sender: sender, message: messageText }, {
-        ...this.skipLoading && {
-          headers: { skipLoading: this.skipLoading }
-        }
+      ...this.skipLoading && {
+        headers: { skipLoading: this.skipLoading }
       }
+    }
     );
   }
 }

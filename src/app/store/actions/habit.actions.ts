@@ -3,82 +3,82 @@ import { createAction, props } from '@ngrx/store';
 import { Habit, HabitsAverageGroupByMonth } from 'src/app/models/habit.model';
 
 //Fetch API
-export const fetchHabits= createAction('[Habit/API] Get habits');
+export const fetchHabits = createAction('[Habit/API] Get habits');
 
-export const fetchHabitsChart= createAction('[Habit/API] Get habits chart');
+export const fetchHabitsChart = createAction('[Habit/API] Get habits chart');
 
-export const fetchHabitSearchResults= createAction(
+export const fetchHabitSearchResults = createAction(
   '[Habit/API] Get habit search results',
   props<{ filters: {} }>()
 );
 
-export const fetchHabit= createAction(
+export const fetchHabit = createAction(
   '[Habit/API] Get habit',
   props<{ habitId: number }>()
 );
 
-export const fetchCreateHabit= createAction(
+export const fetchCreateHabit = createAction(
   '[Habit/API] Create new habit',
   props<{ fields: {} }>()
 );
 
-export const fetchUpdateHabit= createAction(
+export const fetchUpdateHabit = createAction(
   '[Habit/API] Update habit',
   props<{ habitId: number, fields: {} }>()
 );
 
-export const removeHabitsConfirmation= createAction(
+export const removeHabitsConfirmation = createAction(
   '[Habit/API] Remove habits confirmation',
   props<{ habitIds: number[] }>()
 );
 
-export const fetchRemoveHabits= createAction(
+export const fetchRemoveHabits = createAction(
   '[Habit/API] Remove habits',
   props<{ habitIds: number[] }>()
 );
 
-export const fetchMarkHabitGoal= createAction(
+export const fetchMarkHabitGoal = createAction(
   '[Habit/API] Mark habits goal',
   props<{ habitId: number, markedAt: string }>()
 );
 
 //STORE
-export const setHabits= createAction(
+export const setHabits = createAction(
   '[Habit/STORE] Set habits',
   props<{ habits: Habit[] }>()
 );
 
-export const setHabitsChart= createAction(
+export const setHabitsChart = createAction(
   '[Habit/STORE] Set habits chart',
   props<{ habitsChart: HabitsAverageGroupByMonth[] }>()
 );
 
-export const setHabitSearchResults= createAction(
+export const setHabitSearchResults = createAction(
   '[Habit/STORE] Set habit search results',
   props<{ habits: Habit[] }>()
 );
 
-export const setHabit= createAction(
+export const setHabit = createAction(
   '[Habit/STORE] Set habit',
   props<{ habit: Habit }>()
 );
 
-export const createHabit= createAction(
+export const createHabit = createAction(
   '[Habit/STORE] Create new habit',
   props<{ habit: Habit }>()
 );
 
-export const updateHabit= createAction(
+export const updateHabit = createAction(
   '[Habit/STORE] Update habit',
   props<{ habitId: number, fields: {} }>()
 );
 
-export const removeHabits= createAction(
+export const removeHabits = createAction(
   '[Habit/STORE] Remove habits',
   props<{ habitIds: number[] }>()
 );
 
-export const markHabitGoal= createAction(
+export const markHabitGoal = createAction(
   '[Habit/STORE] Mark habits goal',
   props<{ habitId: number, fields: {} }>()
 );

@@ -12,18 +12,18 @@ import { ModalService } from '../services/modal/modal.service';
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
 
-	constructor(
-    private loadingController: LoadingController, 
+  constructor(
+    private loadingController: LoadingController,
     private modalService: ModalService
   ) { }
 
-	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //console.log('skip loading', request.headers.has('skipLoading'));
 
     const loading = this.loadingController.create({
-			message: 'Mohon tunggu... :)',
-			translucent: true
-		});
+      message: 'Mohon tunggu... :)',
+      translucent: true
+    });
 
     if (!request.headers.has('skipLoading') && !request.url.includes(`${environment.rasaChatbot}`)) {
       //this.loadingController.getTop().then(hasLoading => {
@@ -31,38 +31,38 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
       //    loading.then(loader => loader.present());
       //  }
       //});
-      
-      (async () => { 
-        const isLoading= await this.loadingController.getTop();
-        
+
+      (async () => {
+        const isLoading = await this.loadingController.getTop();
+
         if (!isLoading) {
           (await loading).present();
         }
       })();
     }
 
-		return next.handle(request).pipe(
-			catchError(error => {
-				if (error instanceof HttpErrorResponse) {
+    return next.handle(request).pipe(
+      catchError(error => {
+        if (error instanceof HttpErrorResponse) {
           this.HANDLE_ERROR_REQUEST(error);
-				}
+        }
 
-				return throwError(error);
-			}),
-			finalize(() => loading.then(loader => loader.dismiss()))
-		);
-	}
+        return throwError(error);
+      }),
+      finalize(() => loading.then(loader => loader.dismiss()))
+    );
+  }
 
-	private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
+  private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
     switch (error.status) {
       case 0:
         this.modalService.requestError(error.statusText)
         break;
-      
+
       case 400:
         this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
         break;
-      
+
       case 401:
         this.modalService.requestError('Pengguna tidak terotorisasi, sialhkan coba kembali');
         break;
@@ -70,7 +70,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
       case 404:
         this.modalService.requestError('Terjadi kesalahan pada URL API, silahkan coba kembali');
         break;
-      
+
       case 500:
         this.modalService.requestError('Terjadi kesalahan pada server, silahkan coba kembali');
         break;
@@ -78,5 +78,5 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
       default:
         return throwError(error);
     }
-	}
+  }
 }

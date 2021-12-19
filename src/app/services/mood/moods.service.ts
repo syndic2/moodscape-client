@@ -14,12 +14,12 @@ import { MoodFilter } from 'src/app/models/mood.model';
   providedIn: 'root'
 })
 export class MoodService {
-  private skipLoading: string= 'skip';
+  private skipLoading: string = 'skip';
 
   constructor(private http: HttpClient) { }
 
   getMoods(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserMoods {
           __typename
@@ -67,7 +67,7 @@ export class MoodService {
   }
 
   getMoodsChart(): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserMoodsChart {
           __typename
@@ -101,14 +101,14 @@ export class MoodService {
         }
       }
     `);
-    
+
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
       map((res: any) => res.data.getUserMoodsChart)
     );
   }
-  
+
   getMood(moodId: number): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getUserMood(Id: ${moodId}) {
           __typename
@@ -154,14 +154,14 @@ export class MoodService {
   }
 
   searchMood(filters: MoodFilter): Observable<any> {
-    const args= StringifyObject({
+    const args = StringifyObject({
       searchText: filters.searchText,
       emoticonName: filters.emoticon ? filters.emoticon.name : '',
       parameters: filters.parameters,
       activityIds: filters.activities.length ? filters.activities.map(activity => activity.Id) : [],
       note: filters.note
     }, { singleQuotes: false });
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       query {
         getFilteredUserMood(filters: ${args}) {
           __typename
@@ -209,8 +209,8 @@ export class MoodService {
   }
 
   createMood(fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         createMood(fields: ${args}) {
           createdMood {
@@ -243,15 +243,15 @@ export class MoodService {
         }
       }
     `);
-    
+
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createMood)
     );
   }
 
   updateMood(moodId: number, fields: {}): Observable<any> {
-    const args= StringifyObject(fields, { singleQuotes: false });
-    const query= gqlCompress(`
+    const args = StringifyObject(fields, { singleQuotes: false });
+    const query = gqlCompress(`
       mutation {
         updateMood(Id: ${moodId}, fields: ${args}) {
           updatedMood {
@@ -291,7 +291,7 @@ export class MoodService {
   }
 
   removeMoods(moodIds: number[]): Observable<any> {
-    const query= gqlCompress(`
+    const query = gqlCompress(`
       mutation {
         removeMoods(moodIds: [${moodIds}]) {
           removedMoods,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { 
+import {
   Plugins,
   Capacitor,
   PushNotification,
@@ -15,7 +15,7 @@ const { PushNotifications } = Plugins
 })
 export class FirebaseCloudMessagingService {
 
-  constructor() { 
+  constructor() {
   }
 
   initPush() {
