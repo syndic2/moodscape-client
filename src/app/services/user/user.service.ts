@@ -16,7 +16,7 @@ import { filterObjectProps } from 'src/app/utilities/helpers';
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  getProfile(): Observable<any> {
+  getProfile(skipLoading: boolean = false): Observable<any> {
     const query = gqlCompress(`
 			query {
 				getUserProfile {
@@ -43,7 +43,13 @@ export class UserService {
 			}
 		`);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      ...skipLoading && {
+        headers: {
+          skipLoading: 'true'
+        }
+      }
+    }).pipe(
       map((res: any) => res.data.getUserProfile)
     );
   }

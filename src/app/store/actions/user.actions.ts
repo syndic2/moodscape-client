@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
 //Fetch API
-export const fetchProfile = createAction('[User/API] Get user profile');
+export const fetchProfile = createAction(
+  '[User/API] Get user profile',
+  props<{ skipLoading: boolean }>()
+);
 
 export const validateCreateUser = createAction(
   '[User/API] Validate create new user',

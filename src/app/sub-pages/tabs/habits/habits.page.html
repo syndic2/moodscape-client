@@ -1,17 +1,17 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar>
-		<ion-title>Habits</ion-title>
-		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu" class="side-menu-button">
-				<ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
-			</ion-menu-button>
-		</ion-buttons>
+  <ion-toolbar>
+    <ion-title>Habits</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="side-menu" class="side-menu-button">
+        <ion-icon class="icon" src="../../assets/icons/svg/menu.svg"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
     <!--<ion-buttons slot="end">
       <ion-button [routerLink]="['/habits/search']">
         <ion-icon slot="icon-only" name="search" size="large" class="icon"></ion-icon>
       </ion-button>
     </ion-buttons>-->
-	</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="flex-column row-gap-4">
@@ -22,27 +22,18 @@
   <!--<select-day-horizontal-list (selectDayEvent)="onSelectDay($event)"></select-day-horizontal-list>-->
 
   <div class="flex justify-center items-center gap-x-2">
-    <ion-button
-      [routerLink]="['/side-menu/tabs/habits']"
-      [queryParams]="{ mode: 'all' }"
-      [color]="selectedMode === 'all' ? 'primary' : 'light'" 
-      class="normal-case">
+    <ion-button [routerLink]="['/side-menu/tabs/habits']" [queryParams]="{ mode: 'all' }"
+      [color]="selectedMode === 'all' ? 'primary' : 'light'" class="normal-case">
       <ion-icon name="list" class="text-sm xs:text-lg"></ion-icon>
     </ion-button>
-    <ion-button
-      [routerLink]="['/side-menu/tabs/habits']"
-      [queryParams]="{ mode: 'marked' }" 
-      [color]="selectedMode === 'marked' ? 'success' : 'light'" 
-      class="normal-case">
+    <ion-button [routerLink]="['/side-menu/tabs/habits']" [queryParams]="{ mode: 'marked' }"
+      [color]="selectedMode === 'marked' ? 'success' : 'light'" class="normal-case">
       <ion-icon name="checkmark-done" class="text-sm xs:text-lg"></ion-icon>
     </ion-button>
-    <ion-button
-      [routerLink]="['/side-menu/tabs/habits']"
-      [queryParams]="{ mode: 'unmarked' }" 
-      [color]="selectedMode === 'unmarked' ? 'danger' : 'light'" 
-      class="normal-case">
-    <ion-icon name="alert" class="text-sm xs:text-lg"></ion-icon>
-  </ion-button>
+    <ion-button [routerLink]="['/side-menu/tabs/habits']" [queryParams]="{ mode: 'unmarked' }"
+      [color]="selectedMode === 'unmarked' ? 'danger' : 'light'" class="normal-case">
+      <ion-icon name="alert" class="text-sm xs:text-lg"></ion-icon>
+    </ion-button>
   </div>
 
   <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
@@ -62,26 +53,28 @@
         <ion-item-sliding *ngFor="let habit of habits">
           <ion-item-options side="start">
             <ion-item-option class="bg-transparent">
-              <div (click)="onEdit(habit)" class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-3 xs:p-4">
+              <div (click)="onEdit(habit)"
+                class="flex flex-col items-center gap-y-2 rounded-lg bg-green-500 text-white p-3 xs:p-4">
                 <ion-icon name="create" class="text-2xl xs:text-4xl"></ion-icon>
                 <label class="normal-case text-xs xs:text-base font-semibold">Ubah</label>
               </div>
             </ion-item-option>
           </ion-item-options>
-      
+
           <ion-item>
             <habit-list-item [habit]="habit" class="flex-1"></habit-list-item>
           </ion-item>
-      
+
           <ion-item-options side="end">
             <ion-item-option class="bg-transparent">
-              <div (click)="onRemove(habit)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-3 xs:p-4">
+              <div (click)="onRemove(habit)"
+                class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-3 xs:p-4">
                 <ion-icon name="trash" class="text-2xl xs:text-4xl"></ion-icon>
                 <label class="normal-case text-xs xs:text-base font-semibold">Hapus</label>
               </div>
             </ion-item-option>
           </ion-item-options>
-        </ion-item-sliding> 
+        </ion-item-sliding>
       </ion-list>
     </ng-template>
   </ng-template>

@@ -18,18 +18,19 @@ export class JwtInterceptor implements HttpInterceptor {
     private authService: AuthenticationService,
   ) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url === `${environment.apiUrl}/auth` ||
-      req.url.includes(`${environment.apiUrl.replace('/api', '')}/telegram`) ||
-      req.url.includes(`${environment.rasaChatbot}`)
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.url === `${environment.apiUrl}/auth` ||
+      request.url.includes(`${environment.apiUrl.replace('/api', '')}/services/telegram`) ||
+      request.url.includes(`${environment.apiUrl.replace('/api', '')}/services/fcm`) ||
+      request.url.includes(`${environment.rasaChatbot}`)
     ) {
-      return next.handle(req);
+      return next.handle(request);
     } else {
       return this.authService.getToken().pipe(
         switchMap(token => {
-          return next.handle(this.attachToken(req, token)).pipe(
-            map((res: any) => {
-              return this.reAuthenticate(req, res, next);
+          return next.handle(this.attachToken(request, token)).pipe(
+            map((response: any) => {
+              return this.reAuthenticate(request, response, next);
             })
           );
         })
@@ -37,11 +38,11 @@ export class JwtInterceptor implements HttpInterceptor {
     }
   }
 
-  private reAuthenticate(req: HttpRequest<any>, res: any, next: HttpHandler) {
-    if (res.body) {
+  private reAuthenticate(request: HttpRequest<any>, response: any, next: HttpHandler) {
+    if (response.body) {
       this.utilitiesService.onSkeletonLoading.next(true);
 
-      const data = res.body.data;
+      const data = response.body.data;
       const resolver = data[Object.keys(data)[0]]
       let isTokenExpired: boolean = false;
 
@@ -66,7 +67,7 @@ export class JwtInterceptor implements HttpInterceptor {
         this.utilitiesService.onSkeletonLoading.next(false);
         //console.log('token no need to be refresh', isTokenExpired);
 
-        return res;
+        return response;
       } else {
         //console.log('token need to be refresh', isTokenExpired);
 
@@ -84,13 +85,13 @@ export class JwtInterceptor implements HttpInterceptor {
     }
   }
 
-  private attachToken(req: HttpRequest<any>, token: string) {
+  private attachToken(request: HttpRequest<any>, token: string) {
     if (!token) {
-      return req;
+      return request;
     }
 
-    return req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
+    return request.clone({
+      headers: request.headers.set('Authorization', `Bearer ${token}`)
     });
   }
 }

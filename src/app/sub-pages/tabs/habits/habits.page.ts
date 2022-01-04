@@ -21,19 +21,19 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 export class HabitsPage implements OnInit {
   @ViewChild('slidingList', { static: false }) slidingList: IonList;
 
-  public habits: Habit[]= [];
-  public selectedDay: BehaviorSubject<string>= new BehaviorSubject<string>('all day');
-  public selectedMode: string= 'all';
+  public habits: Habit[] = [];
+  public selectedDay: BehaviorSubject<string> = new BehaviorSubject<string>('all day');
+  public selectedMode: string = 'all';
 
   private getQueryParamsSubscription: Subscription;
   //private selectedDaySubscription: Subscription;
   private habitsSubscription: Subscription;
   private habitsDaySubscription: Subscription;
-  
+
   constructor(
     private store: Store,
     private router: Router,
-    private activatedRoute: ActivatedRoute, 
+    private activatedRoute: ActivatedRoute,
     public utilitiesService: UtilitiesService,
     private authenticationService: AuthenticationService
   ) { }
@@ -42,23 +42,23 @@ export class HabitsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.habitsSubscription= this.store
+    this.habitsSubscription = this.store
       .select(getHabits())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res.length) {
-        this.store.dispatch(fetchHabits());
-      }
-    });
+        if (!res.length) {
+          this.store.dispatch(fetchHabits());
+        }
+      });
 
-    this.getQueryParamsSubscription= this.activatedRoute.queryParams.subscribe(params => {
-      this.selectedMode= params['mode'];
-      this.habitsDaySubscription= this.store
+    this.getQueryParamsSubscription = this.activatedRoute.queryParams.subscribe(params => {
+      this.selectedMode = !params['mode'] ? 'all' : params['mode'];
+      this.habitsDaySubscription = this.store
         .select(getHabits(this.selectedDay.value, this.selectedMode))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-        this.habits= res;
-      });
+          this.habits = res;
+        });
     });
 
     //this.selectedDaySubscription= this.selectedDay.subscribe(day => {
@@ -84,7 +84,7 @@ export class HabitsPage implements OnInit {
   }
 
   //onSelectDay(day) {
-  //  this.selectedDay.next(day.name); 
+  //  this.selectedDay.next(day.name);
   //}
 
   onEdit(habit: Habit) {

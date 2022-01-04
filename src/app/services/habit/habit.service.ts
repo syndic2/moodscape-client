@@ -13,8 +13,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HabitService {
-  private skipLoading: string = 'skip';
-
   constructor(private http: HttpClient) { }
 
   getHabits(): Observable<any> {
@@ -44,6 +42,7 @@ export class HabitService {
                 end
               },
               reminderTime,
+              isReminder,
               labelColor,
               track {
                 totalCompleted,
@@ -68,7 +67,11 @@ export class HabitService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      headers: {
+        skipLoading: 'true'
+      }
+    }).pipe(
       map((res: any) => res.data.getUserHabits)
     );
   }
@@ -138,6 +141,7 @@ export class HabitService {
                 end
               },
               reminderTime,
+              isReminder,
               labelColor,
               track {
                 totalCompleted,
@@ -188,6 +192,7 @@ export class HabitService {
               end
             },
             reminderTime,
+            isReminder,
             labelColor,
             track {
               totalCompleted,
@@ -237,6 +242,7 @@ export class HabitService {
               end
             },
             reminderTime,
+            isReminder,
             labelColor,
             track {
               totalCompleted,
@@ -303,6 +309,7 @@ export class HabitService {
               end
             },
             reminderTime,
+            isReminder,
             labelColor,
             track {
               totalCompleted,

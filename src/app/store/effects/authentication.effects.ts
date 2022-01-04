@@ -33,7 +33,7 @@ export class AuthenticationEffects {
       } else {
         return fetchLogin({ credentials: credentials, withGoogle: withGoogle });
       }
-    }),
+    })
   ));
 
   login$ = createEffect(() => this.actions$.pipe(
@@ -46,7 +46,7 @@ export class AuthenticationEffects {
               message: res[0].response.text,
               buttons: ['OK']
             }
-          })
+          });
         }
 
         return { ...res[0], isAuthenticated: true };

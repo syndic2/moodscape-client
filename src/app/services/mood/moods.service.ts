@@ -14,8 +14,6 @@ import { MoodFilter } from 'src/app/models/mood.model';
   providedIn: 'root'
 })
 export class MoodService {
-  private skipLoading: string = 'skip';
-
   constructor(private http: HttpClient) { }
 
   getMoods(): Observable<any> {
@@ -61,7 +59,11 @@ export class MoodService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      headers: {
+        skipLoading: 'true'
+      }
+    }).pipe(
       map((res: any) => res.data.getUserMoods)
     );
   }

@@ -3,41 +3,28 @@
     <ion-row class="flex flex-col gap-y-2 xs:gap-y-4">
       <ion-col size="12">
         <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">Nama</label>
-        <input 
-          type="text" 
-          inputmode="text"
-          placeholder="Nama habit"
-          formControlName="name"
+        <input type="text" inputmode="text" placeholder="Nama habit" formControlName="name"
           class="block border-b border-gray-300 bg-transparent text-sm xs:text-base transition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1" />
       </ion-col>
 
       <ion-col size="12">
         <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">Deskripsi</label>
-        <textarea
-          inputmode="text" 
-          rows="5"
-          placeholder="Deskripsi habit"
-          formControlName="description" 
+        <textarea inputmode="text" rows="5" placeholder="Deskripsi habit" formControlName="description"
           class="resize-none flex border border-gray-300 rounded-md bg-transparent text-sm xs:text-base transition duration-200 focus:outline-none focus:border-primary w-full mt-2 p-2"></textarea>
       </ion-col>
 
       <ion-col size="12">
         <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">Lakukan / Hindari</label>
         <div class="flex justify-center gap-x-3 mt-2">
-          <ion-button 
-            type="button" 
-            (click)="onSelectType('to do')" 
-            [color]="selectedType === 'to do' ? 'primary' : 'light'" 
-            class="normal-case text-xs xs:text-sm w-full">
+          <ion-button type="button" (click)="onSelectType('to do')"
+            [color]="selectedType === 'to do' ? 'primary' : 'light'" class="normal-case text-xs xs:text-sm w-full">
             <ion-icon slot="end" name="thumbs-up" [color]="selectedType === 'to do' ? 'light' : 'primary'"></ion-icon>
             Lakukan
           </ion-button>
-          <ion-button 
-            type="button" 
-            (click)="onSelectType('not to do')" 
-            [color]="selectedType === 'not to do' ? 'primary' : 'light'" 
-            class="normal-case text-xs xs:text-sm w-full">
-            <ion-icon slot="end" name="thumbs-down" [color]="selectedType === 'not to do' ? 'light' : 'primary'"></ion-icon>
+          <ion-button type="button" (click)="onSelectType('not to do')"
+            [color]="selectedType === 'not to do' ? 'primary' : 'light'" class="normal-case text-xs xs:text-sm w-full">
+            <ion-icon slot="end" name="thumbs-down" [color]="selectedType === 'not to do' ? 'light' : 'primary'">
+            </ion-icon>
             Hindari
           </ion-button>
         </div>
@@ -50,67 +37,47 @@
 
       <ion-col size="12">
         <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">Goal Frekuensi (hari)</label>
-        <input 
-          type="number" 
-          inputmode="numeric" 
-          placeholder="Frekuensi"
-          formControlName="goal"
+        <input type="number" inputmode="numeric" placeholder="Frekuensi" formControlName="goal"
           class="block bg-transparent text-sm xs:text-base ransition duration-200 focus:outline-none focus:border-primary w-full mt-2 pb-1">
       </ion-col>
 
       <ion-col size="12" class="ion-activatable">
         <div formGroupName="goalDates" class="flex flex-col gap-y-4">
           <div (click)="onSelectGoalDate('startDate')" class="relative flex items-center rounded-lg bg-primary p-4">
-            <input
-              type="text" 
-              inputmode="text"
-              [value]="(goalStartDate?.value | dateInBahasa).fullDate"
-              formControlName="start"
-              placeholder="Pilih Tanggal Dimulai"
+            <input type="text" inputmode="text" [value]="(goalStartDate?.value | dateInBahasa).fullDate"
+              formControlName="start" placeholder="Pilih Tanggal Dimulai"
               class="absolute inset-0 text-sm xs:text-base text-white placeholder-white font-semibold bg-transparent p-4 focus:outline-none"
               readonly>
             <ion-icon name="calendar-number" class="text-white ml-auto"></ion-icon>
           </div>
 
           <div (click)="onSelectGoalDate('endDate')" class="relative flex items-center rounded-lg bg-primary p-4">
-            <input
-              type="text" 
-              inputmode="text"
-              [value]="(goalEndDate?.value | dateInBahasa).fullDate"
-              formControlName="end"
-              placeholder="Pilih Tanggal Selesai"
+            <input type="text" inputmode="text" [value]="(goalEndDate?.value | dateInBahasa).fullDate"
+              formControlName="end" placeholder="Pilih Tanggal Selesai"
               class="absolute inset-0 text-sm xs:text-base text-white placeholder-white font-semibold bg-transparent p-4 focus:outline-none"
               readonly>
             <ion-icon name="calendar-number" class="text-white ml-auto"></ion-icon>
           </div>
         </div>
       </ion-col>
-      
-      <!--<ion-col size="12">
+
+      <ion-col size="12">
         <div class="flex justify-between items-center">
           <label class="text-md text-black text-opacity-50 font-semibold">Ingatkan Saya</label>
-          <ion-toggle [checked]="reminderTime.value !== ''" (ionChange)="onChangeReminderTime($event)" color="primary"></ion-toggle>
+          <ion-toggle [checked]="reminderTime.value !== ''" (ionChange)="onChangeReminderTime($event)" color="primary">
+          </ion-toggle>
         </div>
         <div #selectReminderTime class="ion-activatable mt-2">
-          <div class="relative flex items-center rounded-lg bg-purple-200 p-4">
-            <ion-icon name="alarm" color="primary" class="ml-auto"></ion-icon>
-            <input
-              [ngxTimepicker]="timePicker"
-              [format]="24"
-              type="text"
-              inputmode="text"
-              formControlName="reminderTime"
-              placeholder="Pilih Waktu Pengingat"
-              class="absolute top-0 left-0 text-md text-primary placeholder-primary font-semibold bg-transparent w-full h-full p-4 focus:outline-none"
+          <div class="relative flex items-center rounded-lg bg-primary p-4">
+            <ion-icon name="alarm" color="light" class="ml-auto"></ion-icon>
+            <input [ngxTimepicker]="timePicker" [format]="24" type="text" inputmode="text"
+              formControlName="reminderTime" placeholder="Pilih Waktu Pengingat"
+              class="absolute top-0 left-0 text-md text-white placeholder-white font-semibold bg-transparent w-full h-full p-4 focus:outline-none"
               readonly>
           </div>
 
-          <ngx-material-timepicker
-            #timePicker
-            [defaultTime]="defaultReminderTime"
-            [cancelBtnTmpl]="cancelButton"
-            [confirmBtnTmpl]="confirmButton"
-            [disableAnimation]="false">
+          <ngx-material-timepicker #timePicker [defaultTime]="defaultReminderTime" [cancelBtnTmpl]="cancelButton"
+            [confirmBtnTmpl]="confirmButton" [disableAnimation]="false">
           </ngx-material-timepicker>
 
           <ng-template #cancelButton>
@@ -122,11 +89,12 @@
 
           <ion-ripple-effect></ion-ripple-effect>
         </div>
-      </ion-col>-->
+      </ion-col>
 
       <ion-col size="12">
         <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">Warna Label</label>
-        <select-habit-label-color [selectedColor]="labelColor.value" (selectColorEvent)="onSelectLabelColor($event)" class="block mt-2"></select-habit-label-color>
+        <select-habit-label-color [selectedColor]="labelColor.value" (selectColorEvent)="onSelectLabelColor($event)"
+          class="block mt-2"></select-habit-label-color>
       </ion-col>
 
       <ion-col size="12" class="mt-8">

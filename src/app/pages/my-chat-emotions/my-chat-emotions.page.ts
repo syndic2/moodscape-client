@@ -27,11 +27,11 @@ import { InputOTPCodePage } from 'src/app/modals/one-time-password/input-otp-cod
 export class MyChatEmotionsPage implements OnInit {
   @ViewChild('pieChartCanvas', { static: false }) pieChartCanvas: ElementRef;
   @ViewChildren('emotionCard') emotionCards: QueryList<ElementRef>;
-  
+
   public chatEmotions: ChatEmotions;
   private user: User;
   public selectedChatEmotionLog: ChatEmotionLog[];
-  public isTelegramAuthorized: boolean= false;
+  public isTelegramAuthorized: boolean = false;
   public pieChart;
 
   private getAuthenticatedSubscription: Subscription;
@@ -42,8 +42,8 @@ export class MyChatEmotionsPage implements OnInit {
   constructor(
     private store: Store,
     private modalController: ModalController,
-    public utilitiesService: UtilitiesService, 
-    private authenticationService: AuthenticationService, 
+    public utilitiesService: UtilitiesService,
+    private authenticationService: AuthenticationService,
     private chatEmotionsService: ChatEmotionsService
   ) { }
 
@@ -51,10 +51,10 @@ export class MyChatEmotionsPage implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.pieChart= new Chart(this.pieChartCanvas.nativeElement, {
+    this.pieChart = new Chart(this.pieChartCanvas.nativeElement, {
       type: 'pie',
       data: {
-        labels: ['Senang', 'Marah', 'Sedih', 'Takut'], 
+        labels: ['Senang', 'Marah', 'Sedih', 'Takut'],
         datasets: [
           {
             data: [25, 10, 45, 20],
@@ -73,28 +73,28 @@ export class MyChatEmotionsPage implements OnInit {
   ionViewWillEnter() {
     this.utilitiesService.onSkeletonLoading.next(true);
 
-    this.getAuthenticatedSubscription= this.store
+    this.getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(user => {
-      if (!user) {
-        this.store.dispatch(fetchProfile());
-      } else {
-        this.user= { ...user };
-        this.getChatEmotionsSubscription= this.chatEmotionsService.getChatEmotions(this.user.Id)
-          .pipe(takeUntil(this.authenticationService.isLoggedIn))
-          .subscribe(res => {
-          if (res?.is_authorized === false) {
-            this.isTelegramAuthorized= false;
-          } else {
-            this.isTelegramAuthorized= true;
-            //get emotions data
-          }
+        if (!user) {
+          this.store.dispatch(fetchProfile({ skipLoading: false }));
+        } else {
+          this.user = { ...user };
+          this.getChatEmotionsSubscription = this.chatEmotionsService.getChatEmotions(this.user.Id)
+            .pipe(takeUntil(this.authenticationService.isLoggedIn))
+            .subscribe(res => {
+              if (res?.is_authorized === false) {
+                this.isTelegramAuthorized = false;
+              } else {
+                this.isTelegramAuthorized = true;
+                //get emotions data
+              }
 
-          this.utilitiesService.onSkeletonLoading.next(false);
-        });
-      }
-    });
+              this.utilitiesService.onSkeletonLoading.next(false);
+            });
+        }
+      });
   }
 
   ionViewWillLeave() {
@@ -104,41 +104,41 @@ export class MyChatEmotionsPage implements OnInit {
     this.disconnectTelegramSubscription && this.disconnectTelegramSubscription.unsubscribe();
   }
 
-  async onConnectTelegram() {    
-    const modal= await this.modalController.create({ component: InputPhoneNumberPage });
+  async onConnectTelegram() {
+    const modal = await this.modalController.create({ component: InputPhoneNumberPage });
     modal.present();
 
-    const { data }= await modal.onWillDismiss();
+    const { data } = await modal.onWillDismiss();
     if (data && data.phone) {
-      const phone= data.phone;
+      const phone = data.phone;
 
-      this.connectTelegramSubscription= this.chatEmotionsService.connectTelegram(this.user?.Id, data.phone)
+      this.connectTelegramSubscription = this.chatEmotionsService.connectTelegram(this.user?.Id, data.phone)
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(async res => {
-        const modal= await this.modalController.create({ 
-          component: InputOTPCodePage,
-          componentProps: {
-            userId: this.user?.Id,
-            phone: phone,
-            phoneCodeHash: res?.phone_code_hash
+          const modal = await this.modalController.create({
+            component: InputOTPCodePage,
+            componentProps: {
+              userId: this.user?.Id,
+              phone: phone,
+              phoneCodeHash: res?.phone_code_hash
+            }
+          });
+          modal.present();
+
+          const { data } = await modal.onWillDismiss();
+          if (data && data.isSuccess === true) {
+            this.isTelegramAuthorized = true;
           }
         });
-        modal.present();
-
-        const { data }= await modal.onWillDismiss();
-        if (data && data.isSuccess === true) {
-          this.isTelegramAuthorized= true;
-        }
-      });
     }
   }
 
   onDisconnectTelegram() {
-    this.disconnectTelegramSubscription= this.chatEmotionsService.disconnectTelegram(this.user?.Id)
+    this.disconnectTelegramSubscription = this.chatEmotionsService.disconnectTelegram(this.user?.Id)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(() => {
-      this.isTelegramAuthorized= false;
-    });
+        this.isTelegramAuthorized = false;
+      });
   }
 
   onSelectEmotion(index: number) {

@@ -20,7 +20,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class UserEffects {
   getProfile$ = createEffect(() => this.actions$.pipe(
     ofType(fetchProfile),
-    exhaustMap(() => this.userService.getProfile().pipe(
+    exhaustMap(() => this.userService.getProfile(true).pipe(
       map(res => setAuth({ user: res.user }))
     ))
   ));

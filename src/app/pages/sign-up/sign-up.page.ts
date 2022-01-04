@@ -15,7 +15,7 @@ import { getIsResetForm } from 'src/app/store/selectors/application.selectors';
 })
 export class SignUpPage implements OnInit {
   public signUpForm: FormGroup;
-  public errorMessages= {
+  public errorMessages = {
     firstName: [
       { type: 'required', message: 'Nama depan tidak boleh kosong.' }
     ],
@@ -51,7 +51,7 @@ export class SignUpPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.isResetFormSubscription= this.store.select(getIsResetForm).subscribe(res => {
+    this.isResetFormSubscription = this.store.select(getIsResetForm).subscribe(res => {
       if (res) {
         this.signUpForm.reset();
       }
@@ -75,7 +75,7 @@ export class SignUpPage implements OnInit {
   }
 
   initializeForm() {
-    this.signUpForm= this.formBuilder.group({
+    this.signUpForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       gender: ['', Validators.required],

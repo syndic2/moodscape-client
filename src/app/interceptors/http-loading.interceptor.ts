@@ -18,27 +18,27 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    //console.log('skip loading', request.headers.has('skipLoading'));
-
     const loading = this.loadingController.create({
-      message: 'Mohon tunggu... :)',
+      message: 'Memuat...',
       translucent: true
     });
 
     if (!request.headers.has('skipLoading') && !request.url.includes(`${environment.rasaChatbot}`)) {
-      //this.loadingController.getTop().then(hasLoading => {
-      //  if (!hasLoading) {
-      //    loading.then(loader => loader.present());
-      //  }
-      //});
+      loading.then(loader => loader.present());
 
-      (async () => {
-        const isLoading = await this.loadingController.getTop();
+      // this.loadingController.getTop().then(hasLoading => {
+      //   if (!hasLoading) {
+      //     loading.then(loader => loader.present());
+      //   }
+      // });
 
-        if (!isLoading) {
-          (await loading).present();
-        }
-      })();
+      // (async () => {
+      //   const isLoading = await this.loadingController.getTop();
+
+      //   if (!isLoading) {
+      //     (await loading).present();
+      //   }
+      // })();
     }
 
     return next.handle(request).pipe(

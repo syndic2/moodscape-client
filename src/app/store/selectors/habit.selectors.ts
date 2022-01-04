@@ -10,7 +10,8 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
   return createSelector(
     selectHabitFeature,
     state => {
-      let habits = state.habits;
+      let habits = [...state.habits];
+      habits = habits.sort((a, b) => b.Id - a.Id);
 
       if (day !== '') habits = habits.filter(habit => habit.day === day);
 

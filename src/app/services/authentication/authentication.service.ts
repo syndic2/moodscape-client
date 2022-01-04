@@ -4,15 +4,19 @@ import { HttpClient } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
+import { Capacitor } from '@capacitor/core';
+import { FCM } from '@capacitor-community/fcm';
+
 //import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { Observable, Subject, BehaviorSubject, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { take, map, switchMap } from 'rxjs/operators';
 
 import StringifyObject from 'stringify-object';
 import gqlCompress from 'graphql-query-compress';
 
 import { environment } from 'src/environments/environment';
+import { FirebaseCloudMessagingService } from '../firebase-cloud-messaging/firebase-cloud-messaging.service';
 
 //const jwt_helper= new JwtHelperService();
 const TOKEN_KEY = 'auth-token';
@@ -26,7 +30,12 @@ export class AuthenticationService {
   public isLoggedIn: Subject<void> = new Subject();
   public userData: BehaviorSubject<string> = new BehaviorSubject(null); //TOKEN
 
-  constructor(private http: HttpClient, private storage: Storage, private platform: Platform) {
+  constructor(
+    private http: HttpClient,
+    private storage: Storage,
+    private platform: Platform,
+    private fcmService: FirebaseCloudMessagingService
+  ) {
     this.checkStoredToken();
   }
 
@@ -163,6 +172,11 @@ export class AuthenticationService {
     return from(Promise.all([
       this.storage.remove(TOKEN_KEY),
       this.storage.remove(REFRESH_TOKEN_KEY),
+      Capacitor.getPlatform() !== 'web' && this.storage.get('fcm-token').then(token => {
+        this.fcmService.removeToken(token).pipe(take(1)).subscribe();
+      }),
+      this.storage.remove('fcm-token'),
+      Capacitor.getPlatform() !== 'web' && FCM.deleteInstance()
     ]));
   }
 }

@@ -1,6 +1,6 @@
 {
   "appId": "com.nix.moodscape",
-  "appName": "moodscape-client",
+  "appName": "Moodscape",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -8,8 +8,21 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
+    "Badge": {
+      "persist": true,
+      "autoClear": false
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#488AFF",
+      "sound": "beep.wav"
+    },
     "PushNotifications": {
-      "presentationOptions": ["badge", "sound", "alert"]
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
     },
     "GoogleAuth": {
       "scopes": [

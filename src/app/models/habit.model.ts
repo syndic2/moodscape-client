@@ -32,6 +32,7 @@ export interface Habit {
   goal: number;
   goalDates: { start: string, end: string };
   reminderTime: string;
+  isReminder: boolean;
   labelColor: string;
   track: HabitTrack;
 }

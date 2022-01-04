@@ -6,21 +6,22 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class RequestHeadersInterceptor implements HttpInterceptor {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    request = request.clone({
       responseType: 'json'
     });
 
-    if (req.method === 'POST') {
-      req = req.clone({
+    if (request.method === 'POST') {
+      request = request.clone({
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          ...request.headers.has('skipLoading') && { 'skipLoading': 'true' }
         })
       });
     }
 
-    return next.handle(req);
+    return next.handle(request);
   }
 }
 

@@ -1,62 +1,102 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
-import {
-  Plugins,
-  Capacitor,
-  PushNotification,
-  PushNotificationToken,
-  PushNotificationActionPerformed
-} from '@capacitor/core';
+import { Storage } from '@ionic/storage';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications, ActionPerformed as LocalNotificationActionPerformed } from '@capacitor/local-notifications';
+import { PushNotifications, Token, PushNotificationSchema, ActionPerformed as PushNoticationActionPerformed } from '@capacitor/push-notifications';
+import { FCM } from '@capacitor-community/fcm';
 
-const { PushNotifications } = Plugins
+import { Observable, from } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
+
+import { environment } from 'src/environments/environment';
+import { ModalService } from '../modal/modal.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseCloudMessagingService {
+  private apiUrl: string = environment.apiUrl.replace('/api', '');
 
-  constructor() {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private storage: Storage,
+    private modalService: ModalService
+  ) { }
+
+  initPush(userId: string) {
+    this.registerPush(userId);
   }
 
-  initPush() {
-    if (Capacitor.platform !== 'web') {
-      this.registerPush();
-    }
-  }
-
-  private registerPush() {
-    // Request permission to use push notifications
-    // iOS will prompt user and return if they granted permission or not
-    // Android will just grant without prompting
-    PushNotifications.requestPermission().then(result => {
-      if (result.granted) {
-        // Register with Apple / Google to receive push via APNS/FCM
+  private registerPush(userId: string) {
+    PushNotifications.requestPermissions().then(permission => {
+      if (permission.receive === 'granted') {
         PushNotifications.register();
       } else {
-        // Show some error
+        this.modalService.requestError('Push Notification plugin not granted');
       }
     });
 
-    PushNotifications.addListener('registration', (token: PushNotificationToken) => {
-      //alert('Push registration success, token: ' + token.value);
+    PushNotifications.addListener('registration', async (res: Token) => {
+      let token = res.value;
+
+      if (Capacitor.getPlatform() === 'ios') {
+        const { token: fcmToken } = await FCM.getToken();
+        token = fcmToken;
+      }
+
+      this.saveToken(userId, token)
+        .pipe(
+          take(1),
+          switchMap(() => from(this.storage.set('fcm-token', token)))
+        )
+        .subscribe();
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
-      //alert('Error on registration: ' + JSON.stringify(error));
+      this.modalService.requestError(`Error ${JSON.stringify(error)}`);
     });
 
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      (notification: PushNotification) => {
-        //alert('Push received: ' + JSON.stringify(notification));
-      },
-    );
+    PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            id: Date.now(),
+            title: notification.title,
+            body: notification.body,
+            schedule: {
+              allowWhileIdle: true
+            }
+          }
+        ]
+      });
 
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      (notification: PushNotificationActionPerformed) => {
-        //alert('Push action performed: ' + JSON.stringify(notification));
-      },
+      LocalNotifications.addListener('localNotificationActionPerformed', (event: LocalNotificationActionPerformed) => {
+        this.router.navigate(['/side-menu/tabs/habits']);
+      });
+    });
+
+    PushNotifications.addListener('pushNotificationActionPerformed', (notification: PushNoticationActionPerformed) => {
+      this.router.navigate(['/side-menu/tabs/habits']);
+    });
+  }
+
+  saveToken(userId: string, token: string): Observable<any> {
+    return this.httpClient.post(
+      `${this.apiUrl}/services/fcm/save-token`,
+      JSON.stringify({ user_id: userId, token: token }),
+      {
+        headers: {
+          skipLoading: 'true'
+        }
+      }
     );
+  }
+
+  removeToken(token: string): Observable<any> {
+    return this.httpClient.delete(`${this.apiUrl}/services/fcm/remove-token/${token}`);
   }
 }

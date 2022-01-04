@@ -6,7 +6,6 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -45,10 +44,10 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
       driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql']
     }),
     FontAwesomeModule,
-    StoreModule.forRoot(reducers, { metaReducers : metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     EffectsModule.forRoot([
-      RouterEffects, 
-      ApplicationEffects, 
+      RouterEffects,
+      ApplicationEffects,
       AuthenticationEffects
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
@@ -76,7 +75,6 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
       useClass: HttpLoadingInterceptor,
       multi: true
     },
-    Keyboard,
     Deeplinks
   ],
   bootstrap: [AppComponent],

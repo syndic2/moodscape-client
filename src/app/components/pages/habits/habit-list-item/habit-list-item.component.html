@@ -1,6 +1,6 @@
 <div #habitItem class="relative">
-  <ion-icon 
-    [name]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'checkmark-done-outline' : 'alert-outline'"  
+  <ion-icon
+    [name]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'checkmark-done-outline' : 'alert-outline'"
     [color]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'success' : 'danger' "
     class="absolute -top-3 right-0 z-50 text-3xl">
   </ion-icon>
@@ -9,28 +9,29 @@
     <ion-card-content class="flex flex-col p-0">
       <div class="relative bg-white w-full h-fit-content">
         <!-- PROGRESS BAR -->
-        <div #habitGoalProgressBar [style.background-color]="habit.labelColor" [style.width.%]="goalProgress" id="habit-goal-progress-bar" class="absolute opacity-25 h-full"></div>
-        
+        <div #habitGoalProgressBar [style.background-color]="habit.labelColor" [style.width.%]="goalProgress"
+          id="habit-goal-progress-bar" class="absolute opacity-25 h-full"></div>
+
         <!-- TOP CONTENT -->
         <div class="flex justify-between gap-x-5 p-3 xs:p-4">
           <div class="grid grid-flow-col items-center gap-x-2 xs:gap-x-4">
-            <ion-icon 
-              [name]="habit.type === 'to do' ? 'thumbs-up' : 'thumbs-down'" 
-              class="text-xs xs:text-2xl" 
+            <ion-icon [name]="habit.type === 'to do' ? 'thumbs-up' : 'thumbs-down'" class="text-xs xs:text-2xl"
               [style.color]="habit.labelColor">
             </ion-icon>
             <div class="border-r-2 h-full"></div>
             <h1 class="text-xs xs:text-lg font-medium break-all line-clamp-3">{{ habit.name }}</h1>
           </div>
           <div class="flex flex-col gap-y-1 xs:gap-y-2">
-            <span class="text-xs xs:text-base text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start | dateInBahasa).shortDate }}</span>
+            <span class="text-xs xs:text-base text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start |
+              dateInBahasa).shortDate }}</span>
             <h3 class="text-xl xs:text-3xl text-right font-bold">{{ currentGoal }}/{{ currentLog.targetGoal }}</h3>
           </div>
         </div>
       </div>
-  
+
       <!-- BOTTOM CONTENT -->
-      <div [style.background-color]="habit.labelColor" class="grid grid-cols-3 justify-items-center items-center text-tiny xs:text-sm text-white font-semibold py-4">
+      <div [style.background-color]="habit.labelColor"
+        class="grid grid-cols-3 justify-items-center items-center text-tiny xs:text-sm text-white font-semibold py-4">
         <div class="flex flex-col items-center gap-y-1">
           <span>Pengingat</span>
           <span>{{ habit.reminderTime !== '' ? habit.reminderTime : '-- : --' }}</span>

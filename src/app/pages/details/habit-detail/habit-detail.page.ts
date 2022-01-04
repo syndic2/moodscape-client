@@ -16,35 +16,35 @@ import { getHabits, getHabit } from 'src/app/store/selectors/habit.selectors';
   styleUrls: ['./habit-detail.page.scss'],
 })
 export class HabitDetailPage implements OnInit {
-  public transformDateTime= transformDateTime;
+  public transformDateTime = transformDateTime;
   private habitId: number;
   public habit: Habit;
-  public habitTracks= { events: [], streaks: [], history: [] };
+  public habitTracks = { events: [], streaks: [], history: [] };
   private getHabitSubscription: Subscription;
   private getHabitsSubscription: Subscription;
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.habitId= parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.habitId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   ionViewWillEnter() {
-    this.getHabitSubscription= this.store.select(getHabit(this.habitId)).subscribe(res => {
+    this.getHabitSubscription = this.store.select(getHabit(this.habitId)).subscribe(res => {
       if (!res) {
         this.store.dispatch(fetchHabit({ habitId: this.habitId }));
       } else {
-        this.habit= res;
-        this.habitTracks.events= [{
+        this.habit = res;
+        this.habitTracks.events = [{
           title: '',
           startTime: new Date(res.goalDates.start),
           endTime: new Date(res.goalDates.end),
           allDay: false
         }];
-        this.habitTracks.streaks= [...res.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start).markedAt];
-        this.habitTracks.history= [...res.track.streakLogs];
+        this.habitTracks.streaks = [...res.track.streakLogs.find(log => log.startDate === this.habit.goalDates.start).markedAt];
+        this.habitTracks.history = [...res.track.streakLogs];
       }
-    }); 
+    });
   }
 
   ionViewWillLeave() {
@@ -53,12 +53,12 @@ export class HabitDetailPage implements OnInit {
   }
 
   pullRefresh(event) {
-    this.getHabitsSubscription= this.store.select(getHabits()).subscribe(res => {
+    this.getHabitsSubscription = this.store.select(getHabits()).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchHabits());
       }
     })
-    
+
     this.store.dispatch(fetchHabit({ habitId: this.habitId }));
     event.target.complete();
   }

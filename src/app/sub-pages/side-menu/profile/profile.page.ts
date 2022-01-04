@@ -11,82 +11,82 @@ import { fetchProfile, validateUpdateProfile } from 'src/app/store/actions/user.
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 
 @Component({
-	selector: 'app-profile',
-	templateUrl: './profile.page.html',
-	styleUrls: ['./profile.page.scss']
+  selector: 'app-profile',
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss']
 })
 export class ProfilePage implements OnInit {
-	public updateProfileForm: FormGroup;
-	public errorMessages = {
-		firstName: [
-			{ type: 'required', message: 'Nama depan tidak boleh kosong.' }
-		],
-		lastName: [
-			{ type: 'required', message: 'Nama belakang tidak boleh kosong.' }
-		],
-		gender: [
-			{ type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
-		],
-		dateOfBirth: [
-			{ type: 'required', message: 'Tanggal lahir tidak boleh kosong.' }
-		],
-		email: [
-			{ type: 'required', message: 'Alamat surel tidak boleh kosong.' },
-			{ type: 'pattern', message: 'Alamat surel tidak valid.' }
-		]
-	};
-	public user: User;
-	private userSubscription: Subscription;
+  public updateProfileForm: FormGroup;
+  public errorMessages = {
+    firstName: [
+      { type: 'required', message: 'Nama depan tidak boleh kosong.' }
+    ],
+    lastName: [
+      { type: 'required', message: 'Nama belakang tidak boleh kosong.' }
+    ],
+    gender: [
+      { type: 'required', message: 'Jenis kelamin tidak boleh kosong.' }
+    ],
+    dateOfBirth: [
+      { type: 'required', message: 'Tanggal lahir tidak boleh kosong.' }
+    ],
+    email: [
+      { type: 'required', message: 'Alamat surel tidak boleh kosong.' },
+      { type: 'pattern', message: 'Alamat surel tidak valid.' }
+    ]
+  };
+  public user: User;
+  private userSubscription: Subscription;
 
-	constructor(private store: Store, private formBuilder: FormBuilder, private authenticattionService: AuthenticationService) { }
+  constructor(private store: Store, private formBuilder: FormBuilder, private authenticattionService: AuthenticationService) { }
 
-	ngOnInit() {
+  ngOnInit() {
     this.initializeForm();
-	}
+  }
 
-	ionViewWillEnter() {
-		this.userSubscription= this.store
+  ionViewWillEnter() {
+    this.userSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticattionService.isLoggedIn))
       .subscribe(res => {
-			if (res === null) {
-        this.store.dispatch(fetchProfile());
-			} else {
-        this.user= { ...res };
-				this.updateProfileForm.patchValue({ ...res });
-        this.updateProfileForm.updateValueAndValidity();
-        delete this.user['__typename'];
-      }
-		});
-	}
+        if (res === null) {
+          this.store.dispatch(fetchProfile({ skipLoading: false }));
+        } else {
+          this.user = { ...res };
+          this.updateProfileForm.patchValue({ ...res });
+          this.updateProfileForm.updateValueAndValidity();
+          delete this.user['__typename'];
+        }
+      });
+  }
 
   ionViewWillLeave() {
     this.userSubscription && this.userSubscription.unsubscribe();
   }
 
-	pullRefresh(event) {
-		this.store.dispatch(fetchProfile());
-		event.target.complete();
-	}
+  pullRefresh(event) {
+    this.store.dispatch(fetchProfile({ skipLoading: false }));
+    event.target.complete();
+  }
 
-	initializeForm() {
-		this.updateProfileForm = this.formBuilder.group({
-			firstName: ['', Validators.required],
-			lastName: ['', Validators.required],
-			gender: ['', Validators.required],
-			dateOfBirth: ['', Validators.required],
-			email: [
-				'',
-				[
-					Validators.required,
-					Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-				]
-			],
-			imgUrl: [''],
-		});
-	}
+  initializeForm() {
+    this.updateProfileForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      gender: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        ]
+      ],
+      imgUrl: [''],
+    });
+  }
 
-	onSubmit() {
-		this.store.dispatch(validateUpdateProfile({ fields: this.updateProfileForm.value, isInvalid: this.updateProfileForm.invalid }))
-	}
+  onSubmit() {
+    this.store.dispatch(validateUpdateProfile({ fields: this.updateProfileForm.value, isInvalid: this.updateProfileForm.invalid }))
+  }
 }
