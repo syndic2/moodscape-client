@@ -21,7 +21,7 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
         );
       } else if (groupBy === 'unmarked') {
         habits = habits.filter(habit =>
-          habit.track.streakLogs.find(log => log.startDate === habit.goalDates.start && log.lastMarkedAt !== transformDateTime(new Date()).toISODate())
+          habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start && log.lastMarkedAt !== transformDateTime(new Date()).toISODate())
         );
       }
 

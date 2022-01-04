@@ -8,10 +8,10 @@ import { Capacitor } from '@capacitor/core';
 import { Network } from '@capacitor/network';
 
 import { Store } from '@ngrx/store';
-
+import { take } from 'rxjs/operators';
 import { getAuthenticated } from './store/selectors/authentication.selectors';
-import { ThemeService } from './services/theme/theme.service';
 import { FirebaseCloudMessagingService } from './services/firebase-cloud-messaging/firebase-cloud-messaging.service';
+import { ThemeService } from './services/theme/theme.service';
 import { ModalService } from './services/modal/modal.service';
 
 @Component({
@@ -28,27 +28,26 @@ export class AppComponent implements OnInit {
     private zone: NgZone,
     private platform: Platform,
     private deepLinks: Deeplinks,
-    private themeService: ThemeService,
     private fcmService: FirebaseCloudMessagingService,
+    private themeService: ThemeService,
     private modalService: ModalService
   ) { }
 
   ngOnInit() {
     this.checkNetworkConnection();
-    this.themeService.getThemes().subscribe(() => {
+    this.themeService.getThemes().pipe(take(1)).subscribe(() => {
       this.themeService.applyTheme();
     });
 
     if (Capacitor.getPlatform() !== 'web') {
+      this.store.select(getAuthenticated).subscribe(res => {
+        if (res) {
+          this.fcmService.initPush(res.Id);
+        }
+      });
       this.platform.ready().then(() => {
         this.setupDeepLinks();
         this.hardwareBackButton();
-
-        this.store.select(getAuthenticated).subscribe(res => {
-          if (res) {
-            this.fcmService.initPush(res.Id);
-          }
-        });
       });
     } else {
       console.log('Ionic platform: web version');

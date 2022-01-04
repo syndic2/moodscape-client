@@ -26,7 +26,7 @@ const REFRESH_TOKEN_KEY = 'auth-refresh-token';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public authenticate: Observable<any>;
+  public authenticate: Observable<boolean>;
   public isLoggedIn: Subject<void> = new Subject();
   public userData: BehaviorSubject<string> = new BehaviorSubject(null); //TOKEN
 

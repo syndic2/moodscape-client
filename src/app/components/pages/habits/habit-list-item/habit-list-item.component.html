@@ -1,7 +1,7 @@
 <div #habitItem class="relative">
   <ion-icon
-    [name]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'checkmark-done-outline' : 'alert-outline'"
-    [color]="lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime() ? 'success' : 'danger' "
+    [name]="(lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime()) || daysLeft === 0 ? 'checkmark-done-outline' : 'alert-outline'"
+    [color]="(lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime()) || daysLeft === 0 ? 'success' : 'danger' "
     class="absolute -top-3 right-0 z-50 text-3xl">
   </ion-icon>
 
@@ -22,8 +22,9 @@
             <h1 class="text-xs xs:text-lg font-medium break-all line-clamp-3">{{ habit.name }}</h1>
           </div>
           <div class="flex flex-col gap-y-1 xs:gap-y-2">
-            <span class="text-xs xs:text-base text-right font-medium whitespace-nowrap">{{ (habit.goalDates.start |
-              dateInBahasa).shortDate }}</span>
+            <span class="text-xs xs:text-base text-right font-medium whitespace-nowrap">
+              {{ (habit.goalDates.start | dateInBahasa).shortDate }}
+            </span>
             <h3 class="text-xl xs:text-3xl text-right font-bold">{{ currentGoal }}/{{ currentLog.targetGoal }}</h3>
           </div>
         </div>

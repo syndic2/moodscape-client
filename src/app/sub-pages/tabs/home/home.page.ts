@@ -14,7 +14,6 @@ import { fetchFeaturedArticles } from 'src/app/store/actions/article.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 import { getFeaturedArticles } from 'src/app/store/selectors/article.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { FirebaseCloudMessagingService } from 'src/app/services/firebase-cloud-messaging/firebase-cloud-messaging.service';
 
 @Component({
   selector: 'app-home',
@@ -42,11 +41,7 @@ export class HomePage implements OnInit {
   private getAuthenticatedSubscription: Subscription;
   private featuredArticlesSubscription: Subscription;
 
-  constructor(
-    private store: Store,
-    private authenticationService: AuthenticationService,
-    private fcmService: FirebaseCloudMessagingService
-  ) { }
+  constructor(private store: Store, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }
