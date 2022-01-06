@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="flex-column row-gap-3">
+<ion-content class="flex-column row-gap-10">
   <div class="flex flex-col w-full">
     <ion-searchbar #searchBar (ionChange)="onSearchChanged($event)" type="text" inputmode="text"
       placeholder="Ketik sesuatu bedasarkan..." showCancelButton="never">
@@ -15,11 +15,47 @@
     <!--<span class="text-sm italic font-semibold ml-2">*default: Catatan</span>-->
   </div>
 
-  <div class="flex flex-col items-center gap-y-5 w-full">
-    <h3 class="text-base xs:text-xl font-medium mt-4">Cari bedasarkan</h3>
+  <div class="flex flex-col items-center gap-y-3">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Tanggal awal - Tanggal akhir
+    </label>
+    <div class="flex gap-x-10">
+      <div class="flex flex-col items-center gap-y-2">
+        <select-date [selectedDate]="filters.createdDate.start" (selectDateEvent)="onSelectRangeDate($event, 'start')">
+        </select-date>
+        <ion-button type="button" (click)="onClearFilter('createdDate.start')" color="light"
+          class="normal-case text-xs xs:text-sm w-fit-content">
+          Hapus
+        </ion-button>
+      </div>
+      <div class="flex flex-col items-center gap-y-2">
+        <select-date [selectedDate]="filters.createdDate.end" (selectDateEvent)="onSelectRangeDate($event, 'end')">
+        </select-date>
+        <ion-button type="button" (click)="onClearFilter('createdDate.end')" color="light"
+          class="normal-case text-xs xs:text-sm w-fit-content">
+          Hapus
+        </ion-button>
+      </div>
+    </div>
+  </div>
 
-    <select-emoticon [showLabel]="false" (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-11/12 xs:w-10/12">
+  <div class="flex flex-col items-center gap-y-3">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Mood
+    </label>
+    <select-emoticon [selectedEmoticon]="filters.emoticon" [showLabel]="false"
+      (selectEmoticonEvent)="onSelectEmoticon($event)" class="w-10/12 xs:w-4/5">
     </select-emoticon>
+    <ion-button type="button" (click)="onClearFilter('emoticon')" color="light"
+      class="normal-case text-xs xs:text-sm w-fit-content">
+      Hapus
+    </ion-button>
+  </div>
+
+  <div class="flex flex-col items-center gap-y-3 w-full">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Parameter dan Catatan
+    </label>
 
     <div class="flex flex-wrap justify-center gap-2 xs:gap-4 w-full">
       <ion-button (click)="onText('internal')" [ngClass]="{ 'filter brightness-75': filters.parameters.internal }"

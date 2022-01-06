@@ -10,7 +10,8 @@ import { MoodEffects } from 'src/app/store/effects/mood.effects';
 import { SearchMoodPageRoutingModule } from './search-mood-routing.module';
 import { SearchMoodPage } from './search-mood.page';
 import { SelectEmoticonModule } from 'src/app/components/utilities/select-emoticon/select-emoticon.module';
-import { SelectActivitiesModule } from 'src/app/components/utilities/select-activities/select-activities.module';
+// import { SelectActivitiesModule } from 'src/app/components/utilities/select-activities/select-activities.module';
+import { SelectDateModule } from 'src/app/components/utilities/select-date/select-date.module';
 
 @NgModule({
   imports: [
@@ -20,8 +21,9 @@ import { SelectActivitiesModule } from 'src/app/components/utilities/select-acti
     EffectsModule.forFeature([MoodEffects]),
     SearchMoodPageRoutingModule,
     SelectEmoticonModule,
-    SelectActivitiesModule
+    // SelectActivitiesModule,
+    SelectDateModule
   ],
   declarations: [SearchMoodPage]
 })
-export class SearchMoodPageModule {}
+export class SearchMoodPageModule { }

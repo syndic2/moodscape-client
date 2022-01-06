@@ -28,12 +28,7 @@ export class SearchHabitPage implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit() {
-  }
-
-  onOpenPopOver() {
-
-  }
+  ngOnInit() { }
 
   onClearFilter(filterProp: string) {
     this.filters[filterProp] = '';

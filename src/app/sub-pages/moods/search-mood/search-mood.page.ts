@@ -9,6 +9,7 @@ import { MoodEmoticon, MoodFilter } from 'src/app/models/mood.model';
 import { Activity } from 'src/app/models/activity.model';
 import { fetchSearchMood } from 'src/app/store/actions/mood.actions';
 import { navigateGo } from 'src/app/store/actions/router.actions';
+import { transformDateTime } from 'src/app/utilities/helpers';
 
 @Component({
   selector: 'app-search-mood',
@@ -23,15 +24,32 @@ export class SearchMoodPage implements OnInit {
     emoticon: null,
     parameters: { internal: false, external: false },
     activities: [],
-    note: false
+    note: false,
+    createdDate: { start: '', end: '' }
   };
 
   constructor(private store: Store) { }
 
   ngOnInit() { }
 
+  onClearFilter(filter: string) {
+    if (filter === 'emoticon') this.filters.emoticon = null;
+    else if (filter === 'createdDate.start') this.filters.createdDate = { ...this.filters.createdDate, start: '' };
+    else if (filter === 'createdDate.end') this.filters.createdDate = { ...this.filters.createdDate, end: '' };
+  }
+
   onSearchChanged(event) {
     this.filters.searchText = event.target.value;
+  }
+
+  onSelectRangeDate(date: Date | string, dateRange: string) {
+    if (dateRange === 'start') {
+      this.filters.createdDate = { ...this.filters.createdDate, start: date as string };
+      this.filters.createdDate = { ...this.filters.createdDate, start: this.filters.createdDate.start !== '' ? transformDateTime(date as Date).toISODate() : '' };
+    } else if (dateRange === 'end') {
+      this.filters.createdDate = { ...this.filters.createdDate, end: date as string };
+      this.filters.createdDate = { ...this.filters.createdDate, end: this.filters.createdDate.end !== '' ? transformDateTime(date as Date).toISODate() : '' };
+    }
   }
 
   onSelectEmoticon(emoticon: MoodEmoticon) {

@@ -4,37 +4,42 @@
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Nama</label>
-        <ion-icon [name]="filters && filters.name !== '' ? 'checkmark-outline' : 'remove-outline'"
-          [color]="filters && filters.name !== '' ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.name ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.name ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
+
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Tipe (dilakukan / Hindari)</label>
-        <ion-icon [name]="filters && filters.type !== '' ? 'checkmark-outline' : 'remove-outline'"
-          [color]="filters && filters.type !== '' ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.type ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.type ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
+
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Tanggal dimulai</label>
-        <ion-icon [name]="filters && filters.startDate !== '' ? 'checkmark-outline' : 'remove-outline'"
-          [color]="filters && filters.startDate !== '' ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.startDate ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.startDate ? 'success' : 'danger'"></ion-icon>
       </div>
+
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Tanggal selesai</label>
-        <ion-icon [name]="filters && filters.endDate !== '' ? 'checkmark-outline' : 'remove-outline'"
-          [color]="filters && filters.endDate !== '' ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.endDate ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.endDate ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
+
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Waktu Pengingat</label>
-        <ion-icon [name]="filters && filters.reminderTime !== '' ? 'checkmark-outline' : 'remove-outline'"
-          [color]="filters && filters.reminderTime !== '' ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.reminderTime ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.reminderTime ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
+
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Warna Label</label>

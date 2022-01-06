@@ -53,5 +53,21 @@
           [color]="filters?.note ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
+
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Tanggal awal:</label>
+        <ion-icon [name]="filters?.createdDate?.start ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.createdDate?.start ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Tanggal akhir:</label>
+        <ion-icon [name]="filters?.createdDate?.end ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.createdDate?.end ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
   </ul>
 </div>

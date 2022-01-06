@@ -338,6 +338,18 @@ ion-content {
       row-gap: 2rem;
     }
   }
+
+  &.row-gap-9 {
+    &::part(scroll) {
+      row-gap: 2.25rem;
+    }
+  }
+
+  &.row-gap-10 {
+    &::part(scroll) {
+      row-gap: 2.5rem;
+    }
+  }
 }
 
 ion-footer {

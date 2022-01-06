@@ -19,10 +19,10 @@ export enum MOOD_ICON_PATHS {
 export interface Mood {
   Id: number;
   emoticon: MoodEmoticon;
-  createdAt: { date: string, time: string };
   parameters: { internal?: string, external?: string };
   activities: Activity[];
   note: string;
+  createdAt: { date: string, time: string };
   //imgPaths?: string[];
 }
 
@@ -39,6 +39,7 @@ export interface MoodFilter {
   parameters: { internal?: boolean, external?: boolean };
   activities: Activity[];
   note: boolean;
+  createdDate: { start: string, end: string }
 }
 
 export interface MoodAverageByRangeDate {

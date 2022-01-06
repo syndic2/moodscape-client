@@ -161,7 +161,8 @@ export class MoodService {
       emoticonName: filters.emoticon ? filters.emoticon.name : '',
       parameters: filters.parameters,
       activityIds: filters.activities.length ? filters.activities.map(activity => activity.Id) : [],
-      note: filters.note
+      note: filters.note,
+      createdDate: filters.createdDate
     }, { singleQuotes: false });
     const query = gqlCompress(`
       query {
