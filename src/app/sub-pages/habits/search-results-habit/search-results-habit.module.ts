@@ -5,16 +5,23 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SearchResultsHabitPageRoutingModule } from './search-results-habit-routing.module';
-
 import { SearchResultsHabitPage } from './search-results-habit.page';
+import { HabitListSliderModule } from 'src/app/components/pages/habits/habit-list-slider/habit-list-slider.module';
+import { HabitListLoaderModule } from 'src/app/components/pages/habits/habit-list-loader/habit-list-loader.module';
+import { HabitSearchFiltersComponent } from 'src/app/components/pages/habits/habit-search-filters/habit-search-filters.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SearchResultsHabitPageRoutingModule
+    SearchResultsHabitPageRoutingModule,
+    HabitListSliderModule,
+    HabitListLoaderModule
   ],
-  declarations: [SearchResultsHabitPage]
+  declarations: [
+    SearchResultsHabitPage,
+    HabitSearchFiltersComponent
+  ]
 })
-export class SearchResultsHabitPageModule {}
+export class SearchResultsHabitPageModule { }

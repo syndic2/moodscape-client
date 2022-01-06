@@ -8,8 +8,10 @@ import { transformDateTime } from 'src/app/utilities/helpers';
   styleUrls: ['./select-time.component.scss'],
 })
 export class SelectTimeComponent implements OnInit {
-  @Input() selectedTime: string= transformDateTime(new Date()).toTime();
-  @Output() selectTimeEvent= new EventEmitter<string>();
+  @Input() selectedTime: string = transformDateTime(new Date()).toTime();
+  @Output() selectTimeEvent = new EventEmitter<string>();
+
+  public defaultTime: string = transformDateTime(new Date()).toTime();
 
   constructor() { }
 
@@ -18,10 +20,11 @@ export class SelectTimeComponent implements OnInit {
   }
 
   onTimeChanged(time: string) {
-    this.selectedTime= time;
+    this.selectedTime = time;
   }
 
   onSelectTime() {
+    this.selectedTime = this.selectedTime === '' ? transformDateTime(new Date()).toTime() : this.selectedTime;
     this.selectTimeEvent.emit(this.selectedTime);
   }
 }

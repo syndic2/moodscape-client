@@ -10,17 +10,19 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
   styleUrls: ['./select-date.component.scss'],
 })
 export class SelectDateComponent implements OnInit {
-  @Input() selectedDate: Date= new Date();
-  @Output() selectDateEvent= new EventEmitter<Date>();
+  @Input() selectedDate: Date | string;
+  @Output() selectDateEvent = new EventEmitter<Date | string>();
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
+    if (!this.selectedDate && this.selectedDate !== '') this.selectedDate = new Date();
+
     this.selectDateEvent.emit(this.selectedDate);
   }
 
   async onSelectDate() {
-    const modal= await this.modalController.create({
+    const modal = await this.modalController.create({
       component: CalendarPage,
       componentProps: {
         selectedDate: this.selectedDate
@@ -32,7 +34,7 @@ export class SelectDateComponent implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.selectedDate) {
-      this.selectedDate= data.selectedDate;
+      this.selectedDate = data.selectedDate;
       this.selectDateEvent.emit(data.selectedDate);
     }
   }

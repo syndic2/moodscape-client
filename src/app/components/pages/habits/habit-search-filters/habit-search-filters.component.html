@@ -1,0 +1,52 @@
+<div class="flex flex-col gap-y-2">
+  <span class="text-base xs:text-xl font-medium">Pencarian bedasarkan:</span>
+  <ul class="list-disc list-outside">
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Nama</label>
+        <ion-icon [name]="filters && filters.name !== '' ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters && filters.name !== '' ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Tipe (dilakukan / Hindari)</label>
+        <ion-icon [name]="filters && filters.type !== '' ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters && filters.type !== '' ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Tanggal dimulai</label>
+        <ion-icon [name]="filters && filters.startDate !== '' ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters && filters.startDate !== '' ? 'success' : 'danger'"></ion-icon>
+      </div>
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Tanggal selesai</label>
+        <ion-icon [name]="filters && filters.endDate !== '' ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters && filters.endDate !== '' ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Waktu Pengingat</label>
+        <ion-icon [name]="filters && filters.reminderTime !== '' ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters && filters.reminderTime !== '' ? 'success' : 'danger'"></ion-icon>
+      </div>
+    </li>
+    <li class="ml-4">
+      <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
+        <label>Warna Label</label>
+        <ion-icon *ngIf="!filters || filters.labelColor === ''; else showLabelColor" name="remove-outline"
+          color="danger"></ion-icon>
+        <ng-template #showLabelColor>
+          <div [style.border-color]="filters.labelColor"
+            class="flex justify-center items-center border-6 rounded-full w-5 h-5 xs:w-6 xs:h-6">
+            <div [style.background-color]="filters.labelColor" class="w-full h-full"></div>
+          </div>
+        </ng-template>
+      </div>
+    </li>
+  </ul>
+</div>

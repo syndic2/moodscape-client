@@ -1,24 +1,14 @@
 <div class="flex items-center gap-x-1 text-sm xs:text-lg bg-transparent border-b-2 border-primary pb-2">
   <ion-icon name="time" color="primary"></ion-icon>
-  <ion-input
-    [ngxTimepicker]="timePicker"
-    [format]="24"
-    type="text"
-    inputmode="text"
-    class="input-without-padding text-center"
-    [value]="selectedTime"
-    placeholder="time"
-    [disabled]="true">
+  <ion-input [ngxTimepicker]="timePicker" [format]="24" type="text" inputmode="text"
+    class="input-without-padding text-center" [value]="selectedTime"
+    [placeholder]="selectedTime === '' ? '-- : --' : selectedTime" [disabled]="true">
   </ion-input>
   <ion-icon name="caret-down" color="primary" size="small"></ion-icon>
 </div>
 
-<ngx-material-timepicker
-  #timePicker
-  [defaultTime]="selectedTime"
-  [cancelBtnTmpl]="cancelButton"
-  [confirmBtnTmpl]="confirmButton"
-  [disableAnimation]="false"
+<ngx-material-timepicker #timePicker [defaultTime]="selectedTime === '' ? defaultTime : selectedTime"
+  [cancelBtnTmpl]="cancelButton" [confirmBtnTmpl]="confirmButton" [disableAnimation]="false"
   (timeChanged)="onTimeChanged($event)">
 </ngx-material-timepicker>
 

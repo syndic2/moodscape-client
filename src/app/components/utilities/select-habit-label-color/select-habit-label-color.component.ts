@@ -8,10 +8,10 @@ import { HABIT_LABEL_COLORS } from 'src/app/models/habit.model';
   styleUrls: ['./select-habit-label-color.component.scss'],
 })
 export class SelectHabitLabelColorComponent implements OnInit {
-  @Input() selectedColor: string= '';
-  @Output() selectColorEvent: EventEmitter<string>= new EventEmitter();
+  @Input() selectedColor: string;
+  @Output() selectColorEvent: EventEmitter<string> = new EventEmitter();
 
-  public labelColors: string[]= [
+  public labelColors: string[] = [
     HABIT_LABEL_COLORS.RED,
     HABIT_LABEL_COLORS.PINK,
     HABIT_LABEL_COLORS.ORANGE,
@@ -22,16 +22,13 @@ export class SelectHabitLabelColorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.selectedColor === '') {
-      this.selectedColor= this.labelColors[0];
-      this.selectColorEvent.emit(this.labelColors[0]);
-    } else {
-      this.selectColorEvent.emit(this.selectedColor);
-    }
+    if (!this.selectedColor && this.selectedColor !== '') this.selectedColor = this.labelColors[0];
+
+    this.selectColorEvent.emit(this.selectedColor);
   }
 
   onSelectColor(color: string) {
-    this.selectedColor= color;
+    this.selectedColor = color;
     this.selectColorEvent.emit(color);
   }
 }

@@ -8,7 +8,8 @@
           <ion-icon name="remove-outline" color="danger"></ion-icon>
         </ng-container>
         <ng-template #showEmoticon>
-          <ion-icon [src]="'../../../../assets/'+filters?.emoticon?.iconPath" size="large" [style.color]="filters?.emoticon?.color"></ion-icon>
+          <ion-icon [src]="'../../../../assets/'+filters?.emoticon?.iconPath" size="large"
+            [style.color]="filters?.emoticon?.color"></ion-icon>
         </ng-template>
       </div>
     </li>
@@ -16,18 +17,20 @@
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Internal:</label>
-        <ion-icon [name]="filters?.parameters?.internal ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.internal ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.parameters?.internal ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.parameters?.internal ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
 
     <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>External:</label>
-        <ion-icon [name]="filters?.parameters?.external ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.parameters?.external ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.parameters?.external ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.parameters?.external ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
-    
-    <li class="ml-4">
+
+    <!-- <li class="ml-4">
       <div class="inline-flex gap-x-2 text-sm xs:text-lg">
         <label class="h-fit-content">Aktivitas:</label>
         <ng-container *ngIf="!filters?.activities.length; else showActivities">
@@ -41,12 +44,13 @@
           </div>
         </ng-template>
       </div>
-    </li>
+    </li> -->
 
-    <li class="ml-4"> 
+    <li class="ml-4">
       <div class="inline-flex items-center gap-x-2 text-sm xs:text-lg">
         <label>Catatan:</label>
-        <ion-icon [name]="filters?.note ? 'checkmark-outline' : 'remove-outline'" [color]="filters?.note ? 'success' : 'danger'"></ion-icon>
+        <ion-icon [name]="filters?.note ? 'checkmark-outline' : 'remove-outline'"
+          [color]="filters?.note ? 'success' : 'danger'"></ion-icon>
       </div>
     </li>
   </ul>

@@ -8,7 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Habit } from 'src/app/models/habit.model';
-import { fetchHabits, removeHabitsConfirmation } from 'src/app/store/actions/habit.actions';
+import { fetchHabits } from 'src/app/store/actions/habit.actions';
 import { getHabits } from 'src/app/store/selectors/habit.selectors';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
@@ -81,18 +81,5 @@ export class HabitsPage implements OnInit {
   pullRefresh(event) {
     this.store.dispatch(fetchHabits());
     event.target.complete();
-  }
-
-  //onSelectDay(day) {
-  //  this.selectedDay.next(day.name);
-  //}
-
-  onEdit(habit: Habit) {
-    this.router.navigate(['/habits', habit.Id]);
-    this.slidingList.closeSlidingItems();
-  }
-
-  onRemove(habit: Habit) {
-    this.store.dispatch(removeHabitsConfirmation({ habitIds: [habit.Id] }));
   }
 }

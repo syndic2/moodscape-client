@@ -11,9 +11,9 @@ import { HabitEffects } from 'src/app/store/effects/habit.effects';
 
 import { HabitsPageRoutingModule } from './habits-routing.module';
 import { HabitsPage } from './habits.page';
-import { HabitListItemModule } from 'src/app/components/pages/habits/habit-list-item/habit-list-item.module';
+import { HabitListSliderModule } from 'src/app/components/pages/habits/habit-list-slider/habit-list-slider.module';
 import { HabitListLoaderModule } from 'src/app/components/pages/habits/habit-list-loader/habit-list-loader.module';
-import { SelectDayHorizontalListModule } from 'src/app/components/utilities/select-day-horizontal-list/select-day-horizontal-list.module';
+// import { SelectDayHorizontalListModule } from 'src/app/components/utilities/select-day-horizontal-list/select-day-horizontal-list.module';
 
 @NgModule({
   imports: [
@@ -23,10 +23,10 @@ import { SelectDayHorizontalListModule } from 'src/app/components/utilities/sele
     FontAwesomeModule,
     EffectsModule.forFeature([HabitEffects]),
     HabitsPageRoutingModule,
-    HabitListItemModule,
+    HabitListSliderModule,
     HabitListLoaderModule,
-    SelectDayHorizontalListModule
+    // SelectDayHorizontalListModule
   ],
   declarations: [HabitsPage]
 })
-export class HabitsPageModule {}
+export class HabitsPageModule { }

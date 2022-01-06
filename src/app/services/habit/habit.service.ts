@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import StringifyObject from 'stringify-object';
 import gqlCompress from 'graphql-query-compress';
 
+import { HabitFilter } from 'src/app/models/habit.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -106,13 +107,62 @@ export class HabitService {
     );
   }
 
-  searchHabit(filters: {}): Observable<any> {
+  searchHabit(filters: HabitFilter): Observable<any> {
+    const args = StringifyObject(filters, { singleQuotes: false });
     const query = gqlCompress(`
-
+      query {
+        getFilteredUserHabits(filters: ${args}) {
+          __typename
+          ... on AuthInfoField {
+            message
+          },
+          __typename
+          ... on UserHabits {
+            Id,
+            userId,
+            habits {
+              Id,
+              name,
+              description,
+              createdAt {
+                date,
+                time
+              },
+              type,
+              day,
+              goal,
+              goalDates {
+                start,
+                end
+              },
+              reminderTime,
+              isReminder,
+              labelColor,
+              track {
+                totalCompleted,
+                totalStreaks,
+                streakLogs {
+                  startDate,
+                  endDate,
+                  currentGoal,
+                  targetGoal,
+                  lastMarkedAt,
+                  isComplete,
+                  markedAt
+                }
+              }
+            },
+            response {
+              text,
+              status
+            }
+          }
+        }
+      }
     `);
 
     return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
-      map((res: any) => console.log('res', res))
+      map((res: any) => res.data.getFilteredUserHabits)
     );
   }
 

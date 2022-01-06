@@ -16,23 +16,23 @@ import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
   styleUrls: ['./search-results-mood.page.scss'],
 })
 export class SearchResultsMoodPage implements OnInit {
-  public groupedSearchResults: {}= {};
-  public searchResultsCount: Observable<number>= this.store.select(getMoodSearchResults).pipe(map(res => res.length));
+  public groupedSearchResults: {} = {};
+  public searchResultsCount: Observable<number> = this.store.select(getMoodSearchResults).pipe(map(res => res.length));
   private searchResultsSubscription: Subscription;
   public filters: MoodFilter;
-  public sortDescObjectKeys= sortDescObjectKeys;
+  public sortDescObjectKeys = sortDescObjectKeys;
 
   constructor(private store: Store, private router: Router, public utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state) {
-      this.filters= <MoodFilter>this.router.getCurrentNavigation().extras.state;
+      this.filters = <MoodFilter>this.router.getCurrentNavigation().extras.state;
     }
   }
 
   ionViewWillEnter() {
-    this.searchResultsSubscription= this.store.select(getGroupedMoodsByDate('mood-search-results')).subscribe(res => {
-      this.groupedSearchResults= res;
+    this.searchResultsSubscription = this.store.select(getGroupedMoodsByDate('mood-search-results')).subscribe(res => {
+      this.groupedSearchResults = res;
     });
   }
 

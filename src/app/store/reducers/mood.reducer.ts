@@ -2,7 +2,15 @@ import { on, createReducer } from '@ngrx/store';
 
 import { filterArrayByAnotherArray } from 'src/app/utilities/helpers';
 import { MoodState } from '../states';
-import { setMoods, setMoodsChart, setMood, setMoodSearchResults, createMood, updateMood, removeMoods } from '../actions/mood.actions';
+import {
+  setMoods,
+  setMoodsChart,
+  setMood,
+  setMoodSearchResults,
+  createMood,
+  updateMood,
+  removeMoods
+} from '../actions/mood.actions';
 
 const initialState: MoodState = {
   moods: [],

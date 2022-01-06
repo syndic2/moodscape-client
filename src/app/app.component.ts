@@ -1,10 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Platform } from '@ionic/angular';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Capacitor } from '@capacitor/core';
+import { App as CapacitorApp } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 
 import { Store } from '@ngrx/store';
@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
   constructor(
     private store: Store,
     private router: Router,
-    private location: Location,
     private zone: NgZone,
     private platform: Platform,
     private deepLinks: Deeplinks,
@@ -75,11 +74,11 @@ export class AppComponent implements OnInit {
   }
 
   hardwareBackButton() {
-    this.platform.backButton.subscribeWithPriority(10, () => {
+    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
       if (this.router.url === '/' || this.router.url === '/sign-in' || this.router.url === '/side-menu/tabs/home') {
-        navigator['app'].exitApp();
+        CapacitorApp.exitApp();
       } else {
-        this.location.back();
+        window.history.back();
       }
     });
   }

@@ -1,9 +1,100 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title class="text-lg sm:text-xl">Cari Habit</ion-title>
+    <ion-title>Cari Habit</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="side-menu/tabs/habits"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="flex-column row-gap-4">
-  
+<ion-content class="flex-column row-gap-8">
+  <ion-searchbar #searchBar (ionChange)="onSearchChanged($event)" type="text" inputmode="text"
+    placeholder="Ketik nama habit" showCancelButton="never">
+  </ion-searchbar>
+
+  <div class="flex flex-col items-center gap-y-3">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Lakukan / Hindari
+    </label>
+    <div class="flex justify-center gap-x-3 w-4/5">
+      <ion-button type="button" (click)="onSelectType('to do')" [color]="filters.type === 'to do' ? 'primary' : 'light'"
+        class="normal-case text-xs xs:text-sm w-full">
+        <ion-icon slot="end" name="thumbs-up" [color]="filters.type === 'to do' ? 'light' : 'primary'"></ion-icon>
+        Lakukan
+      </ion-button>
+      <ion-button type="button" (click)="onSelectType('not to do')"
+        [color]="filters.type === 'not to do' ? 'primary' : 'light'" class="normal-case text-xs xs:text-sm w-full">
+        <ion-icon slot="end" name="thumbs-down" [color]="filters.type === 'not to do' ? 'light' : 'primary'">
+        </ion-icon>
+        Hindari
+      </ion-button>
+    </div>
+    <ion-button type="button" (click)="onClearFilter('type')" color="light"
+      class="normal-case text-xs xs:text-sm w-fit-content">
+      Hapus
+    </ion-button>
+  </div>
+
+  <div class="flex flex-col items-center gap-y-3 py-4">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Tanggal Dimulai - Tanggal Selesai
+    </label>
+    <div class="flex justify-center gap-x-10">
+      <div class="flex flex-col items-center gap-y-2">
+        <select-date [selectedDate]="filters.startDate" (selectDateEvent)="onSelectRangeDate($event, 'startDate')">
+        </select-date>
+        <ion-button type="button" (click)="onClearFilter('startDate')" color="light"
+          class="normal-case text-xs xs:text-sm w-fit-content">
+          Hapus
+        </ion-button>
+      </div>
+      <div class="flex flex-col items-center gap-y-2">
+        <select-date [selectedDate]="filters.endDate" (selectDateEvent)="onSelectRangeDate($event, 'endDate')">
+        </select-date>
+        <ion-button type="button" (click)="onClearFilter('endDate')" color="light"
+          class="normal-case text-xs xs:text-sm w-fit-content">
+          Hapus
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-y-3">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Waktu Pengingat
+    </label>
+    <select-time [selectedTime]="filters.reminderTime" (selectTimeEvent)="onSelectReminderTime($event)"></select-time>
+    <ion-button type="button" (click)="onClearFilter('reminderTime')" color="light"
+      class="normal-case text-xs xs:text-sm w-fit-content">
+      Hapus
+    </ion-button>
+  </div>
+
+  <div class="flex flex-col items-center gap-y-3">
+    <label class="text-sm xs:text-base text-black text-opacity-50 font-semibold">
+      Warna Label
+    </label>
+    <select-habit-label-color [selectedColor]="filters.labelColor" (selectColorEvent)="onSelectLabelColor($event)"
+      class="w-3/4">
+    </select-habit-label-color>
+    <ion-button type="button" (click)="onClearFilter('labelColor')" color="light"
+      class="normal-case text-xs xs:text-sm w-fit-content">
+      Hapus
+    </ion-button>
+  </div>
+
+  <div class="flex-1 flex justify-center items-center">
+    <img src="../../../../../assets/images/wondering.png" class="w-48 xs:w-72" alt="">
+  </div>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div class="flex justify-center items-center p-4">
+      <ion-button (click)="onSearch()" color="primary" class="flex-1 normal-case text-xs xs:text-md">
+        <ion-icon slot="start" name="search"></ion-icon>
+        Cari
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

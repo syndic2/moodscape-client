@@ -37,6 +37,15 @@ export interface Habit {
   track: HabitTrack;
 }
 
+export interface HabitFilter {
+  name: string;
+  type: string;
+  startDate: string;
+  endDate: string;
+  reminderTime: string;
+  labelColor: string;
+}
+
 export interface HabitAverageGroupByYear {
   year: number;
   habits: Habit[];

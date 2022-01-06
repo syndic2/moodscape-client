@@ -17,7 +17,7 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
 
       if (groupBy === 'marked') {
         habits = habits.filter(habit =>
-          habit.track.streakLogs.find(log => log.startDate === habit.goalDates.start && log.lastMarkedAt === transformDateTime(new Date()).toISODate())
+          habit.track.streakLogs.find(log => log.isComplete === true || log.startDate === habit.goalDates.start && log.lastMarkedAt === transformDateTime(new Date()).toISODate())
         );
       } else if (groupBy === 'unmarked') {
         habits = habits.filter(habit =>
@@ -84,3 +84,8 @@ export const getHabit = (habitId: number) => {
     state => state.find(object => object.Id === habitId)
   )
 };
+
+export const getHabitSearchResults = createSelector(
+  selectHabitFeature,
+  state => state.habitSearchResults
+);

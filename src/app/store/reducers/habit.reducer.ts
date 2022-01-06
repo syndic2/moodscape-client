@@ -15,8 +15,8 @@ import {
 
 const initialState: HabitState = {
   habits: [],
-  habitSearchResults: [],
-  habitsChart: []
+  habitsChart: [],
+  habitSearchResults: []
 };
 
 export const habitReducer = createReducer(
@@ -24,8 +24,6 @@ export const habitReducer = createReducer(
   on(setHabits, (state, { habits }) => ({ ...state, habits: [...habits] })),
 
   on(setHabitsChart, (state, { habitsChart }) => ({ ...state, habitsChart: [...habitsChart] })),
-
-  on(setHabitSearchResults, (state, { habits }) => ({ ...state, habitSearchResults: [...habits] })),
 
   on(setHabit, (state, { habit }) => ({
     ...state,
@@ -39,6 +37,8 @@ export const habitReducer = createReducer(
       })
     ]
   })),
+
+  on(setHabitSearchResults, (state, { habits }) => ({ ...state, habitSearchResults: [...habits] })),
 
   on(createHabit, (state, { habit }) => ({ ...state, habits: [...state.habits, habit] })),
 

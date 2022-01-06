@@ -8,8 +8,8 @@ import { showAlert, showRequestErrorModal } from '../actions/application.actions
 import {
   fetchHabits,
   fetchHabitsChart,
-  fetchHabitSearchResults,
   fetchHabit,
+  fetchSearchHabit,
   fetchCreateHabit,
   fetchUpdateHabit,
   removeHabitsConfirmation,
@@ -18,8 +18,8 @@ import {
 
   setHabits,
   setHabitsChart,
-  setHabitSearchResults,
   setHabit,
+  setHabitSearchResults,
   createHabit,
   updateHabit,
   removeHabits,
@@ -47,6 +47,13 @@ export class HabitEffects {
     ofType(fetchHabit),
     exhaustMap(({ habitId }) => this.habitService.getHabit(habitId).pipe(
       map(res => !res.habit ? showRequestErrorModal({ message: 'Terjadi kesalahan pada server, silahkan coba kembali' }) : setHabit({ habit: res.habit }))
+    ))
+  ));
+
+  searchHabits$ = createEffect(() => this.actions$.pipe(
+    ofType(fetchSearchHabit),
+    exhaustMap(({ filters }) => this.habitService.searchHabit(filters).pipe(
+      map(res => setHabitSearchResults({ habits: res.habits }))
     ))
   ));
 

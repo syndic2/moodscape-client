@@ -1,12 +1,10 @@
 <div class="grid grid-cols-5 justify-items-center gap-x-2">
-  <label  *ngFor="let color of labelColors" class="relative">
-    <input
-      type="radio"
-      (change)="onSelectColor(color)"
-      class="invisible absolute top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4"
-      name="label-color"
+  <label *ngFor="let color of labelColors" class="relative">
+    <input type="radio" (change)="onSelectColor(color)"
+      class="invisible absolute top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4" name="label-color"
       [checked]="selectedColor === color">
-    <div [style.border-color]="color" class="flex justify-center items-center border-6 rounded-full w-6 h-6 xs:w-7 xs:h-7">
+    <div [style.border-color]="color"
+      class="flex justify-center items-center border-6 rounded-full w-6 h-6 xs:w-7 xs:h-7">
       <div *ngIf="selectedColor === color" [style.background-color]="selectedColor" class="w-full h-full"></div>
     </div>
   </label>

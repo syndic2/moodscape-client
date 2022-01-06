@@ -1,11 +1,8 @@
-<div (click)="onSelectDate()" class="flex items-center gap-x-1 text-sm xs:text-lg bg-transparent border-b-2 border-primary pb-2">
+<div (click)="onSelectDate()"
+  class="flex items-center gap-x-1 text-sm xs:text-lg bg-transparent border-b-2 border-primary pb-2">
   <ion-icon name="calendar" color="primary"></ion-icon>
-  <ion-input
-    type="text"
-    inputmode="text"
-    class="input-without-padding text-center"
-    [value]="(selectedDate | dateInBahasa)['format::/']"
-    [disabled]="true">
+  <ion-input type="text" inputmode="text" class="input-without-padding text-center"
+    [value]="selectedDate === '' ? '-- / -- / --': (selectedDate | dateInBahasa)['format::/']" [disabled]="true">
   </ion-input>
   <ion-icon name="caret-down" color="primary"></ion-icon>
 </div>
