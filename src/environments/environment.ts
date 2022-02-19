@@ -8,7 +8,7 @@ const urls = {
     production: 'https://moodscape.netlify.app',
   },
   apiUrl: {
-    development: 'http://192.168.100.106:5000/api',
+    development: 'http://127.0.0.1:5000/api',
     production: 'https://moodscape-api.herokuapp.com/api',
   },
   rasaChatbot: {

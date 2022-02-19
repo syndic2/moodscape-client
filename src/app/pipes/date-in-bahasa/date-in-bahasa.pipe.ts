@@ -7,7 +7,7 @@ import { transformDateTime } from 'src/app/utilities/helpers';
 })
 export class DateInBahasaPipe implements PipeTransform {
   transform(date: Date | string, ...args: unknown[]) {
-    date = new Date(date);
+    if (typeof date === 'string') date = new Date(date);
 
     return {
       dateObject: date,

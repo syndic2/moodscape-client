@@ -13,32 +13,24 @@ export class ModalService {
   constructor(private modalController: ModalController) { }
 
   async internetConnectionError(message: string) {
-    const isModalOpened = await this.modalController.getTop();
-
-    if (!isModalOpened) {
-      const modal = await this.modalController.create({
-        component: InternetConnectionErrorPage,
-        componentProps: {
-          message: message
-        },
-        cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
-      });
-      modal.present();
-    }
+    const modal = await this.modalController.create({
+      component: InternetConnectionErrorPage,
+      componentProps: {
+        message: message
+      },
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
+    });
+    modal.present();
   }
 
   async requestError(message: string) {
-    const isModalOpened = await this.modalController.getTop();
-
-    if (!isModalOpened) {
-      const modal = await this.modalController.create({
-        component: RequestErrorPage,
-        componentProps: {
-          message: message
-        },
-        cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
-      });
-      modal.present();
-    }
+    const modal = await this.modalController.create({
+      component: RequestErrorPage,
+      componentProps: {
+        message: message
+      },
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
+    });
+    modal.present();
   }
 }

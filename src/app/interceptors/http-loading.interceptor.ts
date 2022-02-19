@@ -53,30 +53,30 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
     );
   }
 
-  private async HANDLE_ERROR_REQUEST(error: HttpErrorResponse) {
-    switch (error.status) {
+  private async HANDLE_ERROR_REQUEST(response: HttpErrorResponse) {
+    switch (response.status) {
       case 0:
-        this.modalService.requestError(error.statusText)
+        await this.modalService.requestError(response.statusText)
         break;
 
       case 400:
-        this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
+        await this.modalService.requestError('Terjadi kesalahan saat melakukan request, silahkan coba kembali');
         break;
 
       case 401:
-        this.modalService.requestError('Pengguna tidak terotorisasi, sialhkan coba kembali');
+        await this.modalService.requestError('Pengguna tidak terotorisasi, sialhkan coba kembali');
         break;
 
       case 404:
-        this.modalService.requestError('Terjadi kesalahan pada URL API, silahkan coba kembali');
+        await this.modalService.requestError('Terjadi kesalahan pada URL API, silahkan coba kembali');
         break;
 
       case 500:
-        this.modalService.requestError('Terjadi kesalahan pada server, silahkan coba kembali');
+        await this.modalService.requestError(response.error.message);
         break;
 
       default:
-        return throwError(error);
+        return throwError(response);
     }
   }
 }

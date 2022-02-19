@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { IonContent } from '@ionic/angular';
+import { IonContent, ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { transformDateTime } from 'src/app/utilities/helpers';
 import { fetchProfile } from 'src/app/store/actions/user.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { ChatbotService } from 'src/app/services/chatbot/chatbot.service';
+import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'app-chat-with-bot',
@@ -20,15 +22,23 @@ export class ChatWithBotPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
   public messageText: string = '';
-  public messages: any[] = [];
-  public buttonMessages: any[] = [];
+  public messages = new BehaviorSubject<any[]>([]);
+  public buttonMessages: { title: string, payload: string }[] = [];
+  public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({
+    startDate: '',
+    endDate: ''
+  });
+  public isShowDatePicker: boolean = false;
   public isBotTyping: boolean = false;
   private sender: string | number;
   private initiateGreetBotSubscription: Subscription;
+  private messagesSubscription: Subscription;
+  private dateRangeValuesSubscription: Subscription;
   private sendMessageSubscription: Subscription;
 
   constructor(
     private store: Store,
+    private modalController: ModalController,
     private authenticationService: AuthenticationService,
     private chatbotService: ChatbotService
   ) { }
@@ -48,11 +58,23 @@ export class ChatWithBotPage implements OnInit {
           this.sendMessage('/initiate_bot_greet');
         }
       });
+
+    this.messagesSubscription = this.messages.subscribe(message => {
+      this.content.scrollToBottom(200);
+    });
+
+    this.dateRangeValuesSubscription = this.dateRangeValuesSubject.subscribe(value => {
+      if (value.startDate !== '' && value.endDate !== '') {
+        this.sendMessage(value.startDate + '/' + value.endDate);
+      }
+    });
   }
 
   ionViewWillLeave() {
     this.resetMessages();
     this.initiateGreetBotSubscription && this.initiateGreetBotSubscription.unsubscribe();
+    this.messagesSubscription && this.messagesSubscription.unsubscribe();
+    this.dateRangeValuesSubscription && this.dateRangeValuesSubscription.unsubscribe();
     this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
   }
 
@@ -66,21 +88,50 @@ export class ChatWithBotPage implements OnInit {
 
   resetMessages() {
     this.messageText = '';
-    this.messages = [];
+    this.messages.next([]);
     this.buttonMessages = [];
+    this.dateRangeValuesSubject.next({ startDate: '', endDate: '' });
+    this.isShowDatePicker = false;
     this.isBotTyping = false;
   }
 
+  async onOpenCalendar(rangeType: string) {
+    const modal = await this.modalController.create({
+      component: CalendarPage,
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data && data.selectedDate) {
+      if (rangeType === 'start') {
+        this.dateRangeValuesSubject.next({
+          ...this.dateRangeValuesSubject.value,
+          startDate: transformDateTime(data.selectedDate).toISODate()
+        });
+      } else if (rangeType === 'end') {
+        this.dateRangeValuesSubject.next({
+          ...this.dateRangeValuesSubject.value,
+          endDate: transformDateTime(data.selectedDate).toISODate()
+        });
+      }
+    }
+  }
+
   sendMessage(messageText: string, buttonMessageTitle: string = '') {
-    if (messageText !== '/initiate_bot_greet' && !this.buttonMessages.length)
-      this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: messageText });
-    else if (buttonMessageTitle !== '')
-      this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: buttonMessageTitle });
+    if (messageText !== '/initiate_bot_greet' && !this.buttonMessages.length) {
+      this.messages.next([...this.messages.value, { sender: this.sender, recipient_id: 'BOT', text: messageText }]);
+    } else if (buttonMessageTitle !== '') {
+      this.messages.next([...this.messages.value, { sender: this.sender, recipient_id: 'BOT', text: buttonMessageTitle }]);
+    }
 
-    if (this.buttonMessages.length)
-      this.buttonMessages = [];
+    if (this.isShowDatePicker) {
+      messageText = 'datepicker_dates: ' + messageText;
+      this.isShowDatePicker = false;
+    }
 
-    this.messages.push({ isLoading: true });
+    this.messages.next([...this.messages.value, { isLoading: true }]);
+    this.buttonMessages = [];
     this.isBotTyping = true;
 
     this.sendMessageSubscription = this.chatbotService
@@ -88,17 +139,26 @@ export class ChatWithBotPage implements OnInit {
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe((res: any[]) => {
         if (res.length) {
-          this.messages.pop();
-          this.messages = [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];
-          this.isBotTyping = false;
-          this.content.scrollToBottom(200);
+          const removeBotTypingIndicator = [...this.messages.value];
+          removeBotTypingIndicator.pop();
+          this.messages.next(removeBotTypingIndicator);
 
+          res.forEach(message => {
+            if (message.custom && message.custom.is_show_datepicker) {
+              this.isShowDatePicker = true;
+              this.messages.next([...this.messages.value, { sender: 'BOT', recipient_id: this.sender, customActionButton: true }]);
+            } else {
+              this.messages.next([...this.messages.value, { sender: 'BOT', recipient_id: this.sender, text: message.text }]);
+            }
+          });
           res.forEach(message => {
             if (message.buttons) {
               this.buttonMessages = message.buttons;
               return;
             }
           });
+
+          this.isBotTyping = false;
         }
       });
   }
@@ -107,24 +167,6 @@ export class ChatWithBotPage implements OnInit {
     if (this.messageText && this.messageText.trim()) {
       this.sendMessage(this.messageText);
       this.messageText = '';
-      this.content.scrollToBottom(200);
-
-      //this.messages.push({ sender: this.sender, recipient_id: 'BOT', text: this.messageText });
-      //this.messages.push({ isLoading: true });
-
-      //this.sendMessageSubscription= this.chatbotService
-      //  .sendMessage(this.sender, this.messageText)
-      //  .pipe(takeUntil(this.authenticationService.isLoggedIn))
-      //  .subscribe((res: any[]) => {
-      //  if (res.length) {
-      //    this.messages.pop();
-      //    this.messages= [...this.messages, ...res.map(message => ({ sender: 'BOT', ...message }))];
-      //    this.content.scrollToBottom(200);
-      //  }
-      //});
-
-      //this.messageText= '';
-      //this.content.scrollToBottom(200);
     }
   }
 }

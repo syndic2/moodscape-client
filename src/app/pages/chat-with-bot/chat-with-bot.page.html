@@ -1,14 +1,14 @@
 <ion-header>
-	<ion-toolbar>
+  <ion-toolbar>
     <div class="flex items-center">
       <button [routerLink]="['/side-menu/tabs/home']" class="flex text-2xl focus:outline-none">
         <ion-icon slot="icon-only" name="arrow-back" color="primary"></ion-icon>
       </button>
       <ion-avatar class="mx-auto">
-          <img src="../../../assets/images/chatbot.png" />
-        </ion-avatar>
+        <img src="../../../assets/images/chatbot.png" />
+      </ion-avatar>
     </div>
-	</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <!--<ion-content
@@ -24,7 +24,7 @@
   </ion-refresher>
 
   <div class="flex flex-col gap-y-3">
-    <ng-container *ngFor="let message of messages">
+    <ng-container *ngFor="let message of messages | async">
       <bubble-chat [message]="message"></bubble-chat>
     </ng-container>
   </div>
@@ -32,27 +32,38 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ng-container *ngIf="!buttonMessages.length; else showButtonMessages">
-      <div class="flex items-center gap-x-2 p-3">
-        <ion-textarea 
-          [(ngModel)]="messageText" 
-          inputmode="text" 
-          placeholder="Ketik sesuatu" 
-          rows="1" 
-          autoGrow
-          class="flex-grow bg-gray-100 rounded-lg border-1 border-primary m-0 focus:outline-none"
-          [disabled]="isBotTyping">
-        </ion-textarea>
-        <ion-icon name="send" color="primary" (click)="onSendMessage()"></ion-icon>
-      </div>
-    </ng-container>
-
-    <ng-template #showButtonMessages>
-      <ng-container *ngFor="let button of buttonMessages">
-        <div class="flex flex-wrap justify-center items-center gap-4 p-3">
-          <button (click)="sendMessage(button.payload, button.title)" class="rounded-full text-sm text-white bg-primary p-4">{{ button.title }}</button>
+    <ng-container *ngIf="!isShowDatePicker; else showButtonDatePickers">
+      <ng-container *ngIf="!buttonMessages.length; else showButtonMessages">
+        <div class="flex items-center gap-x-2 p-3">
+          <ion-textarea [(ngModel)]="messageText" inputmode="text" placeholder="Ketik sesuatu" rows="1" autoGrow
+            class="flex-grow bg-gray-100 rounded-lg border-1 border-primary m-0 focus:outline-none"
+            [disabled]="isBotTyping">
+          </ion-textarea>
+          <ion-icon name="send" color="primary" (click)="onSendMessage()"></ion-icon>
         </div>
       </ng-container>
+
+      <ng-template #showButtonMessages>
+        <ng-container *ngFor="let button of buttonMessages">
+          <div class="flex flex-wrap justify-center items-center gap-3 p-3">
+            <button (click)="sendMessage(button.payload, button.title)"
+              class="rounded-full text-sm text-white bg-primary p-4">{{ button.title }}</button>
+          </div>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #showButtonDatePickers>
+      <div class="flex justify-center items-center gap-x-4 text-tiny xs:text-xs text-white p-3">
+        <button (click)="onOpenCalendar('start')" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">
+          {{ (dateRangeValuesSubject | async).startDate === '' ? 'Tanggal awal' : (dateRangeValuesSubject |
+          async).startDate }}
+        </button>
+        <button (click)="onOpenCalendar('end')" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">
+          {{ (dateRangeValuesSubject | async).endDate === '' ? 'Tanggal akhir' : (dateRangeValuesSubject |
+          async).endDate }}
+        </button>
+      </div>
     </ng-template>
   </ion-toolbar>
 </ion-footer>

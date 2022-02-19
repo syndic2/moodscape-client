@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
 import { fetchCreateHabit } from 'src/app/store/actions/habit.actions';
+import { navigateGo } from 'src/app/store/actions/router.actions';
 
 @Component({
   selector: 'app-create-habit',
@@ -12,13 +12,13 @@ import { fetchCreateHabit } from 'src/app/store/actions/habit.actions';
 })
 export class CreateHabitPage implements OnInit {
 
-  constructor(private store: Store, private router: Router) { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
   }
 
   onSubmit(fields: {}) {
     this.store.dispatch(fetchCreateHabit({ fields: fields }));
-    this.router.navigate(['/side-menu/tabs/habits']);
+    this.store.dispatch(navigateGo({ path: ['/side-menu/tabs/habits'] }));
   }
 }

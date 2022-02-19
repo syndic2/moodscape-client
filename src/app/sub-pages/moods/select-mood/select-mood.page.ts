@@ -23,16 +23,16 @@ export class SelectMoodPage implements OnInit {
   ngOnInit() {
   }
 
-  onSelectDate(date: Date) {
-    this.selectedDate= date;
+  onSelectDate(date: Date | string) {
+    this.selectedDate = date as Date;
   }
 
   onSelectTime(time: string) {
-    this.selectedTime= time;
+    this.selectedTime = time;
   }
 
   onSelectEmoticon(emoticon: MoodEmoticon) {
-    this.selectedEmoticon= emoticon;
+    this.selectedEmoticon = emoticon;
   }
 
   onNext() {
@@ -41,7 +41,7 @@ export class SelectMoodPage implements OnInit {
         options: { message: 'Data tidak boleh ada yang kosong!', buttons: ['OK'] }
       }));
     } else {
-      const navigationExtras: NavigationExtras= {
+      const navigationExtras: NavigationExtras = {
         state: {
           emoticon: this.selectedEmoticon,
           createdAt: {

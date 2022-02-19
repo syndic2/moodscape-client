@@ -48,6 +48,7 @@ export class MyChatEmotionsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //this.modalService.requestError('test');
   }
 
   ngAfterViewInit() {
