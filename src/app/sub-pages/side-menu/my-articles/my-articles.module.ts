@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { IonicModule } from '@ionic/angular';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { EffectsModule } from '@ngrx/effects';
-import { ArticleEffects } from 'src/app/store/effects/article.effects';
 
+import { ArticleEffects } from 'src/app/store/effects/article.effects';
 import { ArticleListItemModule } from 'src/app/components/pages/articles/article-list-item/article-list-item.module';
 import { ArticleListLoaderModule } from 'src/app/components/pages/articles/article-list-loader/article-list-loader.module';
 import { MyArticlesPageRoutingModule } from './my-articles-routing.module';
@@ -18,6 +16,7 @@ import { MyArticlesPage } from './my-articles.page';
   imports: [
     CommonModule,
     FormsModule,
+    ScrollingModule,
     IonicModule,
     FontAwesomeModule,
     EffectsModule.forFeature([ArticleEffects]),
@@ -27,4 +26,4 @@ import { MyArticlesPage } from './my-articles.page';
   ],
   declarations: [MyArticlesPage]
 })
-export class MyArticlesPageModule {}
+export class MyArticlesPageModule { }

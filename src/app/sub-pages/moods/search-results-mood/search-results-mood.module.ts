@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { IonicModule } from '@ionic/angular';
 
 import { SearchResultsMoodPageRoutingModule } from './search-results-mood-routing.module';
@@ -15,6 +15,7 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
   imports: [
     CommonModule,
     FormsModule,
+    ScrollingModule,
     IonicModule,
     SearchResultsMoodPageRoutingModule,
     MoodListItemModule,
@@ -26,4 +27,4 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     MoodSearchFiltersComponent
   ]
 })
-export class SearchResultsMoodPageModule {}
+export class SearchResultsMoodPageModule { }

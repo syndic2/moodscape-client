@@ -1,14 +1,14 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Platform } from '@ionic/angular';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Network } from '@capacitor/network';
-
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { getAuthenticated } from './store/selectors/authentication.selectors';
 import { FirebaseCloudMessagingService } from './services/firebase-cloud-messaging/firebase-cloud-messaging.service';
 import { ThemeService } from './services/theme/theme.service';
@@ -19,7 +19,8 @@ import { ModalService } from './services/modal/modal.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription();
 
   constructor(
     private store: Store,
@@ -34,16 +35,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.checkNetworkConnection();
-    this.themeService.getThemes().pipe(take(1)).subscribe(() => {
-      this.themeService.applyTheme();
-    });
+
+    const themesSubscription = this.themeService.getThemes().pipe(take(1)).subscribe(() => this.themeService.applyTheme());
+    this.subscriptions.add(themesSubscription);
 
     if (Capacitor.getPlatform() !== 'web') {
-      this.store.select(getAuthenticated).subscribe(res => {
+      const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
         if (res) {
           this.fcmService.initPush(res.Id);
         }
       });
+      this.subscriptions.add(getAuthenticatedSubscription);
+
       this.platform.ready().then(() => {
         this.setupDeepLinks();
         this.hardwareBackButton();
@@ -51,6 +54,10 @@ export class AppComponent implements OnInit {
     } else {
       console.log('Ionic platform: web version');
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   checkNetworkConnection() {
@@ -62,7 +69,7 @@ export class AppComponent implements OnInit {
   }
 
   setupDeepLinks() {
-    this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
+    const deepLinksSubscription = this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
       const internalPath = `${match.$link.path}`;
       this.zone.run(() => {
         this.router.navigateByUrl(internalPath);
@@ -71,6 +78,7 @@ export class AppComponent implements OnInit {
       //alert(`not matching a deeplink: ${JSON.stringify(nomatch)}`);
       //console.error('not matching a deeplink', nomatch);
     });
+    this.subscriptions.add(deepLinksSubscription);
   }
 
   hardwareBackButton() {

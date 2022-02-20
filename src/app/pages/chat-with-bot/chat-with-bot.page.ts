@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { IonContent, ModalController } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,17 +22,11 @@ export class ChatWithBotPage implements OnInit {
   public messageText: string = '';
   public messages = new BehaviorSubject<any[]>([]);
   public buttonMessages: { title: string, payload: string }[] = [];
-  public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({
-    startDate: '',
-    endDate: ''
-  });
+  public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
   public isShowDatePicker: boolean = false;
   public isBotTyping: boolean = false;
   private sender: string | number;
-  private initiateGreetBotSubscription: Subscription;
-  private messagesSubscription: Subscription;
-  private dateRangeValuesSubscription: Subscription;
-  private sendMessageSubscription: Subscription;
+  private subscriptions = new Subscription();
 
   constructor(
     private store: Store,
@@ -47,7 +39,7 @@ export class ChatWithBotPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.store
+    const getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
@@ -58,24 +50,22 @@ export class ChatWithBotPage implements OnInit {
           this.sendMessage('/initiate_bot_greet');
         }
       });
+    this.subscriptions.add(getAuthenticatedSubscription);
 
-    this.messagesSubscription = this.messages.subscribe(message => {
-      this.content.scrollToBottom(200);
-    });
+    const messagesSubscription = this.messages.subscribe(message => this.content.scrollToBottom(200));
+    this.subscriptions.add(messagesSubscription);
 
-    this.dateRangeValuesSubscription = this.dateRangeValuesSubject.subscribe(value => {
+    const dateRangeValuesSubscription = this.dateRangeValuesSubject.subscribe(value => {
       if (value.startDate !== '' && value.endDate !== '') {
         this.sendMessage(value.startDate + '/' + value.endDate);
       }
     });
+    this.subscriptions.add(dateRangeValuesSubscription);
   }
 
   ionViewWillLeave() {
     this.resetMessages();
-    this.initiateGreetBotSubscription && this.initiateGreetBotSubscription.unsubscribe();
-    this.messagesSubscription && this.messagesSubscription.unsubscribe();
-    this.dateRangeValuesSubscription && this.dateRangeValuesSubscription.unsubscribe();
-    this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   pullRefresh(event) {
@@ -134,7 +124,7 @@ export class ChatWithBotPage implements OnInit {
     this.buttonMessages = [];
     this.isBotTyping = true;
 
-    this.sendMessageSubscription = this.chatbotService
+    const sendMessageSubscription = this.chatbotService
       .sendMessage(this.sender, messageText)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe((res: any[]) => {
@@ -161,6 +151,7 @@ export class ChatWithBotPage implements OnInit {
           this.isBotTyping = false;
         }
       });
+    this.subscriptions.add(sendMessageSubscription);
   }
 
   onSendMessage() {

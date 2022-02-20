@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
 
 import { SearchResultsArticlePageRoutingModule } from './search-results-article-routing.module';
@@ -13,6 +13,7 @@ import { ArticleListLoaderModule } from 'src/app/components/pages/articles/artic
   imports: [
     CommonModule,
     FormsModule,
+    ScrollingModule,
     IonicModule,
     SearchResultsArticlePageRoutingModule,
     ArticleListItemModule,
@@ -20,4 +21,4 @@ import { ArticleListLoaderModule } from 'src/app/components/pages/articles/artic
   ],
   declarations: [SearchResultsArticlePage]
 })
-export class SearchResultsArticlePageModule {}
+export class SearchResultsArticlePageModule { }

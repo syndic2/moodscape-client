@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { IonContent, IonInfiniteScroll } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -19,7 +17,6 @@ export class ArticlesPage implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
 
   public articles: Article[] = [];
-  private articlePaginationSubscription: Subscription;
   public sliderOptions = {
     slidesPerView: 1,
     spaceBetween: 5,
@@ -32,6 +29,7 @@ export class ArticlesPage implements OnInit {
   private limit: number = 10;
   private page: number = 0;
   private maxPage: number = 0;
+  private articlePaginationSubscription: Subscription;
 
   constructor(private store: Store) { }
 

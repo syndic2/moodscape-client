@@ -1,17 +1,17 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar>
-		<ion-title>Moods</ion-title>
-		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu" class="side-menu-button">
-				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
-			</ion-menu-button>
-		</ion-buttons>
+  <ion-toolbar>
+    <ion-title>Moods</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="side-menu" class="side-menu-button">
+        <ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/moods/search']">
         <ion-icon slot="icon-only" name="search" class="text-lg xs:text-2xl"></ion-icon>
       </ion-button>
     </ion-buttons>
-	</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="flex-column row-gap-5">
@@ -19,13 +19,8 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-button 
-    [routerLink]="['/moods/create/step-1']" 
-    expand="block" 
-    shape="round" 
-    color="primary" 
-    id="create-mood-button" 
-    class="flex-shrink-0 normal-case text-xs xs:text-lg">
+  <ion-button [routerLink]="['/moods/create/step-1']" expand="block" shape="round" color="primary"
+    id="create-mood-button" class="flex-shrink-0 normal-case text-xs xs:text-lg">
     Tambahkan Mood anda!
     <ion-icon slot="start" name="add-circle"></ion-icon>
   </ion-button>
@@ -33,7 +28,7 @@
   <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
     <mood-list-loader></mood-list-loader>
   </ng-container>
-  
+
   <ng-template #finishLoading>
     <ng-container *ngIf="(groupedMoods | json) === '{}'; else showMoods">
       <div class="flex-grow flex flex-col justify-center items-center">
@@ -43,7 +38,22 @@
     </ng-container>
 
     <ng-template #showMoods>
-      <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0 xs:mt-2">
+      <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+        <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0 xs:mt-2">
+          <div *cdkVirtualFor="let item of groupedMoods | keyvalue:sortDescObjectKeys">
+            <ion-list-header class="pl-0">
+              <ion-label class="text-sm xs:text-xl text-semibold text-center">
+                {{ (item.key | dateInBahasa).fullDate }}
+              </ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let mood of item.value">
+              <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
+            </ion-item>
+          </div>
+        </ion-list>
+      </cdk-virtual-scroll-viewport>
+
+      <!-- <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0 xs:mt-2">
         <div *ngFor="let item of groupedMoods | keyvalue:sortDescObjectKeys">
           <ion-list-header class="pl-0">
             <ion-label class="text-sm xs:text-xl text-semibold text-center">
@@ -54,11 +64,7 @@
             <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
           </ion-item>
         </div>
-        
-        <!--<ion-item *ngFor="let mood of moods">
-          <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
-        </ion-item>-->
-      </ion-list>
+      </ion-list> -->
     </ng-template>
   </ng-template>
 </ion-content>

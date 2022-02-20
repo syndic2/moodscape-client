@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,30 +15,30 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./moods.page.scss']
 })
 export class MoodsPage implements OnInit {
-  public groupedMoods: {}= {};
+  public groupedMoods: {} = {};
   private groupedMoodsSubscription: Subscription;
-  public sortDescObjectKeys= sortDescObjectKeys;
+  public sortDescObjectKeys = sortDescObjectKeys;
 
   constructor(
-    private store: Store, 
-    public utilitiesService: UtilitiesService, 
+    private store: Store,
+    public utilitiesService: UtilitiesService,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
   }
 
-  ionViewWillEnter() {    
-    this.groupedMoodsSubscription= this.store
+  ionViewWillEnter() {
+    this.groupedMoodsSubscription = this.store
       .select(getGroupedMoodsByDate('moods'))
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (JSON.stringify(res) === '{}') {
-        this.store.dispatch(fetchMoods());
-      }
+        if (JSON.stringify(res) === '{}') {
+          this.store.dispatch(fetchMoods());
+        }
 
-      this.groupedMoods= res;
-    });
+        this.groupedMoods = res;
+      });
   }
 
   ionViewWillLeave() {

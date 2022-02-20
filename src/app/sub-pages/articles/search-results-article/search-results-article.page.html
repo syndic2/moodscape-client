@@ -26,11 +26,20 @@
     </ng-container>
 
     <ng-template #showArticles>
-      <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
+      <cdk-virtual-scroll-viewport itemSize="96" minBufferPx="900" maxBufferPx="1350">
+        <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
+          <ion-item *cdkVirtualFor="let article of articles; let idx= index;"
+            [routerLink]="['/articles', article.urlName]">
+            <article-list-item [article]="article"></article-list-item>
+          </ion-item>
+        </ion-list>
+      </cdk-virtual-scroll-viewport>
+
+      <!-- <ion-list class="grid grid-flow-row gap-8 rounded-xl py-4" lines="none">
         <ion-item *ngFor="let article of articles; let idx= index;" [routerLink]="['/articles', article.urlName]">
           <article-list-item [article]="article"></article-list-item>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
     </ng-template>
   </ng-template>
 </ion-content>

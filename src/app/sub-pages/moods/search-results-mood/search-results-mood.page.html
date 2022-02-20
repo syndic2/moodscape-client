@@ -2,12 +2,12 @@
   <ion-toolbar>
     <ion-title>Hasil Pencarian</ion-title>
     <ion-buttons slot="start">
-			<ion-back-button defaultHref="moods/search"></ion-back-button>
-		</ion-buttons>
+      <ion-back-button defaultHref="moods/search"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>  
+<ion-content>
   <ng-container *ngIf="utilitiesService.isSkeletonLoading(); else finishLoading">
     <mood-list-loader></mood-list-loader>
   </ng-container>
@@ -24,22 +24,36 @@
       </ng-container>
 
       <ng-template #showSearchResults>
-        <div class="flex flex-col gap-y-1 mt-8">
-          <span class="text-sm xs:text-base font-medium">Data yang ditemukan: {{ (searchResultsCount | async) }} data</span>
-          <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0">
+        <div class="flex flex-col gap-y-1 h-full mt-8">
+          <span class="text-sm xs:text-base font-medium">
+            Data yang ditemukan: {{ (searchResultsCount | async) }} data
+          </span>
+          <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350" autosize>
+            <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0">
+              <div *ngFor="let item of groupedSearchResults | keyvalue:sortDescObjectKeys">
+                <ion-list-header class="pl-0">
+                  <ion-label class="text-sm xs:text-xl text-semibold text-center">{{ (item.key | dateInBahasa).fullDate
+                    }}
+                  </ion-label>
+                </ion-list-header>
+                <ion-item *ngFor="let mood of item.value">
+                  <mood-list-item [mood]="mood" [removeFromSearchResults]="true" class="flex-1"></mood-list-item>
+                </ion-item>
+              </div>
+            </ion-list>
+          </cdk-virtual-scroll-viewport>
+
+          <!-- <ion-list lines="none" class="grid grid-flow-row gap-y-5 bg-transparent p-0">
             <div *ngFor="let item of groupedSearchResults | keyvalue:sortDescObjectKeys">
               <ion-list-header class="pl-0">
-                <ion-label class="text-sm xs:text-xl text-semibold text-center">{{ (item.key | dateInBahasa).fullDate }}</ion-label>
+                <ion-label class="text-sm xs:text-xl text-semibold text-center">{{ (item.key | dateInBahasa).fullDate }}
+                </ion-label>
               </ion-list-header>
               <ion-item *ngFor="let mood of item.value">
                 <mood-list-item [mood]="mood" [removeFromSearchResults]="true" class="flex-1"></mood-list-item>
               </ion-item>
             </div>
-
-            <!--<ion-item *ngFor="let mood of searchResults">
-              <mood-list-item [mood]="mood" class="flex-1"></mood-list-item>
-            </ion-item>-->
-          </ion-list>
+          </ion-list> -->
         </div>
       </ng-template>
     </div>

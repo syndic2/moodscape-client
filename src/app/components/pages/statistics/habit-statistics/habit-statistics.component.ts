@@ -1,24 +1,21 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { navigateGo } from 'src/app/store/actions/router.actions';
 import { fetchHabits, fetchHabitsChart } from 'src/app/store/actions/habit.actions';
-import { 
-  getHabits, 
-  getHabitsChartByYear, 
-  getHabitsByMonth, 
-  getHabitsByDate, 
-  getHabitsByBestStreaks, 
-  getHabitsByTotalCompleted 
+import {
+  getHabits,
+  getHabitsChartByYear,
+  getHabitsByMonth,
+  getHabitsByDate,
+  getHabitsByBestStreaks,
+  getHabitsByTotalCompleted
 } from 'src/app/store/selectors/habit.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/select-calendar-year.page';
@@ -32,117 +29,109 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('barChartCanvas', { static: false }) barChartCanvas: ElementRef;
   @ViewChild('pieChartCanvas', { static: false }) pieChartCanvas: ElementRef;
 
-  public habitsByMonth: any[]= [];
-  public habitsByBestStreaks: any[]= [];
-  public barChart;
-  public pieChart;
+  public habitsByMonth: any[] = [];
+  public habitsByBestStreaks: any[] = [];
+  public barChart: any;
+  public pieChart: any;
 
-  private calendarDateClicked: boolean= false;
-  private calendarPrevNextSubject: BehaviorSubject<Date>= new BehaviorSubject(new Date());
-  private selectedYearSubject: BehaviorSubject<number>= new BehaviorSubject(new Date().getFullYear());
-
-  private calendarPrevNextSubscription: Subscription;
-  private selectedYearSubscription: Subscription;
-  private getHabitsSubscription: Subscription;
-  private getHabitsByMonthSubscription: Subscription;
-  private getHabitsByDateSubscription: Subscription;
-  private getHabitsByBestStreaks: Subscription;
-  private getHabitsChartSubscription: Subscription;
-  private getHabitsByTotalCompletedSubscription: Subscription;
+  private calendarDateClicked: boolean = false;
+  private calendarPrevNextSubject: BehaviorSubject<Date> = new BehaviorSubject(new Date());
+  private selectedYearSubject: BehaviorSubject<number> = new BehaviorSubject(new Date().getFullYear());
+  private subscriptions = new Subscription();
 
   constructor(
-    private store: Store, 
+    private store: Store,
     private modalController: ModalController,
-    private cdRef: ChangeDetectorRef, 
+    private cdRef: ChangeDetectorRef,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
     this.store.dispatch(fetchHabitsChart());
-    
-    this.getHabitsByDateSubscription= this.store
+
+    const getHabitsByDateSubscription = this.store
       .select(getHabits())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res.length) {
-        this.store.dispatch(fetchHabits());
-      }
-    });
+        if (!res.length) {
+          this.store.dispatch(fetchHabits());
+        }
+      });
+    this.subscriptions.add(getHabitsByDateSubscription);
 
-    this.calendarPrevNextSubscription= this.calendarPrevNextSubject.subscribe(value => {
-      this.getHabitsByMonthSubscription= this.store
+    const calendarPrevNextSubscription = this.calendarPrevNextSubject.subscribe(value => {
+      const getHabitsByMonthSubscription = this.store
         .select(getHabitsByMonth(value.getMonth(), value.getFullYear()))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-        this.habitsByMonth= [...res].map(habit => ({
-          title: habit.name,
-          startTime: new Date(habit.goalDates.start),
-          endTime: new Date(habit.goalDates.start),
-          allDay: false
-        }));
-      });
+          this.habitsByMonth = [...res].map(habit => ({
+            title: habit.name,
+            startTime: new Date(habit.goalDates.start),
+            endTime: new Date(habit.goalDates.start),
+            allDay: false
+          }));
+        });
+      this.subscriptions.add(getHabitsByMonthSubscription);
     });
+    this.subscriptions.add(calendarPrevNextSubscription);
   }
 
   ngAfterViewInit() {
     this.initializeCharts();
 
-    this.getHabitsByBestStreaks= this.store
+    const getHabitsByBestStreaksSubscription = this.store
       .select(getHabitsByBestStreaks())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      this.habitsByBestStreaks= [...res];
-    });
+        this.habitsByBestStreaks = [...res];
+      });
+    this.subscriptions.add(getHabitsByBestStreaksSubscription);
 
-    this.selectedYearSubscription= this.selectedYearSubject.subscribe(year => {
-      this.getHabitsChartSubscription= this.store
+    const selectedYearSubscription = this.selectedYearSubject.subscribe(year => {
+      const getHabitsChartSubscription = this.store
         .select(getHabitsChartByYear(year))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-        if (!res.length) {  
-          this.barChart.data.labels= [];
-          this.barChart.data.datasets[0].data= [];
-          this.barChart.update();
-        } else {
-          this.barChart.data.labels= [];
-          this.barChart.data.datasets[0].data= [];
-  
-          res.forEach(monthGroup => {
-            this.barChart.data.labels.push(monthGroup.group.substring(0, 3));
-            this.barChart.data.datasets[0].data.push(monthGroup.habitAverageGroupByYear ? monthGroup.habitAverageGroupByYear.average : 0);
-          });
-  
-          this.barChart.update();
-        }
-      });
-    });
+          if (!res.length) {
+            this.barChart.data.labels = [];
+            this.barChart.data.datasets[0].data = [];
+            this.barChart.update();
+          } else {
+            this.barChart.data.labels = [];
+            this.barChart.data.datasets[0].data = [];
 
-    this.getHabitsByTotalCompletedSubscription= this.store
+            res.forEach(monthGroup => {
+              this.barChart.data.labels.push(monthGroup.group.substring(0, 3));
+              this.barChart.data.datasets[0].data.push(monthGroup.habitAverageGroupByYear ? monthGroup.habitAverageGroupByYear.average : 0);
+            });
+
+            this.barChart.update();
+          }
+        });
+      this.subscriptions.add(getHabitsChartSubscription);
+    });
+    this.subscriptions.add(selectedYearSubscription);
+
+    const getHabitsByTotalCompletedSubscription = this.store
       .select(getHabitsByTotalCompleted)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res.completes.length && !res.notCompletes.length) {
-        this.pieChart.data.datasets[0].data= [];
-        this.pieChart.update();
-      } else {
-        this.pieChart.data.datasets[0].data= [];
-        this.pieChart.data.datasets[0].data= [res.completes.length, res.notCompletes.length];
-        this.pieChart.update();
-      }
-    });
+        if (!res.completes.length && !res.notCompletes.length) {
+          this.pieChart.data.datasets[0].data = [];
+          this.pieChart.update();
+        } else {
+          this.pieChart.data.datasets[0].data = [];
+          this.pieChart.data.datasets[0].data = [res.completes.length, res.notCompletes.length];
+          this.pieChart.update();
+        }
+      });
+    this.subscriptions.add(getHabitsByTotalCompletedSubscription);
 
     this.cdRef.detectChanges();
   }
 
   ngOnDestroy() {
-    this.calendarPrevNextSubscription && this.calendarPrevNextSubscription.unsubscribe();
-    this.selectedYearSubscription && this.selectedYearSubscription.unsubscribe();
-    this.getHabitsSubscription && this.getHabitsSubscription.unsubscribe();
-    this.getHabitsByMonthSubscription && this.getHabitsByMonthSubscription.unsubscribe();
-    this.getHabitsByDateSubscription && this.getHabitsByDateSubscription.unsubscribe();
-    this.getHabitsByBestStreaks && this.getHabitsByBestStreaks.unsubscribe();
-    this.getHabitsChartSubscription && this.getHabitsChartSubscription.unsubscribe();
-    this.getHabitsByTotalCompletedSubscription && this.getHabitsByTotalCompletedSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   get selectedYear() {
@@ -150,19 +139,19 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   initializeCharts() {
-    this.barChart= new Chart(this.barChartCanvas.nativeElement, {
+    this.barChart = new Chart(this.barChartCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: [],
         datasets: [
           {
             barThickness: 12,
-            borderRadius: 2, 
+            borderRadius: 2,
             backgroundColor: '#5B21B6',
             data: [],
           }
         ]
-      }, 
+      },
       options: {
         responsive: true,
         plugins: {
@@ -187,10 +176,10 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
       }
     });
 
-    this.pieChart= new Chart(this.pieChartCanvas.nativeElement, {
+    this.pieChart = new Chart(this.pieChartCanvas.nativeElement, {
       type: 'pie',
       data: {
-        labels: ['Selesai', 'Tidak Selesai/Sedang Berjalan'], 
+        labels: ['Selesai', 'Tidak Selesai/Sedang Berjalan'],
         datasets: [
           {
             data: [],
@@ -208,10 +197,10 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
             formatter: (value, context) => {
               let sum = 0;
               let dataArr = context.chart.data.datasets[0].data;
-              
+
               dataArr.forEach((data: any) => sum += data);
-              
-              return (value*100 / sum)+'%';
+
+              return (value * 100 / sum) + '%';
             },
             color: '#FFF'
           }
@@ -226,7 +215,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   async onSelectBarChartYear() {
-    const modal= await this.modalController.create({ 
+    const modal = await this.modalController.create({
       component: SelectCalendarYearPage,
       componentProps: {
         selectedYear: this.selectedYear
@@ -234,32 +223,34 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
       cssClass: 'auto-height-modal rounded-modal'
     });
     modal.present();
-    
-    const { data }= await modal.onWillDismiss();
+
+    const { data } = await modal.onWillDismiss();
     if (data && data.selectedYear) {
       this.selectedYearSubject.next(data.selectedYear);
-    } 
+    }
   }
 
   onViewHabitsByDate(date: Date) {
-    this.calendarDateClicked= true;
-    this.getHabitsByDateSubscription= this.store
+    this.calendarDateClicked = true;
+
+    const getHabitsByDateSubscription = this.store
       .select(getHabitsByDate(transformDateTime(date).toISODate()))
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (this.calendarDateClicked && res.length) {
-        this.store.dispatch(navigateGo({
-          path: ['/habits/list-by-date'],
-          extras: {
-            state: {
-              startDate: date,
-              habits: [...res]
+        if (this.calendarDateClicked && res.length) {
+          this.store.dispatch(navigateGo({
+            path: ['/habits/list-by-date'],
+            extras: {
+              state: {
+                startDate: date,
+                habits: [...res]
+              }
             }
-          }
-        }));
-      }
+          }));
+        }
 
-      this.calendarDateClicked= false;
-    });
+        this.calendarDateClicked = false;
+      });
+    this.subscriptions.add(getHabitsByDateSubscription);
   }
 }

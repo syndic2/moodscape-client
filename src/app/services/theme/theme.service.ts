@@ -1,12 +1,9 @@
 import { Injectable, Inject, RendererFactory2, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
 import { Storage } from '@ionic/storage';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import gqlCompress from 'graphql-query-compress';
 
 import { environment } from 'src/environments/environment';
@@ -58,24 +55,23 @@ export class ThemeService {
   }
 
   applyTheme() {
-    this.storage.get(THEME_KEY).then(key => this.renderer.addClass(this.document.body, key));
+    this.storage.get(THEME_KEY).then(value => this.renderer.addClass(this.document.body, value));
   }
 
   setTheme(theme: Theme) {
-    this.storage.get(THEME_KEY).then(key => this.renderer.removeClass(this.document.body, key));
-    //this.renderer.removeClass(this.document.body, this.currentTheme);
+    this.storage.get(THEME_KEY).then(value => {
+      this.renderer.removeClass(this.document.body, value)
 
-    if (theme.Id === 'none') {
-      this.renderer.addClass(this.document.body, '.main-theme');
-      this.storage.set(THEME_KEY, '.main-theme');
-      //this.currentTheme= '.main-theme';
-    } else {
-      const themeName = this.createThemeClassName(theme.name);
+      if (theme.Id === 'none') {
+        this.renderer.addClass(this.document.body, '.main-theme');
+        this.storage.set(THEME_KEY, '.main-theme');
+      } else {
+        const themeName = this.createThemeClassName(theme.name);
 
-      this.renderer.addClass(this.document.body, themeName);
-      this.storage.set(THEME_KEY, themeName);
-      //this.currentTheme= themeName;
-    }
+        this.renderer.addClass(this.document.body, themeName);
+        this.storage.set(THEME_KEY, themeName);
+      }
+    });
   }
 
   getThemes(): Observable<any> {

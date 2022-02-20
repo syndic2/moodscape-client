@@ -1,26 +1,21 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar>
-		<ion-title>Artikel saya</ion-title>
-		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu" class="side-menu-button">
-				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
-			</ion-menu-button>
-		</ion-buttons>
-	</ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Artikel saya</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="side-menu" class="side-menu-button">
+        <ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <a [routerLink]="['/articles/search']" [state]="{ searchOn: 'archived-articles' }">
-    <ion-searchbar
-      type="text"
-      inputmode="text"
-      placeholder="Cari artikel"
-      showCancelButton="never"
-      class="opacity-100"
+    <ion-searchbar type="text" inputmode="text" placeholder="Cari artikel" showCancelButton="never" class="opacity-100"
       disabled>
     </ion-searchbar>
   </a>
@@ -38,12 +33,30 @@
     </ng-container>
 
     <ng-template #showArticles>
-      <ion-list lines="none" class="grid grid-flow-row gap-y-8 rounded-xl py-4">
+      <cdk-virtual-scroll-viewport itemSize="96" minBufferPx="900" maxBufferPx="1350">
+        <ion-list lines="none" class="grid grid-flow-row gap-y-8 h-full rounded-xl py-4">
+          <ion-item-sliding *cdkVirtualFor="let article of articles">
+            <ion-item>
+              <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
+            </ion-item>
+
+            <ion-item-options side="end">
+              <div (click)="onRemove(article)"
+                class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
+                <ion-icon name="trash" size="large"></ion-icon>
+                <label class="normal-case font-semibold">Hapus</label>
+              </div>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </cdk-virtual-scroll-viewport>
+
+      <!-- <ion-list lines="none" class="grid grid-flow-row gap-y-8 rounded-xl py-4">
         <ion-item-sliding *ngFor="let article of articles">
           <ion-item>
             <article-list-item [routerLink]="['/articles', article.urlName]" [article]="article"></article-list-item>
           </ion-item>
-  
+
           <ion-item-options side="end">
             <div (click)="onRemove(article)" class="flex flex-col items-center gap-y-2 rounded-lg bg-red-500 text-white p-4">
               <ion-icon name="trash" size="large"></ion-icon>
@@ -51,7 +64,7 @@
             </div>
           </ion-item-options>
         </ion-item-sliding>
-      </ion-list>
+      </ion-list> -->
     </ng-template>
   </ng-template>
 </ion-content>

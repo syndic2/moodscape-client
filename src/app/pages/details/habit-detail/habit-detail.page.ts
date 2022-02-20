@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -20,8 +19,7 @@ export class HabitDetailPage implements OnInit {
   private habitId: number;
   public habit: Habit;
   public habitTracks = { events: [], streaks: [], history: [] };
-  private getHabitSubscription: Subscription;
-  private getHabitsSubscription: Subscription;
+  private subscriptions = new Subscription();
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
@@ -30,7 +28,7 @@ export class HabitDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getHabitSubscription = this.store.select(getHabit(this.habitId)).subscribe(res => {
+    const getHabitSubscription = this.store.select(getHabit(this.habitId)).subscribe(res => {
       if (!res) {
         this.store.dispatch(fetchHabit({ habitId: this.habitId }));
       } else {
@@ -45,19 +43,20 @@ export class HabitDetailPage implements OnInit {
         this.habitTracks.history = [...res.track.streakLogs];
       }
     });
+    this.subscriptions.add(getHabitSubscription);
   }
 
   ionViewWillLeave() {
-    this.getHabitSubscription && this.getHabitSubscription.unsubscribe();
-    this.getHabitsSubscription && this.getHabitsSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   pullRefresh(event) {
-    this.getHabitsSubscription = this.store.select(getHabits()).subscribe(res => {
+    const getHabitsSubscription = this.store.select(getHabits()).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchHabits());
       }
-    })
+    });
+    this.subscriptions.add(getHabitsSubscription);
 
     this.store.dispatch(fetchHabit({ habitId: this.habitId }));
     event.target.complete();

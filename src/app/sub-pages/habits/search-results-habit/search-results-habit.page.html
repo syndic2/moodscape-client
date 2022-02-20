@@ -24,9 +24,9 @@
       </ng-container>
 
       <ng-template #showSearchResults>
-        <div class="flex flex-col gap-y-1 mt-8">
+        <div class="flex flex-col gap-y-1 h-full mt-8">
           <span class="text-sm xs:text-base font-medium">Data yang ditemukan: {{ searchResults.length }} data</span>
-          <habit-list-slider [habits]="searchResults"></habit-list-slider>
+          <habit-list-slider [habits]="searchResults" class="w-full h-full"></habit-list-slider>
         </div>
       </ng-template>
     </div>

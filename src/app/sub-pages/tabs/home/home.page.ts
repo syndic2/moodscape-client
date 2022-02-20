@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -40,6 +39,7 @@ export class HomePage implements OnInit {
   };
   private getAuthenticatedSubscription: Subscription;
   private featuredArticlesSubscription: Subscription;
+  private subscriptions = new Subscription();
 
   constructor(private store: Store, private authenticationService: AuthenticationService) { }
 
@@ -49,7 +49,7 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     setInterval(() => this.clock = transformDateTime(new Date()), 1000);
 
-    this.getAuthenticatedSubscription = this.store
+    const getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
@@ -59,8 +59,9 @@ export class HomePage implements OnInit {
           this.user = { ...res };
         }
       });
+    this.subscriptions.add(getAuthenticatedSubscription);
 
-    this.featuredArticlesSubscription = this.store
+    const featuredArticlesSubscription = this.store
       .select(getFeaturedArticles)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
@@ -70,11 +71,11 @@ export class HomePage implements OnInit {
 
         this.articles = res;
       });
+    this.subscriptions.add(featuredArticlesSubscription);
   }
 
   ionViewWillLeave() {
-    this.getAuthenticatedSubscription && this.getAuthenticatedSubscription.unsubscribe();
-    this.featuredArticlesSubscription && this.featuredArticlesSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   onOpenMyChatEmotions() {
