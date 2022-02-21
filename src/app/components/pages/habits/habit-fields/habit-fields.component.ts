@@ -7,7 +7,6 @@ import { collapseAnimation } from 'src/app/animations/utilities.animation';
 import { daysBetweenDates, transformDateTime } from 'src/app/utilities/helpers';
 import { Habit } from 'src/app/models/habit.model';
 import { showAlert } from 'src/app/store/actions/application.actions';
-// import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'habit-fields',

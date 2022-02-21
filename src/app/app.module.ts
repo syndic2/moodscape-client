@@ -31,6 +31,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InternetConnectionErrorPageModule } from './modals/errors/internet-connection-error/internet-connection-error.module';
 import { RequestErrorPageModule } from './modals/errors/request-error/request-error.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,7 +56,13 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     AppRoutingModule,
     InternetConnectionErrorPageModule,
-    RequestErrorPageModule
+    RequestErrorPageModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {
