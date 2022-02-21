@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,14 +7,14 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./select-calendar-year.page.scss'],
 })
 export class SelectCalendarYearPage implements OnInit {
-  @Input() selectedYear: number= new Date().getFullYear();
+  @Input() selectedYear: number = new Date().getFullYear();
 
-  public years: number[]= [];
+  public years: number[] = [];
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    for (let year= 1970; year<=2050; year++) {
+    for (let year = 1970; year <= 2050; year++) {
       this.years.push(year);
     }
   }
@@ -25,7 +24,7 @@ export class SelectCalendarYearPage implements OnInit {
   }
 
   onSelectYearChange(year: number) {
-    this.selectedYear= year;
+    this.selectedYear = year;
   }
 
   onSelectYear() {

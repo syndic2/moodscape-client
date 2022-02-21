@@ -1,9 +1,6 @@
 <div class="flex flex-col gap-y-2 xs:gap-y-5">
   <ion-card class="flex flex-col gap-y-5 rounded-lg p-5">
-    <app-calendar 
-      [isStatistics]="true" 
-      [eventSource]="moodsByMonth.moods"
-      [monthViewTemplate]="monthViewTemplate"
+    <app-calendar [isStatistics]="true" [eventSource]="moodsByMonth.moods" [monthViewTemplate]="monthViewTemplate"
       (selectDateChangedEvent)="onSelectCalendarDateChanged($event)">
     </app-calendar>
     <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
@@ -18,11 +15,14 @@
   <ion-card class="flex flex-col items-center gap-y-4 rounded-lg p-5">
     <h2 class="text-sm xs:text-lg font-medium">Grafik Mood Bulanan</h2>
     <div class="flex justify-center gap-x-4 text-tiny xs:text-xs text-white">
-      <button (click)="onSelectLineChartMonth()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
-      <button (click)="onSelectLineChartYear()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
+      <button (click)="onSelectLineChartMonth()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedMonth
+        ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
+      <button (click)="onSelectLineChartYear()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedYear ?
+        selectedYear : 'Pilih Tahun' }}</button>
     </div>
     <div class="relative w-full h-full">
-      <div *ngIf="!lineChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+      <div *ngIf="!lineChart?.data?.datasets[0]?.data?.length"
+        class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
         <span class="text-xs xs:text-lg font-semibold">Belum ada data mood</span>
       </div>
       <canvas #lineChartCanvas></canvas>
@@ -32,7 +32,8 @@
   <ion-card class="flex flex-col gap-y-2 xs:gap-y-4 rounded-lg p-5">
     <h2 class="text-sm xs:text-lg font-medium text-center">Total Keseluruhan Mood</h2>
     <div class="relative w-full h-full">
-      <div *ngIf="!doughnutChart?.data?.datasets[0]?.data?.length" class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
+      <div *ngIf="!doughnutChart?.data?.datasets[0]?.data?.length"
+        class="absolute inset-0 bg-white bg-opacity-80 flex justify-center items-center">
         <span class="text-xs xs:text-lg font-semibold">Belum ada data mood</span>
       </div>
       <canvas #doughnutChartCanvas></canvas>

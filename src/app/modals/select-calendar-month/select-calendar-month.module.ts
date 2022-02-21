@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { IonicModule } from '@ionic/angular';
 
 import { SelectCalendarMonthPage } from './select-calendar-month.page';
@@ -12,4 +11,8 @@ import { SelectCalendarMonthPage } from './select-calendar-month.page';
   ],
   declarations: [SelectCalendarMonthPage]
 })
-export class SelectCalendarMonthPageModule {}
+export class SelectCalendarMonthPageModule {
+  static getComponent(): typeof SelectCalendarMonthPage {
+    return SelectCalendarMonthPage;
+  }
+}

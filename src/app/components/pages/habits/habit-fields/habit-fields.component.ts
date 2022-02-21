@@ -1,15 +1,13 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { ModalController } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 
 import { collapseAnimation } from 'src/app/animations/utilities.animation';
 import { daysBetweenDates, transformDateTime } from 'src/app/utilities/helpers';
 import { Habit } from 'src/app/models/habit.model';
 import { showAlert } from 'src/app/store/actions/application.actions';
-import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
+// import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'habit-fields',
@@ -182,8 +180,9 @@ export class HabitFieldsComponent implements OnInit, AfterViewInit {
   //}
 
   async onSelectGoalDate(field: string) {
+    const { CalendarPageModule } = await import('../../../../modals/calendar/calendar.module');
     const modal = await this.modalController.create({
-      component: CalendarPage,
+      component: CalendarPageModule.getComponent(),
       componentProps: {
         ...this.habit && {
           selectedDate: field === 'startDate' ? this.goalStartDate.value : this.goalEndDate.value

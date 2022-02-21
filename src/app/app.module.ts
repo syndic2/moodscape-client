@@ -39,7 +39,9 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'md'
+    }),
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql']
     }),

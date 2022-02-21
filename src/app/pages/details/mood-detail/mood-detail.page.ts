@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -13,13 +12,12 @@ import { getMoods, getMood } from 'src/app/store/selectors/mood.selectors';
 @Component({
   selector: 'app-mood-detail',
   templateUrl: './mood-detail.page.html',
-  styleUrls: ['./mood-detail.page.scss'],
+  styleUrls: ['./mood-detail.page.scss']
 })
 export class MoodDetailPage implements OnInit {
   public mood: Mood;
   private moodId: number;
-  private getMoodsSubscription: Subscription;
-  private getMoodSubscription: Subscription;
+  private subscriptions: Subscription;
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
@@ -28,7 +26,9 @@ export class MoodDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getMoodSubscription = this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
+    this.subscriptions = new Subscription();
+
+    const getMoodSubscription = this.store.select(getMood({ Id: this.moodId })).subscribe(res => {
       if (!res) {
         this.store.dispatch(fetchMood({ moodId: this.moodId }));
       } else {
@@ -39,19 +39,20 @@ export class MoodDetailPage implements OnInit {
         };
       }
     });
+    this.subscriptions.add(getMoodSubscription);
   }
 
   ionViewWillLeave() {
-    this.getMoodsSubscription && this.getMoodsSubscription.unsubscribe();
-    this.getMoodSubscription && this.getMoodSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   pullRefresh(event) {
-    this.getMoodsSubscription = this.store.select(getMoods).subscribe(res => {
+    const getMoodsSubscription = this.store.select(getMoods).subscribe(res => {
       if (!res.length) {
         this.store.dispatch(fetchMoods());
       }
     });
+    this.subscriptions.add(getMoodsSubscription);
 
     this.store.dispatch(fetchMood({ moodId: this.moodId }));
     event.target.complete();

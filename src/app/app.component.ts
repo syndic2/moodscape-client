@@ -20,7 +20,7 @@ import { ModalService } from './services/modal/modal.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.subscriptions = new Subscription();
     this.checkNetworkConnection();
 
     const themesSubscription = this.themeService.getThemes().pipe(take(1)).subscribe(() => this.themeService.applyTheme());

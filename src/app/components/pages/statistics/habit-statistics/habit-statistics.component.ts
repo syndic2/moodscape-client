@@ -18,7 +18,7 @@ import {
   getHabitsByTotalCompleted
 } from 'src/app/store/selectors/habit.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/select-calendar-year.page';
+// import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/select-calendar-year.page';
 
 @Component({
   selector: 'habit-statistics',
@@ -33,11 +33,10 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   public habitsByBestStreaks: any[] = [];
   public barChart: any;
   public pieChart: any;
-
   private calendarDateClicked: boolean = false;
   private calendarPrevNextSubject: BehaviorSubject<Date> = new BehaviorSubject(new Date());
   private selectedYearSubject: BehaviorSubject<number> = new BehaviorSubject(new Date().getFullYear());
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -47,6 +46,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   ) { }
 
   ngOnInit() {
+    this.subscriptions = new Subscription();
     this.store.dispatch(fetchHabitsChart());
 
     const getHabitsByDateSubscription = this.store
@@ -215,8 +215,9 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   async onSelectBarChartYear() {
+    const { SelectCalendarYearPageModule } = await import('../../../../modals/select-calendar-year/select-calendar-year.module');
     const modal = await this.modalController.create({
-      component: SelectCalendarYearPage,
+      component: SelectCalendarYearPageModule.getComponent(),
       componentProps: {
         selectedYear: this.selectedYear
       },

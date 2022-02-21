@@ -10,8 +10,6 @@ import { navigateGo } from 'src/app/store/actions/router.actions';
 import { fetchMoods, fetchMoodsChart } from 'src/app/store/actions/mood.actions';
 import { getMoods, getMoodsByMonth, getMoodsByDate, getMoodsChartByMonthYear, getMoodsTotalCount } from 'src/app/store/selectors/mood.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { SelectCalendarMonthPage } from 'src/app/modals/select-calendar-month/select-calendar-month.page';
-import { SelectCalendarYearPage } from 'src/app/modals/select-calendar-year/select-calendar-year.page';
 
 @Component({
   selector: 'mood-statistics',
@@ -26,11 +24,10 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   public moodsByMonth = { moods: [], moodsCount: null };
   public lineChart: any;
   public doughnutChart: any;
-
   private calendarDateClicked: boolean = false;
   private calendarPrevNextSubject: BehaviorSubject<Date> = new BehaviorSubject(new Date());
   private selectedMonthYearSubject: BehaviorSubject<{ month, year }> = new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -40,6 +37,7 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   ) { }
 
   ngOnInit() {
+    this.subscriptions = new Subscription();
     this.store.dispatch(fetchMoodsChart());
 
     const getMoodsSubscription = this.store
@@ -227,8 +225,9 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onSelectLineChartMonth() {
+    const { SelectCalendarMonthPageModule } = await import('../../../../modals/select-calendar-month/select-calendar-month.module');
     const modal = await this.modalController.create({
-      component: SelectCalendarMonthPage,
+      component: SelectCalendarMonthPageModule.getComponent(),
       componentProps: {
         selectedMonth: this.selectedMonthYearSubject.value.month
       },
@@ -243,8 +242,9 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async onSelectLineChartYear() {
+    const { SelectCalendarYearPageModule } = await import('../../../../modals/select-calendar-year/select-calendar-year.module');
     const modal = await this.modalController.create({
-      component: SelectCalendarYearPage,
+      component: SelectCalendarYearPageModule.getComponent(),
       componentProps: {
         selectedYear: this.selectedMonthYearSubject.value.year
       },

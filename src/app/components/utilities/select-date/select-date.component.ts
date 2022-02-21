@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
-
-import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'select-date',
@@ -22,8 +19,9 @@ export class SelectDateComponent implements OnInit {
   }
 
   async onSelectDate() {
+    const { CalendarPageModule } = await import('../../../modals/calendar/calendar.module');
     const modal = await this.modalController.create({
-      component: CalendarPage,
+      component: CalendarPageModule.getComponent(),
       componentProps: {
         selectedDate: this.selectedDate
       },

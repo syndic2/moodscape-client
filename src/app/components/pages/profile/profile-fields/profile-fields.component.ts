@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
 import { AlertController, ModalController } from '@ionic/angular';
-
 import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/models/user.model';
 import { calculateAge, transformDateTime } from 'src/app/utilities/helpers';
-import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 
 @Component({
   selector: 'profile-fields',
@@ -20,18 +17,18 @@ export class ProfileFieldsComponent implements OnInit, OnDestroy {
   @Input() errorMessages;
   @ViewChild('profileFields', { static: true }) template;
 
-  private isAgeValid: boolean= true;
+  private isAgeValid: boolean = true;
   private dateOfBirthSubscription: Subscription;
 
   constructor(private viewContainerRef: ViewContainerRef, private alertController: AlertController, private modalController: ModalController) { }
 
   ngOnInit() {
     this.viewContainerRef.createEmbeddedView(this.template);
-    this.dateOfBirthSubscription= this.dateOfBirth.valueChanges.subscribe(async value => {
+    this.dateOfBirthSubscription = this.dateOfBirth.valueChanges.subscribe(async value => {
       if (calculateAge(value) < 12) {
         this.dateOfBirth.setValue('');
-        
-        const alert= await this.alertController.create({ message: 'Umur anda harus diatas 12 tahun' });
+
+        const alert = await this.alertController.create({ message: 'Umur anda harus diatas 12 tahun' });
         alert.present();
       }
     })
@@ -62,16 +59,17 @@ export class ProfileFieldsComponent implements OnInit, OnDestroy {
   }
 
   async onSelectDateOfBirth() {
-    const modal= await this.modalController.create({ 
-      component: CalendarPage,
+    const { CalendarPageModule } = await import('../../../../modals/calendar/calendar.module');
+    const modal = await this.modalController.create({
+      component: CalendarPageModule.getComponent(),
       componentProps: {
-        ...this.dateOfBirth.value && { selectedDate: this.dateOfBirth.value }, 
+        ...this.dateOfBirth.value && { selectedDate: this.dateOfBirth.value },
       },
-      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content' 
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
     });
     modal.present();
 
-    const { data }= await modal.onWillDismiss();
+    const { data } = await modal.onWillDismiss();
     if (data && data.selectedDate) {
       this.dateOfBirth.setValue(transformDateTime(data.selectedDate).toISODate());
     }

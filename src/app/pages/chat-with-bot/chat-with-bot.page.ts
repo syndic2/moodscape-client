@@ -26,7 +26,7 @@ export class ChatWithBotPage implements OnInit {
   public isShowDatePicker: boolean = false;
   public isBotTyping: boolean = false;
   private sender: string | number;
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -39,6 +39,8 @@ export class ChatWithBotPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.subscriptions = new Subscription();
+
     const getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,9 +7,9 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./select-calendar-month.page.scss'],
 })
 export class SelectCalendarMonthPage implements OnInit {
-  @Input() selectedMonth: number= 0;
+  @Input() selectedMonth: number = 0;
 
-  public months: string[]= [
+  public months: string[] = [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
@@ -25,7 +24,7 @@ export class SelectCalendarMonthPage implements OnInit {
   }
 
   onSelectMonthChange(month: string) {
-    this.selectedMonth= this.months.indexOf(month);
+    this.selectedMonth = this.months.indexOf(month);
   }
 
   onSelectMonth() {

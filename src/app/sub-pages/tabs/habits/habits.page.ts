@@ -22,7 +22,7 @@ export class HabitsPage implements OnInit {
   public habits: Habit[] = [];
   public selectedDay: BehaviorSubject<string> = new BehaviorSubject<string>('all day');
   public selectedMode: string = 'all';
-  private subscription = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -35,6 +35,8 @@ export class HabitsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.subscriptions = new Subscription();
+
     const habitsSubscription = this.store
       .select(getHabits())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
@@ -43,7 +45,7 @@ export class HabitsPage implements OnInit {
           this.store.dispatch(fetchHabits());
         }
       });
-    this.subscription.add(habitsSubscription);
+    this.subscriptions.add(habitsSubscription);
 
     const getQueryParamsSubscription = this.activatedRoute.queryParams.subscribe(params => {
       this.selectedMode = !params['mode'] ? 'all' : params['mode'];
@@ -53,13 +55,13 @@ export class HabitsPage implements OnInit {
         .subscribe(res => {
           this.habits = res;
         });
-      this.subscription.add(habitsDaySubscription);
+      this.subscriptions.add(habitsDaySubscription);
     });
-    this.subscription.add(getQueryParamsSubscription);
+    this.subscriptions.add(getQueryParamsSubscription);
   }
 
   ionViewWillLeave() {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   pullRefresh(event) {

@@ -37,9 +37,7 @@ export class HomePage implements OnInit {
       clickable: true
     }
   };
-  private getAuthenticatedSubscription: Subscription;
-  private featuredArticlesSubscription: Subscription;
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(private store: Store, private authenticationService: AuthenticationService) { }
 
@@ -47,6 +45,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.subscriptions = new Subscription();
     setInterval(() => this.clock = transformDateTime(new Date()), 1000);
 
     const getAuthenticatedSubscription = this.store

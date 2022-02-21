@@ -19,7 +19,7 @@ export class HabitDetailPage implements OnInit {
   private habitId: number;
   public habit: Habit;
   public habitTracks = { events: [], streaks: [], history: [] };
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription;
 
   constructor(private store: Store, private activatedRoute: ActivatedRoute) { }
 
@@ -28,6 +28,8 @@ export class HabitDetailPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.subscriptions = new Subscription();
+
     const getHabitSubscription = this.store.select(getHabit(this.habitId)).subscribe(res => {
       if (!res) {
         this.store.dispatch(fetchHabit({ habitId: this.habitId }));

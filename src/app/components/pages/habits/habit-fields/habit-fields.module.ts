@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
 import { StoreFeatureKeys } from 'src/app/store/feature-keys'
 import { habitReducer } from 'src/app/store/reducers/habit.reducer';
 import { HabitEffects } from 'src/app/store/effects/habit.effects';
-
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
 import { HabitFieldsComponent } from './habit-fields.component';
 import { SelectDayHorizontalListModule } from 'src/app/components/utilities/select-day-horizontal-list/select-day-horizontal-list.module';
 import { SelectHabitLabelColorModule } from 'src/app/components/utilities/select-habit-label-color/select-habit-label-color.module';
-import { CalendarPageModule } from 'src/app/modals/calendar/calendar.module';
 import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
 
 @NgModule({
@@ -29,7 +25,6 @@ import { SharedPipeModule } from 'src/app/modules/shared-pipe.module';
     NgxMaterialTimepickerModule,
     SelectDayHorizontalListModule,
     SelectHabitLabelColorModule,
-    CalendarPageModule,
     SharedPipeModule
   ],
   exports: [HabitFieldsComponent]
