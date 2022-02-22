@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "short_name": "app",
+  "name": "Moodscape",
+  "short_name": "Moodscape",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

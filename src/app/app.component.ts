@@ -5,6 +5,7 @@ import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Network } from '@capacitor/network';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -35,26 +36,32 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = new Subscription();
-    this.checkNetworkConnection();
 
-    const themesSubscription = this.themeService.getThemes().pipe(take(1)).subscribe(() => this.themeService.applyTheme());
-    this.subscriptions.add(themesSubscription);
-
-    if (Capacitor.getPlatform() !== 'web') {
-      const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
-        if (res) {
-          this.fcmService.initPush(res.Id);
-        }
+    this.platform.ready().then(() => {
+      GoogleAuth.initialize({
+        clientId: '253594452296-gqh9id0dugdfajqd2iomqosjaq0ee12h.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+        grantOfflineAccess: true
       });
-      this.subscriptions.add(getAuthenticatedSubscription);
+      this.checkNetworkConnection();
 
-      this.platform.ready().then(() => {
+      const themesSubscription = this.themeService.getThemes().pipe(take(1)).subscribe(() => this.themeService.applyTheme());
+      this.subscriptions.add(themesSubscription);
+
+      if (Capacitor.getPlatform() !== 'web') {
+        const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
+          if (res) {
+            this.fcmService.initPush(res.Id);
+          }
+        });
+        this.subscriptions.add(getAuthenticatedSubscription);
+
         this.setupDeepLinks();
         this.hardwareBackButton();
-      });
-    } else {
-      console.log('Ionic platform: web version');
-    }
+      } else {
+        console.log('Ionic platform: web version');
+      }
+    });
   }
 
   ngOnDestroy(): void {

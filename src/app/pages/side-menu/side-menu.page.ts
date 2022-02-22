@@ -1,47 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Plugins } from '@capacitor/core';
-import '@codetrix-studio/capacitor-google-auth';
-
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Store } from '@ngrx/store';
 
 import { fetchLogout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
-	selector: 'app-side-menu',
-	templateUrl: './side-menu.page.html',
-	styleUrls: ['./side-menu.page.scss'],
+  selector: 'app-side-menu',
+  templateUrl: './side-menu.page.html',
+  styleUrls: ['./side-menu.page.scss'],
 })
 export class SideMenuPage implements OnInit {
-	public pages: any[] = [
-		{
-			title: 'Beranda',
-			url: '/side-menu/tabs',
-			icon: 'home'
-		},
-		{
-			title: 'Profil',
-			url: '/side-menu/profile',
-			icon: 'person-circle-outline'
-		},
-		{
-			title: 'Artikel Saya',
-			url: '/side-menu/my-articles',
-			icon: 'newspaper-outline'
-		},
-		{
-			title: 'Pengaturan',
-			url: '/side-menu/settings',
-			icon: 'cog-outline'
-		}
-	];
+  public pages: any[] = [
+    {
+      title: 'Beranda',
+      url: '/side-menu/tabs',
+      icon: 'home'
+    },
+    {
+      title: 'Profil',
+      url: '/side-menu/profile',
+      icon: 'person-circle-outline'
+    },
+    {
+      title: 'Artikel Saya',
+      url: '/side-menu/my-articles',
+      icon: 'newspaper-outline'
+    },
+    {
+      title: 'Pengaturan',
+      url: '/side-menu/settings',
+      icon: 'cog-outline'
+    }
+  ];
 
-	constructor(private store: Store) { }
+  constructor(private store: Store) { }
 
-	ngOnInit() { }
+  ngOnInit() { }
 
-	onLogout() {
-    Plugins.GoogleAuth.signOut();
+  onLogout() {
+    GoogleAuth.signOut();
     this.store.dispatch(fetchLogout());
-	}
+  }
 }
