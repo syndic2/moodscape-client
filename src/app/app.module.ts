@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
@@ -31,7 +34,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InternetConnectionErrorPageModule } from './modals/errors/internet-connection-error/internet-connection-error.module';
 import { RequestErrorPageModule } from './modals/errors/request-error/request-error.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,13 +42,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    IonicModule.forRoot({
-      mode: 'md'
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
+    ServiceWorkerModule.register('combined-sw.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     }),
-    IonicStorageModule.forRoot({
-      driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql']
-    }),
-    FontAwesomeModule,
+
     StoreModule.forRoot(reducers, { metaReducers: metaReducers }),
     EffectsModule.forRoot([
       RouterEffects,
@@ -54,15 +58,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       AuthenticationEffects
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    FontAwesomeModule,
+
+    IonicModule.forRoot({ mode: 'md' }),
+    IonicStorageModule.forRoot({ driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql'] }),
+
     AppRoutingModule,
     InternetConnectionErrorPageModule,
-    RequestErrorPageModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+    RequestErrorPageModule
   ],
   providers: [
     {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AngularFireMessaging } from '@angular/fire/messaging';
 
 import { Storage } from '@ionic/storage';
 import { Capacitor } from '@capacitor/core';
@@ -21,17 +22,14 @@ export class FirebaseCloudMessagingService {
   private apiUrl: string = environment.apiUrl.replace('/api', '');
 
   constructor(
+    private afMessaging: AngularFireMessaging,
     private httpClient: HttpClient,
     private router: Router,
     private storage: Storage,
     private modalService: ModalService
   ) { }
 
-  initPush(userId: string) {
-    this.registerPush(userId);
-  }
-
-  private registerPush(userId: string) {
+  registerPushMobile(userId: string) {
     PushNotifications.requestPermissions().then(permission => {
       if (permission.receive === 'granted') {
         PushNotifications.register();
@@ -81,6 +79,17 @@ export class FirebaseCloudMessagingService {
 
     PushNotifications.addListener('pushNotificationActionPerformed', (notification: PushNoticationActionPerformed) => {
       this.router.navigate(['/side-menu/tabs/habits']);
+    });
+  }
+
+  registerPushPWA(userId: string) {
+    this.afMessaging.requestToken.pipe(take(1)).subscribe(token => {
+      this.saveToken(userId, token)
+        .pipe(
+          take(1),
+          switchMap(() => from(this.storage.set('fcm-token', token)))
+        )
+        .subscribe();
     });
   }
 

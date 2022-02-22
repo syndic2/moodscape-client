@@ -1,5 +1,21 @@
 {
   "projects": {
-    "default": "moodscape-pwa"
+    "default": "moodscape-app"
+  },
+  "targets": {
+    "moodscape-pwa": {
+      "hosting": {
+        "app": [
+          "moodscape-pwa"
+        ]
+      }
+    },
+    "moodscape-app": {
+      "hosting": {
+        "app": [
+          "moodscape-app"
+        ]
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AngularFireMessaging } from '@angular/fire/messaging';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Capacitor } from '@capacitor/core';
@@ -32,6 +33,7 @@ export class AuthenticationService {
     private http: HttpClient,
     private storage: Storage,
     private platform: Platform,
+    private afMessaging: AngularFireMessaging,
     private fcmService: FirebaseCloudMessagingService
   ) {
     this.checkStoredToken();
@@ -170,11 +172,13 @@ export class AuthenticationService {
     return from(Promise.all([
       this.storage.remove(TOKEN_KEY),
       this.storage.remove(REFRESH_TOKEN_KEY),
-      Capacitor.getPlatform() !== 'web' && this.storage.get('fcm-token').then(token => {
+      this.storage.get('fcm-token').then(token => {
         this.fcmService.removeToken(token).pipe(take(1)).subscribe();
+
+        if (Capacitor.getPlatform() !== 'web') FCM.deleteInstance();
+        else this.afMessaging.deleteToken(token);
       }),
-      this.storage.remove('fcm-token'),
-      Capacitor.getPlatform() !== 'web' && FCM.deleteInstance()
+      this.storage.remove('fcm-token')
     ]));
   }
 }

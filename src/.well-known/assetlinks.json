@@ -1,10 +1,14 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target" : {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
       "namespace": "android_app",
       "package_name": "com.nix.moodscape",
-      "sha256_cert_fingerprints": ["EA:88:5F:76:67:C7:28:4A:4E:93:5D:A0:99:45:4A:8D:43:96:34:AD:65:57:F8:6B:36:92:D5:E1:CB:54:F1:FA"]
+      "sha256_cert_fingerprints": [
+        "EA:88:5F:76:67:C7:28:4A:4E:93:5D:A0:99:45:4A:8D:43:96:34:AD:65:57:F8:6B:36:92:D5:E1:CB:54:F1:FA"
+      ]
     }
   }
 ]

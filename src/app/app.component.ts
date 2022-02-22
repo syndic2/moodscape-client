@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { Platform } from '@ionic/angular';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Capacitor } from '@capacitor/core';
@@ -21,9 +22,11 @@ import { ModalService } from './services/modal/modal.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription;
+  private PWAInstallPrompt = null;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
+    private swUpdate: SwUpdate,
     private store: Store,
     private router: Router,
     private zone: NgZone,
@@ -35,31 +38,32 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscriptions = new Subscription();
-
     this.platform.ready().then(() => {
       GoogleAuth.initialize({
         clientId: '253594452296-gqh9id0dugdfajqd2iomqosjaq0ee12h.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
         grantOfflineAccess: true
       });
-      this.checkNetworkConnection();
 
       const themesSubscription = this.themeService.getThemes().pipe(take(1)).subscribe(() => this.themeService.applyTheme());
       this.subscriptions.add(themesSubscription);
 
       if (Capacitor.getPlatform() !== 'web') {
-        const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
-          if (res) {
-            this.fcmService.initPush(res.Id);
-          }
-        });
-        this.subscriptions.add(getAuthenticatedSubscription);
-
+        this.setupPushNotifications('mobile');
         this.setupDeepLinks();
+        this.checkNetworkConnection();
         this.hardwareBackButton();
-      } else {
-        console.log('Ionic platform: web version');
+      } else { //PWA
+        if (this.swUpdate.available) {
+          this.setupPushNotifications('pwa');
+
+          const swUpdateSubscription = this.swUpdate.available.subscribe(() => {
+            if (confirm('A new version is available. Do you want to load it?')) window.location.reload();
+          });
+          this.subscriptions.add(swUpdateSubscription);
+        }
+
+        console.log('Ionic platform: PWA version');
       }
     });
   }
@@ -68,12 +72,25 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  checkNetworkConnection() {
-    Network.addListener('networkStatusChange', status => {
-      if (!status.connected) {
-        this.modalService.internetConnectionError('Tidak ada koneksi internet');
+  showPWAInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      this.PWAInstallPrompt = e;
+    });
+  }
+
+  askUserToInstallPWA() {
+    this.PWAInstallPrompt.prompt();
+  }
+
+  setupPushNotifications(platform: 'mobile' | 'pwa') {
+    const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
+      if (res) {
+        if (platform === 'mobile') this.fcmService.registerPushMobile(res.Id);
+        else this.fcmService.registerPushPWA(res.Id);
       }
     });
+    this.subscriptions.add(getAuthenticatedSubscription);
   }
 
   setupDeepLinks() {
@@ -87,6 +104,14 @@ export class AppComponent implements OnInit, OnDestroy {
       //console.error('not matching a deeplink', nomatch);
     });
     this.subscriptions.add(deepLinksSubscription);
+  }
+
+  checkNetworkConnection() {
+    Network.addListener('networkStatusChange', status => {
+      if (!status.connected) {
+        this.modalService.internetConnectionError('Tidak ada koneksi internet');
+      }
+    });
   }
 
   hardwareBackButton() {
