@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import Chart from 'chart.js/auto';
 
-import { poppingAnimation } from 'src/app/animations/utilities.animation';
-import { ChatEmotionLog, ChatEmotions } from 'src/app/models/chat-emotions';
+// import { poppingAnimation } from 'src/app/animations/utilities.animation';
 import { User } from 'src/app/models/user.model';
 import { fetchProfile } from 'src/app/store/actions/user.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
@@ -26,18 +22,20 @@ import { InputOTPCodePage } from 'src/app/modals/one-time-password/input-otp-cod
 })
 export class MyChatEmotionsPage implements OnInit {
   @ViewChild('pieChartCanvas', { static: false }) pieChartCanvas: ElementRef;
-  @ViewChildren('emotionCard') emotionCards: QueryList<ElementRef>;
+  // @ViewChildren('emotionCard') emotionCards: QueryList<ElementRef>;
 
-  public chatEmotions: ChatEmotions;
+  public chatEmotions: {} = {};
+  public emotionLabels: any = {
+    angry: 'Marah',
+    fear: 'Takut',
+    happy: 'Senang',
+    sad: 'Sedih',
+    surprise: 'Terkejut'
+  };
   private user: User;
-  public selectedChatEmotionLog: ChatEmotionLog[];
   public isTelegramAuthorized: boolean = false;
-  public pieChart;
-
-  private getAuthenticatedSubscription: Subscription;
-  private getChatEmotionsSubscription: Subscription;
-  private connectTelegramSubscription: Subscription;
-  private disconnectTelegramSubscription: Subscription;
+  public pieChart: any;
+  private subscriptions: Subscription;
 
   constructor(
     private store: Store,
@@ -47,23 +45,22 @@ export class MyChatEmotionsPage implements OnInit {
     private chatEmotionsService: ChatEmotionsService
   ) { }
 
-  ngOnInit() {
-    //this.modalService.requestError('test');
-  }
+  ngOnInit() { }
 
   ngAfterViewInit() {
     this.pieChart = new Chart(this.pieChartCanvas.nativeElement, {
       type: 'pie',
       data: {
-        labels: ['Senang', 'Marah', 'Sedih', 'Takut'],
+        labels: ['Marah', 'Takut', 'Senang', 'Sedih', 'Terkejut'],
         datasets: [
           {
-            data: [25, 10, 45, 20],
+            data: [10, 10, 10, 10, 10],
             backgroundColor: [
-              '#3CB403',
-              '#D0312D',
-              '#FFD300',
-              '#0077B6'
+              '#FF0000',
+              '#008000',
+              '#F0E68C',
+              '#4682B4',
+              '#6495ED'
             ]
           }
         ]
@@ -72,9 +69,10 @@ export class MyChatEmotionsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.subscriptions = new Subscription();
     this.utilitiesService.onSkeletonLoading.next(true);
 
-    this.getAuthenticatedSubscription = this.store
+    const getAuthenticatedSubscription = this.store
       .select(getAuthenticated)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(user => {
@@ -82,27 +80,44 @@ export class MyChatEmotionsPage implements OnInit {
           this.store.dispatch(fetchProfile({ skipLoading: false }));
         } else {
           this.user = { ...user };
-          this.getChatEmotionsSubscription = this.chatEmotionsService.getChatEmotions(this.user.Id)
-            .pipe(takeUntil(this.authenticationService.isLoggedIn))
-            .subscribe(res => {
-              if (res?.is_authorized === false) {
-                this.isTelegramAuthorized = false;
-              } else {
-                this.isTelegramAuthorized = true;
-                //get emotions data
-              }
-
-              this.utilitiesService.onSkeletonLoading.next(false);
-            });
+          this.processData();
         }
       });
+    this.subscriptions.add(getAuthenticatedSubscription);
   }
 
   ionViewWillLeave() {
-    this.getAuthenticatedSubscription && this.getAuthenticatedSubscription.unsubscribe();
-    this.getChatEmotionsSubscription && this.getChatEmotionsSubscription.unsubscribe();
-    this.connectTelegramSubscription && this.connectTelegramSubscription.unsubscribe();
-    this.disconnectTelegramSubscription && this.disconnectTelegramSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
+  }
+
+  processData() {
+    const getChatEmotionsSubscription = this.chatEmotionsService.getChatEmotions(this.user.Id)
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
+        if (res?.is_authorized === false) {
+          this.isTelegramAuthorized = false;
+        } else {
+          this.isTelegramAuthorized = true;
+
+          this.pieChart.data.datasets[0].data = [];
+          if (res.chat_emotions.emotions_total) {
+            Object.entries(res.chat_emotions.emotions_total).forEach(([key, value]) => this.pieChart.data.datasets[0].data.push(value));
+          }
+          this.pieChart.update();
+
+          this.chatEmotions = res.chat_emotions.messages.reduce((group: any, message: any) => {
+            const { first_name } = message.chat_with;
+            group[first_name] = group[first_name] ?? [];
+            group[first_name].push({ data: message.data, emotions: message.emotions });
+            group[first_name].sort((a: any, b: any) => new Date(a.data.timestamps) > new Date(b.data.timestamps) ? 1 : -1);
+
+            return group;
+          }, {});
+        }
+
+        this.utilitiesService.onSkeletonLoading.next(false);
+      });
+    this.subscriptions.add(getChatEmotionsSubscription);
   }
 
   async onConnectTelegram() {
@@ -113,7 +128,7 @@ export class MyChatEmotionsPage implements OnInit {
     if (data && data.phone) {
       const phone = data.phone;
 
-      this.connectTelegramSubscription = this.chatEmotionsService.connectTelegram(this.user?.Id, data.phone)
+      const connectTelegramSubscription = this.chatEmotionsService.connectTelegram(this.user?.Id, data.phone)
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(async res => {
           const modal = await this.modalController.create({
@@ -131,28 +146,31 @@ export class MyChatEmotionsPage implements OnInit {
             this.isTelegramAuthorized = true;
           }
         });
+      this.subscriptions.add(connectTelegramSubscription);
     }
   }
 
   onDisconnectTelegram() {
-    this.disconnectTelegramSubscription = this.chatEmotionsService.disconnectTelegram(this.user?.Id)
+    const disconnectTelegramSubscription = this.chatEmotionsService.disconnectTelegram(this.user?.Id)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(() => {
         this.isTelegramAuthorized = false;
+        this.chatEmotions = {};
       });
+    this.subscriptions.add(disconnectTelegramSubscription);
   }
 
-  onSelectEmotion(index: number) {
-    poppingAnimation('emotion-card', this.emotionCards.get(index)).play();
+  // onSelectEmotion(index: number) {
+  //   poppingAnimation('emotion-card', this.emotionCards.get(index)).play();
 
-    if (index === 0) {
+  //   if (index === 0) {
 
-    } else if (index === 1) {
+  //   } else if (index === 1) {
 
-    } else if (index === 2) {
+  //   } else if (index === 2) {
 
-    } else if (index === 3) {
+  //   } else if (index === 3) {
 
-    }
-  }
+  //   }
+  // }
 }

@@ -26,10 +26,7 @@ export const articleReducer = createReducer(
   initialState,
   on(setArticles, (state, { articlePagination }) => ({
     ...state,
-    articlePagination: {
-      ...state.articlePagination,
-      ...articlePagination
-    }
+    articlePagination: { ...articlePagination }
   })),
 
   on(setFeaturedArticles, (state, { articles }) => ({ ...state, featuredArticles: [...articles] })),
@@ -51,15 +48,20 @@ export const articleReducer = createReducer(
     ...state,
     articlePagination: {
       ...state.articlePagination,
-      articles: [
-        ...state.articlePagination.articles.map(object => {
-          if (object.Id !== article.Id) {
-            return object;
-          }
+      articles:
+        !state.articlePagination.articles.length ?
+          [...state.articlePagination.articles, article] : (
+            !state.articlePagination.articles.find(object => object.Id === article.Id) ?
+              [...state.articlePagination.articles, article] : [
+                ...state.articlePagination.articles.map(object => {
+                  if (object.Id !== article.Id) {
+                    return object;
+                  }
 
-          return article;
-        })
-      ]
+                  return article;
+                })
+              ]
+          )
     }
   })),
 

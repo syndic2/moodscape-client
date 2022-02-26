@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,11 +15,11 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./my-articles.page.scss'],
 })
 export class MyArticlesPage implements OnInit {
-  public articles: Article[]= [];
+  public articles: Article[] = [];
   private articlesSubscription: Subscription;
 
   constructor(
-    private store: Store, 
+    private store: Store,
     public utilitiesService: UtilitiesService,
     private authenticationService: AuthenticationService
   ) { }
@@ -29,23 +28,20 @@ export class MyArticlesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.articlesSubscription= this.store
+    this.store.dispatch(fetchArchivedArticles());
+    this.articlesSubscription = this.store
       .select(getArchivedArticles)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-      if (!res.length) {
-        this.store.dispatch(fetchArchivedArticles());
-      } else {
-        this.articles= res;
-      }
-    });
+        this.articles = res;
+      });
   }
 
   ionViewWillLeave() {
     this.articlesSubscription && this.articlesSubscription.unsubscribe();
   }
 
-  pullRefresh(event) {
+  pullRefresh(event: any) {
     this.store.dispatch(fetchArchivedArticles());
     event.target.complete();
   }

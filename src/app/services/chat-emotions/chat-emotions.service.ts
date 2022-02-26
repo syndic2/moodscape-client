@@ -13,8 +13,8 @@ export class ChatEmotionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getChatEmotions(phone: string): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}/services/telegram/chat-emotions/${phone}`);
+  getChatEmotions(userId: string): Observable<any> {
+    return this.httpClient.get(`${this.apiUrl}/services/telegram/chat-emotions/${userId}`);
   }
 
   connectTelegram(userId: string, phone: string): Observable<any> {

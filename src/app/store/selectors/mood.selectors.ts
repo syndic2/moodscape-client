@@ -53,7 +53,7 @@ export const getGroupedMoodsByDate = (stateName: string) => {
         groupedMood[dateProp] = [];
 
       groupedMood[dateProp].push(mood);
-      groupedMood[dateProp].sort((a, b) => a.createdAt.time > b.createdAt.time ? -1 : 1);
+      groupedMood[dateProp].sort((a: Mood, b: Mood) => a.createdAt.time > b.createdAt.time ? -1 : 1);
 
       return groupedMood;
     }, {})

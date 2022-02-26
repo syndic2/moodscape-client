@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -27,7 +26,7 @@ export class ArticleDetailPage implements OnInit {
   ionViewWillEnter() {
     this.store.dispatch(fetchArticleByUrlName({ urlName: this.urlName }));
     this.articleSubscription = this.store.select(getArticleByUrlName(this.urlName)).subscribe(res => {
-      if (res !== null) {
+      if (res) {
         this.article = res;
       }
     });

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-
 import { map, switchMap, exhaustMap, concatMap, mergeMap } from 'rxjs/operators';
 
 import { ArticleService } from 'src/app/services/article/article.service';

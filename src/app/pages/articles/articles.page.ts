@@ -37,11 +37,8 @@ export class ArticlesPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
     this.articlePaginationSubscription = this.store.select(getArticlePagination).subscribe(res => {
-      if (!res.articles.length) {
-        this.store.dispatch(fetchArticles({ offset: this.offset, limit: this.limit }));
-      }
-
       this.offset = res.offset;
       this.limit = res.limit;
       this.maxPage = res.maxPage;
