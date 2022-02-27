@@ -11,18 +11,16 @@
       ]
     }
   },
-  [
-    {
-      "relation": [
-        "delegate_permission/common.handle_all_urls"
-      ],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.nix.moodscape_twa",
-        "sha256_cert_fingerprints": [
-          "D8:65:EF:ED:5F:A0:95:4C:6A:DF:25:CE:EC:D3:06:46:70:0B:36:20:0B:18:10:9F:40:5C:26:83:40:D1:1A:5A"
-        ]
-      }
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nix.moodscape_twa",
+      "sha256_cert_fingerprints": [
+        "D8:65:EF:ED:5F:A0:95:4C:6A:DF:25:CE:EC:D3:06:46:70:0B:36:20:0B:18:10:9F:40:5C:26:83:40:D1:1A:5A"
+      ]
     }
-  ]
+  }
 ]
