@@ -10,5 +10,19 @@
         "EA:88:5F:76:67:C7:28:4A:4E:93:5D:A0:99:45:4A:8D:43:96:34:AD:65:57:F8:6B:36:92:D5:E1:CB:54:F1:FA"
       ]
     }
-  }
+  },
+  [
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.nix.moodscape_twa",
+        "sha256_cert_fingerprints": [
+          "D8:65:EF:ED:5F:A0:95:4C:6A:DF:25:CE:EC:D3:06:46:70:0B:36:20:0B:18:10:9F:40:5C:26:83:40:D1:1A:5A"
+        ]
+      }
+    }
+  ]
 ]
