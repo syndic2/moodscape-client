@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -71,18 +70,18 @@ export class ProfilePage implements OnInit {
 
   initializeForm() {
     this.updateProfileForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      gender: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      email: [
-        '',
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
+      email: new FormControl(
+        { value: '', disabled: true },
         [
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
         ]
-      ],
-      imgUrl: [''],
+      ),
+      imgUrl: new FormControl(''),
     });
   }
 

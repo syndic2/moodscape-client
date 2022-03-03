@@ -1,0 +1,14 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <button (click)="close()" slot="end" class="flex items-center text-2xl focus:outline-none">
+      <ion-icon name="close" color="primary"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<div class="inner-content flex flex-col gap-y-4 items-center p-8 pt-0">
+  <h3 class="text-sm xs:text-lg font-medium">Apakah anda ingin mengirimkan umpan balik untuk chatbot?</h3>
+  <ion-textarea [(ngModel)]="review" inputmode="text" placeholder="Ketik sesuatu" rows="7"
+    class="flex-grow bg-gray-100 rounded-lg border-1 border-primary m-0 focus:outline-none"></ion-textarea>
+  <ion-button (click)="onSend()" shape="round" class="normal-case text-sm xs:text-md">Kirim</ion-button>
+</div>

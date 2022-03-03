@@ -18,14 +18,14 @@
   (ionScrollEnd)="logScrollEnd()">
 </ion-content>-->
 
-<ion-content scrollEvents (ionScroll)="logScrolling($event)">
+<ion-content scrollEvents>
   <ion-refresher slot="fixed" (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="flex flex-col gap-y-3">
     <ng-container *ngFor="let message of messages | async">
-      <bubble-chat [message]="message"></bubble-chat>
+      <bubble-chat [message]="message" (selectMessageEvent)="onSelectMessage($event)"></bubble-chat>
     </ng-container>
   </div>
 </ion-content>
@@ -47,7 +47,9 @@
         <ng-container *ngFor="let button of buttonMessages">
           <div class="flex flex-wrap justify-center items-center gap-3 p-3">
             <button (click)="sendMessage(button.payload, button.title)"
-              class="rounded-full text-sm text-white bg-primary p-4">{{ button.title }}</button>
+              class="rounded-full text-sm text-white bg-primary p-4">
+              {{ button.title }}
+            </button>
           </div>
         </ng-container>
       </ng-template>

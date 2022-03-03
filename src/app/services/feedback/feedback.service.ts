@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import StringifyObject from 'stringify-object';
 import gqlCompress from 'graphql-query-compress';
 
@@ -41,6 +39,38 @@ export class FeedbackService {
 
     return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
       map((res: any) => res.data.createAppFeedback)
+    );
+  }
+
+  sendChatbotFeedback(fields: {}): Observable<any> {
+    const query = gqlCompress(`
+      mutation {
+        createChatbotFeedback(fields: ${StringifyObject(filterObjectProps(fields), { singleQuotes: false })}) {
+          createdFeedback {
+            Id,
+            review,
+            botMessage {
+              Id,
+              text
+            },
+            messages {
+              Id,
+              text
+            },
+            user {
+              Id
+            }
+          },
+          response {
+            text,
+            status
+          }
+        }
+      }
+    `);
+
+    return this.http.post(`${environment.apiUrl}/graphql`, { query: query }).pipe(
+      map((res: any) => res.data.createChatbotFeedback)
     );
   }
 }

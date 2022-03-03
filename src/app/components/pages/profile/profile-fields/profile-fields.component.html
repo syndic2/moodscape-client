@@ -3,7 +3,8 @@
     <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Nama depan</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="firstName" placeholder="Nama depan anda" class="text-sm xs:text-base"></ion-input>
+        <ion-input type="text" inputmode="text" formControlName="firstName" placeholder="Nama depan anda"
+          class="text-sm xs:text-base"></ion-input>
       </ion-item>
       <ng-container *ngIf="errorMessages?.firstName.length">
         <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.firstName">
@@ -18,7 +19,8 @@
     <ion-col size="12">
       <ion-item>
         <ion-label position="stacked">Nama belakang</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="lastName" placeholder="Nama belakang anda" class="text-sm xs:text-base"></ion-input>
+        <ion-input type="text" inputmode="text" formControlName="lastName" placeholder="Nama belakang anda"
+          class="text-sm xs:text-base"></ion-input>
       </ion-item>
       <ng-container *ngIf="errorMessages?.lastName.length">
         <div class="text-md xs:text-base text-red-600 font-medium mt-1" *ngFor="let error of errorMessages.lastName">
@@ -33,7 +35,8 @@
     <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Jenis kelamin</ion-label>
-        <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender" class="text-sm xs:text-base">
+        <ion-select placeholder="Jenis kelamin anda" okText="Pilih" cancelText="Kembali" formControlName="gender"
+          class="text-sm xs:text-base">
           <ion-select-option value="M">Lelaki</ion-select-option>
           <ion-select-option value="F">Perempuan</ion-select-option>
         </ion-select>
@@ -52,7 +55,8 @@
     <ion-col size="12">
       <ion-item (click)="onSelectDateOfBirth()" class="rounded-xl">
         <ion-label position="stacked">Tanggal Lahir</ion-label>
-        <ion-input type="text" inputmode="text" formControlName="dateOfBirth" placeholder="Tanggal lahir anda" class="text-sm xs:text-base" readonly></ion-input>
+        <ion-input type="text" inputmode="text" formControlName="dateOfBirth" placeholder="Tanggal lahir anda"
+          class="text-sm xs:text-base" readonly></ion-input>
         <ion-icon slot="end" name="calendar" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
       </ion-item>
       <ng-container *ngIf="errorMessages?.dateOfBirth.length">
@@ -68,7 +72,8 @@
     <ion-col size="12">
       <ion-item class="rounded-xl">
         <ion-label position="stacked">Alamat surel</ion-label>
-        <ion-input type="email" inputmode="text" formControlName="email" placeholder="Surel anda" class="text-sm xs:text-base" [disabled]="user ? true : false"></ion-input>
+        <ion-input type="email" inputmode="text" formControlName="email" placeholder="Surel anda"
+          class="text-sm xs:text-base"></ion-input>
         <ion-icon slot="end" name="mail" color="primary" class="text-xs xs:text-base my-auto"></ion-icon>
       </ion-item>
       <ng-container *ngIf="errorMessages?.email.length">

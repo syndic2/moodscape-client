@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, ModalController } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { v4 as uuidV4 } from 'uuid';
 
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { fetchProfile } from 'src/app/store/actions/user.actions';
 import { getAuthenticated } from 'src/app/store/selectors/authentication.selectors';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { ChatbotService } from 'src/app/services/chatbot/chatbot.service';
-import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
+import { ModalService } from 'src/app/services/modal/modal.service';
 
 @Component({
   selector: 'app-chat-with-bot',
@@ -19,7 +20,7 @@ import { CalendarPage } from 'src/app/modals/calendar/calendar.page';
 export class ChatWithBotPage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
-  public messageText: string = '';
+  public messageText: string;
   public messages = new BehaviorSubject<any[]>([]);
   public buttonMessages: { title: string, payload: string }[] = [];
   public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
@@ -30,15 +31,21 @@ export class ChatWithBotPage implements OnInit {
 
   constructor(
     private store: Store,
-    private modalController: ModalController,
     private authenticationService: AuthenticationService,
-    private chatbotService: ChatbotService
+    private chatbotService: ChatbotService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
+    this.messageText = '';
+    this.messages.next([]);
+    this.buttonMessages = [];
+    this.dateRangeValuesSubject.next({ startDate: '', endDate: '' });
+    this.isShowDatePicker = false;
+    this.isBotTyping = false;
     this.subscriptions = new Subscription();
 
     const getAuthenticatedSubscription = this.store
@@ -49,7 +56,7 @@ export class ChatWithBotPage implements OnInit {
           this.store.dispatch(fetchProfile({ skipLoading: false }));
         } else {
           this.sender = res.Id;
-          this.sendMessage('/initiate_bot_greet');
+          this.sendMessage('initiate_bot_greet');
         }
       });
     this.subscriptions.add(getAuthenticatedSubscription);
@@ -66,7 +73,6 @@ export class ChatWithBotPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.resetMessages();
     this.subscriptions.unsubscribe();
   }
 
@@ -75,26 +81,14 @@ export class ChatWithBotPage implements OnInit {
     event.target.complete();
   }
 
-  logScrolling(event) {
-  }
-
-  resetMessages() {
-    this.messageText = '';
-    this.messages.next([]);
-    this.buttonMessages = [];
-    this.dateRangeValuesSubject.next({ startDate: '', endDate: '' });
-    this.isShowDatePicker = false;
-    this.isBotTyping = false;
-  }
-
   async onOpenCalendar(rangeType: string) {
-    const modal = await this.modalController.create({
-      component: CalendarPage,
+    const { CalendarPageModule } = await import('../../modals/calendar/calendar.module');
+    const modal = await this.modalService.open({
+      component: CalendarPageModule.getComponent(),
       cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
     });
-    modal.present();
+    const { data } = modal;
 
-    const { data } = await modal.onWillDismiss();
     if (data && data.selectedDate) {
       if (rangeType === 'start') {
         this.dateRangeValuesSubject.next({
@@ -110,11 +104,29 @@ export class ChatWithBotPage implements OnInit {
     }
   }
 
-  sendMessage(messageText: string, buttonMessageTitle: string = '') {
-    if (messageText !== '/initiate_bot_greet' && !this.buttonMessages.length) {
-      this.messages.next([...this.messages.value, { sender: this.sender, recipient_id: 'BOT', text: messageText }]);
-    } else if (buttonMessageTitle !== '') {
-      this.messages.next([...this.messages.value, { sender: this.sender, recipient_id: 'BOT', text: buttonMessageTitle }]);
+  async onSelectMessage(message: any) {
+    const { ChatbotMessageFeedbackPageModule } = await import('../../modals/chatbot-message-feedback/chatbot-message-feedback.module');
+    const selectedIndex = [...this.messages.value].findIndex(object => object.Id === message.Id);
+    const slicedMessages = [...this.messages.value].slice(0, selectedIndex + 1);
+
+    await this.modalService.open({
+      component: ChatbotMessageFeedbackPageModule.getComponent(),
+      componentProps: { botMessage: message, messages: slicedMessages },
+      cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
+    });
+  }
+
+  sendMessage(messageText: string, buttonTitle?: string) {
+    if (messageText !== 'initiate_bot_greet' && !buttonTitle) {
+      this.messages.next([
+        ...this.messages.value,
+        { Id: uuidV4(), sender: this.sender, recipientId: 'BOT', text: messageText }
+      ]);
+    } else if (buttonTitle && buttonTitle !== '') {
+      this.messages.next([
+        ...this.messages.value,
+        { Id: uuidV4(), sender: this.sender, recipientId: 'BOT', text: buttonTitle }
+      ]);
     }
 
     if (this.isShowDatePicker) {
@@ -130,17 +142,23 @@ export class ChatWithBotPage implements OnInit {
       .sendMessage(this.sender, messageText)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe((res: any[]) => {
-        if (res.length) {
-          const removeBotTypingIndicator = [...this.messages.value];
-          removeBotTypingIndicator.pop();
-          this.messages.next(removeBotTypingIndicator);
+        const removeBotTypingIndicator = [...this.messages.value];
+        removeBotTypingIndicator.pop();
+        this.messages.next(removeBotTypingIndicator);
 
+        if (res.length) {
           res.forEach(message => {
             if (message.custom && message.custom.is_show_datepicker) {
               this.isShowDatePicker = true;
-              this.messages.next([...this.messages.value, { sender: 'BOT', recipient_id: this.sender, customActionButton: true }]);
+              this.messages.next([
+                ...this.messages.value,
+                { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customActionButton: true }
+              ]);
             } else {
-              this.messages.next([...this.messages.value, { sender: 'BOT', recipient_id: this.sender, text: message.text }]);
+              this.messages.next([
+                ...this.messages.value,
+                { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, text: message.text }
+              ]);
             }
           });
           res.forEach(message => {
@@ -149,9 +167,17 @@ export class ChatWithBotPage implements OnInit {
               return;
             }
           });
-
-          this.isBotTyping = false;
+        } else {
+          if (messageText === '/restart') {
+            this.messages.next([
+              ...this.messages.value,
+              { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, text: 'Percakapan dengan BOT telah di-reset, percakapan akan diulang kembali dari awal.' }
+            ]);
+            this.sendMessage('initiate_bot_greet');
+          }
         }
+
+        this.isBotTyping = false;
       });
     this.subscriptions.add(sendMessageSubscription);
   }

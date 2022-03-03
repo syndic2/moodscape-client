@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -30,7 +29,7 @@ export class JwtInterceptor implements HttpInterceptor {
         switchMap(token => {
           return next.handle(this.attachToken(request, token)).pipe(
             map((response: any) => {
-              return this.reAuthenticate(request, response, next);
+              return this.reAuthenticate(response);
             })
           );
         })
@@ -38,16 +37,13 @@ export class JwtInterceptor implements HttpInterceptor {
     }
   }
 
-  private reAuthenticate(request: HttpRequest<any>, response: any, next: HttpHandler) {
+  private reAuthenticate(response: any) {
     if (response.body) {
       this.utilitiesService.onSkeletonLoading.next(true);
 
       const data = response.body.data;
       const resolver = data[Object.keys(data)[0]]
-      let isTokenExpired: boolean = false;
-
-      //console.log('body', res.body);
-      //console.log('resolver', resolver);
+      let isTokenExpired: boolean = false
 
       if (resolver === undefined || resolver === null) {
         isTokenExpired = true;

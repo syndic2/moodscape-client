@@ -54,7 +54,7 @@ export class MyChatEmotionsPage implements OnInit {
         labels: ['Marah', 'Takut', 'Senang', 'Sedih', 'Terkejut'],
         datasets: [
           {
-            data: [10, 10, 10, 10, 10],
+            data: [],
             backgroundColor: [
               '#FF0000',
               '#008000',

@@ -32,8 +32,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InternetConnectionErrorPageModule } from './modals/errors/internet-connection-error/internet-connection-error.module';
-import { RequestErrorPageModule } from './modals/errors/request-error/request-error.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,14 +56,11 @@ import { RequestErrorPageModule } from './modals/errors/request-error/request-er
       AuthenticationEffects
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    FontAwesomeModule,
 
+    FontAwesomeModule,
     IonicModule.forRoot({ mode: 'md' }),
     IonicStorageModule.forRoot({ driverOrder: ['sqlite', 'indexeddb', 'localstorage', 'websql'] }),
-
-    AppRoutingModule,
-    InternetConnectionErrorPageModule,
-    RequestErrorPageModule
+    AppRoutingModule
   ],
   providers: [
     {

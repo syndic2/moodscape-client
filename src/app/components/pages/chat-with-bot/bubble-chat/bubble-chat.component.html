@@ -11,7 +11,7 @@
         <div class="dot-pulse ml-4"></div>
       </ng-container>
       <ng-template #finishLoading>
-        <div class="self-start bg-primary rounded-2xl text-white max-w-3/4 p-3">
+        <div (click)="onSelectMessage()" class="self-start bg-gray-400 opacity-75 rounded-2xl text-white max-w-3/4 p-3">
           <p class="whitespace-pre-wrap text-sm" [innerHTML]="message.text"></p>
         </div>
       </ng-template>

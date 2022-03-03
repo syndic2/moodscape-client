@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { IonicModule } from '@ionic/angular';
 
 import { RequestErrorPage } from './request-error.page';
@@ -12,4 +11,8 @@ import { RequestErrorPage } from './request-error.page';
   ],
   declarations: [RequestErrorPage]
 })
-export class RequestErrorPageModule {}
+export class RequestErrorPageModule {
+  static getComponent(): typeof RequestErrorPage {
+    return RequestErrorPage;
+  }
+}

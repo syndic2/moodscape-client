@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
-
-import { ModalController } from '@ionic/angular';
-
-import { InternetConnectionErrorPage } from 'src/app/modals/errors/internet-connection-error/internet-connection-error.page';
-import { RequestErrorPage } from 'src/app/modals/errors/request-error/request-error.page';
+import { ModalController, ModalOptions } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
-
   constructor(private modalController: ModalController) { }
 
+  async open(options: ModalOptions): Promise<{ data: any } | null> {
+    const modal = await this.modalController.create(options);
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) return { data: data };
+
+    return { data: null };
+  }
+
   async internetConnectionError(message: string) {
+    const { InternetConnectionErrorPageModule } = await import('../../modals/errors/internet-connection-error/internet-connection-error.module');
     const modal = await this.modalController.create({
-      component: InternetConnectionErrorPage,
+      component: InternetConnectionErrorPageModule.getComponent(),
       componentProps: {
         message: message
       },
@@ -24,8 +30,9 @@ export class ModalService {
   }
 
   async requestError(message: string) {
+    const { RequestErrorPageModule } = await import('../../modals/errors/request-error/request-error.module');
     const modal = await this.modalController.create({
-      component: RequestErrorPage,
+      component: RequestErrorPageModule.getComponent(),
       componentProps: {
         message: message
       },
