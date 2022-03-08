@@ -7,7 +7,7 @@ import { UserEffects } from 'src/app/store/effects/user.effects';
 
 import { ChatWithBotPageRoutingModule } from './chat-with-bot-routing.module';
 import { ChatWithBotPage } from './chat-with-bot.page';
-import { BubbleChatComponent } from 'src/app/components/pages/chat-with-bot/bubble-chat/bubble-chat.component';
+import { BubbleChatModule } from 'src/app/components/pages/chat-with-bot/bubble-chat/bubble-chat.module';
 
 @NgModule({
   imports: [
@@ -15,11 +15,11 @@ import { BubbleChatComponent } from 'src/app/components/pages/chat-with-bot/bubb
     FormsModule,
     IonicModule,
     EffectsModule.forFeature([UserEffects]),
-    ChatWithBotPageRoutingModule
+    ChatWithBotPageRoutingModule,
+    BubbleChatModule
   ],
   declarations: [
-    ChatWithBotPage,
-    BubbleChatComponent
+    ChatWithBotPage
   ]
 })
 export class ChatWithBotPageModule { }

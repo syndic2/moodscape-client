@@ -25,6 +25,7 @@ export class ChatWithBotPage implements OnInit {
   public buttonMessages: { title: string, payload: string }[] = [];
   public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
   public isShowDatePicker: boolean = false;
+  public isShowVideo: boolean = false;
   public isBotTyping: boolean = false;
   private sender: string | number;
   private subscriptions: Subscription;
@@ -45,6 +46,7 @@ export class ChatWithBotPage implements OnInit {
     this.buttonMessages = [];
     this.dateRangeValuesSubject.next({ startDate: '', endDate: '' });
     this.isShowDatePicker = false;
+    this.isShowVideo = false;
     this.isBotTyping = false;
     this.subscriptions = new Subscription();
 
@@ -134,6 +136,10 @@ export class ChatWithBotPage implements OnInit {
       this.isShowDatePicker = false;
     }
 
+    if (this.isShowVideo) {
+      this.isShowVideo = false;
+    }
+
     this.messages.next([...this.messages.value, { isLoading: true }]);
     this.buttonMessages = [];
     this.isBotTyping = true;
@@ -146,14 +152,24 @@ export class ChatWithBotPage implements OnInit {
         removeBotTypingIndicator.pop();
         this.messages.next(removeBotTypingIndicator);
 
+        console.log(res);
+
         if (res.length) {
           res.forEach(message => {
-            if (message.custom && message.custom.is_show_datepicker) {
-              this.isShowDatePicker = true;
-              this.messages.next([
-                ...this.messages.value,
-                { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customActionButton: true }
-              ]);
+            if (message.custom) {
+              if (message.custom.is_show_datepicker) {
+                this.isShowDatePicker = true;
+                this.messages.next([
+                  ...this.messages.value,
+                  { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customActionButton: true }
+                ]);
+              } else if (message.custom.is_show_video) {
+                this.isShowVideo = true;
+                this.messages.next([
+                  ...this.messages.value,
+                  { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customShowVideo: true, videoUrl: message.custom.video_url }
+                ]);
+              }
             } else {
               this.messages.next([
                 ...this.messages.value,

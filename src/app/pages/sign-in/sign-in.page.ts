@@ -55,10 +55,10 @@ export class SignInPage implements OnInit {
     const accountInfo = await GoogleAuth.signIn();
     const data = {
       firstName: accountInfo.givenName,
-      lastName: accountInfo.familyName,
+      ...accountInfo.familyName && { lastName: accountInfo.familyName },
       email: accountInfo.email,
       password: 'google-account',
-      imgUrl: accountInfo.imageUrl
+      ...accountInfo.imageUrl && { imgUrl: accountInfo.imageUrl }
     };
 
     this.store.dispatch(requestLogin({ credentials: data, withGoogle: true }));

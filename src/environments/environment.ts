@@ -13,7 +13,7 @@ const urls = {
   },
   rasaChatbot: {
     development: 'http://localhost:5005',
-    production: ''
+    production: 'https://rasa-server-syndic2.cloud.okteto.net'
   }
 };
 

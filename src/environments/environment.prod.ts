@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   baseUrl: 'https://moodscape-pwa.web.app',
   apiUrl: 'https://moodscape-api.herokuapp.com/api',
-  rasaChatbot: 'http://localhost:5005',
+  rasaChatbot: 'https://rasa-server-syndic2.cloud.okteto.net',
   firebase: {
     apiKey: "AIzaSyAYw7kXkEwuF1oipBkzWUAnVEr0GK-8_H8",
     authDomain: "moodscape-app.firebaseapp.com",
