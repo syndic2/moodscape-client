@@ -200,7 +200,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
 
               dataArr.forEach((data: any) => sum += data);
 
-              return (value * 100 / sum) + '%';
+              return Math.floor(value * 100 / sum) + '%';
             },
             color: '#FFF'
           }

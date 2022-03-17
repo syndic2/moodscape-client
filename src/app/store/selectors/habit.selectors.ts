@@ -20,9 +20,14 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
           habit.track.streakLogs.find(log => log.isComplete === true || log.startDate === habit.goalDates.start && log.lastMarkedAt === transformDateTime(new Date()).toISODate())
         );
       } else if (groupBy === 'unmarked') {
-        habits = habits.filter(habit =>
-          habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start && log.lastMarkedAt !== transformDateTime(new Date()).toISODate())
-        );
+        habits = habits.filter(habit => {
+          const currentDate = new Date();
+          const startDate = new Date(habit.goalDates.start);
+          const endDate = new Date(habit.goalDates.end);
+
+          return habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start &&
+            log.lastMarkedAt !== transformDateTime(currentDate).toISODate() && (currentDate >= startDate && currentDate <= endDate))
+        });
       }
 
       return habits;

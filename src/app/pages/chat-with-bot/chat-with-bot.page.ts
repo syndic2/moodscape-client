@@ -109,7 +109,13 @@ export class ChatWithBotPage implements OnInit {
   async onSelectMessage(message: any) {
     const { ChatbotMessageFeedbackPageModule } = await import('../../modals/chatbot-message-feedback/chatbot-message-feedback.module');
     const selectedIndex = [...this.messages.value].findIndex(object => object.Id === message.Id);
-    const slicedMessages = [...this.messages.value].slice(0, selectedIndex + 1);
+    const slicedMessages = [...this.messages.value].slice(0, selectedIndex + 1).map(message => ({
+      Id: message.Id,
+      sender: message.sender,
+      recipientId: message.recipientId,
+      text: message.text,
+      videoUrl: message.videoUrl
+    }));
 
     await this.modalService.open({
       component: ChatbotMessageFeedbackPageModule.getComponent(),
@@ -152,8 +158,6 @@ export class ChatWithBotPage implements OnInit {
         removeBotTypingIndicator.pop();
         this.messages.next(removeBotTypingIndicator);
 
-        console.log(res);
-
         if (res.length) {
           res.forEach(message => {
             if (message.custom) {
@@ -177,6 +181,7 @@ export class ChatWithBotPage implements OnInit {
               ]);
             }
           });
+
           res.forEach(message => {
             if (message.buttons) {
               this.buttonMessages = message.buttons;
