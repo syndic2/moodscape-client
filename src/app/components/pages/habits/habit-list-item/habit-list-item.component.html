@@ -1,7 +1,5 @@
 <div #habitItem class="relative">
-  <ion-icon
-    [name]="(lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime()) || daysLeft === 0 ? 'checkmark-done-outline' : 'alert-outline'"
-    [color]="(lastMarkedAt && lastMarkedAt.getTime() === currentDate.getTime()) || daysLeft === 0 ? 'success' : 'danger' "
+  <ion-icon [name]="setIconIndicator().icon" [color]="setIconIndicator().color"
     class="absolute -top-3 right-0 z-50 text-3xl">
   </ion-icon>
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { InputPhoneNumberPage } from './input-phone-number.page';
+import { TwoStepVerificationPage } from './two-step-verification.page';
 
 @NgModule({
   imports: [
@@ -11,10 +11,10 @@ import { InputPhoneNumberPage } from './input-phone-number.page';
     FormsModule,
     IonicModule
   ],
-  declarations: [InputPhoneNumberPage]
+  declarations: [TwoStepVerificationPage]
 })
-export class InputPhoneNumberPageModule {
-  static getComponent(): typeof InputPhoneNumberPage {
-    return InputPhoneNumberPage;
+export class TwoStepVerificationPageModule {
+  static getComponent(): typeof TwoStepVerificationPage {
+    return TwoStepVerificationPage;
   }
 }

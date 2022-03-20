@@ -29,8 +29,12 @@
       <ion-icon name="checkmark-done" class="text-sm xs:text-lg"></ion-icon>
     </ion-button>
     <ion-button [routerLink]="['/side-menu/tabs/habits']" [queryParams]="{ mode: 'unmarked' }"
-      [color]="selectedMode === 'unmarked' ? 'danger' : 'light'" class="normal-case">
+      [color]="selectedMode === 'unmarked' ? 'warning' : 'light'" class="normal-case">
       <ion-icon name="alert" class="text-sm xs:text-lg"></ion-icon>
+    </ion-button>
+    <ion-button [routerLink]="['/side-menu/tabs/habits']" [queryParams]="{ mode: 'failed' }"
+      [color]="selectedMode === 'failed' ? 'danger' : 'light'" class="normal-case">
+      <ion-icon name="close" class="text-sm xs:text-lg"></ion-icon>
     </ion-button>
   </div>
 

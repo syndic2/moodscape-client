@@ -3,6 +3,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { transformDateTime } from 'src/app/utilities/helpers';
 import { StoreFeatureKeys } from '../feature-keys';
 import { HabitState } from '../states';
+import { HabitStreakLog } from 'src/app/models/habit.model';
 
 const selectHabitFeature = createFeatureSelector<HabitState>(StoreFeatureKeys.HABIT);
 
@@ -27,6 +28,13 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
 
           return habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start &&
             log.lastMarkedAt !== transformDateTime(currentDate).toISODate() && (currentDate >= startDate && currentDate <= endDate))
+        });
+      } else if (groupBy === 'failed') {
+        habits = habits.filter(habit => {
+          const currentDate = new Date();
+          const endDate = new Date(habit.goalDates.end);
+
+          return habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start && currentDate > endDate)
         });
       }
 
@@ -77,10 +85,35 @@ export const getHabitsByBestStreaks = (topLength: number = 5) => {
 
 export const getHabitsByTotalCompleted = createSelector(
   getHabits(),
-  state => ({
-    completes: state.filter(habit => habit.track.totalCompleted > 0),
-    notCompletes: state.filter(habit => habit.track.totalCompleted === 0)
-  })
+  state => {
+    let completes = 0;
+    let onProgress = 0;
+    let notCompletes = 0;
+    let currentTracks: HabitStreakLog[] = [];
+    const currentDate = new Date();
+
+    state.forEach(habit => {
+      habit.track.streakLogs.forEach(track => {
+        if (habit.goalDates.start === track.startDate) currentTracks = [...currentTracks, track];
+      });
+    });
+
+    currentTracks.forEach(track => {
+      if (track.isComplete) completes++;
+      else {
+        const startDate = new Date(track.startDate);
+        const endDate = new Date(track.endDate);
+
+        if (currentDate >= startDate && currentDate <= endDate) {
+          onProgress++;
+        } else if (currentDate > endDate) {
+          notCompletes++;
+        }
+      }
+    });
+
+    return { completes, onProgress, notCompletes };
+  }
 );
 
 export const getHabit = (habitId: number) => {

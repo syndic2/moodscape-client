@@ -12,10 +12,6 @@ export class ChatEmotionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getChatEmotions(userId: string): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}/services/telegram/chat-emotions/${userId}`);
-  }
-
   connectTelegram(userId: string, phone: string): Observable<any> {
     return this.httpClient.post(`${this.apiUrl}/services/telegram/auth`, JSON.stringify({ user_id: userId, phone: phone }));
   }
@@ -24,7 +20,15 @@ export class ChatEmotionsService {
     return this.httpClient.post(`${this.apiUrl}/services/telegram/otp-verification`, JSON.stringify({ user_id: userId, phone: phone, phone_code_hash: phoneCodeHash, otp_code: OTPcode }));
   }
 
-  disconnectTelegram(userId: string): Observable<any> {
-    return this.httpClient.post(`${this.apiUrl}/services/telegram/auth/logout`, JSON.stringify({ user_id: userId }));
+  telegramTwoStepVerification(userId: string, phone: string, password: string): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/services/telegram/two-step-verification`, JSON.stringify({ user_id: userId, phone: phone, password: password }));
+  }
+
+  disconnectTelegram(userId: string, phone: string): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/services/telegram/auth/logout`, JSON.stringify({ user_id: userId, phone: phone }));
+  }
+
+  getChatEmotions(userId: string, phone: string): Observable<any> {
+    return this.httpClient.get(`${this.apiUrl}/services/telegram/chat-emotions/${userId}/${phone}`);
   }
 }

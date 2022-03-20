@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
-
 import { Store } from '@ngrx/store';
 
 import { showAlert } from 'src/app/store/actions/application.actions';
@@ -18,14 +16,14 @@ export class InputPhoneNumberPage implements OnInit {
 
   ngOnInit() {
   }
-  
+
   close() {
     this.modalController.dismiss();
   }
-  
+
   onSubmitPhone() {
     if (!this.phone || this.phone === '') {
-      this.store.dispatch(showAlert({ 
+      this.store.dispatch(showAlert({
         options: {
           message: 'Nomor HP tidak boleh kosong!',
           buttons: ['OK']

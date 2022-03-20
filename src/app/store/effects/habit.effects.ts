@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { map, exhaustMap, concatMap, mergeMap, switchMap } from 'rxjs/operators';

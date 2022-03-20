@@ -1,5 +1,4 @@
 import { Component, OnInit, OnChanges, Input, ViewChild, ElementRef } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 
 import { poppingAnimation } from 'src/app/animations/utilities.animation';
@@ -61,13 +60,29 @@ export class HabitListItemComponent implements OnInit, OnChanges {
     }
   }
 
+  setIconIndicator() {
+    if (this.daysLeft === 0) { //TIME OUT
+      if (!this.currentLog.isComplete) {
+        return { icon: 'close-outline', color: 'danger' };
+      }
+
+      return { icon: 'checkmark-done-outline', color: 'success' };
+    } else { //STILL GOING
+      if (this.lastMarkedAt && this.currentLog.lastMarkedAt === transformDateTime(this.lastMarkedAt).toISODate()) {
+        return { icon: 'checkmark-done-outline', color: 'success' };
+      }
+
+      return { icon: 'alert-outline', color: 'warning' };
+    }
+  }
+
   calculateProgress() {
     if (this.currentGoal <= this.currentLog.targetGoal) {
       this.goalProgress = Math.round((this.currentGoal / this.currentLog.targetGoal) * 100);
     }
   }
 
-  onMarkGoal() {
+  async onMarkGoal() {
     const startDate = new Date(this.habit.goalDates.start);
     const endDate = new Date(this.habit.goalDates.end);
 
@@ -75,7 +90,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
 
-    poppingAnimation('habit-item', this.habitItem).play();
+    await poppingAnimation('habit-item', this.habitItem).play();
 
     if (this.currentGoal === this.habit.goal) {
       return this.store.dispatch(

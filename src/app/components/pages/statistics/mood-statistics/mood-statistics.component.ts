@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Chart from 'chart.js/auto';
@@ -26,11 +26,12 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   public doughnutChart: any;
   private calendarDateClicked: boolean = false;
   private calendarPrevNextSubject: BehaviorSubject<Date> = new BehaviorSubject(new Date());
-  private selectedMonthYearSubject: BehaviorSubject<{ month, year }> = new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
+  private selectedMonthYearSubject: BehaviorSubject<{ month: number, year: number }> = new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
   private subscriptions: Subscription;
 
   constructor(
     private store: Store,
+    private actionSubject: ActionsSubject,
     private modalController: ModalController,
     private cdRef: ChangeDetectorRef,
     private authenticationService: AuthenticationService
@@ -38,7 +39,6 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.subscriptions = new Subscription();
-    this.store.dispatch(fetchMoodsChart());
 
     const getMoodsSubscription = this.store
       .select(getMoods)
@@ -55,7 +55,7 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         .select(getMoodsByMonth(value.getMonth(), value.getFullYear()))
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
-          this.moodsByMonth.moods = [...res.moods].map((mood, index) => ({
+          this.moodsByMonth.moods = [...res.moods].map(mood => ({
             title: mood.createdAt.date,
             startTime: new Date(mood.createdAt.date),
             endTime: new Date(mood.createdAt.date),
@@ -77,6 +77,7 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
           if (!res) {
+            this.store.dispatch(fetchMoodsChart());
             this.lineChart.data.labels = [];
             this.lineChart.data.datasets[0].data = [];
             this.lineChart.update();

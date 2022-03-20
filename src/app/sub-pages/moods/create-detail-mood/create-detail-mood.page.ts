@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
 import { Store } from '@ngrx/store';
 
 import { Activity } from 'src/app/models/activity.model';
-import { fetchCreateMood } from 'src/app/store/actions/mood.actions';
+import { fetchCreateMood, fetchMoodsChart } from 'src/app/store/actions/mood.actions';
 
 @Component({
   selector: 'app-create-detail-mood',
@@ -26,7 +25,7 @@ export class CreateDetailMoodPage implements OnInit {
   }
 
   initializeForm() {
-    this.createMoodForm= this.formBuilder.group({
+    this.createMoodForm = this.formBuilder.group({
       emoticon: this.formBuilder.control(null),
       createdAt: this.formBuilder.group({
         date: this.formBuilder.control(''),
@@ -47,6 +46,7 @@ export class CreateDetailMoodPage implements OnInit {
 
   onSubmit() {
     this.store.dispatch(fetchCreateMood({ fields: this.createMoodForm.value }));
+    this.store.dispatch(fetchMoodsChart());
     this.router.navigate(['/side-menu/tabs/moods']);
   }
 }

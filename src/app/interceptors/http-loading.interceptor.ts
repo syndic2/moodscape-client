@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-
-import { LoadingController, ToastController } from '@ionic/angular';
-
+import { LoadingController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
@@ -11,7 +9,6 @@ import { ModalService } from '../services/modal/modal.service';
 
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
-
   constructor(
     private loadingController: LoadingController,
     private modalService: ModalService

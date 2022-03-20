@@ -31,7 +31,11 @@ const routes: Routes = [
   {
     path: '**',
     loadChildren: () => import('./pages/fallbacks/page-not-found/page-not-found.module').then(m => m.PageNotFoundPageModule)
+  },  {
+    path: 'two-step-verification',
+    loadChildren: () => import('./modals/one-time-password/two-step-verification/two-step-verification.module').then( m => m.TwoStepVerificationPageModule)
   }
+
 ];
 
 @NgModule({

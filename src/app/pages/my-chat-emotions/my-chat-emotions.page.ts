@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,8 +13,6 @@ import { getAuthenticated } from 'src/app/store/selectors/authentication.selecto
 import { ChatEmotionsService } from 'src/app/services/chat-emotions/chat-emotions.service';
 import { UtilitiesService } from 'src/app/services/utilities/utilities.service';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import { InputPhoneNumberPage } from 'src/app/modals/one-time-password/input-phone-number/input-phone-number.page';
-import { InputOTPCodePage } from 'src/app/modals/one-time-password/input-otp-code/input-otp-code.page';
 
 @Component({
   selector: 'app-my-chat-emotions',
@@ -40,9 +39,10 @@ export class MyChatEmotionsPage implements OnInit {
   constructor(
     private store: Store,
     private modalController: ModalController,
-    public utilitiesService: UtilitiesService,
+    private storage: Storage,
     private authenticationService: AuthenticationService,
-    private chatEmotionsService: ChatEmotionsService
+    private chatEmotionsService: ChatEmotionsService,
+    public utilitiesService: UtilitiesService,
   ) { }
 
   ngOnInit() { }
@@ -91,73 +91,109 @@ export class MyChatEmotionsPage implements OnInit {
   }
 
   processData() {
-    const getChatEmotionsSubscription = this.chatEmotionsService.getChatEmotions(this.user.Id)
-      .pipe(takeUntil(this.authenticationService.isLoggedIn))
-      .subscribe(res => {
-        if (res?.is_authorized === false) {
-          this.isTelegramAuthorized = false;
-        } else {
-          this.isTelegramAuthorized = true;
-
-          this.pieChart.data.datasets[0].data = [];
-          if (res.chat_emotions.emotions_total) {
-            Object.entries(res.chat_emotions.emotions_total).forEach(([key, value]) => this.pieChart.data.datasets[0].data.push(value));
-          }
-          this.pieChart.update();
-
-          this.chatEmotions = res.chat_emotions.messages.reduce((group: any, message: any) => {
-            const { first_name } = message.chat_with;
-            group[first_name] = group[first_name] ?? [];
-            group[first_name].push({ data: message.data, emotions: message.emotions });
-            group[first_name].sort((a: any, b: any) => new Date(a.data.timestamps) > new Date(b.data.timestamps) ? 1 : -1);
-
-            return group;
-          }, {});
-        }
-
+    this.storage.get('phone-number').then(value => {
+      if (value === null) {
+        this.isTelegramAuthorized = false;
         this.utilitiesService.onSkeletonLoading.next(false);
-      });
-    this.subscriptions.add(getChatEmotionsSubscription);
+      } else {
+        const getChatEmotionsSubscription = this.chatEmotionsService.getChatEmotions(this.user.Id, value)
+          .pipe(takeUntil(this.authenticationService.isLoggedIn))
+          .subscribe(res => {
+            if (res.is_authorized === false) {
+              this.isTelegramAuthorized = false;
+            } else {
+              this.isTelegramAuthorized = true;
+
+              this.pieChart.data.datasets[0].data = [];
+              if (res.chat_emotions.emotions_total) {
+                Object.entries(res.chat_emotions.emotions_total).forEach(([key, value]) => this.pieChart.data.datasets[0].data.push(value));
+              }
+              this.pieChart.update();
+
+              this.chatEmotions = res.chat_emotions.messages.reduce((group: any, message: any) => {
+                const { first_name } = message.chat_with;
+                group[first_name] = group[first_name] ?? [];
+                group[first_name].push({ data: message.data, emotions: message.emotions });
+                group[first_name].sort((a: any, b: any) => new Date(a.data.timestamps) > new Date(b.data.timestamps) ? 1 : -1);
+
+                return group;
+              }, {});
+            }
+
+            this.utilitiesService.onSkeletonLoading.next(false);
+          });
+        this.subscriptions.add(getChatEmotionsSubscription);
+      }
+    });
   }
 
   async onConnectTelegram() {
-    const modal = await this.modalController.create({ component: InputPhoneNumberPage });
-    modal.present();
+    const { InputPhoneNumberPageModule } = await import('../../modals/one-time-password/input-phone-number/input-phone-number.module');
+    const inputNumberModal = await this.modalController.create({ component: InputPhoneNumberPageModule.getComponent() });
+    inputNumberModal.present();
 
-    const { data } = await modal.onWillDismiss();
-    if (data && data.phone) {
-      const phone = data.phone;
-
-      const connectTelegramSubscription = this.chatEmotionsService.connectTelegram(this.user?.Id, data.phone)
+    const { data: inputNumberData } = await inputNumberModal.onWillDismiss();
+    if (inputNumberData && inputNumberData.phone) {
+      const connectTelegramSubscription = this.chatEmotionsService.connectTelegram(this.user.Id, inputNumberData.phone)
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(async res => {
-          const modal = await this.modalController.create({
-            component: InputOTPCodePage,
+          const { InputOTPCodePageModule } = await import('../../modals/one-time-password/input-otp-code/input-otp-code.module');
+          const inputCodeModal = await this.modalController.create({
+            component: InputOTPCodePageModule.getComponent(),
             componentProps: {
-              userId: this.user?.Id,
-              phone: phone,
-              phoneCodeHash: res?.phone_code_hash
+              userId: this.user.Id,
+              phone: inputNumberData.phone,
+              phoneCodeHash: res.phone_code_hash
             }
           });
-          modal.present();
+          inputCodeModal.present();
 
-          const { data } = await modal.onWillDismiss();
-          if (data && data.isSuccess === true) {
-            this.isTelegramAuthorized = true;
+          const { data: inputCodeData } = await inputCodeModal.onWillDismiss();
+          if (inputCodeData) {
+            if (inputCodeData.isTwoStepVerification) {
+              const { TwoStepVerificationPageModule } = await import('../../modals/one-time-password/two-step-verification/two-step-verification.module');
+              const twoStepVerificationModal = await this.modalController.create({
+                component: TwoStepVerificationPageModule.getComponent(),
+                componentProps: {
+                  userId: this.user.Id,
+                  phone: inputNumberData.phone
+                },
+                cssClass: 'auto-height-modal rounded-modal wrapper-fit-content'
+              });
+              twoStepVerificationModal.present();
+
+              const { data: inputPasswordData } = await twoStepVerificationModal.onWillDismiss();
+              if (inputPasswordData.isSuccess) {
+                this.isTelegramAuthorized = true;
+                this.processData();
+              }
+            } else if (inputCodeData.isSuccess) {
+              this.isTelegramAuthorized = true;
+              this.processData();
+            }
           }
         });
       this.subscriptions.add(connectTelegramSubscription);
+
+      await this.storage.set('phone-number', inputNumberData.phone);
     }
   }
 
   onDisconnectTelegram() {
-    const disconnectTelegramSubscription = this.chatEmotionsService.disconnectTelegram(this.user?.Id)
-      .pipe(takeUntil(this.authenticationService.isLoggedIn))
-      .subscribe(() => {
-        this.isTelegramAuthorized = false;
-        this.chatEmotions = {};
-      });
-    this.subscriptions.add(disconnectTelegramSubscription);
+    this.storage.get('phone-number').then(value => {
+      if (value !== null) {
+        const disconnectTelegramSubscription = this.chatEmotionsService.disconnectTelegram(this.user.Id, value)
+          .pipe(takeUntil(this.authenticationService.isLoggedIn))
+          .subscribe(async () => {
+            this.isTelegramAuthorized = false;
+            this.chatEmotions = {};
+            this.pieChart.data.datasets[0].data = [];
+            this.pieChart.update();
+            await this.storage.remove('phone-number');
+          });
+        this.subscriptions.add(disconnectTelegramSubscription);
+      }
+    });
   }
 
   // onSelectEmotion(index: number) {

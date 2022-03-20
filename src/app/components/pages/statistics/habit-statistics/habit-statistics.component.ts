@@ -47,9 +47,8 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnInit() {
     this.subscriptions = new Subscription();
-    this.store.dispatch(fetchHabitsChart());
 
-    const getHabitsByDateSubscription = this.store
+    const getHabitsSubscription = this.store
       .select(getHabits())
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
@@ -57,7 +56,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
           this.store.dispatch(fetchHabits());
         }
       });
-    this.subscriptions.add(getHabitsByDateSubscription);
+    this.subscriptions.add(getHabitsSubscription);
 
     const calendarPrevNextSubscription = this.calendarPrevNextSubject.subscribe(value => {
       const getHabitsByMonthSubscription = this.store
@@ -93,6 +92,7 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
           if (!res.length) {
+            this.store.dispatch(fetchHabitsChart());
             this.barChart.data.labels = [];
             this.barChart.data.datasets[0].data = [];
             this.barChart.update();
@@ -116,12 +116,11 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
       .select(getHabitsByTotalCompleted)
       .pipe(takeUntil(this.authenticationService.isLoggedIn))
       .subscribe(res => {
-        if (!res.completes.length && !res.notCompletes.length) {
+        if (res.completes === 0 && res.onProgress === 0 && res.notCompletes === 0) {
           this.pieChart.data.datasets[0].data = [];
           this.pieChart.update();
         } else {
-          this.pieChart.data.datasets[0].data = [];
-          this.pieChart.data.datasets[0].data = [res.completes.length, res.notCompletes.length];
+          this.pieChart.data.datasets[0].data = [res.completes, res.onProgress, res.notCompletes];
           this.pieChart.update();
         }
       });
@@ -179,13 +178,14 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
     this.pieChart = new Chart(this.pieChartCanvas.nativeElement, {
       type: 'pie',
       data: {
-        labels: ['Selesai', 'Tidak Selesai/Sedang Berjalan'],
+        labels: ['Selesai', 'Sedang Berjalan', 'Tidak Selesai'],
         datasets: [
           {
             data: [],
             backgroundColor: [
               '#3CB403',
-              '#FFC30B'
+              '#FFC30B',
+              '#FF0000'
             ]
           }
         ]

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
 
 import { InputOTPCodePage } from './input-otp-code.page';
@@ -14,4 +13,8 @@ import { InputOTPCodePage } from './input-otp-code.page';
   ],
   declarations: [InputOTPCodePage]
 })
-export class InputOTPCodePageModule {}
+export class InputOTPCodePageModule {
+  static getComponent(): typeof InputOTPCodePage {
+    return InputOTPCodePage;
+  }
+}

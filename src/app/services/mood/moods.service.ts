@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import StringifyObject from 'stringify-object';
 import gqlCompress from 'graphql-query-compress';
 
@@ -104,7 +102,11 @@ export class MoodService {
       }
     `);
 
-    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`).pipe(
+    return this.http.get(`${environment.apiUrl}/graphql?query=${query}`, {
+      headers: {
+        skipLoading: 'true'
+      }
+    }).pipe(
       map((res: any) => res.data.getUserMoodsChart)
     );
   }

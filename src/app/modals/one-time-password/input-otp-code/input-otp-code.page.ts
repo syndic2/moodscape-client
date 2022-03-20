@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, QueryList, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
-
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,18 +14,18 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class InputOTPCodePage implements OnInit {
   @Input() userId: string;
-  @Input() phone: string;  
+  @Input() phone: string;
   @Input() phoneCodeHash: string;
   @ViewChildren('numberButton') numberButtons: QueryList<ElementRef>;
   @ViewChild('deleteInputButton', { static: true }) deleteInputButton: ElementRef;
 
-  public OTPcodeSubject: BehaviorSubject<string>= new BehaviorSubject('');
+  public OTPcodeSubject: BehaviorSubject<string> = new BehaviorSubject('');
   private getOTPcodeSubscription: Subscription;
   private verifyOTPSubscription: Subscription;
 
   constructor(
-    private modalController: ModalController, 
-    private chatEmotionsService: ChatEmotionsService, 
+    private modalController: ModalController,
+    private chatEmotionsService: ChatEmotionsService,
     private authenticationService: AuthenticationService
   ) { }
 
@@ -35,15 +33,15 @@ export class InputOTPCodePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getOTPcodeSubscription= this.OTPcodeSubject.subscribe(code => {
+    this.getOTPcodeSubscription = this.OTPcodeSubject.subscribe(code => {
       if (code.length === 5) {
-        this.verifyOTPSubscription= this.chatEmotionsService.telegramOTPVerification(this.userId, this.phone, this.phoneCodeHash, this.OTPcodeSubject.value)
+        this.verifyOTPSubscription = this.chatEmotionsService.telegramOTPVerification(this.userId, this.phone, this.phoneCodeHash, this.OTPcodeSubject.value)
           .pipe(takeUntil(this.authenticationService.isLoggedIn))
           .subscribe(res => {
-          if (res.verify_success === true) {
-            this.modalController.dismiss({ isSuccess: true });
-          }
-        });
+            if (res.is_two_step_verification && res.is_two_step_verification === true) this.modalController.dismiss({ isTwoStepVerification: true });
+            else if (res.verify_success && res.verify_success === true) this.modalController.dismiss({ isSuccess: true });
+          });
+        this.OTPcodeSubject.next('');
       }
     });
   }
@@ -57,12 +55,12 @@ export class InputOTPCodePage implements OnInit {
     this.modalController.dismiss();
   }
 
-  onPressNumber(number, index: number) {
+  onPressNumber(number: any, index: number) {
     if (index !== 9) {
       poppingAnimation('number-button', this.numberButtons.get(index)).play();
 
       if (this.OTPcodeSubject.value.length < 5) {
-        this.OTPcodeSubject.next(this.OTPcodeSubject.value+number);
+        this.OTPcodeSubject.next(this.OTPcodeSubject.value + number);
       }
     }
   }
@@ -73,7 +71,7 @@ export class InputOTPCodePage implements OnInit {
     });
   }
 
-  onResendOTP() {
+  // onResendOTP() {
 
-  }
+  // }
 }
