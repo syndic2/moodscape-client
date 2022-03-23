@@ -9,7 +9,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -81,8 +80,7 @@ import { AppComponent } from './app.component';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,
       multi: true
-    },
-    Deeplinks
+    }
   ],
   bootstrap: [AppComponent],
 })

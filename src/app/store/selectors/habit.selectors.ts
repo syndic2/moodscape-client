@@ -23,8 +23,13 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
       } else if (groupBy === 'unmarked') {
         habits = habits.filter(habit => {
           const currentDate = new Date();
+          currentDate.setHours(0, 0, 0, 0);
+
           const startDate = new Date(habit.goalDates.start);
+          startDate.setHours(0, 0, 0, 0);
+
           const endDate = new Date(habit.goalDates.end);
+          endDate.setHours(0, 0, 0, 0);
 
           return habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start &&
             log.lastMarkedAt !== transformDateTime(currentDate).toISODate() && (currentDate >= startDate && currentDate <= endDate))
@@ -32,7 +37,10 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
       } else if (groupBy === 'failed') {
         habits = habits.filter(habit => {
           const currentDate = new Date();
+          currentDate.setHours(0, 0, 0, 0);
+
           const endDate = new Date(habit.goalDates.end);
+          endDate.setHours(0, 0, 0, 0);
 
           return habit.track.streakLogs.find(log => log.isComplete === false && log.startDate === habit.goalDates.start && currentDate > endDate)
         });

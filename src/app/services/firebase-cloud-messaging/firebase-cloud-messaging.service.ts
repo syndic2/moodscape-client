@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-
 import { Storage } from '@ionic/storage';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications, ActionPerformed as LocalNotificationActionPerformed } from '@capacitor/local-notifications';
 import { PushNotifications, Token, PushNotificationSchema, ActionPerformed as PushNoticationActionPerformed } from '@capacitor/push-notifications';
 import { FCM } from '@capacitor-community/fcm';
-
 import { Observable, from } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 

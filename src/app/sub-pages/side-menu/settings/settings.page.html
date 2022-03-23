@@ -1,24 +1,55 @@
 <ion-header class="ion-no-border">
-	<ion-toolbar>
-		<ion-title>Pengaturan</ion-title>
-		<ion-buttons slot="start">
-			<ion-menu-button menu="side-menu" class="side-menu-button">
-				<ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
-			</ion-menu-button>
-		</ion-buttons>
-	</ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Pengaturan</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="side-menu" class="side-menu-button">
+        <ion-icon src="../../assets/icons/svg/menu.svg"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list lines="full">
+    <ion-list-header>Menu</ion-list-header>
     <ion-item [routerLink]="page.url" *ngFor="let page of pages">
       <ion-icon slot="start" [name]="page.icon" color="primary" class="text-lg xs:text-2xl"></ion-icon>
       <ion-icon slot="end" name="chevron-forward" color="primary" class="text-lg xs:text-2xl"></ion-icon>
       <ion-label class="text-sm xs:text-lg">{{ page.title }}</ion-label>
     </ion-item>
   </ion-list>
-	<!--<ion-item lines="none">
-		<ion-label>Mode Gelap</ion-label>
-		<ion-toggle (ionChange)="toogleDarkMode($event)" [checked]="themeService.isDarkMode"></ion-toggle>
-	</ion-item>-->
+
+  <ion-list lines="full" class="mt-4">
+    <ion-list-header>Notifikasi</ion-list-header>
+    <ion-item>
+      <div class="flex justify-between items-center gap-x-2 w-full">
+        <div class="flex flex-col gap-y-2">
+          <div class="flex gap-x-8">
+            <ion-icon slot="start" name="happy" color="primary" class="text-lg xs:text-2xl"></ion-icon>
+            <ion-label class="text-sm xs:text-lg">Mood Tracker</ion-label>
+          </div>
+
+          <input [ngxTimepicker]="timePicker" [format]="24" type="text" inputmode="text"
+            placeholder="Pilih Waktu Pengingat" name="reminderTime" [value]="notifications.moodTracker.time"
+            class="rounded-lg bg-primary text-white placeholder-white font-semibold text-center p-2 focus:outline-none"
+            readonly>
+
+          <ngx-material-timepicker #timePicker (timeChanged)="onTimeChanged($event)"
+            [defaultTime]="notifications.moodTracker.time !== '' ? notifications.moodTracker.time : defaultTime"
+            [cancelBtnTmpl]="cancelButton" [confirmBtnTmpl]="confirmButton" [disableAnimation]="false">
+          </ngx-material-timepicker>
+
+          <ng-template #cancelButton>
+            <button class="text-primary uppercase">Kembali</button>
+          </ng-template>
+          <ng-template #confirmButton>
+            <button (click)="onSelectTime()" class="text-primary uppercase">Ok</button>
+          </ng-template>
+        </div>
+        <ion-toggle (ionChange)="onToggleNotifications($event)" [checked]="notifications.moodTracker.onSchedule"
+          color="primary">
+        </ion-toggle>
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -19,8 +19,8 @@ const urls = {
 
 export const environment = {
   production: false,
-  baseUrl: urls.baseUrl.production,
-  apiUrl: urls.apiUrl.development,
+  baseUrl: urls.baseUrl.development,
+  apiUrl: urls.apiUrl.production,
   rasaChatbot: urls.rasaChatbot.production,
   firebase: {
     apiKey: "AIzaSyAYw7kXkEwuF1oipBkzWUAnVEr0GK-8_H8",

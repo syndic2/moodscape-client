@@ -68,7 +68,7 @@ export class HabitListItemComponent implements OnInit, OnChanges {
 
       return { icon: 'checkmark-done-outline', color: 'success' };
     } else { //STILL GOING
-      if (this.lastMarkedAt && this.currentLog.lastMarkedAt === transformDateTime(this.lastMarkedAt).toISODate()) {
+      if (this.lastMarkedAt && this.currentLog.lastMarkedAt === transformDateTime(new Date()).toISODate()) {
         return { icon: 'checkmark-done-outline', color: 'success' };
       }
 

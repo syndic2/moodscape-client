@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Platform } from '@ionic/angular';
-import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { Capacitor } from '@capacitor/core';
-import { App as CapacitorApp } from '@capacitor/app';
+import { App as CapacitorApp, URLOpenListenerEvent } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Store } from '@ngrx/store';
@@ -15,6 +14,7 @@ import { getAuthenticated } from './store/selectors/authentication.selectors';
 import { FirebaseCloudMessagingService } from './services/firebase-cloud-messaging/firebase-cloud-messaging.service';
 import { ThemeService } from './services/theme/theme.service';
 import { ModalService } from './services/modal/modal.service';
+import { NotificationService } from './services/notification/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -31,14 +31,16 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private zone: NgZone,
     private platform: Platform,
-    private deepLinks: Deeplinks,
     private fcmService: FirebaseCloudMessagingService,
     private themeService: ThemeService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private notificationService: NotificationService
   ) { }
 
-  ngOnInit() {
-    this.platform.ready().then(() => {
+  async ngOnInit() {
+    const platformReady = await this.platform.ready();
+
+    if (platformReady) {
       GoogleAuth.initialize({
         clientId: '253594452296-gqh9id0dugdfajqd2iomqosjaq0ee12h.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
@@ -49,13 +51,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscriptions.add(themesSubscription);
 
       if (Capacitor.getPlatform() !== 'web') {
-        this.setupPushNotifications('mobile');
+        this.setupNotifications('mobile');
+        this.notificationService.registerLocalNotification();
         this.setupDeepLinks();
         this.checkNetworkConnection();
         this.hardwareBackButton();
       } else { //PWA
         if (this.swUpdate.available) {
-          this.setupPushNotifications('pwa');
+          this.setupNotifications('pwa');
 
           const swUpdateSubscription = this.swUpdate.available.subscribe(() => {
             if (confirm('A new version is available. Do you want to load it?')) window.location.reload();
@@ -65,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         console.log('Ionic platform: PWA version');
       }
-    });
+    }
   }
 
   ngOnDestroy(): void {
@@ -83,27 +86,31 @@ export class AppComponent implements OnInit, OnDestroy {
     this.PWAInstallPrompt.prompt();
   }
 
-  setupPushNotifications(platform: 'mobile' | 'pwa') {
+  setupNotifications(platform: 'mobile' | 'pwa') {
     const getAuthenticatedSubscription = this.store.select(getAuthenticated).subscribe(res => {
       if (res) {
-        if (platform === 'mobile') this.fcmService.registerPushMobile(res.Id);
-        else this.fcmService.registerPushPWA(res.Id);
+        if (platform === 'mobile') {
+          this.fcmService.registerPushMobile(res.Id);
+        } else {
+          this.fcmService.registerPushPWA(res.Id);
+        }
       }
     });
     this.subscriptions.add(getAuthenticatedSubscription);
   }
 
   setupDeepLinks() {
-    const deepLinksSubscription = this.deepLinks.route({ '/:resetToken': '/reset-password/:resetToken' }).subscribe(match => {
-      const internalPath = `${match.$link.path}`;
+    CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
-        this.router.navigateByUrl(internalPath);
+        const domain = 'moodscape-app.web.app';
+        const pathArray = event.url.split(domain);
+        const appPath = pathArray.pop();
+
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
       });
-    }, nomatch => {
-      //alert(`not matching a deeplink: ${JSON.stringify(nomatch)}`);
-      //console.error('not matching a deeplink', nomatch);
     });
-    this.subscriptions.add(deepLinksSubscription);
   }
 
   checkNetworkConnection() {

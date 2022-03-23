@@ -14,7 +14,7 @@ export class SelectCalendarYearPage implements OnInit {
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    for (let year = 1970; year <= 2050; year++) {
+    for (let year = 1970; year <= new Date().getFullYear(); year++) {
       this.years.push(year);
     }
   }
