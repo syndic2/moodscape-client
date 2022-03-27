@@ -25,7 +25,7 @@ export class ChatWithBotPage implements OnInit {
   public buttonMessages: { title: string, payload: string }[] = [];
   public dateRangeValuesSubject = new BehaviorSubject<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
   public isShowDatePicker: boolean = false;
-  public isShowVideo: boolean = false;
+  //public isShowVideo: boolean = false;
   public isBotTyping: boolean = false;
   private sender: string | number;
   private subscriptions: Subscription;
@@ -42,11 +42,11 @@ export class ChatWithBotPage implements OnInit {
 
   ionViewWillEnter() {
     this.messageText = '';
-    this.messages.next([]);
-    this.buttonMessages = [];
+    //this.messages.next([]);
+    //this.buttonMessages = [];
     this.dateRangeValuesSubject.next({ startDate: '', endDate: '' });
     this.isShowDatePicker = false;
-    this.isShowVideo = false;
+    //this.isShowVideo = false;
     this.isBotTyping = false;
     this.subscriptions = new Subscription();
 
@@ -58,7 +58,10 @@ export class ChatWithBotPage implements OnInit {
           this.store.dispatch(fetchProfile({ skipLoading: false }));
         } else {
           this.sender = res.Id;
-          this.sendMessage('initiate_bot_greet');
+
+          if (!this.messages.value.length) {
+            this.sendMessage('/initiate_bot_greet');
+          }
         }
       });
     this.subscriptions.add(getAuthenticatedSubscription);
@@ -78,9 +81,13 @@ export class ChatWithBotPage implements OnInit {
     this.subscriptions.unsubscribe();
   }
 
-  pullRefresh(event) {
+  pullRefresh(event: any) {
     this.store.dispatch(fetchProfile({ skipLoading: false }));
     event.target.complete();
+  }
+
+  onHelp() {
+    this.sendMessage('/menu_options_help');
   }
 
   async onOpenCalendar(rangeType: string) {
@@ -113,8 +120,9 @@ export class ChatWithBotPage implements OnInit {
       Id: message.Id,
       sender: message.sender,
       recipientId: message.recipientId,
-      text: message.text,
-      videoUrl: message.videoUrl
+      ...message.text && { text: message.text },
+      ...message.imageUrl && { imageUrl: message.imageUrl },
+      ...message.videoUrl && { videoUrl: message.videoUrl }
     }));
 
     await this.modalService.open({
@@ -125,7 +133,7 @@ export class ChatWithBotPage implements OnInit {
   }
 
   sendMessage(messageText: string, buttonTitle?: string) {
-    if (messageText !== 'initiate_bot_greet' && !buttonTitle) {
+    if ((messageText !== '/initiate_bot_greet' && messageText !== '/menu_options_help') && !buttonTitle) {
       this.messages.next([
         ...this.messages.value,
         { Id: uuidV4(), sender: this.sender, recipientId: 'BOT', text: messageText }
@@ -142,9 +150,9 @@ export class ChatWithBotPage implements OnInit {
       this.isShowDatePicker = false;
     }
 
-    if (this.isShowVideo) {
-      this.isShowVideo = false;
-    }
+    // if (this.isShowVideo) {
+    //   this.isShowVideo = false;
+    // }
 
     this.messages.next([...this.messages.value, { isLoading: true }]);
     this.buttonMessages = [];
@@ -167,8 +175,13 @@ export class ChatWithBotPage implements OnInit {
                   ...this.messages.value,
                   { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customActionButton: true }
                 ]);
+              } else if (message.custom.is_show_image) {
+                this.messages.next([
+                  ...this.messages.value,
+                  { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customShowImage: true, imageUrl: message.custom.image_url }
+                ]);
               } else if (message.custom.is_show_video) {
-                this.isShowVideo = true;
+                //this.isShowVideo = true;
                 this.messages.next([
                   ...this.messages.value,
                   { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, customShowVideo: true, videoUrl: message.custom.video_url }
@@ -194,7 +207,7 @@ export class ChatWithBotPage implements OnInit {
               ...this.messages.value,
               { Id: uuidV4(), sender: 'BOT', recipientId: this.sender, text: 'Percakapan dengan BOT telah di-reset, percakapan akan diulang kembali dari awal.' }
             ]);
-            this.sendMessage('initiate_bot_greet');
+            this.sendMessage('/initiate_bot_greet');
           }
         }
 

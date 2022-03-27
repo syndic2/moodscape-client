@@ -30,7 +30,7 @@ export class CalendarPage implements OnInit, AfterViewInit {
       return days[date.getDay()];
     },
   };
-  public markDisabled;
+  public markDisabled: any;
   public currentDate: Date;
   public selectedMonth: number = new Date().getMonth();
   public selectedYear: number = new Date().getFullYear();

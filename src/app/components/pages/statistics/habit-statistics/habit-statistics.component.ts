@@ -58,6 +58,16 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
       });
     this.subscriptions.add(getHabitsSubscription);
 
+    const getHabitsChartSubscription = this.store
+      .select(getHabitsChartByYear())
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
+        if (!res.length) {
+          this.store.dispatch(fetchHabitsChart());
+        }
+      });
+    this.subscriptions.add(getHabitsChartSubscription);
+
     const calendarPrevNextSubscription = this.calendarPrevNextSubject.subscribe(value => {
       const getHabitsByMonthSubscription = this.store
         .select(getHabitsByMonth(value.getMonth(), value.getFullYear()))
@@ -92,7 +102,6 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
           if (!res.length) {
-            this.store.dispatch(fetchHabitsChart());
             this.barChart.data.labels = [];
             this.barChart.data.datasets[0].data = [];
             this.barChart.update();

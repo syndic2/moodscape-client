@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Chart from 'chart.js/auto';
@@ -31,7 +31,6 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(
     private store: Store,
-    private actionSubject: ActionsSubject,
     private modalController: ModalController,
     private cdRef: ChangeDetectorRef,
     private authenticationService: AuthenticationService
@@ -49,6 +48,16 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         }
       });
     this.subscriptions.add(getMoodsSubscription);
+
+    const getMoodsChartSubscription = this.store
+      .select(getMoodsChartByMonthYear())
+      .pipe(takeUntil(this.authenticationService.isLoggedIn))
+      .subscribe(res => {
+        if (!res) {
+          this.store.dispatch(fetchMoodsChart());
+        }
+      });
+    this.subscriptions.add(getMoodsChartSubscription);
 
     const calendarPrevNextSubscription = this.calendarPrevNextSubject.subscribe(value => {
       const getMoodsByMonthSubscription = this.store
@@ -69,6 +78,7 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
+    this.selectedMonthYearSubject = new BehaviorSubject({ month: new Date().getMonth(), year: new Date().getFullYear() });
     this.initializeCharts();
 
     const selectedMonthYearSubscription = this.selectedMonthYearSubject.subscribe(res => {
@@ -77,7 +87,6 @@ export class MoodStatisticsComponent implements OnInit, AfterViewInit, OnDestroy
         .pipe(takeUntil(this.authenticationService.isLoggedIn))
         .subscribe(res => {
           if (!res) {
-            this.store.dispatch(fetchMoodsChart());
             this.lineChart.data.labels = [];
             this.lineChart.data.datasets[0].data = [];
             this.lineChart.update();

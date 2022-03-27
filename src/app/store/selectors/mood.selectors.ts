@@ -34,7 +34,15 @@ export const getMoods = createSelector(
 export const getMoodsChartByMonthYear = (month: number = new Date().getMonth(), year: number = new Date().getFullYear()) => {
   return createSelector(
     selectMoodFeature,
-    state => state.moodsChart[month]?.moodAverageGroupByYear?.find(mood => mood.year === year)
+    state => {
+      const moodChart = state.moodsChart[month];
+
+      if (!moodChart?.moodAverageGroupByYear?.find(mood => mood.year === year)) {
+        return null;
+      }
+
+      return moodChart.moodAverageGroupByYear.find(mood => mood.year === year);
+    }
   )
 };
 

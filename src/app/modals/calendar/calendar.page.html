@@ -9,13 +9,17 @@
       </ion-toolbar>
     </ion-header>
   </ng-container>
-  
+
   <div class="inner-content">
     <div class="flex justify-center gap-x-4 text-tiny xs:text-xs text-white">
-      <button (click)="onSelectMonth()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedMonth ? monthNames(selectedMonth) : 'Pilih Bulan' }}</button>
-      <button (click)="onSelectYear()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">{{ selectedYear ? selectedYear : 'Pilih Tahun' }}</button>
+      <button (click)="onSelectMonth()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">
+        {{ monthNames(selectedMonth) }}
+      </button>
+      <button (click)="onSelectYear()" class="border rounded-lg bg-primary w-16 xs:w-20 p-2">
+        {{ selectedYear }}
+      </button>
     </div>
-  
+
     <div class="flex justify-between items-center gap-x-2 mt-4">
       <button (click)="prev()" class="flex items-center text-xl focus:outline-none">
         <ion-icon name="chevron-back" color="primary"></ion-icon>
@@ -25,7 +29,7 @@
         <ion-icon name="chevron-forward" color="primary"></ion-icon>
       </button>
     </div>
-  
+
     <!--<calendar
       [calendarMode]="mode"
       [currentDate]="currentDate"
@@ -43,19 +47,11 @@
       [style.--month-view-selected-text-color]="monthViewSelectedColor.text"
       [style.--month-view-selected-bg-color]="monthViewSelectedColor.background">
     </calendar>-->
-    
-    <calendar
-      [calendarMode]="mode"
-      [currentDate]="currentDate"
-      [dateFormatter]="dateFormatter"
-      [eventSource]="eventSource"
-      [markDisabled]="markDisabled"
-      [showEventDetail]="false"
-      [lockSwipes]="false"
-      (onTitleChanged)="onTitleChanged($event)"
-      (onCurrentDateChanged)="onCurrentDateChanged($event)"
-      (onTimeSelected)="onTimeSelected($event)"
-      [monthviewDisplayEventTemplate]="monthViewTemplate">
+
+    <calendar [calendarMode]="mode" [currentDate]="currentDate" [dateFormatter]="dateFormatter"
+      [eventSource]="eventSource" [markDisabled]="markDisabled" [showEventDetail]="false" [lockSwipes]="false"
+      (onTitleChanged)="onTitleChanged($event)" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+      (onTimeSelected)="onTimeSelected($event)" [monthviewDisplayEventTemplate]="monthViewTemplate">
     </calendar>
 
     <ng-container *ngIf="!isStatistics">

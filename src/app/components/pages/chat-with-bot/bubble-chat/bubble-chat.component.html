@@ -11,19 +11,24 @@
         <div class="dot-pulse ml-4"></div>
       </ng-container>
       <ng-template #finishLoading>
-        <ng-container *ngIf="message?.customShowVideo; else showMessageText">
+        <ng-container *ngIf="!message.customShowVideo && !message.customShowImage">
+          <div (click)="onSelectMessage()"
+            class="self-start bg-gray-400 opacity-75 rounded-2xl text-white max-w-3/4 p-3">
+            <p class="whitespace-pre-wrap text-sm" [innerHTML]="message.text"></p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="message?.customShowImage">
+          <img [src]="message.imageUrl" alt="" width="180">
+        </ng-container>
+
+        <ng-container *ngIf="message?.customShowVideo">
           <iframe width="250" height="120" [src]="message.videoUrl | safeUrl" title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
         </ng-container>
-        <ng-template #showMessageText>
-          <div (click)="onSelectMessage()"
-            class="self-start bg-gray-400 opacity-75 rounded-2xl text-white max-w-3/4 p-3">
-            <p class="whitespace-pre-wrap text-sm" [innerHTML]="message.text"></p>
-          </div>
-        </ng-template>
       </ng-template>
     </ng-container>
   </ng-template>

@@ -17,7 +17,7 @@ export class FeedbackService {
   sendChatbotFeedback(fields: {}): Observable<any> {
     const query = gqlCompress(`
       mutation {
-        createChatbotFeedback(fields: ${StringifyObject(filterObjectProps(fields), { singleQuotes: false })}) {
+        createChatbotFeedback(fields: ${StringifyObject(fields, { singleQuotes: false })}) {
           createdFeedback {
             Id,
             review,

@@ -1,12 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <div class="flex items-center">
+    <div class="flex justify-between items-center">
       <button [routerLink]="['/side-menu/tabs/home']" class="flex text-2xl focus:outline-none">
         <ion-icon slot="icon-only" name="arrow-back" color="primary"></ion-icon>
       </button>
-      <ion-avatar class="mx-auto">
+      <ion-avatar class="w-16">
         <img src="../../../assets/images/chatbot.png" />
       </ion-avatar>
+      <button (click)="onHelp()" class="flex text-3xl focus:outline-none">
+        <ion-icon slot="icon-only" name="help-circle" color="primary"></ion-icon>
+      </button>
     </div>
   </ion-toolbar>
 </ion-header>
