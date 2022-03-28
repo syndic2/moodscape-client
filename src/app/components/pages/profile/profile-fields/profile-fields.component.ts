@@ -14,7 +14,7 @@ import { calculateAge, transformDateTime } from 'src/app/utilities/helpers';
 export class ProfileFieldsComponent implements OnInit, OnDestroy {
   @Input() user: User;
   @Input() form: FormGroup;
-  @Input() errorMessages;
+  @Input() errorMessages: any;
   @ViewChild('profileFields', { static: true }) template;
 
   private isAgeValid: boolean = true;

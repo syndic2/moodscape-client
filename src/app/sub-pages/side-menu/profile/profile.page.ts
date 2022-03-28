@@ -86,6 +86,9 @@ export class ProfilePage implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(validateUpdateProfile({ fields: this.updateProfileForm.value, isInvalid: this.updateProfileForm.invalid }))
+    this.store.dispatch(validateUpdateProfile({
+      fields: { ...this.updateProfileForm.value, email: this.updateProfileForm.controls.email.value },
+      isInvalid: this.updateProfileForm.invalid
+    }))
   }
 }

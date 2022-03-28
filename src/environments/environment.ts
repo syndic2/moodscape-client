@@ -13,6 +13,7 @@ const urls = {
   },
   rasaChatbot: {
     development: 'http://localhost:5005',
+    development2: 'http://139.255.65.93:5005',
     production: 'https://rasa-server-syndic2.cloud.okteto.net'
   }
 };
@@ -20,8 +21,8 @@ const urls = {
 export const environment = {
   production: false,
   baseUrl: urls.baseUrl.development,
-  apiUrl: urls.apiUrl.development,
-  rasaChatbot: urls.rasaChatbot.development,
+  apiUrl: urls.apiUrl.production,
+  rasaChatbot: urls.rasaChatbot.development2,
   firebase: {
     apiKey: "AIzaSyAYw7kXkEwuF1oipBkzWUAnVEr0GK-8_H8",
     authDomain: "moodscape-app.firebaseapp.com",
