@@ -77,8 +77,9 @@ export class SettingsPage implements OnInit {
       if (this.notifications.moodTracker.time !== '') {
         await this.notificationService.setReminderTime('mood-tracker', this.notifications.moodTracker.time);
         await this.notificationService.setLocalNotification();
-        this.notifications.moodTracker.onSchedule = true;
       }
+
+      this.notifications.moodTracker.onSchedule = true;
     } else {
       this.notifications.moodTracker.onSchedule = false;
     }

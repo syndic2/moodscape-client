@@ -9,6 +9,7 @@ const urls = {
   },
   apiUrl: {
     development: 'http://127.0.0.1:5000/api',
+    development2: 'http://139.255.65.93:5000/api',
     production: 'https://moodscape-api.herokuapp.com/api',
   },
   rasaChatbot: {
@@ -21,7 +22,7 @@ const urls = {
 export const environment = {
   production: false,
   baseUrl: urls.baseUrl.development,
-  apiUrl: urls.apiUrl.production,
+  apiUrl: urls.apiUrl.development,
   rasaChatbot: urls.rasaChatbot.development2,
   firebase: {
     apiKey: "AIzaSyAYw7kXkEwuF1oipBkzWUAnVEr0GK-8_H8",

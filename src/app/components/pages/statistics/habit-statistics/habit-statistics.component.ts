@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { transformDateTime } from 'src/app/utilities/helpers';
+import { monthNames, transformDateTime } from 'src/app/utilities/helpers';
 import { navigateGo } from 'src/app/store/actions/router.actions';
 import { fetchHabits, fetchHabitsChart } from 'src/app/store/actions/habit.actions';
 import {
@@ -109,7 +109,21 @@ export class HabitStatisticsComponent implements OnInit, AfterViewInit, OnDestro
             this.barChart.data.labels = [];
             this.barChart.data.datasets[0].data = [];
 
-            res.forEach(monthGroup => {
+            let monthTemps: { group: string, habitAverageGroupByYear: any }[] = [];
+            for (let i = 0; i < 12; i++) {
+              monthTemps.push({
+                group: monthNames(i),
+                habitAverageGroupByYear: null
+              });
+            }
+
+            monthTemps.forEach((monthGroup, index) => {
+              const data = res.find(object => object.group === monthGroup.group);
+              if (data) {
+                monthTemps[index].habitAverageGroupByYear = data.habitAverageGroupByYear;
+              }
+            });
+            monthTemps.forEach(monthGroup => {
               this.barChart.data.labels.push(monthGroup.group.substring(0, 3));
               this.barChart.data.datasets[0].data.push(monthGroup.habitAverageGroupByYear ? monthGroup.habitAverageGroupByYear.average : 0);
             });

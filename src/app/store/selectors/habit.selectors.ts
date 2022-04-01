@@ -54,12 +54,20 @@ export const getHabits = (day: string = '', groupBy: string = 'all') => {
 export const getHabitsChartByYear = (year: number = new Date().getFullYear()) => {
   return createSelector(
     selectHabitFeature,
-    state => state.habitsChart.map(monthGroup => {
-      return {
+    state => {
+      const monthGroups = state.habitsChart.filter(monthGroup => monthGroup.habitAverageGroupByYear.find(yearGroup => yearGroup.year === year))
+
+      return monthGroups.map(monthGroup => ({
         group: monthGroup.group,
         habitAverageGroupByYear: monthGroup.habitAverageGroupByYear.find(yearGroup => yearGroup.year === year)
-      }
-    })
+      }))
+    }
+    // state => state.habitsChart.map(monthGroup => {
+    //   return {
+    //     group: monthGroup.group,
+    //     habitAverageGroupByYear: monthGroup.habitAverageGroupByYear.find(yearGroup => yearGroup.year === year)
+    //   }
+    // })
   );
 };
 
